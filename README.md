@@ -1,2 +1,2 @@
 # Front-End
-Front-End Repository (slack notification test)
+Front-End Repository (Slack notification test)
