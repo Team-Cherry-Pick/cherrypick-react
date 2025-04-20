@@ -7,7 +7,7 @@ import LoginPage from '@/pages/login/LoginPage';
 import ProductDetailPage from '@/pages/product-detail/ProductDetailPage';
 import ProductUploadPage from '@/pages/product-upload/ProductUploadPage';
 import ErrorPage from '@/pages/error/ErrorPage';
-import { ErrorModal } from '@/components/common/ErrorModal';
+import { ErrorModal } from '@/components/common/Modal/ErrorModal';
 import { lightTheme, darkTheme } from '@/styles/theme';
 
 function App() {

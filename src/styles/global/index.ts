@@ -4,15 +4,15 @@ import { typography } from './typography';
 import reset from './reset';
 
 const GlobalStyle = createGlobalStyle`
-  ${reset}
+    ${reset}
 
-  html {
-    font-size: 16px;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
+    html {
+        font-size: 16px;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
 
-  body {
+    body {
     font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
     font-size: ${typography.size.base};
     font-weight: ${typography.weight.regular};
@@ -20,30 +20,30 @@ const GlobalStyle = createGlobalStyle`
     color: ${({ theme }) => theme.colors.neutral[800]}; // contentMain 대신 neutral 사용
     background-color: ${({ theme }) => theme.colors.neutral[0]}; // rootBg 대신 neutral 사용
     margin: 0;
-    padding: 0;
-  }
+        padding: 0;
+    }
 
-  * {
-    box-sizing: border-box;
-  }
+    * {
+        box-sizing: border-box;
+    }
 
-  a {
-    color: inherit;
-    text-decoration: none;
-  }
+    a {
+        color: inherit;
+        text-decoration: none;
+    }
 
-  button, input, textarea {
-    font-family: inherit;
-    font-size: inherit;
-    border: none;
-    background: none;
-    padding: 0;
-    margin: 0;
-  }
+    button, input, textarea {
+        font-family: inherit;
+        font-size: inherit;
+        border: none;
+        background: none;
+        padding: 0;
+        margin: 0;
+    }
 
-  button {
-    cursor: pointer;
-  }
-`;
+    button {
+        cursor: pointer;
+    }
+    `;
 
 export default GlobalStyle;
