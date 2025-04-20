@@ -3,7 +3,7 @@ import { typography } from '@/styles/global/typography';
 
 export const CardWrapper = styled.div`
     width: 272px;
-    height: auto;
+    height: 422px;
     border-radius: 16px;
     overflow: hidden;
     background-color: white;
@@ -18,16 +18,18 @@ export const ImageBox = styled.div`
     `;
 
 export const InfoBox = styled.div`
+height: calc(100% - 272px);
     padding: 16px;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     `;
 
 export const Title = styled.div`
     color: ${({ theme }) => theme.colors.content.main};
     font-size: ${typography.size.base};
     font-weight: ${typography.weight.semibold};
-    margin-bottom: 16px;
+    margin-bottom: 8px;
     `;
 
 export const TagRow = styled.div`
@@ -55,7 +57,7 @@ export const Tags = styled.span`
 
 export const PriceRow = styled.div`
     display: flex;
-    margin: 23px 0 8px 0;
+    margin: 10px 0 4px 0;
     gap: 8px;
     align-items: flex-end;
     justify-content: flex-end;
