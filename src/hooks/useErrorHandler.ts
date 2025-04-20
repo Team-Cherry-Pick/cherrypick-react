@@ -1,17 +1,16 @@
-// hooks/useErrorHandler.ts
-import { useSetRecoilState } from 'recoil';
-import { errorState, ErrorInfo } from '@/store/errorStore';
+import { useSetAtom } from 'jotai';
+import { errorAtom, ErrorInfo } from '@/atoms/errorAtom';
 
 export const useErrorHandler = () => {
-    const setError = useSetRecoilState(errorState);
+    const setError = useSetAtom(errorAtom);
 
     const handleError = (err: unknown) => {
         if (err instanceof Error && 'statusCode' in err) {
             const { statusCode, message } = err as { statusCode: number; message: string };
 
             const type: ErrorInfo['type'] = (() => {
-                if (statusCode >= 500) return 'server'; // 서버 관련 에러인 경우
-                if (statusCode === 0) return 'network'; // 500이 아닌 것은 네트워크 문제
+                if (statusCode >= 500) return 'server';
+                if (statusCode === 0) return 'network';
                 return 'unknown';
             })();
 

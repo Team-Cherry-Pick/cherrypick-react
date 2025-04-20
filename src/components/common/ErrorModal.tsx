@@ -1,10 +1,10 @@
 // components/ErrorModal.tsx
 import styled from 'styled-components';
-import { useRecoilState } from 'recoil';
-import { errorState } from '@/store/errorStore';
+import { useAtom } from 'jotai';
+import { errorAtom } from '@/atoms/errorAtom';
 
 export const ErrorModal = () => {
-    const [error, setError] = useRecoilState(errorState);
+    const [error, setError] = useAtom(errorAtom);
 
     if (!error) return null;
 
@@ -19,6 +19,7 @@ export const ErrorModal = () => {
     );
 };
 
+// 스타일 컴포넌트는 그대로 사용
 const Overlay = styled.div`
     position: fixed;
     inset: 0;
