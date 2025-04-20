@@ -8,19 +8,21 @@ export const CardDeal = () => {
             <S.ImageBox>{/* 이미지 */}</S.ImageBox>
             <S.InfoBox>
                 <S.Title>deal_title</S.Title>
-                <div>
+                <S.TagRow>
                     <S.Store>store</S.Store>
                     <span> | </span>
                     <S.Tags>#무료배송 #쿠폰할인 #우리우리</S.Tags>
-                </div>
+                </S.TagRow>
                 <S.PriceRow>
                     <S.Percent>NN%</S.Percent>
                     <S.Price>NN,NNN원</S.Price>
                 </S.PriceRow>
                 <S.Meta>
-                    <span><Clock /> 1시간 전</span>
-                    <span><ThumbsUp /> 111</span>
-                    <span><MessageSquare /> 11</span>
+                    <span><Clock />1시간 전</span>
+                    <span className="divider">|</span>
+                    <span><ThumbsUp />111</span>
+                    <span className="divider">|</span>
+                    <span><MessageSquare />11</span>
                 </S.Meta>
             </S.InfoBox>
         </S.CardWrapper>
