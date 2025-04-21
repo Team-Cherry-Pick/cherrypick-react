@@ -173,3 +173,40 @@ export const DiscountLabel = styled.span<{ selected?: boolean }>`
     color: ${({ selected, theme }) =>
         selected ? theme.colors.primary : theme.colors.content.main};
 `;
+
+export const containerFooter = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    padding: 20px;
+    box-sizing: border-box;
+    width: 100%;
+    background: ${({ theme }) => theme.colors.neutral[0]};
+    border-top: 0.5px solid ${({ theme }) => theme.colors.neutral[300]};
+`;
+
+export const buttonResetDiscount = styled.button`
+    background: none;
+    color: ${({ theme }) => theme.colors.content.sub};
+    font-size: ${typography.size.base};
+    font-weight: ${typography.weight.regular};
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 14px 20px;
+`;
+
+export const buttonConfirmDiscount = styled.button<{ active: boolean }>`
+    flex: 1;
+    background: ${({ active, theme }) =>
+        active ? theme.colors.neutral[900] : theme.colors.neutral[300]};
+    color: ${({ active, theme }) =>
+        active ? theme.colors.neutral[0] : theme.colors.neutral[100]};
+    font-size: ${typography.size.base};
+    font-weight: ${typography.weight.semibold};
+    border: none;
+    border-radius: 8px;
+    padding: 14px 0;
+    cursor: pointer;
+`;

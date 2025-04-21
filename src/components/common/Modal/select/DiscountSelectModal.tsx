@@ -44,6 +44,10 @@ export function DiscountSelectModal() {
         setSelectedDiscounts(prev => prev.filter(d => d !== discount));
     };
 
+    const handleReset = () => {
+        setSelectedDiscounts([]);
+    };
+
     return (
         <>
             <S.containerDiscountSelected>
@@ -91,7 +95,10 @@ export function DiscountSelectModal() {
                     )}
                 </S.listDiscountSelect>
             </S.selectContainerWrapper>
-
+            <S.containerFooter>
+                <S.buttonResetDiscount onClick={handleReset}>초기화</S.buttonResetDiscount>
+                <S.buttonConfirmDiscount active={selectedDiscounts.length > 0}>선택</S.buttonConfirmDiscount>
+            </S.containerFooter>
         </>
     );
 }
