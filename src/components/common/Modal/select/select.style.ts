@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { typography } from '@/styles/global/typography';
 
 /* ------------------ 공통 ------------------ */
-export const selectContainerWrapper = styled.div`
+export const selectWrapper = styled.div`
     padding: 20px;
 `;
 
@@ -118,7 +118,7 @@ export const tagSelected = styled.div`
     gap: 8px;
 `;
 
-export const removeTagButton = styled.button`
+export const buttonRemoveTag = styled.button`
     background: none;
     border: none;
     padding: 0;
@@ -127,7 +127,7 @@ export const removeTagButton = styled.button`
     color: ${({ theme }) => theme.colors.content.sub};
 `;
 
-export const containerSearchSelect = styled.div`
+export const selectContainerSearch = styled.div`
     background: ${({ theme }) => theme.colors.neutral[0]};
     width: 100%;
     height: auto;
@@ -169,7 +169,7 @@ export const ItemDiscountSelect = styled.li<ItemDiscountSelectProps>`
     }
 `;
 
-export const DiscountLabel = styled.span<{ selected?: boolean }>`
+export const labelDiscount = styled.span<{ selected?: boolean }>`
     color: ${({ selected, theme }) =>
         selected ? theme.colors.primary : theme.colors.content.main};
 `;

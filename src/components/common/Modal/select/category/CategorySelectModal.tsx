@@ -23,7 +23,7 @@ export function CategorySelectModal() {
     };
 
     return (
-        <S.selectContainerWrapper>
+        <S.selectWrapper>
             {step === 1 && (
                 <CategoryStep1
                     onNext={handleNextStep}
@@ -44,6 +44,6 @@ export function CategorySelectModal() {
                     selected={selectedSteps}
                 />
             )}
-        </S.selectContainerWrapper>
+        </S.selectWrapper>
     );
 }

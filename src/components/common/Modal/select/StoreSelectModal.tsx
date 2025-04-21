@@ -29,7 +29,7 @@ export function StoreSelectModal() {
     };
 
     return (
-        <S.selectContainerWrapper>
+        <S.selectWrapper>
             <S.listStoreSelect>
                 {filteredStoreList.length > 0 ? (
                     filteredStoreList.map(store => (
@@ -51,6 +51,6 @@ export function StoreSelectModal() {
                     directInputLabel="직접 입력"
                 />
             </S.containerFooterSelect>
-        </S.selectContainerWrapper>
+        </S.selectWrapper>
     );
 }

@@ -4,6 +4,9 @@ import * as S from './select.style';
 import CheckIcon from '@/assets/icons/check-Icon.svg';
 import UnCheckIcon from '@/assets/icons/un-check-Icon.svg';
 
+// @Todo 추후 할인 선택 -> 필터용 모달로 재사용 확장
+// @Todo 옵션은 서버에서 받아오기로
+
 const DISCOUNT_OPTIONS = [
     '이벤트 쿠폰', '최초가입쿠폰', '신한카드', '삼성카드', '국민카드',
     '현대카드', '롯데카드', '우리카드', '비씨카드', '하나카드',
@@ -54,13 +57,13 @@ export function DiscountSelectModal() {
                 {selectedDiscounts.map(item => (
                     <S.tagSelected key={item}>
                         {item}
-                        <S.removeTagButton onClick={() => removeDiscount(item)}>✕</S.removeTagButton>
+                        <S.buttonRemoveTag onClick={() => removeDiscount(item)}>✕</S.buttonRemoveTag>
                     </S.tagSelected>
                 ))}
             </S.containerDiscountSelected>
 
-            <S.selectContainerWrapper>
-                <S.containerSearchSelect>
+            <S.selectWrapper>
+                <S.selectContainerSearch>
                     <SelectInput
                         placeholder="할인방식 검색"
                         value={inputValue}
@@ -68,7 +71,7 @@ export function DiscountSelectModal() {
                         onConfirm={handleDirectInput}
                         directInputLabel="직접 추가"
                     />
-                </S.containerSearchSelect>
+                </S.selectContainerSearch>
 
                 <S.listDiscountSelect>
                     {filtered.length > 0 ? (
@@ -79,9 +82,9 @@ export function DiscountSelectModal() {
                                 selected={selectedDiscounts.includes(discount)}
                             >
                                 {/* 라벨은 글씨체 바꾸기 위해 css 우선순위 설정 */}
-                                <S.DiscountLabel selected={selectedDiscounts.includes(discount)}>
+                                <S.labelDiscount selected={selectedDiscounts.includes(discount)}>
                                     {discount}
-                                </S.DiscountLabel>
+                                </S.labelDiscount>
                                 <img
                                     src={selectedDiscounts.includes(discount) ? CheckIcon : UnCheckIcon}
                                     alt={selectedDiscounts.includes(discount) ? '선택됨' : '미선택'}
@@ -94,7 +97,7 @@ export function DiscountSelectModal() {
                         </S.textGuideStore>
                     )}
                 </S.listDiscountSelect>
-            </S.selectContainerWrapper>
+            </S.selectWrapper>
             <S.containerFooter>
                 <S.buttonResetDiscount onClick={handleReset}>초기화</S.buttonResetDiscount>
                 <S.buttonConfirmDiscount active={selectedDiscounts.length > 0}>선택</S.buttonConfirmDiscount>
