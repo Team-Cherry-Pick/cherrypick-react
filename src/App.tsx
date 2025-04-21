@@ -7,8 +7,9 @@ import LoginPage from '@/pages/login/LoginPage';
 import ProductDetailPage from '@/pages/product-detail/ProductDetailPage';
 import ProductUploadPage from '@/pages/product-upload/ProductUploadPage';
 import ErrorPage from '@/pages/error/ErrorPage';
-import { ErrorModal } from '@/components/common/ErrorModal';
+import { ErrorModal } from '@/components/common/Modal/ErrorModal';
 import { lightTheme, darkTheme } from '@/styles/theme';
+import TestPage from '@/test/TestPage';
 
 function App() {
     const isDark = false; // 추후 상태관리 연결 예정
@@ -19,6 +20,7 @@ function App() {
             <Router>
                 <ErrorModal />
                 <Routes>
+                    <Route path="/test" element={<TestPage />} />
                     <Route path="/" element={<MainPage />} />
                     <Route path="/login" element={<LoginPage />} />
                     {/* <Route path="/user" element={<UserPage />} /> */}
