@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { SelectInput } from '@/components/common/Input/SelectInput';
+import { SelectInput } from '@/components/common/Input/ModalSearchInput';
 import * as S from './select.style';
 
 const STORE_LIST = [

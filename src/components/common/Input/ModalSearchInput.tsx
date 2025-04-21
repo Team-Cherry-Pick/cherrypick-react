@@ -1,4 +1,4 @@
-import * as S from './selectInput.style';
+import * as S from './modalSearchInput.style';
 import SearchIcon from '@/assets/icons/searchIcon.svg'; // 돋보기 아이콘
 
 interface SelectInputProps {
