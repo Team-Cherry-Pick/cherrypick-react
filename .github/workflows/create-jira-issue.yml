@@ -69,7 +69,7 @@ jobs:
         uses: atlassian/gajira-create@v3
         with:
           project: RP
-          issuetype: 11
+          issuetype: ${{ steps.determine.outputs.issuetype }}
           summary: '${{ github.event.issue.title }}'
           description: '${{ steps.md2jira.outputs.output-text }}'
           fields: |
