@@ -7,7 +7,9 @@ on:
 
 permissions:
   issues: write
-  contents: read
+  contents: write
+  pull-requests: write
+  actions: read
 
 jobs:
   create-issue:
@@ -92,7 +94,7 @@ jobs:
       - name: Create branch with Ticket number
         run: |
           ISSUE_NUMBER="${{ steps.create.outputs.issue }}"
-          BRANCH_NAME="subtask/${ISSUE_NUMBER}"
+          BRANCH_NAME="${{ steps.issue-parser.outputs.issueparser_branch }}/${ISSUE_NUMBER}"
           git checkout -b "${BRANCH_NAME}"
           git push origin "${BRANCH_NAME}"
 
