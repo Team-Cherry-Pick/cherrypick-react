@@ -37,18 +37,14 @@ jobs:
         run: |
           BRANCH_NAME="${{ steps.issue-parser.outputs.issueparser_branch }}"
 
-          if [[ "$BRANCH_NAME" == subtask/* ]]; then
-            echo "issuetype=10018" >> $GITHUB_OUTPUT  # 하위 작업
+          if [[ "$BRANCH_NAME" == subtask/* || "$BRANCH_NAME" == task/* || "$BRANCH_NAME" == chore/* ]]; then
+            echo "issuetype=10016" >> $GITHUB_OUTPUT  # 작업
           elif [[ "$BRANCH_NAME" == bug/* ]]; then
             echo "issuetype=10020" >> $GITHUB_OUTPUT  # 긴급
           elif [[ "$BRANCH_NAME" == enhancement/* ]]; then
             echo "issuetype=10021" >> $GITHUB_OUTPUT  # 개선
           elif [[ "$BRANCH_NAME" == feature/* ]]; then
             echo "issuetype=10019" >> $GITHUB_OUTPUT  # 신규
-          elif [[ "$BRANCH_NAME" == task/* ]]; then
-            echo "issuetype=10016" >> $GITHUB_OUTPUT  # 작업
-          elif [[ "$BRANCH_NAME" == chore/* ]]; then
-            echo "issuetype=10016" >> $GITHUB_OUTPUT  # 세팅도 작업 처리
           else
             echo "issuetype=10016" >> $GITHUB_OUTPUT  # 기본값
           fi
