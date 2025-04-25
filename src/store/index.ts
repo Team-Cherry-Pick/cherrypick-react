@@ -2,4 +2,4 @@
 export * from './auth';
 export * from './ui';
 export * from './error';
-export * from './deal';
+export * from './deals';
