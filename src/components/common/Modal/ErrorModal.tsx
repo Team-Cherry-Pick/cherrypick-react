@@ -1,7 +1,7 @@
 // components/ErrorModal.tsx
 import styled from 'styled-components';
 import { useAtom } from 'jotai';
-import { errorAtom } from '@/atoms/errorAtom';
+import { errorAtom } from '@/store/error';
 
 export const ErrorModal = () => {
     const [error, setError] = useAtom(errorAtom);

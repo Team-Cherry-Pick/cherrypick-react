@@ -1,6 +1,7 @@
 // styles/theme/index.ts
 import { DefaultTheme } from 'styled-components';
 import { typography } from '../global/typography';
+import { spacing, radius, maxWidth } from './variables';
 
 export const lightTheme: DefaultTheme = {
     colors: {
@@ -34,7 +35,10 @@ export const lightTheme: DefaultTheme = {
             900: '#1a1a1a'
         }
     },
-    typography
+    typography,
+    spacing,
+    radius,
+    maxWidth,
 };
 
 export const darkTheme: DefaultTheme = {
@@ -69,5 +73,8 @@ export const darkTheme: DefaultTheme = {
             900: '#ffffff'
         }
     },
-    typography
+    typography,
+    spacing,
+    radius,
+    maxWidth,
 };

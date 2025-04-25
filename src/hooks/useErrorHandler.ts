@@ -1,5 +1,5 @@
 import { useSetAtom } from 'jotai';
-import { errorAtom, ErrorInfo } from '@/atoms/errorAtom';
+import { errorAtom, ErrorInfo } from '@/store/error';
 
 export const useErrorHandler = () => {
     const setError = useSetAtom(errorAtom);
