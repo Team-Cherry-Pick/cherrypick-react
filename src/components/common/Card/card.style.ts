@@ -2,8 +2,7 @@ import styled from 'styled-components';
 import { typography } from '@/styles/global/typography';
 
 export const CardWrapper = styled.div`
-    width: 272px;
-    height: 422px;
+    width: 100%;
     border-radius: 16px;
     overflow: hidden;
     background-color: white;
@@ -11,14 +10,13 @@ export const CardWrapper = styled.div`
     `;
 
 export const ImageBox = styled.div`
-    width: 272px;
-    height: 272px;
+    width: 100%;
     aspect-ratio: 1 / 1; // 1대 1 비율 유지
     background-color: ${({ theme }) => theme.colors.neutral[50]};
     `;
 
 export const InfoBox = styled.div`
-height: calc(100% - 272px);
+    flex: 1;
     padding: 16px;
     display: flex;
     flex-direction: column;
@@ -92,7 +90,7 @@ export const Meta = styled.div`
     }
 
     .divider {
-    color: ${({ theme }) => theme.colors.content.tertiary}; // ✅ 이게 핵심
+    color: ${({ theme }) => theme.colors.content.tertiary};
     margin: 0 4px;
     }
     `;
