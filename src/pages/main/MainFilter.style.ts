@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const FilterWrapper = styled.div`
-  width: 25%;
+  width: 20%;
   min-width: 240px;
   display: flex;
   flex-direction: column;

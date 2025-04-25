@@ -12,6 +12,8 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.74.4",
+    "@tanstack/react-query-devtools": "^5.74.6",
     "axios": "^1.8.4",
     "jotai": "^2.12.3",
     "lucide-react": "^0.501.0",
