@@ -16,7 +16,7 @@ const GlobalStyle = createGlobalStyle`
     font-weight: ${typography.weight.regular};
     line-height: 1.5;
     color: ${({ theme }) => theme.colors.neutral[800]}; // contentMain 대신 neutral 사용
-    background-color: ${({ theme }) => theme.colors.neutral[0]}; // rootBg 대신 neutral 사용
+    background-color: ${({ theme }) => theme.colors.background.root};
     margin: 0;
         padding: 0;
     }

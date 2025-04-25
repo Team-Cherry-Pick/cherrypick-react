@@ -1,9 +1,16 @@
+import { useState } from 'react';
 import { useFilter } from '@/hooks/useFilter';
 import { FaCheck } from 'react-icons/fa';
 import * as S from './MainFilter.style';
 
 const MainFilter = () => {
     const { filter, toggleFilter, resetFilter } = useFilter();
+
+    const [currency, setCurrency] = useState<'₩' | '$'>('₩');
+
+    const toggleCurrency = () => {
+        setCurrency((prev) => (prev === '₩' ? '$' : '₩'));
+    };
 
     return (
         <S.FilterWrapper>
@@ -86,7 +93,7 @@ const MainFilter = () => {
                     <S.PriceInput />
                     <span>~</span>
                     <S.PriceInput />
-                    <S.ApplyButton>₩</S.ApplyButton>
+                    <S.ApplyButton onClick={toggleCurrency}>{currency}</S.ApplyButton>
                 </S.PriceInputWrapper>
             </S.PriceContainer>
             <S.LabelRow>

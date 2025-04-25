@@ -131,6 +131,7 @@ export const ApplyButton = styled.button`
   border: 1px solid ${({ theme }) => theme.colors.border.board};
   border-radius: ${({ theme }) => theme.radius[1.5]};
   font-size: ${({ theme }) => theme.typography.size.sm};
+  color: ${({ theme }) => theme.colors.content.main};
 `;
 
 export const LabelRow = styled.label`
