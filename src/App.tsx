@@ -2,28 +2,32 @@ import { useEffect } from 'react';
 import { useAtom } from 'jotai';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
-import GlobalStyle from './styles/global';
+
+import GlobalStyle from '@/styles/global';
 import { themeAtom } from '@/store/theme';
+import { lightTheme, darkTheme } from '@/styles/theme';
+import useSystemTheme from '@/hooks/useSystemTheme';
+
 import MainPage from '@/pages/main/MainPage';
 import LoginPage from '@/pages/login/LoginPage';
 // import UserPage from '@/pages/user/UserPage';
 import ProductDetailPage from '@/pages/product-detail/ProductDetailPage';
 import ProductUploadPage from '@/pages/product-upload/ProductUploadPage';
 import ErrorPage from '@/pages/error/ErrorPage';
-import { ErrorModal } from '@/components/common/Modal/ErrorModal';
-import { lightTheme, darkTheme } from '@/styles/theme';
 import TestPage from '@/test/TestPage';
 
-function App() {
+import { ErrorModal } from '@/components/common/Modal/ErrorModal';
+
+const App = () => {
+    const prefersDark = useSystemTheme();
     const [theme, setTheme] = useAtom(themeAtom);
 
-    // 다크모드 초기 설정
+    // 초기 테마 설정
     useEffect(() => {
         const stored = localStorage.getItem('theme') as 'light' | 'dark' | null;
         if (stored) {
             setTheme(stored);
         } else {
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             setTheme(prefersDark ? 'dark' : 'light');
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -47,6 +51,6 @@ function App() {
             </Router>
         </ThemeProvider>
     );
-}
+};
 
 export default App;
