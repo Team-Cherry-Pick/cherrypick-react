@@ -56,5 +56,8 @@ declare module 'styled-components' {
                 relaxed: string;
             };
         };
+        spacing: Record<number, string>;
+        radius: Record<number, string>;
+        maxWidth: string;
     }
 }

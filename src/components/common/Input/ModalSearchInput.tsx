@@ -1,5 +1,5 @@
 import * as S from './modalSearchInput.style';
-import SearchIcon from '@/assets/icons/searchIcon.svg'; // 돋보기 아이콘
+import SearchIcon from '@/assets/icons/search-Icon.svg'; // 돋보기 아이콘
 
 interface SelectInputProps {
     placeholder?: string;

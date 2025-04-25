@@ -1,10 +1,8 @@
 // styles/global/index.ts
 import { createGlobalStyle } from 'styled-components';
 import { typography } from './typography';
-import reset from './reset';
 
 const GlobalStyle = createGlobalStyle`
-    ${reset}
 
     html {
         font-size: 16px;
@@ -13,7 +11,7 @@ const GlobalStyle = createGlobalStyle`
     }
 
     body {
-    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+    font-family: 'Pretendard', 'Paperlogy', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
     font-size: ${typography.size.base};
     font-weight: ${typography.weight.regular};
     line-height: 1.5;
@@ -23,9 +21,9 @@ const GlobalStyle = createGlobalStyle`
         padding: 0;
     }
 
-    * {
-        box-sizing: border-box;
-    }
+    *, *::before, *::after {
+    box-sizing: border-box;
+  }
 
     a {
         color: inherit;
