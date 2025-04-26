@@ -26,10 +26,13 @@ export const mockDeals: Deal[] = [
             shippingPrice: 0,
             shippingRule: '전국 무료배송',
         },
-        content: '갤럭시 플립5 최저가 핫딜입니다.',
+        content: '와 갤럭시 Z플립5 512GB 자급제 모델이 98만원에 떴네요. 최근에 백만원 초반대 딜은 몇 번 봤지만, 이건 그중에서도 최저가인 것 같아요. 공식 출시 가격이 150이었던 걸 감안하면 거의 35% 할인된 셈이네요. 이 가격이면 중고나 리퍼비시 제품이 아닐까 싶지만, 만약 새 제품이라면 정말 좋은 딜이네요. 혹시 구매 고려하시는 분들은 판매자 신뢰도나 제품 상태를 한 번 더 확인해보시는 게 좋을 것 같아요.',
         discountIds: [1, 2],
         discountNames: ['무료배송', '쿠폰할인'],
         isSoldOut: false,
+        viewCount: 1024,
+        likeCount: 128,
+        commentCount: 16,
     },
     {
         dealId: 2,
@@ -53,6 +56,9 @@ export const mockDeals: Deal[] = [
         discountIds: [1],
         discountNames: ['쿠폰할인'],
         isSoldOut: false,
+        viewCount: 1024,
+        likeCount: 128,
+        commentCount: 16,
     },
     {
         dealId: 3,
@@ -82,6 +88,9 @@ export const mockDeals: Deal[] = [
         discountIds: [2],
         discountNames: ['무료배송'],
         isSoldOut: false,
+        viewCount: 1024,
+        likeCount: 128,
+        commentCount: 16,
     },
     {
         dealId: 4,
@@ -105,6 +114,9 @@ export const mockDeals: Deal[] = [
         discountIds: [],
         discountNames: [],
         isSoldOut: false,
+        viewCount: 1024,
+        likeCount: 128,
+        commentCount: 16,
     },
     {
         dealId: 5,
@@ -134,5 +146,8 @@ export const mockDeals: Deal[] = [
         discountIds: [1, 3],
         discountNames: ['쿠폰할인', '무료배송'],
         isSoldOut: false,
+        viewCount: 1024,
+        likeCount: 128,
+        commentCount: 16,
     },
 ];

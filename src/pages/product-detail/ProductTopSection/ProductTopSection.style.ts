@@ -1,0 +1,235 @@
+import styled, { css } from 'styled-components';
+
+export const Wrapper = styled.section`
+  display: flex;
+  height: 100%;
+  gap: ${({ theme }) => theme.spacing[6]};
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+  border-radius: ${({ theme }) => theme.radius[5]};
+  box-shadow: 0px 0px 5px ${({ theme }) => theme.colors.border.card};
+  background-color: ${({ theme }) => theme.colors.background.root};
+  padding: ${({ theme }) => theme.spacing[4]};
+`;
+
+export const ImageSection = styled.div`
+  flex: 1;
+`;
+
+export const MainImageWrapper = styled.div`
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: var(--card-bg, white);
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid ${({ theme }) => theme.colors.border.card};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const MainImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background-color: ${({ theme }) => theme.colors.neutral[50]};
+  border: 1px solid ${({ theme }) => theme.colors.border.card};
+`;
+
+export const ImagePlaceholder = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: ${({ theme }) => theme.colors.neutral[50]};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid ${({ theme }) => theme.colors.border.card};
+  border-radius: 8px;
+`;
+
+export const ThumbnailRow = styled.div`
+  margin-top: ${({ theme }) => theme.spacing[2]};
+  display: flex;
+  gap: ${({ theme }) => theme.spacing[2]};
+`;
+
+export const Thumbnail = styled.div`
+  width: 60px;
+  height: 60px;
+  background-color: ${({ theme }) => theme.colors.border.card};
+  border: 1px solid ${({ theme }) => theme.colors.border.card};
+  border-radius: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+`;
+
+export const ThumbnailImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
+
+export const DetailSection = styled.div`
+  width: 60%;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing[2.5]};
+  padding-left:  ${({ theme }) => theme.spacing[2]};
+`;
+
+export const Divider = styled.div`
+  border: none;
+  height: 1px;
+  background-color: ${({ theme }) => theme.colors.border.board};
+  margin: ${({ theme }) => theme.spacing[1]} 0;
+`;
+
+export const Title = styled.div`
+  color: ${({ theme }) => theme.colors.content.main};
+  font-size: ${({ theme }) => theme.typography.size.xxxm};
+  font-weight: ${({ theme }) => theme.typography.weight.semibold};
+  margin: ${({ theme }) => theme.spacing[2]} 0 0 0;
+`;
+
+export const StoreTagContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    gap: ${({ theme }) => theme.spacing[3]};
+`;
+
+export const StoreBadge = styled.div`
+  padding: 4px 12px;
+  background: #1fba1f;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  width: fit-content;
+`;
+
+export const TagList = styled.div`
+  display: flex;
+  gap: ${({ theme }) => theme.spacing[2]};
+`;
+
+export const Tag = styled.span`
+  color: ${({ theme }) => theme.colors.content.sub};
+  font-size: 18px;
+  font-weight: 400;
+`;
+
+export const PriceContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+`;
+
+export const PriceBox = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing[2]};
+  margin: 0;
+`;
+
+export const OriginalPrice = styled.div`
+  text-decoration: line-through;
+  color: ${({ theme }) => theme.colors.content.sub};
+  font-size: ${({ theme }) => theme.typography.size.base};
+`;
+
+export const ShippingType = styled.div`
+  color: ${({ theme }) => theme.colors.content.sub};
+  font-size: ${({ theme }) => theme.typography.size.base};
+`;
+
+export const FinalPrice = styled.div`
+  display: flex;
+  margin: 0;
+  align-items: flex-end;
+  font-size: ${({ theme }) => theme.typography.size.xxxm};
+  font-weight: ${({ theme }) => theme.typography.weight.bold};
+  color: ${({ theme }) => theme.colors.content.main};
+`;
+
+export const DiscountPercent = styled.span`
+  margin-left: ${({ theme }) => theme.spacing[2]};
+  color: ${({ theme }) => theme.colors.primary};
+  font-size: ${({ theme }) => theme.typography.size.xxxm};
+  font-weight: ${({ theme }) => theme.typography.weight.semibold};
+`;
+
+export const Content = styled.div`
+  margin: ${({ theme }) => theme.spacing[4]} 0;
+  font-size: ${({ theme }) => theme.typography.size.base};
+  color: ${({ theme }) => theme.colors.content.main};
+  line-height: 1.5;
+
+  .custom-divider {
+    height: 1px;
+    background-color: ${({ theme }) => theme.colors.border.board};
+    margin: ${({ theme }) => theme.spacing[6]} 0;
+  }
+`;
+
+export const MetaRow = styled.div`
+  margin-top: ${({ theme }) => theme.spacing[6]};
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing[2]};
+  color: ${({ theme }) => theme.colors.content.sub};
+  font-size: ${({ theme }) => theme.typography.size.sm};
+  line-height: 1.2;
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+`;
+
+export const BottomActions = styled.div`
+  display: flex;
+  gap: ${({ theme }) => theme.spacing[2]};
+  justify-content: flex-end;
+`;
+
+export const ShareButton = styled.button`
+  padding: ${({ theme }) => `${theme.spacing[3]} ${theme.spacing[10]}`};
+  border-radius: 8px;
+  background-color: ${({ theme }) => theme.colors.neutral[900]};
+  color: ${({ theme }) => theme.colors.neutral[0]};
+  font-size: ${({ theme }) => theme.typography.size.base};
+  font-weight: ${({ theme }) => theme.typography.weight.semibold};
+  border: none;
+  cursor: pointer;
+`;
+
+export const BuyButton = styled.button`
+  padding: ${({ theme }) => `${theme.spacing[3]} ${theme.spacing[10]}`};
+  border-radius: 8px;
+  background: ${({ theme }) => css`
+    linear-gradient(
+      90deg,
+      #FF8067 0%,
+      ${theme.colors.primary} 100%
+    )
+  `};
+  color: #ffffff;
+  font-size: ${({ theme }) => theme.typography.size.base};
+  font-weight: ${({ theme }) => theme.typography.weight.semibold};
+  border: none;
+  cursor: pointer;
+`;
+
+export const BottomContainer = styled.div`
+  margin-top: auto;
+  bottom: 0;
+  padding: ${({ theme }) => theme.spacing[4]} 0;
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing[2]};
+`;
