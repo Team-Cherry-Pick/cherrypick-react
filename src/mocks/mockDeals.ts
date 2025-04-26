@@ -1,0 +1,138 @@
+// src/mocks/mockDeals.ts
+import type { Deal } from '@/types/Deal';
+
+export const mockDeals: Deal[] = [
+    {
+        dealId: 1,
+        imageUrls: [
+            {
+                imageId: 1,
+                url: 'https://via.placeholder.com/300x300.png?text=HotDeal1',
+                index: 0,
+            },
+        ],
+        title: '갤럭시 Z플립5 자급제',
+        categoryId: 1,
+        originalUrl: 'https://example.com/deal/1',
+        storeId: 1,
+        storeName: '삼성스토어',
+        price: {
+            priceType: 'KRW',
+            regularPrice: 1500000,
+            discountedPrice: 986670,
+        },
+        shipping: {
+            shippingType: 'FREE',
+            shippingPrice: 0,
+            shippingRule: '전국 무료배송',
+        },
+        content: '갤럭시 플립5 최저가 핫딜입니다.',
+        discountIds: [1, 2],
+        discountNames: ['무료배송', '쿠폰할인'],
+        isSoldOut: false,
+    },
+    {
+        dealId: 2,
+        imageUrls: [],
+        title: '아이폰 15 Pro 자급제',
+        categoryId: 1,
+        originalUrl: 'https://example.com/deal/2',
+        storeId: 2,
+        storeName: '애플스토어',
+        price: {
+            priceType: 'KRW',
+            regularPrice: 1800000,
+            discountedPrice: 1340000,
+        },
+        shipping: {
+            shippingType: 'PAID',
+            shippingPrice: 2500,
+            shippingRule: '기본 배송비 부과',
+        },
+        content: '아이폰15 Pro 특가 세일!',
+        discountIds: [1],
+        discountNames: ['쿠폰할인'],
+        isSoldOut: false,
+    },
+    {
+        dealId: 3,
+        imageUrls: [
+            {
+                imageId: 3,
+                url: 'https://via.placeholder.com/300x300.png?text=HotDeal3',
+                index: 0,
+            },
+        ],
+        title: '갤럭시 A35 초특가',
+        categoryId: 2,
+        originalUrl: 'https://example.com/deal/3',
+        storeId: 3,
+        storeName: '전자랜드',
+        price: {
+            priceType: 'KRW',
+            regularPrice: 600000,
+            discountedPrice: 416950,
+        },
+        shipping: {
+            shippingType: 'FREE',
+            shippingPrice: 0,
+            shippingRule: '전국 무료배송',
+        },
+        content: '가성비 끝판왕 A35 할인!',
+        discountIds: [2],
+        discountNames: ['무료배송'],
+        isSoldOut: false,
+    },
+    {
+        dealId: 4,
+        imageUrls: [],
+        title: '애플워치 9세대',
+        categoryId: 3,
+        originalUrl: 'https://example.com/deal/4',
+        storeId: 4,
+        storeName: '쿠팡',
+        price: {
+            priceType: 'KRW',
+            regularPrice: 690000,
+            discountedPrice: 580000,
+        },
+        shipping: {
+            shippingType: 'PAID',
+            shippingPrice: 3000,
+            shippingRule: '기본 배송비 부과',
+        },
+        content: '애플워치 최신 모델 할인!',
+        discountIds: [],
+        discountNames: [],
+        isSoldOut: false,
+    },
+    {
+        dealId: 5,
+        imageUrls: [
+            {
+                imageId: 5,
+                url: 'https://via.placeholder.com/300x300.png?text=HotDeal5',
+                index: 0,
+            },
+        ],
+        title: '닌텐도 스위치 OLED',
+        categoryId: 4,
+        originalUrl: 'https://example.com/deal/5',
+        storeId: 5,
+        storeName: 'G마켓',
+        price: {
+            priceType: 'KRW',
+            regularPrice: 450000,
+            discountedPrice: 399000,
+        },
+        shipping: {
+            shippingType: 'FREE',
+            shippingPrice: 0,
+            shippingRule: '무료배송',
+        },
+        content: '게임기 핫딜 놓치지 마세요!',
+        discountIds: [1, 3],
+        discountNames: ['쿠폰할인', '무료배송'],
+        isSoldOut: false,
+    },
+];
