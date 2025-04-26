@@ -18,6 +18,8 @@ export default UploadBtn;
 
 const Wrapper = styled.button`
   display: flex;
+  width: auto;
+  height: 48px;
   align-items: center;
   gap: ${({ theme }) => theme.spacing[2]};
   padding: ${({ theme }) => theme.spacing[3]} ${({ theme }) => theme.spacing[4]};
