@@ -1,9 +1,12 @@
 import styled from 'styled-components';
 import Logo from '@/assets/icons/black-logo-Icon.svg';
+interface FooterProps {
+    background?: 'root' | 'board';
+}
 
-const Footer = () => {
+const Footer = ({ background = 'root' }: FooterProps) => {
     return (
-        <FooterContainer>
+        <FooterContainer $background={background}>
             <FooterContent>
                 <LogoSection>
                     <LogoImg src={Logo} alt="logo" />
@@ -26,10 +29,11 @@ const Footer = () => {
 
 export default Footer;
 
-const FooterContainer = styled.footer`
+const FooterContainer = styled.footer<{ $background: 'root' | 'board' }>`
   width: 100%;
-  background-color: ${({ theme }) => theme.colors.background.root};
-  padding: ${({ theme }) => theme.spacing[6]} 0;
+  background-color: ${({ theme, $background }) => theme.colors.background[$background]};
+  padding: ${({ theme }) => theme.spacing[10]} 0 5% 0;
+  margin-top: ${({ theme }) => theme.spacing[6]};
 `;
 
 const FooterContent = styled.div`
