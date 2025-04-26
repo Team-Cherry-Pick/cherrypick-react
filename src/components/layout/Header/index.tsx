@@ -41,6 +41,7 @@ const HeaderContainer = styled.header`
   align-items: center;
   padding: 0 ${({ theme }) => theme.spacing[4]};
   background-color: ${({ theme }) => theme.colors.background.root};
+  margin-top: ${({ theme }) => theme.spacing[2.5]};
 `;
 
 const LogoWrapper = styled.div`
