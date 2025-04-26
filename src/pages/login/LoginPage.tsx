@@ -1,12 +1,16 @@
 // pages/login/LoginPage.tsx
 import styled from 'styled-components';
+import DefaultLayout from '@/components/layout/DefaultLayout';
 import { textStyles } from '@/styles/global/typography';
 
 const LoginPage = () => {
     return (
-        <Container>
-            <Title>로그인</Title>
-        </Container>
+        <DefaultLayout>
+            <Container>
+                <Title>로그인</Title>
+            </Container>
+        </DefaultLayout>
+
     );
 };
 
