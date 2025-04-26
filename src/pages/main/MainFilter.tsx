@@ -1,16 +1,19 @@
 import { useState } from 'react';
 import { useFilter } from '@/hooks/useFilter';
 import { FaCheck } from 'react-icons/fa';
+import { IoIosCheckmarkCircleOutline, IoIosCheckmarkCircle } from 'react-icons/io';
 import * as S from './MainFilter.style';
 
 const MainFilter = () => {
     const { filter, toggleFilter, resetFilter } = useFilter();
+    const [priceChecked, setChecked] = useState(false);
 
     const [currency, setCurrency] = useState<'₩' | '$'>('₩');
-
     const toggleCurrency = () => {
         setCurrency((prev) => (prev === '₩' ? '$' : '₩'));
     };
+
+    const togglePrice = () => setChecked((prev) => !prev);
 
     return (
         <S.FilterWrapper>
@@ -97,7 +100,14 @@ const MainFilter = () => {
                 </S.PriceInputWrapper>
             </S.PriceContainer>
             <S.LabelRow>
-                <input type="checkbox" checked readOnly /> 다양한 가격상품 포함
+                <S.CheckboxWrapper onClick={togglePrice}>
+                    {priceChecked ? (
+                        <IoIosCheckmarkCircle size={20} />
+                    ) : (
+                        <IoIosCheckmarkCircleOutline size={20} />
+                    )}
+                    <span>다양한 가격상품 포함</span>
+                </S.CheckboxWrapper>
             </S.LabelRow>
 
             <S.Divider />

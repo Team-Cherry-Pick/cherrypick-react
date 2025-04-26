@@ -4,6 +4,8 @@ import MainSearchBar from './MainSearchBar';
 import MainDealList from './MainDealList';
 import MainFilter from './MainFilter';
 import SortButtons from './SortButtons';
+import UploadBtn from '@/components/common/Floating/UploadBtn';
+import ScrollTopBtn from '@/components/common/Floating/ScrollTopBtn';
 
 const MainPage = () => {
     return (
@@ -20,6 +22,12 @@ const MainPage = () => {
                 <MainFilter />
                 <MainDealList />
             </ContentWrapper>
+
+            <FloatingWrapper>
+                <UploadBtn />
+                <ScrollTopBtn />
+            </FloatingWrapper>
+
         </DefaultLayout>
     );
 };
@@ -51,4 +59,16 @@ const ContentWrapper = styled.div`
       display: none; // 첫 번째 자식인 필터 숨김
     }
   }
+`;
+
+const FloatingWrapper = styled.div`
+  position: fixed;
+  right: ${({ theme }) => theme.spacing[4]};
+  bottom: ${({ theme }) => theme.spacing[6]};
+  padding-inline: ${({ theme }) => theme.spacing[20]};
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: ${({ theme }) => theme.spacing[3]};
+  z-index: 100;
 `;

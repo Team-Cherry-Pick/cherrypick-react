@@ -156,3 +156,18 @@ export const AddButton = styled.button`
   font-size: ${({ theme }) => theme.typography.size.sm};
   font-weight: ${({ theme }) => theme.typography.weight.regular};
 `;
+
+export const CheckboxWrapper = styled.label`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing[1]};
+  font-size: ${({ theme }) => theme.typography.size.sm};
+  font-weight: ${({ theme }) => theme.typography.weight.regular};
+  color: ${({ theme }) => theme.colors.content.sub};
+  cursor: pointer;
+
+  svg {
+    color: ${({ theme }) => theme.colors.content.tertiary};
+    flex-shrink: 0;
+  }
+`;
