@@ -30,6 +30,7 @@ export const radius = {
     3: '0.75rem',
     3.5: '0.875rem',
     4: '1rem',
+    5: '1.25rem',
     6: '1.5rem',
 };
 

@@ -48,6 +48,7 @@ declare module 'styled-components' {
                 lg: string;
                 xl: string;
                 xxl: string;
+                xxxm: string;
                 xxxl: string;
             };
             lineHeight: {

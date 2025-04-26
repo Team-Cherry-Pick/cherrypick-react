@@ -42,6 +42,7 @@ export const Store = styled.span`
   color: ${({ theme }) => theme.colors.content.sub};
   font-size: ${({ theme }) => theme.typography.size.sm};
   font-weight: ${({ theme }) => theme.typography.weight.semibold};
+  white-space: nowrap;
 `;
 
 export const Tags = styled.span`

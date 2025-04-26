@@ -15,6 +15,7 @@ export const typography = {
         lg: '1.125rem',    // 18px
         xl: '1.25rem',     // 20px
         xxl: '1.5rem',     // 24px
+        xxxm: '1.75rem',   // 28px
         xxxl: '2.25rem'    // 36px
     },
     lineHeight: {
