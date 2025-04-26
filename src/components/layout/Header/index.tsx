@@ -18,7 +18,7 @@ const Header = () => {
 
     return (
         <HeaderContainer>
-            <LogoWrapper>
+            <LogoWrapper onClick={() => (window.location.href = '/')}>
                 <LogoImg src={Logo} alt="logo" />
                 <LogoText>Repik</LogoText>
             </LogoWrapper>
@@ -51,6 +51,7 @@ const LogoWrapper = styled.div`
   font-size: 1.75rem;
   font-weight: 700;
   line-height: 1.4;
+  cursor: pointer;
 `;
 
 const LogoText = styled.div`
