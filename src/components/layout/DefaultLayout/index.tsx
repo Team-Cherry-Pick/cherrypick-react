@@ -3,28 +3,28 @@ import Footer from '@/components/layout/Footer';
 import styled from 'styled-components';
 import { ReactNode } from 'react';
 
-interface Props {
+interface DefaultLayoutProps {
     children: ReactNode;
+    background?: 'root' | 'board';
 }
 
-const DefaultLayout = ({ children }: Props) => {
+const DefaultLayout = ({ children, background = 'root' }: DefaultLayoutProps) => {
     return (
-        <Wrapper>
-            <Header />
-            <Main>{children}</Main>
-            <Footer />
+        <Wrapper $background={background}>
+            <Inner>
+                <Header background={background} />
+                <Main>{children}</Main>
+                <Footer background={background} />
+            </Inner>
         </Wrapper>
     );
 };
 
 export default DefaultLayout;
 
-const Wrapper = styled.div`
-  max-width: ${({ theme }) => theme.maxWidth};
-  margin-inline: auto;
-  padding-inline: ${({ theme }) => theme.spacing[20]};
-  background-color: ${({ theme }) => theme.colors.background.root};
-
+const Wrapper = styled.div<{ $background: 'root' | 'board' }>`
+  background-color: ${({ theme, $background }) => theme.colors.background[$background]};
+  min-height: 100vh;
   @media (max-width: 1200px) {
     padding-inline: ${({ theme }) => theme.spacing[4]};
   }
@@ -32,4 +32,15 @@ const Wrapper = styled.div`
 
 const Main = styled.main`
   padding-top: ${({ theme }) => theme.spacing[8]};
+`;
+
+const Inner = styled.div`
+  width: 100%;
+  max-width: ${({ theme }) => theme.maxWidth};
+  margin-inline: auto;
+  padding-inline: ${({ theme }) => theme.spacing[20]};
+
+  @media (max-width: 1200px) {
+    padding-inline: ${({ theme }) => theme.spacing[4]};
+  }
 `;

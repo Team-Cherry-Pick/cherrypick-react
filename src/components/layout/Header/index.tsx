@@ -4,7 +4,11 @@ import { authTokenAtom } from '@/store/auth';
 import PersonIcon from '@/assets/icons/person-Icon.svg';
 import Logo from '@/assets/icons/logo-Icon.svg';
 
-const Header = () => {
+interface HeaderProps {
+    background?: 'root' | 'board';
+}
+
+const Header = ({ background = 'root' }: HeaderProps) => {
     const token = useAtomValue(authTokenAtom);
     const isLoggedIn = !!token;
 
@@ -17,7 +21,7 @@ const Header = () => {
     };
 
     return (
-        <HeaderContainer>
+        <HeaderContainer $background={background}>
             <LogoWrapper onClick={() => (window.location.href = '/')}>
                 <LogoImg src={Logo} alt="logo" />
                 <LogoText>Repik</LogoText>
@@ -33,15 +37,14 @@ const Header = () => {
 
 export default Header;
 
-const HeaderContainer = styled.header`
+const HeaderContainer = styled.header<{ $background: 'root' | 'board' }>`
   width: 100%;
   height: ${({ theme }) => theme.spacing[16]};
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 ${({ theme }) => theme.spacing[4]};
-  background-color: ${({ theme }) => theme.colors.background.root};
-  margin-top: ${({ theme }) => theme.spacing[2.5]};
+  padding: 50px 0 30px 0;
+  background-color: ${({ theme, $background }) => theme.colors.background[$background]};
 `;
 
 const LogoWrapper = styled.div`

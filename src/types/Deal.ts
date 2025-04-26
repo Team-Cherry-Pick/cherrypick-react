@@ -12,6 +12,10 @@ export interface Deal {
     discountIds: number[];
     discountNames: string[];
     isSoldOut: boolean;
+
+    viewCount: number;
+    likeCount: number;
+    commentCount: number;
 }
 
 export interface FetchDealsResponse {
@@ -26,7 +30,7 @@ export interface DealImage {
 }
 
 export interface DealPrice {
-    priceType: 'KRW' | 'USD'; // 혹시 나중에 글로벌 대응한다면 추가
+    priceType: 'KRW' | 'USD';
     regularPrice: number;
     discountedPrice: number;
 }
