@@ -18,7 +18,7 @@ const Header = () => {
 
     return (
         <HeaderContainer>
-            <LogoWrapper>
+            <LogoWrapper onClick={() => (window.location.href = '/')}>
                 <LogoImg src={Logo} alt="logo" />
                 <LogoText>Repik</LogoText>
             </LogoWrapper>
@@ -41,6 +41,7 @@ const HeaderContainer = styled.header`
   align-items: center;
   padding: 0 ${({ theme }) => theme.spacing[4]};
   background-color: ${({ theme }) => theme.colors.background.root};
+  margin-top: ${({ theme }) => theme.spacing[2.5]};
 `;
 
 const LogoWrapper = styled.div`
@@ -51,6 +52,7 @@ const LogoWrapper = styled.div`
   font-size: 1.75rem;
   font-weight: 700;
   line-height: 1.4;
+  cursor: pointer;
 `;
 
 const LogoText = styled.div`

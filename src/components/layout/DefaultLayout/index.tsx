@@ -1,4 +1,5 @@
 import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
 import styled from 'styled-components';
 import { ReactNode } from 'react';
 
@@ -11,6 +12,7 @@ const DefaultLayout = ({ children }: Props) => {
         <Wrapper>
             <Header />
             <Main>{children}</Main>
+            <Footer />
         </Wrapper>
     );
 };
