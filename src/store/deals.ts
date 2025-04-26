@@ -1,10 +1,4 @@
-// api/deals.ts
-import axios from 'axios';
+import { atom } from 'jotai';
+import type { Deal } from '@/types/Deal';
 
-export const fetchDeals = async (page: number) => {
-    const res = await axios.get(`/api/deals?page=${page}`);
-    return {
-        items: res.data.items,
-        hasMore: res.data.hasMore,
-    };
-};
+export const selectedDealAtom = atom<Deal | null>(null);
