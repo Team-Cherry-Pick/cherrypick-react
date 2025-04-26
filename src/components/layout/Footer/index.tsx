@@ -32,7 +32,8 @@ export default Footer;
 const FooterContainer = styled.footer<{ $background: 'root' | 'board' }>`
   width: 100%;
   background-color: ${({ theme, $background }) => theme.colors.background[$background]};
-  padding: ${({ theme }) => theme.spacing[6]} 0;
+  padding: ${({ theme }) => theme.spacing[10]} 0 5% 0;
+  margin-top: ${({ theme }) => theme.spacing[6]};
 `;
 
 const FooterContent = styled.div`
