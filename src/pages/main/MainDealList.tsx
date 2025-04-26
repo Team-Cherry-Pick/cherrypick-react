@@ -1,38 +1,25 @@
 // MainDealList.tsx
 import { useEffect, useRef, useCallback, useState } from 'react';
 import { CardDeal } from '@/components/common/Card';
-import { mockDeals } from '@/mocks/mockDeals';
 import styled from 'styled-components';
-import { LoadingSpinner } from '@/components/common/Loading/LoadingSpinner';
 
 const MainDealList = () => {
-    const [items, setItems] = useState(mockDeals);
-    const [isLoading, setIsLoading] = useState(false);
-    //const [items, setItems] = useState(Array.from({ length: 20 }));
-    //const [page, setPage] = useState(1);
+    const [items, setItems] = useState(Array.from({ length: 20 }));
+    const [page, setPage] = useState(1);
     const observerRef = useRef<HTMLDivElement | null>(null);
 
-
     const loadMore = useCallback(() => {
-        setIsLoading(true);
-        setTimeout(() => {
-            setItems((prev) => [...prev, ...mockDeals]);
-            setIsLoading(false);
-        }, 1000); // 1초 후에 mock 추가 (로딩 느낌 주기)
-    }, []);
-
-    // const loadMore = useCallback(() => {
-    //     const newItems = Array.from({ length: 20 }, (_, i) => i + page * 20);
-    //     setItems((prev) => [...prev, ...newItems]);
-    //     setPage((prev) => prev + 1);
-    // }, [page]);
+        const newItems = Array.from({ length: 20 }, (_, i) => i + page * 20);
+        setItems((prev) => [...prev, ...newItems]);
+        setPage((prev) => prev + 1);
+    }, [page]);
 
     const handleObserver = useCallback((entries: IntersectionObserverEntry[]) => {
         const [target] = entries;
-        if (target.isIntersecting && !isLoading) {
+        if (target.isIntersecting) {
             loadMore();
         }
-    }, [loadMore, isLoading]);
+    }, [loadMore]);
 
     useEffect(() => {
         const observer = new IntersectionObserver(handleObserver, {
@@ -49,17 +36,9 @@ const MainDealList = () => {
 
     return (
         <DealGrid>
-            {/* {items.map((_, i) => (
+            {items.map((_, i) => (
                 <CardDeal key={i} />
-            ))} */}
-            {items.map((deal, i) => (
-                <CardDeal key={`${deal.dealId}-${i}`} deal={deal} />
             ))}
-            {isLoading && (
-                <SpinnerWrapper>
-                    <LoadingSpinner />
-                </SpinnerWrapper>
-            )}
             <ObserverTarget ref={observerRef} />
         </DealGrid>
     );
@@ -84,11 +63,4 @@ const DealGrid = styled.div`
 
 const ObserverTarget = styled.div`
   height: 1px;
-`;
-
-const SpinnerWrapper = styled.div`
-  grid-column: 1 / -1;
-  display: flex;
-  justify-content: center;
-  padding: ${({ theme }) => theme.spacing[4]};
 `;
