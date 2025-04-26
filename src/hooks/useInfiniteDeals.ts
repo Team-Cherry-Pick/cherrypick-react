@@ -1,6 +1,6 @@
 // hooks/useInfiniteDeals.ts
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { fetchDeals } from '@/services/apiDeal';
+import { fetchDeals } from '@/store/deals';
 
 export const useInfiniteDeals = () => {
     return useInfiniteQuery({
