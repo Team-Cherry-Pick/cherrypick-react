@@ -97,13 +97,14 @@ export const StoreTagContainer = styled.div`
     display: flex;
     flex-direction: row;
     gap: ${({ theme }) => theme.spacing[3]};
+    align-items: center;
 `;
 
 export const StoreBadge = styled.div`
   padding: 4px 12px;
   background: #1fba1f;
   color: white;
-  font-size: 16px;
+  font-size: ${({ theme }) => theme.typography.size.sm};
   font-weight: 600;
   border-radius: 8px;
   width: fit-content;
@@ -116,7 +117,7 @@ export const TagList = styled.div`
 
 export const Tag = styled.span`
   color: ${({ theme }) => theme.colors.content.sub};
-  font-size: 18px;
+  font-size: ${({ theme }) => theme.typography.size.base};
   font-weight: 400;
 `;
 
@@ -162,7 +163,7 @@ export const DiscountPercent = styled.span`
 `;
 
 export const Content = styled.div`
-  margin: ${({ theme }) => theme.spacing[4]} 0;
+  margin: ${({ theme }) => theme.spacing[3]} 0;
   font-size: ${({ theme }) => theme.typography.size.base};
   color: ${({ theme }) => theme.colors.content.main};
   line-height: 1.5;
@@ -175,7 +176,7 @@ export const Content = styled.div`
 `;
 
 export const MetaRow = styled.div`
-  margin-top: ${({ theme }) => theme.spacing[6]};
+  margin-top: ${({ theme }) => theme.spacing[4]};
   display: flex;
   justify-content: flex-end;
   align-items: center;
