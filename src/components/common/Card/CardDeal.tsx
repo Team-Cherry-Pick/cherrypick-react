@@ -42,11 +42,11 @@ export const CardDeal = ({ deal }: Props) => {
                 </S.PriceRow>
 
                 <S.Meta>
-                    <span><Clock />1시간 전</span>
+                    <span><Clock /> 1시간 전</span>
                     <span className="divider">|</span>
-                    <span><ThumbsUp />0</span>
+                    <span><ThumbsUp /> 0</span>
                     <span className="divider">|</span>
-                    <span><MessageSquare />0</span>
+                    <span><MessageSquare /> 0</span>
                 </S.Meta>
             </S.InfoBox>
         </S.CardWrapper>
