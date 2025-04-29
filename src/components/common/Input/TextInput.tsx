@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 export const TextInput = styled.input`
     display: flex;
-    width: 436px;
+    width: 100%;
     padding: 12px 16px;
     align-items: center;
     gap: 10px;

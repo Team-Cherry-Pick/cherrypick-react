@@ -29,13 +29,13 @@ export interface DealImage {
     index: number;
 }
 
-export interface DealPrice {
+export interface DealPrice { // 한국, 달러
     priceType: 'KRW' | 'USD';
     regularPrice: number;
     discountedPrice: number;
 }
 
-export interface DealShipping {
+export interface DealShipping { // 무료배송 여부
     shippingType: 'FREE' | 'PAID';
     shippingPrice: number;
     shippingRule: string;

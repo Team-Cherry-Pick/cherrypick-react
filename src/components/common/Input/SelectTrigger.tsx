@@ -8,7 +8,7 @@ interface SelectTriggerProps {
 
 const StyledSelectTrigger = styled.button`
     display: flex;
-    width: 436px;
+    width: 100%;
     padding: 12px 16px;
     align-items: center;
     justify-content: space-between;
