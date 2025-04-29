@@ -1,8 +1,12 @@
 import DefaultLayout from '@/components/layout/DefaultLayout';
+import { useTheme } from 'styled-components';
 import { TextArea, TextInput, SelectTrigger } from '@/components/common/Input';
+import ProductImageUpload from './ProductImageUpload';
 import * as S from './ProductUploadPage.style';
 
 const ProductUploadPage = () => {
+    const theme = useTheme();
+
     return (
         <>
             <S.TopBackground />
@@ -28,10 +32,10 @@ const ProductUploadPage = () => {
                 <S.Main>
                     <S.Inner>
                         <S.ContentWrapper>
-                            <S.SectionWrapper>
+                            <S.SectionContainer style={{ padding: `0 ${theme.spacing[10]}` }}>
                                 <S.SectionTitle>이미지</S.SectionTitle>
-                                {/* 이미지 업로드 컴포넌트 */}
-                            </S.SectionWrapper>
+                                <ProductImageUpload />
+                            </S.SectionContainer>
 
                             <S.SectionDivider />
 
