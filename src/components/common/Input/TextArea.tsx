@@ -3,8 +3,9 @@ import styled from 'styled-components';
 
 export const TextArea = styled.textarea`
     display: flex;
-    width: 436px;
-    height: 216px;
+    width: 100%;
+    height: 50%;
+    aspect-ratio: 3/2;
     padding: 16px;
     align-items: center;
     gap: 10px;

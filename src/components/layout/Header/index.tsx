@@ -21,30 +21,44 @@ const Header = ({ background = 'root' }: HeaderProps) => {
     };
 
     return (
-        <HeaderContainer $background={background}>
-            <LogoWrapper onClick={() => (window.location.href = '/')}>
-                <LogoImg src={Logo} alt="logo" />
-                <LogoText>Repik</LogoText>
-            </LogoWrapper>
-            <ProfileIcon onClick={handleProfileClick}>
-                <IconWrapper>
-                    <img src={PersonIcon} alt="user" />
-                </IconWrapper>
-            </ProfileIcon>
-        </HeaderContainer>
+        <HeaderWrapper $background={background}>
+            <HeaderContainer>
+                <LogoWrapper onClick={() => (window.location.href = '/')}>
+                    <LogoImg src={Logo} alt="logo" />
+                    <LogoText>Repik</LogoText>
+                </LogoWrapper>
+                <ProfileIcon onClick={handleProfileClick}>
+                    <IconWrapper>
+                        <img src={PersonIcon} alt="user" />
+                    </IconWrapper>
+                </ProfileIcon>
+            </HeaderContainer>
+        </HeaderWrapper>
     );
 };
 
 export default Header;
 
-const HeaderContainer = styled.header<{ $background: 'root' | 'board' }>`
+export const HeaderWrapper = styled.div<{ $background: 'root' | 'board' }>`
   width: 100%;
-  height: ${({ theme }) => theme.spacing[16]};
+  background-color: ${({ theme, $background }) => theme.colors.background[$background]};
+  position: relative;
+  z-index: 10;
+`;
+
+export const HeaderContainer = styled.header`
+  max-width: ${({ theme }) => theme.maxWidth};
+  margin: 0 auto;
+  height: ${({ theme }) => theme.spacing[20]};
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 50px 0 30px 0;
-  background-color: ${({ theme, $background }) => theme.colors.background[$background]};
+  padding-inline: ${({ theme }) => theme.spacing[20]};
+  padding-top: ${({ theme }) => theme.spacing[5]};
+
+  @media (max-width: 1200px) {
+    padding-inline: ${({ theme }) => theme.spacing[4]};
+  }
 `;
 
 const LogoWrapper = styled.div`
