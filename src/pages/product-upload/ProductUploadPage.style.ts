@@ -95,6 +95,7 @@ export const ContentWrapper = styled.div`
 
 export const SectionWrapper = styled.div`
   display: flex;
+  position: relative;
   flex-direction: row;
   gap: ${({ theme }) => theme.spacing[6]};
   padding: 0 ${({ theme }) => theme.spacing[10]};
@@ -107,4 +108,21 @@ export const SectionDivider = styled.div`
   height: 10px;
   background-color: ${({ theme }) => theme.colors.neutral[20]};
   margin: ${({ theme }) => theme.spacing[6]} 0;
+`;
+
+export const ImageUploadWrapper = styled.div`
+  position: relative;
+  width: 100%;
+`;
+
+export const UploadButtonWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 10;
+  margin-right: ${({ theme }) => theme.spacing[10]};
+`;
+
+export const ImageUploadBox = styled.div`
+  padding: 0 ${({ theme }) => theme.spacing[10]};
 `;

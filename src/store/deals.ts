@@ -4,6 +4,7 @@ import type { Deal } from '@/types/Deal';
 
 export const selectedDealAtom = atom<Deal | null>(null);
 export const selectedCategoryPathAtom = atom<string>('');
+export const imageFilesAtom = atom<File[]>([]);
 
 export const newDealAtom = atom<Deal>({
     dealId: 0,
