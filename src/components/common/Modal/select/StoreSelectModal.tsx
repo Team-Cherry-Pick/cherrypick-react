@@ -2,6 +2,10 @@ import { useState } from 'react';
 import { SelectInput } from '@/components/common/Input/ModalSearchInput';
 import * as S from './select.style';
 
+interface Props {
+    onClose: () => void;
+}
+
 const STORE_LIST = [
     '쿠팡',
     '지마켓',
@@ -13,7 +17,7 @@ const STORE_LIST = [
     '하이마트',
 ];
 
-export function StoreSelectModal() {
+export function StoreSelectModal({ onClose }: Props) {
     const [queryStoreSearch, setQueryStoreSearch] = useState('');
     const [inputStoreName, setInputStoreName] = useState('');
 
@@ -26,6 +30,7 @@ export function StoreSelectModal() {
 
     const handleClickDirectInput = () => {
         console.log('직접 입력한 값:', inputStoreName);
+        onClose();
     };
 
     return (

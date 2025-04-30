@@ -13,27 +13,31 @@ const ProductImageUpload = () => {
     const sortableRef = useRef<Sortable | null>(null);
 
     useEffect(() => {
-        const el = containerRef.current;
-        if (!el) return;
+        if (!containerRef.current || images.length === 0) return;
 
-        sortableRef.current = Sortable.create(el, {
+        if (sortableRef.current) {
+            sortableRef.current.destroy();
+        }
+
+        sortableRef.current = Sortable.create(containerRef.current, {
             animation: 150,
             onEnd: ({ oldIndex, newIndex }) => {
                 if (oldIndex == null || newIndex == null) return;
-
                 setImages(prev => {
                     const updated = [...prev];
                     const [moved] = updated.splice(oldIndex, 1);
                     updated.splice(newIndex, 0, moved);
                     return updated;
                 });
-            },
+            }
         });
 
         return () => {
             sortableRef.current?.destroy();
+            sortableRef.current = null;
         };
-    }, []);
+    }, [images.length]); // 이미지 갯수가 바뀔 때마다 재설정
+
 
     const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files;

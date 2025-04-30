@@ -12,7 +12,7 @@ export const TextInput = styled.input`
     border: 1px solid ${({ theme }) => theme.colors.neutral[100]};
     background: ${({ theme }) => theme.colors.neutral[0]};
 
-    font-size: 14px;
+    font-size: ${({ theme }) => theme.typography.size.sm};
     color: ${({ theme }) => theme.colors.content.main};
     outline: none;
     `;

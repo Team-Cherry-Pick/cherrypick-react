@@ -132,3 +132,14 @@ export const TextBox = styled.div`
     width: auto;
     gap: ${({ theme }) => theme.spacing[4]};
 `
+export const TextAreaWrapper = styled.div`
+  position: relative;
+`;
+
+export const CharCount = styled.div`
+  position: absolute;
+  bottom: 8px;
+  right: 12px;
+  font-size: ${({ theme }) => theme.typography.size.xs};
+  color: ${({ theme }) => theme.colors.content.sub};
+`;

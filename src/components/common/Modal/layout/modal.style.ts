@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { typography } from '@/styles/global/typography';
 
 export const ModalWrapper = styled.div`
-    width: 390px;
+    width: 30vw;
     height: auto;
     flex-shrink: 0;
     border-radius: 20px;
@@ -52,3 +52,21 @@ export const ModalBody = styled.div`
     font-family: 'Pretendard', sans-serif;
     line-height: 1.5;
     `;
+
+export const ModalOverlay = styled.div`
+  position: fixed;
+  inset: 0;
+  background-color: rgba(51, 51, 51, 0.4);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const ModalContainer = styled.div`
+  z-index: 1001;
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+`;

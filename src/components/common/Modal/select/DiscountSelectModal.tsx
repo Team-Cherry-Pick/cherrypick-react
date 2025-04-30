@@ -13,7 +13,12 @@ const DISCOUNT_OPTIONS = [
     '포인트 적립', '상품권', '카카오페이 할인'
 ];
 
-export function DiscountSelectModal() {
+interface Props {
+    onClose: () => void;
+    onSelect?: (selected: string[]) => void;
+}
+
+export function DiscountSelectModal({ onClose, onSelect }: Props) {
     const [query, setQuery] = useState('');
     const [inputValue, setInputValue] = useState('');
     const [selectedDiscounts, setSelectedDiscounts] = useState<string[]>([]);
@@ -49,6 +54,13 @@ export function DiscountSelectModal() {
 
     const handleReset = () => {
         setSelectedDiscounts([]);
+    };
+
+    const handleClickConfirm = () => {
+        if (selectedDiscounts.length > 0) {
+            onSelect?.(selectedDiscounts); // 선택값 전달 (있을 때만)
+            onClose(); // 모달 닫기
+        }
     };
 
     return (
@@ -100,7 +112,7 @@ export function DiscountSelectModal() {
             </S.selectWrapper>
             <S.containerFooter>
                 <S.buttonResetDiscount onClick={handleReset}>초기화</S.buttonResetDiscount>
-                <S.buttonConfirmDiscount active={selectedDiscounts.length > 0}>선택</S.buttonConfirmDiscount>
+                <S.buttonConfirmDiscount active={selectedDiscounts.length > 0} onClick={handleClickConfirm}>선택</S.buttonConfirmDiscount>
             </S.containerFooter>
         </>
     );

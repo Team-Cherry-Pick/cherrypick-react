@@ -39,7 +39,8 @@ const FooterContainer = styled.footer<{ $background: 'root' | 'board' }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: ${({ theme }) => theme.spacing[10]};
+  margin-top: ${({ theme }) => theme.spacing[12]};
+  padding-bottom: ${({ theme }) => theme.spacing[16]};
   @media (max-width: 1200px) {
     padding-inline: ${({ theme }) => theme.spacing[4]};
   }
