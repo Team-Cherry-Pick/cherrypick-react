@@ -1,7 +1,6 @@
 import styled, { css, DefaultTheme } from 'styled-components';
 import { typography } from '@/styles/global/typography';
 
-// ✅ styled-components 스타일
 export const StyledButton = styled.button<{ variant: string; size: string }>`
   font-size: ${typography.size.base};
   font-weight: ${typography.weight.semibold};

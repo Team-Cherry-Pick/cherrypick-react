@@ -4,7 +4,7 @@ export const SectionWrapper = styled.div`
   display: flex;
   gap: ${({ theme }) => theme.spacing[2]};
   align-items: flex-start;
-  width: 100%;
+  width: 40%;
   flex-direction: column;
   margin-top: ${({ theme }) => theme.spacing[2]};
 
@@ -25,6 +25,7 @@ export const SectionTitle = styled.div`
   color: ${({ theme }) => theme.colors.content.main};
   font-size: ${({ theme }) => theme.typography.size.lg};
   font-weight: ${({ theme }) => theme.typography.weight.semibold};
+  margin-left: ${({ theme }) => theme.spacing[2]};
 `;
 
 export const PreviewWrapper = styled.div`
@@ -63,7 +64,7 @@ export const RepresentativeBadge = styled.div`
 `;
 
 export const UploadBox = styled.div`
-  width: 40%;
+  width: 100%;
   height: 100px;
   position: relative;
   border: 1px dashed ${({ theme }) => theme.colors.neutral[100]};

@@ -1,13 +1,21 @@
 import { useEffect, useRef, useState } from 'react';
 import Sortable from 'sortablejs';
+import { useSetAtom } from 'jotai';
+import { imageFilesAtom } from '@/store/deals';
 
 export const MAX_IMAGES = 4;
 
 export const useImageUpload = () => {
     const [images, setImages] = useState<File[]>([]);
+    const setImageFiles = useSetAtom(imageFilesAtom);
+
     const containerRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
     const sortableRef = useRef<Sortable | null>(null);
+
+    useEffect(() => {
+        setImageFiles(images);
+    }, [images, setImageFiles]);
 
     useEffect(() => {
         if (!containerRef.current || images.length === 0) return;

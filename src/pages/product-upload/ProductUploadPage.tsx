@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import DefaultLayout from '@/components/layout/DefaultLayout';
-import { useTheme } from 'styled-components';
+import { useAtom } from 'jotai';
+import { newDealAtom, imageFilesAtom } from '@/store/deals';
 
+import UploadButton from '@/components/common/Button/UploadButton';
 import ProductImageUpload from '@/components/upload/ImageUpload';
 import ProductInfoSection from '@/components/upload/ProductInfoSection';
 import LinkInfoSection from '@/components/upload/LinkInfoSection';
@@ -16,8 +18,25 @@ import { ModalOverlay, ModalContainer } from '@/components/common/Modal/layout/m
 import * as S from './ProductUploadPage.style';
 
 const ProductUploadPage = () => {
-    const theme = useTheme();
     const [modalType, setModalType] = useState<'category' | 'store' | 'discount' | null>(null);
+
+    const [deal] = useAtom(newDealAtom);
+    const [images] = useAtom(imageFilesAtom);
+
+    const isFormValid =
+        images.length > 0 &&
+        deal.title.trim() !== '' &&
+        deal.categoryId !== null &&
+        deal.storeId !== null &&
+        deal.originalUrl.trim() !== '' &&
+        deal.price.discountedPrice > 0 &&
+        deal.price.regularPrice > 0 &&
+        deal.shipping.shippingType !== null;
+
+    const handleSubmit = () => {
+        console.log('📦 업로드할 deal 데이터:', deal);
+        alert('deal 데이터가 콘솔에 출력되었습니다.');
+    };
 
     return (
         <>
@@ -45,10 +64,17 @@ const ProductUploadPage = () => {
                     <S.Inner>
                         <S.ContentWrapper>
 
-                            <S.SectionWrapper style={{ padding: `0 ${theme.spacing[10]}` }}>
-                                <ProductImageUpload />
-                            </S.SectionWrapper>
+                            <S.ImageUploadWrapper>
+                                <S.UploadButtonWrapper>
+                                    <UploadButton disabled={!isFormValid} onClick={handleSubmit}>
+                                        업로드
+                                    </UploadButton>
+                                </S.UploadButtonWrapper>
 
+                                <S.ImageUploadBox>
+                                    <ProductImageUpload />
+                                </S.ImageUploadBox>
+                            </S.ImageUploadWrapper>
                             <S.SectionDivider />
 
                             <S.SectionWrapper>
