@@ -5,16 +5,24 @@ import { TextInput } from '@/components/common/Input';
 import BadgeLabel from '@/components/common/Badge/BadgeLabel';
 
 const PRICE_BADGES = ['다양한가격', '$'];
+const priceBadgeMap = {
+    '다양한가격': 'KRW',
+    '$': 'USD',
+} as const;
+
+type PriceBadgeLabel = keyof typeof priceBadgeMap;
 
 const PriceInfoSection = () => {
     const [deal, setDeal] = useAtom(newDealAtom);
 
-    const handleBadgeClick = (label: string) => {
+    const handleBadgeClick = (label: PriceBadgeLabel) => {
+        const clickedType = priceBadgeMap[label];
+
         setDeal({
             ...deal,
             price: {
                 ...deal.price,
-                priceType: deal.price.priceType === label ? 'KRW' : (label === '$' ? 'USD' : 'KRW'),
+                priceType: deal.price.priceType === clickedType ? null : clickedType,
             },
         });
     };
@@ -27,8 +35,8 @@ const PriceInfoSection = () => {
                     <BadgeLabel
                         key={label}
                         label={label}
-                        selected={deal.price.priceType === (label === '$' ? 'USD' : 'KRW')}
-                        onClick={() => handleBadgeClick(label)}
+                        selected={deal.price.priceType === priceBadgeMap[label as PriceBadgeLabel]}
+                        onClick={() => handleBadgeClick(label as PriceBadgeLabel)}
                     />
                 ))}
             </BadgeBox>
