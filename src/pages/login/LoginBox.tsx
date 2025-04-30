@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import RepikLogo from '@/assets/icons/logo-Icon.svg';
 import KakaoLogo from '@/assets/icons/kakao-Icon.svg';
 import { textStyles } from '@/styles/global/typography';
+import { getAuthKakao } from '@/services/apiSign';
 
 const LoginPage = () => {
     return (
@@ -14,7 +15,7 @@ const LoginPage = () => {
             <Title>진짜 혜택만 다시 고르다. <HighlightBold>리픽</HighlightBold></Title>
             <Divider />
             <Message>리픽은 <HighlightColor>1인 1계정</HighlightColor>을 원칙으로 하며<br />중복계정에 따른 업자 문제를 방지합니다.</Message>
-            <KakaoLoginButton>
+            <KakaoLoginButton onClick={() => getAuthKakao("/")}>
                 <KakaoLoginLogoImage src={KakaoLogo} alt="kakao login" />
                 <KakaoLoginText>카카오 로그인/회원가입</KakaoLoginText>
             </KakaoLoginButton>
