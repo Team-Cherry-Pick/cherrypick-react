@@ -1,4 +1,4 @@
-// SelectTrigger.tsx
+// 단순히 모달 열기 위한 트리거용
 import styled from 'styled-components';
 import RightArrowIcon from '@/assets/icons/right-arrow-Icon.svg';
 
