@@ -16,12 +16,12 @@ const ShippingInfoSection = () => {
 
     const handleBadgeClick = (label: string) => {
         const selectedType = badgeToType[label as keyof typeof badgeToType];
+
         setDeal({
             ...deal,
             shipping: {
                 ...deal.shipping,
-                shippingType:
-                    deal.shipping.shippingType === selectedType ? 'FREE' : selectedType,
+                shippingType: deal.shipping.shippingType === selectedType ? null : selectedType,
             },
         });
     };
