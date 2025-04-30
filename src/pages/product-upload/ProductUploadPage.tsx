@@ -6,12 +6,18 @@ import ProductImageUpload from './ProductImageUpload';
 import { ModalLayout } from '@/components/common/Modal/layout/ModalLayout';
 import { ModalOverlay, ModalContainer } from '@/components/common/Modal/layout/modal.style';
 import * as S from './ProductUploadPage.style';
+import BadgeLabel from '@/components/common/Badge/BadgeLabel';
+
+const PRICE_BADGES = ['다양한가격', '$'];
+const SHIPPING_BADGES = ['무료배송', '조건 무료배송', '유료 배송'];
 
 const ProductUploadPage = () => {
     const theme = useTheme();
     const [modalType, setModalType] = useState<'category' | 'store' | 'discount' | null>(null);
     const [detailText, setDetailText] = useState('');
     const [discountText, setDiscountText] = useState('');
+    const [selectedPriceBadge, setSelectedPriceBadge] = useState<string | null>(null);
+    const [selectedShippingBadge, setSelectedShippingBadge] = useState<string | null>(null);
 
     const handleDetailChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setDetailText(e.target.value);
@@ -71,6 +77,20 @@ const ProductUploadPage = () => {
                             <S.SectionWrapper>
                                 <S.SectionContainer>
                                     <S.SectionTitle>가격 정보</S.SectionTitle>
+                                    <S.BadgeBox>
+                                        {PRICE_BADGES.map((label) => (
+                                            <BadgeLabel
+                                                key={label}
+                                                label={label}
+                                                selected={selectedPriceBadge === label}
+                                                onClick={() =>
+                                                    setSelectedPriceBadge(
+                                                        selectedPriceBadge === label ? null : label
+                                                    )
+                                                }
+                                            />
+                                        ))}
+                                    </S.BadgeBox>
                                     <S.TextBox>
                                         <TextInput placeholder="세일가" />
                                         <TextInput placeholder="정가" />
@@ -78,9 +98,23 @@ const ProductUploadPage = () => {
                                 </S.SectionContainer>
                                 <S.SectionContainer>
                                     <S.SectionTitle>배송 정보</S.SectionTitle>
+                                    <S.BadgeBox>
+                                        {SHIPPING_BADGES.map((label) => (
+                                            <BadgeLabel
+                                                key={label}
+                                                label={label}
+                                                selected={selectedShippingBadge === label}
+                                                onClick={() =>
+                                                    setSelectedShippingBadge(
+                                                        selectedShippingBadge === label ? null : label
+                                                    )
+                                                }
+                                            />
+                                        ))}
+                                    </S.BadgeBox>
                                     <S.TextBox>
-                                        <TextInput placeholder="세일가" />
-                                        <TextInput placeholder="정가" />
+                                        <TextInput placeholder="무료배송 조건" />
+                                        <TextInput placeholder="배송비" />
                                     </S.TextBox>
                                 </S.SectionContainer>
                             </S.SectionWrapper>

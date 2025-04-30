@@ -3,7 +3,7 @@ import { MdArrowForwardIos } from 'react-icons/md';
 
 export const TopBackground = styled.div`
   width: 100%;
-  height: 43%;
+  height: 55%;
   background: linear-gradient(135deg, #FF8067 0%, #FF4635 100%);
   position: absolute;
   top: 0;
@@ -97,7 +97,7 @@ export const ContentWrapper = styled.div`
 export const SectionWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  gap: ${({ theme }) => theme.spacing[4]};
+  gap: ${({ theme }) => theme.spacing[6]};
   padding: 0 ${({ theme }) => theme.spacing[10]};
   flex: 1;
   box-sizing: border-box;
@@ -132,6 +132,14 @@ export const TextBox = styled.div`
     width: auto;
     gap: ${({ theme }) => theme.spacing[4]};
 `
+
+export const BadgeBox = styled.div`
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    gap: ${({ theme }) => theme.spacing[2]};
+`
+
 export const TextAreaWrapper = styled.div`
   position: relative;
 `;
