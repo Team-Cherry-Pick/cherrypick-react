@@ -4,6 +4,9 @@ import { typography } from '@/styles/global/typography';
 /* ------------------ 공통 ------------------ */
 export const selectWrapper = styled.div`
     padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 `;
 
 export const textGuideStore = styled.div`
@@ -35,6 +38,18 @@ export const listStoreSelect = styled.ul`
     margin-top: 0;
     flex: 1;
     overflow-y: auto;
+
+    scrollbar-width: thin;
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: ${({ theme }) => theme.colors.neutral[100]};
+        border-radius: 3px;
+    }
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
 `;
 
 export const itemSelectStore = styled.li`
@@ -142,10 +157,24 @@ export const selectContainerSearch = styled.div`
 export const listDiscountSelect = styled.ul`
     list-style: none;
     padding: 0;
+    padding-right: 12px;
     margin-top: 0;
     flex: 1;
-    overflow-y: auto;
+    max-height: 320px;
+    overflow-y: scroll;
     padding-top: 10px;
+
+    scrollbar-width: thin; // Firefox
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: ${({ theme }) => theme.colors.neutral[100]};
+        border-radius: 3px;
+    }
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
 `;
 
 interface ItemDiscountSelectProps {

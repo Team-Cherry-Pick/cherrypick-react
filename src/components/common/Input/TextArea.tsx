@@ -4,8 +4,8 @@ import styled from 'styled-components';
 export const TextArea = styled.textarea`
     display: flex;
     width: 100%;
-    height: 50%;
-    aspect-ratio: 3/2;
+    min-height: 12rem;
+    max-height: 20rem;
     padding: 16px;
     align-items: center;
     gap: 10px;
@@ -14,8 +14,8 @@ export const TextArea = styled.textarea`
     border: 1px solid ${({ theme }) => theme.colors.neutral[100]};
     background: ${({ theme }) => theme.colors.neutral[0]};
 
-    font-size: 14px;
+    font-size: ${({ theme }) => theme.typography.size.sm};
     color: ${({ theme }) => theme.colors.content.main};
-    resize: none;
+    resize: vertical;
     outline: none;
     `;

@@ -4,7 +4,12 @@ import { CategoryStep1 } from './CategoryStep1';
 import { CategoryStep2 } from './CategoryStep2';
 import { CategoryStep3 } from './CategoryStep3';
 
-export function CategorySelectModal() {
+interface Props {
+    onClose: () => void;
+}
+
+
+export function CategorySelectModal({ onClose }: Props) {
     const [step, setStep] = useState(1);
     const [selectedSteps, setSelectedSteps] = useState<string[]>([]);
 
@@ -20,6 +25,7 @@ export function CategorySelectModal() {
 
     const handleFinalSelect = (finalSelection: string[]) => {
         console.log('최종 선택:', finalSelection);
+        onClose();
     };
 
     return (

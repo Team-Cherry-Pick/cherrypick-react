@@ -1,11 +1,25 @@
+import { useState } from 'react';
 import DefaultLayout from '@/components/layout/DefaultLayout';
 import { useTheme } from 'styled-components';
 import { TextArea, TextInput, SelectTrigger } from '@/components/common/Input';
 import ProductImageUpload from './ProductImageUpload';
+import { ModalLayout } from '@/components/common/Modal/layout/ModalLayout';
+import { ModalOverlay, ModalContainer } from '@/components/common/Modal/layout/modal.style';
 import * as S from './ProductUploadPage.style';
 
 const ProductUploadPage = () => {
     const theme = useTheme();
+    const [modalType, setModalType] = useState<'category' | 'store' | 'discount' | null>(null);
+    const [detailText, setDetailText] = useState('');
+    const [discountText, setDiscountText] = useState('');
+
+    const handleDetailChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setDetailText(e.target.value);
+    };
+
+    const handleDiscountChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setDiscountText(e.target.value);
+    };
 
     return (
         <>
@@ -43,12 +57,12 @@ const ProductUploadPage = () => {
                                 <S.SectionContainer>
                                     <S.SectionTitle>상품 정보</S.SectionTitle>
                                     <TextInput placeholder="상품명 입력" />
-                                    <SelectTrigger label="카테고리 선택" />
+                                    <SelectTrigger label="카테고리 선택" onClick={() => setModalType('category')} />
                                 </S.SectionContainer>
                                 <S.SectionContainer>
                                     <S.SectionTitle>링크 정보</S.SectionTitle>
                                     <TextInput placeholder="상품 URL 입력" />
-                                    <SelectTrigger label="스토어 선택" />
+                                    <SelectTrigger label="스토어 선택" onClick={() => setModalType('store')} />
                                 </S.SectionContainer>
                             </S.SectionWrapper>
 
@@ -76,18 +90,58 @@ const ProductUploadPage = () => {
                             <S.SectionWrapper>
                                 <S.SectionContainer>
                                     <S.SectionTitle>상세 정보</S.SectionTitle>
-                                    <TextArea placeholder="상품 설명을 입력하세요" />
+                                    <S.TextAreaWrapper>
+                                        <TextArea
+                                            placeholder="상품 설명을 입력하세요."
+                                            value={detailText}
+                                            onChange={handleDetailChange}
+                                        />
+                                        <S.CharCount>{detailText.length} / 800</S.CharCount>
+                                    </S.TextAreaWrapper>
                                 </S.SectionContainer>
                                 <S.SectionContainer>
                                     <S.SectionTitle>할인 정보 (선택)</S.SectionTitle>
-                                    <SelectTrigger label="할인방식 선택" />
-                                    <TextArea placeholder="최저가로 구매하기 위한 방법을 작성해주세요." />
+                                    <SelectTrigger
+                                        label="할인방식 선택"
+                                        onClick={() => setModalType('discount')}
+                                    />
+                                    <S.TextAreaWrapper>
+                                        <TextArea
+                                            placeholder="최저가로 구매하기 위한 방법을 작성해주세요."
+                                            value={discountText}
+                                            onChange={handleDiscountChange}
+                                        />
+                                        <S.CharCount>{discountText.length} / 800</S.CharCount>
+                                    </S.TextAreaWrapper>
                                 </S.SectionContainer>
                             </S.SectionWrapper>
                         </S.ContentWrapper>
                     </S.Inner>
                 </S.Main>
             </DefaultLayout>
+            {modalType === 'category' && (
+                <ModalOverlay onClick={() => setModalType(null)}>
+                    <ModalContainer onClick={(e) => e.stopPropagation()}>
+                        <ModalLayout title="카테고리 선택" onClose={() => setModalType(null)} />
+                    </ModalContainer>
+                </ModalOverlay>
+            )}
+
+            {modalType === 'store' && (
+                <ModalOverlay onClick={() => setModalType(null)}>
+                    <ModalContainer onClick={(e) => e.stopPropagation()}>
+                        <ModalLayout title="스토어 선택" onClose={() => setModalType(null)} />
+                    </ModalContainer>
+                </ModalOverlay>
+            )}
+
+            {modalType === 'discount' && (
+                <ModalOverlay onClick={() => setModalType(null)}>
+                    <ModalContainer onClick={(e) => e.stopPropagation()}>
+                        <ModalLayout title="할인방식 선택" onClose={() => setModalType(null)} />
+                    </ModalContainer>
+                </ModalOverlay>
+            )}
         </>
     );
 };
