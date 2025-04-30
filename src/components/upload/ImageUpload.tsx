@@ -1,66 +1,17 @@
-import { useEffect, useRef, useState } from 'react';
-import Sortable from 'sortablejs';
 import * as S from './ImageUpload.style';
-import { FaTrashCan } from "react-icons/fa6";
+import { useImageUpload, MAX_IMAGES } from '@/hooks/useImageUpload';
+import { X } from 'lucide-react';
 import UploadIcon from '@/assets/icons/upload-image-Icon.svg';
 
-const MAX_IMAGES = 4;
-
 const ProductImageUpload = () => {
-    const [images, setImages] = useState<File[]>([]);
-    const containerRef = useRef<HTMLDivElement>(null);
-    const inputRef = useRef<HTMLInputElement>(null);
-    const sortableRef = useRef<Sortable | null>(null);
-
-    useEffect(() => {
-        if (!containerRef.current || images.length === 0) return;
-
-        if (sortableRef.current) {
-            sortableRef.current.destroy();
-        }
-
-        sortableRef.current = Sortable.create(containerRef.current, {
-            animation: 150,
-            onEnd: ({ oldIndex, newIndex }) => {
-                if (oldIndex == null || newIndex == null) return;
-                setImages(prev => {
-                    const updated = [...prev];
-                    const [moved] = updated.splice(oldIndex, 1);
-                    updated.splice(newIndex, 0, moved);
-                    return updated;
-                });
-            }
-        });
-
-        return () => {
-            sortableRef.current?.destroy();
-            sortableRef.current = null;
-        };
-    }, [images.length]); // 이미지 갯수가 바뀔 때마다 재설정
-
-
-    const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const files = e.target.files;
-        if (!files) return;
-        const fileArray = Array.from(files).slice(0, MAX_IMAGES - images.length);
-        if (images.length + fileArray.length > MAX_IMAGES) {
-            alert(`이미지는 최대 ${MAX_IMAGES}장까지 등록할 수 있어요.`);
-            return;
-        }
-        setImages(prev => [...prev, ...fileArray]);
-    };
-
-    const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-        e.preventDefault();
-        const files = e.dataTransfer.files;
-        if (!files) return;
-        const fileArray = Array.from(files).slice(0, MAX_IMAGES - images.length);
-        if (images.length + fileArray.length > MAX_IMAGES) {
-            alert(`이미지는 최대 ${MAX_IMAGES}장까지 등록할 수 있어요.`);
-            return;
-        }
-        setImages(prev => [...prev, ...fileArray]);
-    };
+    const {
+        images,
+        inputRef,
+        containerRef,
+        handleFileSelect,
+        handleDropFiles,
+        handleRemove,
+    } = useImageUpload();
 
     const handleClick = () => {
         if (images.length >= MAX_IMAGES) {
@@ -70,48 +21,53 @@ const ProductImageUpload = () => {
         inputRef.current?.click();
     };
 
-    const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-        e.preventDefault();
-    };
-
-    const handleRemove = (index: number) => {
-        setImages(prev => prev.filter((_, i) => i !== index));
-    };
+    const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => e.preventDefault();
 
     return (
-        <S.Wrapper onClick={handleClick} onDrop={handleDrop} onDragOver={handleDragOver}>
-            <S.HiddenInput
-                type="file"
-                accept="image/*"
-                multiple
-                onChange={handleFileSelect}
-                ref={inputRef}
-            />
-            {images.length === 0 ? (
-                <S.Content>
-                    <S.Icon src={UploadIcon} alt="Upload Icon" />
-                    <S.GuideText>클릭 또는 파일을 드래그해주세요.</S.GuideText>
-                </S.Content>
-            ) : (
+        <S.SectionWrapper>
+            <S.SectionTitle>이미지</S.SectionTitle>
+            <S.SectionContainer>
                 <S.PreviewWrapper ref={containerRef}>
                     {images.map((file, index) => (
                         <S.ThumbnailWrapper key={`${file.name}-${file.lastModified}`}>
-                            <S.OrderBadge>{index + 1}</S.OrderBadge>
+                            {index === 0 && <S.RepresentativeBadge>대표사진</S.RepresentativeBadge>}
                             <S.Thumbnail src={URL.createObjectURL(file)} alt={`img-${index}`} />
                             <S.DeleteButton onClick={(e) => {
                                 e.stopPropagation();
                                 handleRemove(index);
                             }}>
-                                <FaTrashCan size={15} />
+                                <X size={12} />
                             </S.DeleteButton>
                         </S.ThumbnailWrapper>
                     ))}
                 </S.PreviewWrapper>
-            )}
-            <S.ImageCount>{images.length} / {MAX_IMAGES}</S.ImageCount>
-        </S.Wrapper>
+                <S.UploadBox onClick={handleClick} onDrop={(e) => {
+                    e.preventDefault();
+                    handleDropFiles(e.dataTransfer.files);
+                }} onDragOver={handleDragOver}>
+                    <S.HiddenInput
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        onChange={(e) => handleFileSelect(e.target.files)}
+                        ref={inputRef}
+                    />
+                    {images.length === 0 ? (
+                        <S.Content>
+                            <S.Icon src={UploadIcon} alt="Upload Icon" />
+                            <S.GuideText>클릭 또는 파일을 드래그해주세요.</S.GuideText>
+                        </S.Content>
+                    ) : (
+                        <>
+                            <S.Icon src={UploadIcon} alt="Upload Icon" />
+                            <S.GuideText>추가 업로드</S.GuideText>
+                        </>
+                    )}
+                    <S.ImageCount>{images.length} / {MAX_IMAGES}</S.ImageCount>
+                </S.UploadBox>
+            </S.SectionContainer>
+        </S.SectionWrapper>
     );
 };
 
 export default ProductImageUpload;
-
