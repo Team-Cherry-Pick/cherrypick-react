@@ -4,9 +4,9 @@ import { newDealAtom } from '@/store/deals';
 import { TextInput } from '@/components/common/Input';
 import BadgeLabel from '@/components/common/Badge/BadgeLabel';
 
-const PRICE_BADGES = ['다양한가격', '$'];
+const PRICE_BADGES = ['다양한 가격', '$'];
 const priceBadgeMap = {
-    '다양한가격': 'KRW',
+    '다양한 가격': 'KRW',
     '$': 'USD',
 } as const;
 
@@ -43,19 +43,29 @@ const PriceInfoSection = () => {
             <TextBox>
                 <TextInput
                     placeholder="세일가"
-                    value={deal.price.discountedPrice.toString()}
-                    onChange={(e) => setDeal({
-                        ...deal,
-                        price: { ...deal.price, discountedPrice: Number(e.target.value) || 0 }
-                    })}
+                    value={deal.price.discountedPrice === 0 ? '' : deal.price.discountedPrice.toString()}
+                    onChange={(e) =>
+                        setDeal({
+                            ...deal,
+                            price: {
+                                ...deal.price,
+                                discountedPrice: Number(e.target.value) || 0,
+                            },
+                        })
+                    }
                 />
                 <TextInput
                     placeholder="정가"
-                    value={deal.price.regularPrice.toString()}
-                    onChange={(e) => setDeal({
-                        ...deal,
-                        price: { ...deal.price, regularPrice: Number(e.target.value) || 0 }
-                    })}
+                    value={deal.price.regularPrice === 0 ? '' : deal.price.regularPrice.toString()}
+                    onChange={(e) =>
+                        setDeal({
+                            ...deal,
+                            price: {
+                                ...deal.price,
+                                regularPrice: Number(e.target.value) || 0,
+                            },
+                        })
+                    }
                 />
             </TextBox>
         </SectionContainer>

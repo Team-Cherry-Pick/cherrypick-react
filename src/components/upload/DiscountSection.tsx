@@ -16,14 +16,10 @@ const DiscountSection = ({ onOpenDiscountModal }: { onOpenDiscountModal: () => v
             <TextAreaWrapper>
                 <TextArea
                     placeholder="최저가로 구매하기 위한 방법을 작성해주세요."
-                    value={deal.discountNames[0] || ''}
-                    onChange={(e) => {
-                        const updated = [...deal.discountNames];
-                        updated[0] = e.target.value;
-                        setDeal({ ...deal, discountNames: updated });
-                    }}
+                    value={deal.discountDescription}
+                    onChange={(e) => setDeal({ ...deal, discountDescription: e.target.value })}
                 />
-                <CharCount>{deal.discountNames[0]?.length || 0} / 800</CharCount>
+                <CharCount>{deal.discountDescription.length} / 800</CharCount>
             </TextAreaWrapper>
         </SectionContainer>
     );

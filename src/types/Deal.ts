@@ -11,6 +11,8 @@ export interface Deal {
     content: string;
     discountIds: number[];
     discountNames: string[];
+    discountDescription: string;
+
     isSoldOut: boolean;
 
     viewCount: number;
