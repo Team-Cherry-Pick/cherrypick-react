@@ -1,31 +1,26 @@
 import { useState } from 'react';
 import { SelectInput } from '@/components/common/Input/ModalSearchInput';
+import { mockDiscounts } from '@/mocks/mockDiscounts';
 import * as S from './select.style';
 import CheckIcon from '@/assets/icons/check-Icon.svg';
 import UnCheckIcon from '@/assets/icons/un-check-Icon.svg';
-
-// @Todo 추후 할인 선택 -> 필터용 모달로 재사용 확장
-// @Todo 옵션은 서버에서 받아오기로
-
-const DISCOUNT_OPTIONS = [
-    '이벤트 쿠폰', '최초가입쿠폰', '신한카드', '삼성카드', '국민카드',
-    '현대카드', '롯데카드', '우리카드', '비씨카드', '하나카드',
-    '포인트 적립', '상품권', '카카오페이 할인'
-];
+import { useDealUpload } from '@/hooks/useDealUpload'; // jotai 저장용
 
 interface Props {
     onClose: () => void;
-    onSelect?: (selected: string[]) => void;
 }
 
-export function DiscountSelectModal({ onClose, onSelect }: Props) {
+export function DiscountSelectModal({ onClose }: Props) {
+    const { setDiscounts } = useDealUpload(); // ✅ jotai 저장용 커스텀 훅
     const [query, setQuery] = useState('');
     const [inputValue, setInputValue] = useState('');
-    const [selectedDiscounts, setSelectedDiscounts] = useState<string[]>([]);
+    const [selected, setSelected] = useState<{ id: number; name: string }[]>([]);
 
-    const filtered = DISCOUNT_OPTIONS.filter(option => option.includes(query));
+    const filtered = mockDiscounts.filter((d) =>
+        d.name.includes(query)
+    );
 
-    const handleInputChange = (value: string) => {
+    const handleChange = (value: string) => {
         setQuery(value);
         setInputValue(value);
     };
@@ -33,43 +28,39 @@ export function DiscountSelectModal({ onClose, onSelect }: Props) {
     const handleDirectInput = () => {
         const trimmed = inputValue.trim();
         if (!trimmed) return;
-        if (!selectedDiscounts.includes(trimmed)) {
-            setSelectedDiscounts(prev => [...prev, trimmed]);
+        if (!selected.find((d) => d.name === trimmed)) {
+            setSelected((prev) => [...prev, { id: 0, name: trimmed }]); // id 0은 사용자 정의
         }
         setInputValue('');
         setQuery('');
     };
 
-    const toggleDiscount = (discount: string) => {
-        setSelectedDiscounts(prev =>
-            prev.includes(discount)
-                ? prev.filter(d => d !== discount)
-                : [...prev, discount]
+    const toggleDiscount = (item: { id: number; name: string }) => {
+        setSelected((prev) =>
+            prev.find((d) => d.name === item.name)
+                ? prev.filter((d) => d.name !== item.name)
+                : [...prev, item]
         );
     };
 
-    const removeDiscount = (discount: string) => {
-        setSelectedDiscounts(prev => prev.filter(d => d !== discount));
-    };
-
-    const handleReset = () => {
-        setSelectedDiscounts([]);
-    };
+    const handleReset = () => setSelected([]);
 
     const handleClickConfirm = () => {
-        if (selectedDiscounts.length > 0) {
-            onSelect?.(selectedDiscounts); // 선택값 전달 (있을 때만)
-            onClose(); // 모달 닫기
+        if (selected.length > 0) {
+            const ids = selected.map((d) => d.id);
+            const names = selected.map((d) => d.name);
+            setDiscounts(ids, names); // ✅ jotai에 저장
+            onClose();
         }
     };
 
     return (
         <>
             <S.containerDiscountSelected>
-                {selectedDiscounts.map(item => (
-                    <S.tagSelected key={item}>
-                        {item}
-                        <S.buttonRemoveTag onClick={() => removeDiscount(item)}>✕</S.buttonRemoveTag>
+                {selected.map((item) => (
+                    <S.tagSelected key={item.name}>
+                        {item.name}
+                        <S.buttonRemoveTag onClick={() => toggleDiscount(item)}>✕</S.buttonRemoveTag>
                     </S.tagSelected>
                 ))}
             </S.containerDiscountSelected>
@@ -79,7 +70,7 @@ export function DiscountSelectModal({ onClose, onSelect }: Props) {
                     <SelectInput
                         placeholder="할인방식 검색"
                         value={inputValue}
-                        onChange={handleInputChange}
+                        onChange={handleChange}
                         onConfirm={handleDirectInput}
                         directInputLabel="직접 추가"
                     />
@@ -87,32 +78,42 @@ export function DiscountSelectModal({ onClose, onSelect }: Props) {
 
                 <S.listDiscountSelect>
                     {filtered.length > 0 ? (
-                        filtered.map(discount => (
+                        filtered.map((discount) => (
                             <S.ItemDiscountSelect
-                                key={discount}
+                                key={discount.id}
                                 onClick={() => toggleDiscount(discount)}
-                                selected={selectedDiscounts.includes(discount)}
+                                selected={selected.some((d) => d.name === discount.name)}
                             >
-                                {/* 라벨은 글씨체 바꾸기 위해 css 우선순위 설정 */}
-                                <S.labelDiscount selected={selectedDiscounts.includes(discount)}>
-                                    {discount}
+                                <S.labelDiscount selected={selected.some((d) => d.name === discount.name)}>
+                                    {discount.name}
                                 </S.labelDiscount>
                                 <img
-                                    src={selectedDiscounts.includes(discount) ? CheckIcon : UnCheckIcon}
-                                    alt={selectedDiscounts.includes(discount) ? '선택됨' : '미선택'}
+                                    src={
+                                        selected.some((d) => d.name === discount.name)
+                                            ? CheckIcon
+                                            : UnCheckIcon
+                                    }
+                                    alt="체크"
                                 />
                             </S.ItemDiscountSelect>
                         ))
                     ) : (
                         <S.textGuideStore>
-                            검색되지 않는 할인방식인 경우 <br /> 작성 완료 후 직접 추가 버튼을 클릭해주세요
+                            검색되지 않는 할인방식인 경우 <br />
+                            직접 추가 버튼을 클릭해주세요
                         </S.textGuideStore>
                     )}
                 </S.listDiscountSelect>
             </S.selectWrapper>
+
             <S.containerFooter>
                 <S.buttonResetDiscount onClick={handleReset}>초기화</S.buttonResetDiscount>
-                <S.buttonConfirmDiscount active={selectedDiscounts.length > 0} onClick={handleClickConfirm}>선택</S.buttonConfirmDiscount>
+                <S.buttonConfirmDiscount
+                    active={selected.length > 0}
+                    onClick={handleClickConfirm}
+                >
+                    선택
+                </S.buttonConfirmDiscount>
             </S.containerFooter>
         </>
     );

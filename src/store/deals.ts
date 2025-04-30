@@ -14,7 +14,7 @@ export const newDealAtom = atom<Deal>({
     storeId: 0,
     storeName: '',
     price: {
-        priceType: 'KRW',
+        priceType: null,
         regularPrice: 0,
         discountedPrice: 0,
     },
@@ -26,6 +26,7 @@ export const newDealAtom = atom<Deal>({
     content: '',
     discountIds: [],
     discountNames: [],
+    discountDescription: '',
     isSoldOut: false,
     viewCount: 0,
     likeCount: 0,
