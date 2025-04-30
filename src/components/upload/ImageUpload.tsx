@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import Sortable from 'sortablejs';
-import * as S from './ProductImageUpload.style';
+import * as S from './ImageUpload.style';
 import { FaTrashCan } from "react-icons/fa6";
 import UploadIcon from '@/assets/icons/upload-image-Icon.svg';
 
