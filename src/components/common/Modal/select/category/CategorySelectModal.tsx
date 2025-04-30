@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import { useDealUpload } from '@/hooks/useDealUpload';
+import { getCategoryIdFromSteps } from '@/utils/category';
+import { mockCategories } from '@/mocks/mockCategories';
 import * as S from '../select.style';
 import { CategoryStep1 } from './CategoryStep1';
 import { CategoryStep2 } from './CategoryStep2';
@@ -8,8 +11,8 @@ interface Props {
     onClose: () => void;
 }
 
-
 export function CategorySelectModal({ onClose }: Props) {
+    const { setCategory } = useDealUpload();
     const [step, setStep] = useState(1);
     const [selectedSteps, setSelectedSteps] = useState<string[]>([]);
 
@@ -23,8 +26,11 @@ export function CategorySelectModal({ onClose }: Props) {
         setStep(prev => prev - 1);
     };
 
-    const handleFinalSelect = (finalSelection: string[]) => {
-        console.log('최종 선택:', finalSelection);
+    const handleFinalSelect = (selectedSteps: string[]) => {
+        const categoryId = getCategoryIdFromSteps(selectedSteps, mockCategories);
+        if (categoryId) {
+            setCategory(selectedSteps, categoryId);
+        }
         onClose();
     };
 
