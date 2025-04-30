@@ -9,11 +9,15 @@ export function useDealUpload() {
     const setDeal = useSetAtom(newDealAtom);
     const setCategoryPath = useSetAtom(selectedCategoryPathAtom);
 
-    /**
-     * 카테고리 선택 시 상태 업데이트
-     * @param steps 예: ['생활용품', '세탁세제', '액체세제']
-     * @param categoryId 실제 서버로 보낼 ID
-     */
+
+    const setStore = (storeId: number, storeName: string) => {
+        setDeal((prev) => ({
+            ...prev,
+            storeId,
+            storeName,
+        }));
+    };
+
     const setCategory = (steps: string[], categoryId: number) => {
         const pathString = steps.join(' > ');
         setCategoryPath(pathString);
@@ -24,6 +28,6 @@ export function useDealUpload() {
     };
 
     return {
-        setCategory,
+        setCategory, setStore
     };
 }

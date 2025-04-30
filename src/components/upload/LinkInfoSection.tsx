@@ -13,6 +13,10 @@ const LinkInfoSection = ({ onOpenStoreModal }: { onOpenStoreModal: () => void })
                 placeholder="상품 URL 입력"
                 value={deal.originalUrl}
                 onChange={(e) => setDeal({ ...deal, originalUrl: e.target.value })}
+                style={{
+                    color: /^https?:\/\//.test(deal.originalUrl) ? '#000' : undefined,
+                    textDecoration: /^https?:\/\//.test(deal.originalUrl) ? 'underline' : undefined,
+                }}
             />
             <SelectTrigger
                 label={deal.storeName || '스토어 선택'}

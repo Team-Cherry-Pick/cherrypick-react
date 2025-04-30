@@ -1,44 +1,48 @@
 import { useState } from 'react';
 import { SelectInput } from '@/components/common/Input/ModalSearchInput';
+import { mockStores } from '@/mocks/mockStores';
+import { useDealUpload } from '@/hooks/useDealUpload';
 import * as S from './select.style';
 
 interface Props {
     onClose: () => void;
 }
 
-const STORE_LIST = [
-    '쿠팡',
-    '지마켓',
-    '11번가',
-    '옥션',
-    '롯데온',
-    '알리익스프레스',
-    'SSG몰',
-    '하이마트',
-];
-
 export function StoreSelectModal({ onClose }: Props) {
-    const [queryStoreSearch, setQueryStoreSearch] = useState('');
-    const [inputStoreName, setInputStoreName] = useState('');
+    const [query, setQuery] = useState('');
+    const [inputName, setInputName] = useState('');
+    const { setStore } = useDealUpload();
 
-    const filteredStoreList = STORE_LIST.filter(store => store.includes(queryStoreSearch));
+    const filteredStores = mockStores.filter((store) =>
+        store.name.includes(query)
+    );
 
-    const handleChangeStoreInput = (value: string) => {
-        setQueryStoreSearch(value);
-        setInputStoreName(value);
+    const handleChange = (value: string) => {
+        setQuery(value);
+        setInputName(value);
     };
 
-    const handleClickDirectInput = () => {
-        console.log('직접 입력한 값:', inputStoreName);
+    const handleSelectStore = (storeId: number, storeName: string) => {
+        setStore(storeId, storeName);
+        onClose();
+    };
+
+    const handleDirectInput = () => {
+        setStore(0, inputName); // storeId 0: 직접 입력한 사용자 정의 스토어
         onClose();
     };
 
     return (
         <S.selectWrapper>
             <S.listStoreSelect>
-                {filteredStoreList.length > 0 ? (
-                    filteredStoreList.map(store => (
-                        <S.itemSelectStore key={store}>{store}</S.itemSelectStore>
+                {filteredStores.length > 0 ? (
+                    filteredStores.map((store) => (
+                        <S.itemSelectStore
+                            key={store.id}
+                            onClick={() => handleSelectStore(store.id, store.name)}
+                        >
+                            {store.name}
+                        </S.itemSelectStore>
                     ))
                 ) : (
                     <S.textGuideStore>
@@ -50,9 +54,9 @@ export function StoreSelectModal({ onClose }: Props) {
                 <SelectInput
                     style={{ paddingTop: '20px' }}
                     placeholder="스토어 검색"
-                    value={inputStoreName}
-                    onChange={handleChangeStoreInput}
-                    onConfirm={handleClickDirectInput}
+                    value={inputName}
+                    onChange={handleChange}
+                    onConfirm={handleDirectInput}
                     directInputLabel="직접 입력"
                 />
             </S.containerFooterSelect>

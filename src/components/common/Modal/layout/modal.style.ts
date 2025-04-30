@@ -2,7 +2,9 @@ import styled from 'styled-components';
 import { typography } from '@/styles/global/typography';
 
 export const ModalWrapper = styled.div`
-    width: 30vw;
+    width: 50vw;
+    max-width: 500px;
+    min-width: 350px;
     height: auto;
     flex-shrink: 0;
     border-radius: 20px;
