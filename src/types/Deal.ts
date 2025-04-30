@@ -11,6 +11,8 @@ export interface Deal {
     content: string;
     discountIds: number[];
     discountNames: string[];
+    discountDescription: string;
+
     isSoldOut: boolean;
 
     viewCount: number;
@@ -29,14 +31,14 @@ export interface DealImage {
     index: number;
 }
 
-export interface DealPrice {
-    priceType: 'KRW' | 'USD';
+export interface DealPrice { // 한국, 달러
+    priceType: 'KRW' | 'USD' | null;
     regularPrice: number;
     discountedPrice: number;
 }
 
-export interface DealShipping {
-    shippingType: 'FREE' | 'PAID';
+export interface DealShipping { // 무료배송 여부
+    shippingType: 'FREE' | 'PAID' | 'CONDITIONAL' | null;
     shippingPrice: number;
     shippingRule: string;
 }

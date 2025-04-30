@@ -1,14 +1,29 @@
-// SelectTrigger.tsx
+// 단순히 모달 열기 위한 트리거용
 import styled from 'styled-components';
 import RightArrowIcon from '@/assets/icons/right-arrow-Icon.svg';
 
-interface SelectTriggerProps {
+interface Props {
     label: string;
+    onClick?: () => void;
 }
+
+export const SelectTrigger = ({ label, onClick }: Props) => {
+    return (
+        <StyledSelectTrigger onClick={onClick}>
+            <Label>{label}</Label>
+            <img src={RightArrowIcon} alt="선택" />
+        </StyledSelectTrigger>
+    );
+}
+
+const Label = styled.span`
+  font-size: ${({ theme }) => theme.typography.size.sm};
+  color: ${({ theme }) => theme.colors.content.main};
+`;
 
 const StyledSelectTrigger = styled.button`
     display: flex;
-    width: 436px;
+    width: 100%;
     padding: 12px 16px;
     align-items: center;
     justify-content: space-between;
@@ -22,12 +37,3 @@ const StyledSelectTrigger = styled.button`
     font-size: 14px;
     color: ${({ theme }) => theme.colors.content.main};
 `;
-
-export function SelectTrigger({ label }: SelectTriggerProps) {
-    return (
-        <StyledSelectTrigger>
-            {label}
-            <img src={RightArrowIcon} alt="선택" />
-        </StyledSelectTrigger>
-    );
-}
