@@ -89,7 +89,7 @@ export const Inner = styled.div`
 `;
 
 export const ContentWrapper = styled.div`
-  background: ${({ theme }) => theme.colors.background.root};
+  background: ${({ theme }) => theme.colors.background.card};
   border-radius: ${({ theme }) => theme.radius[5]};
   padding: ${({ theme }) => theme.spacing[4]} 0;
 `;
