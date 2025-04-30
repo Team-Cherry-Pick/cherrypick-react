@@ -36,7 +36,7 @@ export interface DealPrice { // 한국, 달러
 }
 
 export interface DealShipping { // 무료배송 여부
-    shippingType: 'FREE' | 'PAID';
+    shippingType: 'FREE' | 'PAID' | 'CONDITIONAL';
     shippingPrice: number;
     shippingRule: string;
 }

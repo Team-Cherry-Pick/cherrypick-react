@@ -1,3 +1,4 @@
+// ProductUploadPage.style.ts
 import styled from 'styled-components';
 import { MdArrowForwardIos } from 'react-icons/md';
 
@@ -59,13 +60,11 @@ export const GuideButton = styled.button`
   padding: 12px 14px;
   font-size: ${({ theme }) => theme.typography.size.sm};
   font-weight: ${({ theme }) => theme.typography.weight.medium};
-
   border: none;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.10);
   border-radius: 20px;
   background: ${({ theme }) => theme.colors.background.card};
   color: ${({ theme }) => theme.colors.content.main};
-
   cursor: pointer;
   transition: background-color 0.2s;
 `;
@@ -103,51 +102,9 @@ export const SectionWrapper = styled.div`
   box-sizing: border-box;
 `;
 
-export const SectionTitle = styled.div`
-  color: ${({ theme }) => theme.colors.content.main};
-  font-size: ${({ theme }) => theme.typography.size.lg};
-  font-weight: ${({ theme }) => theme.typography.weight.semibold};
-  line-height: 1rem;
-  font-family: Pretendard;
-  margin: ${({ theme }) => theme.spacing[2]} 0;
-`;
-
 export const SectionDivider = styled.div`
   border: none;
   height: 10px;
-  background-color:  ${({ theme }) => theme.colors.neutral[20]};
+  background-color: ${({ theme }) => theme.colors.neutral[20]};
   margin: ${({ theme }) => theme.spacing[6]} 0;
-`;
-
-export const SectionContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    gap: ${({ theme }) => theme.spacing[2]};
-`
-
-export const TextBox = styled.div`
-    display: flex;
-    flex-direction: row;
-    width: auto;
-    gap: ${({ theme }) => theme.spacing[4]};
-`
-
-export const BadgeBox = styled.div`
-    display: flex;
-    flex-direction: row;
-    width: auto;
-    gap: ${({ theme }) => theme.spacing[2]};
-`
-
-export const TextAreaWrapper = styled.div`
-  position: relative;
-`;
-
-export const CharCount = styled.div`
-  position: absolute;
-  bottom: 8px;
-  right: 12px;
-  font-size: ${({ theme }) => theme.typography.size.xs};
-  color: ${({ theme }) => theme.colors.content.sub};
 `;
