@@ -16,7 +16,7 @@ export const InputContainer = styled.div`
     border-radius: 12px;
     padding: 12px 16px;
     flex-shrink: 0;
-    width: 63%;
+    width: 70%;
 `;
 
 export const StyledInput = styled.input`
@@ -55,6 +55,7 @@ export const IconButton = styled.button`
 `;
 
 export const DirectInputButton = styled.button<{ active?: boolean }>`
+    flex:1;
     background-color: ${({ theme, active }) =>
         active ? theme.colors.neutral[700] : theme.colors.neutral[300]};
     color: ${({ theme }) => theme.colors.neutral[0]};

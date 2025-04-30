@@ -1,6 +1,7 @@
 import * as S from '../select.style';
+import { mockCategories } from '@/mocks/mockCategories';
+import { CategoryNode } from '@/utils/category';
 import LeftArrowIcon from '@/assets/icons/left-arrow-icon.svg';
-// @todo 하위 카테고리 정리
 
 interface CategoryStep3Props {
     onSelect: (category: string[]) => void;
@@ -9,7 +10,17 @@ interface CategoryStep3Props {
 }
 
 export function CategoryStep3({ onBack, onSelect, selected }: CategoryStep3Props) {
-    const finalOptions = ['선택1', '선택2', '선택3'];
+    // mockCategories에서 selected[0], selected[1]을 통해 하위 옵션 가져오기
+    let current: CategoryNode = mockCategories;
+
+    for (const step of selected) {
+        if (!current || typeof current !== 'object') break;
+        current = current[step];
+    }
+
+    const finalOptions = current && typeof current === 'object'
+        ? Object.keys(current)
+        : [];
 
     const handleSelect = (item: string) => {
         const updated = [...selected, item];
