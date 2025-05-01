@@ -90,13 +90,11 @@ class ApiClientService {
      * @param {unknown} [data] - 요청 바디 데이터 (선택적)
      * @returns {Promise<T>} - API 응답 데이터
      */
-    async request<T>(method: HttpMethod, url: string, data?: unknown, authType: HttpAuth = HttpAuth.NONE): Promise<T> {
+    async request<T>(method: HttpMethod, url: string, data?: unknown): Promise<T> {
         try {
             const headers: Record<string, string> = {};
-            if (authType === HttpAuth.USER) {
-                const userToken = AccessTokenService.get(AccessTokenType.USER);
-                if (userToken) headers.Authorization = `Bearer ${userToken}`;
-            }
+            const userToken = AccessTokenService.get(AccessTokenType.USER);
+            if (userToken) headers.Authorization = `Bearer ${userToken}`;
 
             const response = await this.instance.request<T>({
                 method,
