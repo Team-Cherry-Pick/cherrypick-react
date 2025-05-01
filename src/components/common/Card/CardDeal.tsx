@@ -1,7 +1,7 @@
+import { Deal } from '@/types/deal/Deal';
 import * as S from './card.style';
 import { Clock, ThumbsUp, MessageSquare } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import type { Deal } from '@/types/Deal';
 
 interface Props {
     deal: Deal;
@@ -14,7 +14,9 @@ export const CardDeal = ({ deal }: Props) => {
         return null;
     }
 
-    const mainImage = deal.imageUrls && deal.imageUrls.length > 0 ? deal.imageUrls[0].url : null;
+    const mainImage: string = deal.imageUrl.url ?? null;
+
+    console.log(deal.price);
 
     const discountPercent =
         deal.price && deal.price.regularPrice > 0
@@ -24,16 +26,16 @@ export const CardDeal = ({ deal }: Props) => {
     return (
         <S.CardWrapper onClick={() => navigate(`/product/${deal.dealId}`)}>
             <S.ImageBox>
-                {mainImage && <img src={mainImage} alt="" />}
+                {mainImage && <S.Image src={mainImage} alt={deal.title} />}
             </S.ImageBox>
 
             <S.InfoBox>
                 <S.Title>{deal.title}</S.Title>
 
                 <S.TagRow>
-                    <S.Store>{deal.storeName}</S.Store>
+                    <S.Store>{deal.store}</S.Store>
                     <span>|</span>
-                    <S.Tags>{deal.discountNames.map(name => `#${name}`).join(' ')}</S.Tags>
+                    <S.Tags>{deal.infoTags.map(name => `#${name}`).join(' ')}</S.Tags>
                 </S.TagRow>
 
                 <S.PriceRow>

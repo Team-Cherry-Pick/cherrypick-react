@@ -11,9 +11,19 @@ export const CardWrapper = styled.div`
 `;
 
 export const ImageBox = styled.div`
+  position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1;
+  padding-top: 100%; /* 1:1 비율 유지 */
   background-color: ${({ theme }) => theme.colors.neutral[50]};
+`;
+
+export const Image = styled.img`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 export const InfoBox = styled.div`
@@ -30,6 +40,12 @@ export const Title = styled.div`
   font-weight: ${({ theme }) => theme.typography.weight.semibold};
   line-height: ${({ theme }) => theme.typography.lineHeight.base};
   margin-bottom: ${({ theme }) => theme.spacing[2]};
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
 `;
 
 export const TagRow = styled.div`

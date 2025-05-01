@@ -1,61 +1,75 @@
 // MainDealList.tsx
 import { useEffect, useRef, useCallback, useState } from 'react';
 import { CardDeal } from '@/components/common/Card';
-import { mockDeals } from '@/mocks/mockDeals';
 import styled from 'styled-components';
 import { LoadingSpinner } from '@/components/common/Loading/LoadingSpinner';
+import { postSearchDeal } from '@/services/apiDeal';
+import { PostSearchDealReq } from '@/types/deal/PostSearchDealReq';
+import { Deal } from '@/types/deal/Deal';
 
 const MainDealList = () => {
-    const [items, setItems] = useState(mockDeals);
-    const [isLoading, setIsLoading] = useState(false);
-    //const [items, setItems] = useState(Array.from({ length: 20 }));
-    //const [page, setPage] = useState(1);
+
+    const [items, setItems] = useState<Deal[]>([]);
+    const isLoadingRef = useRef(false); // 상태 대신 ref 사용
+    const pageRef = useRef(0);
+    const hasNextRef = useRef(true);
     const observerRef = useRef<HTMLDivElement | null>(null);
 
+    // fetch 함수
+    const loadMore = useCallback(async () => {
+        if (isLoadingRef.current || !hasNextRef.current) return;
 
-    const loadMore = useCallback(() => {
-        setIsLoading(true);
-        setTimeout(() => {
-            setItems((prev) => [...prev, ...mockDeals]);
-            setIsLoading(false);
-        }, 1000); // 1초 후에 mock 추가 (로딩 느낌 주기)
+        isLoadingRef.current = true;
+
+        try {
+            const req = new PostSearchDealReq(pageRef.current, 40);
+            const res = await postSearchDeal(req);
+            setItems((prev) => [...prev, ...res.deals]);
+            pageRef.current += 1;
+            hasNextRef.current = res.hasNext;
+        } catch (error) {
+            console.error(error);
+        } finally {
+            isLoadingRef.current = false;
+        }
     }, []);
 
-    // const loadMore = useCallback(() => {
-    //     const newItems = Array.from({ length: 20 }, (_, i) => i + page * 20);
-    //     setItems((prev) => [...prev, ...newItems]);
-    //     setPage((prev) => prev + 1);
-    // }, [page]);
+    // 최초 1회 로딩
+    useEffect(() => {
+        loadMore();
+    }, [loadMore]);
 
-    const handleObserver = useCallback((entries: IntersectionObserverEntry[]) => {
-        const [target] = entries;
-        if (target.isIntersecting && !isLoading) {
-            loadMore();
-        }
-    }, [loadMore, isLoading]);
+    // 스크롤 도달 감지
+    const handleObserver = useCallback(
+        (entries: IntersectionObserverEntry[]) => {
+            const [entry] = entries;
+            if (entry.isIntersecting && !isLoadingRef.current) {
+                loadMore();
+            }
+        },
+        [loadMore]
+    );
 
+    // IntersectionObserver 등록
     useEffect(() => {
         const observer = new IntersectionObserver(handleObserver, {
             threshold: 1.0,
         });
 
-        const currentTarget = observerRef.current;
-        if (currentTarget) observer.observe(currentTarget);
+        const target = observerRef.current;
+        if (target) observer.observe(target);
 
         return () => {
-            if (currentTarget) observer.unobserve(currentTarget);
+            if (target) observer.unobserve(target);
         };
     }, [handleObserver]);
 
     return (
         <DealGrid>
-            {/* {items.map((_, i) => (
-                <CardDeal key={i} />
-            ))} */}
             {items.map((deal, i) => (
                 <CardDeal key={`${deal.dealId}-${i}`} deal={deal} />
             ))}
-            {isLoading && (
+            {isLoadingRef && (
                 <SpinnerWrapper>
                     <LoadingSpinner />
                 </SpinnerWrapper>
