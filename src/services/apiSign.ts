@@ -5,7 +5,7 @@ export const getAuthKakao = async (redirectPath: string) => {
     window.location.href = `${import.meta.env.VITE_API_URL.replace(/\/api$/, '')}/oauth2/authorization/kakao?redirect=${redirectPath}`
 }
 
-export const getAuthRefresh = async (): Promise<string | null> => {
+export const getAuthRefresh = async (): Promise<string> => {
     try {
         const response = await apiClientService.request<any>(
             HttpMethod.GET,
@@ -14,9 +14,9 @@ export const getAuthRefresh = async (): Promise<string | null> => {
         );
 
         // accessToken만 꺼내서 반환
-        return response?.accessToken ?? null;
+        return response?.accessToken;
     } catch (error) {
         console.error('토큰 갱신 실패:', error);
-        return null;
+        throw error;
     }
 };
