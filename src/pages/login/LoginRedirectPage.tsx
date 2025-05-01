@@ -14,12 +14,19 @@ const LoginSuccessPage = () => {
         const handleLoginRedirect = async () => {
             // SearchParams 추출
             const userId = searchParams.get('userId');
-            const redirectURL = searchParams.get('redirectURL');
+            const redirectURL = searchParams.get('redirectUrl');
             const isNewUser = searchParams.get('isNewUser') === 'true';
             if (!userId || !redirectURL) throw new Error(loginFailMessage);
 
-            // 토큰 재발급 및 저장
-            await refreshToken();
+            /**
+             * 토큰 재발급 및 저장
+             * @todo Token 하드코딩 (수정 필요)
+             */
+            //await refreshToken();
+            const accessToken = searchParams.get('accessToken') ?? "";
+            if(!accessToken) navigate(redirectURL);
+            AccessTokenService.save(AccessTokenType.USER, accessToken);
+            localStorage.setItem("userId", userId);
 
             /**
              * 신규회원/기존회원 여부 파악하여 경로 이동
