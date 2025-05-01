@@ -1,4 +1,4 @@
-import { AccessTokenType, APIException, HttpAuth, HttpMethod, ResponseData } from "@/types/Api";
+import { AccessTokenType, APIException, HttpMethod, ResponseData } from "@/types/Api";
 import { AccessTokenService } from "./accessTokenService";
 import axios, { AxiosError, InternalAxiosRequestConfig, AxiosResponse } from "axios";
 
@@ -95,15 +95,8 @@ class ApiClientService {
             const headers: Record<string, string> = {};
             const userToken = AccessTokenService.get(AccessTokenType.USER);
             if (userToken) headers.Authorization = `Bearer ${userToken}`;
-
-            const response = await this.instance.request<T>({
-                method,
-                url,
-                data,
-                headers: authType !== HttpAuth.NONE ? headers : undefined,
-            });
-
-            return response.data as T;
+            const response = await this.instance.request<T>({ method, url, data });
+            return response as T;
         } catch (error) {
             return Promise.reject(this.handleError(error as AxiosError));
         }
