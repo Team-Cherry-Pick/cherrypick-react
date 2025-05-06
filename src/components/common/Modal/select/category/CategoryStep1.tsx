@@ -1,4 +1,5 @@
-//import { useState } from 'react';
+// components/upload/category/CategoryStep1.tsx
+import { mockCategories } from '@/mocks/mockCategories';
 import * as S from '../select.style';
 import LeftArrowIcon from '@/assets/icons/left-arrow-icon.svg';
 import RightArrowIcon from '@/assets/icons/right-arrow-icon.svg';
@@ -8,20 +9,18 @@ interface CategoryStep1Props {
     onFinalSelect: (category: string[]) => void;
 }
 
-const CATEGORIES = [
-    '식품', '주방용품', '홈인테리어', '패션의류/잡화', '자동차용품',
-    '반려동물용품', '여행/티켓', '출산/유아동', '생활용품',
-    '가전/디지털', '스포츠/레저', '완구/취미', '헬스/건강식품', '문구/오피스', '기타'
-];
-
 export function CategoryStep1({ onNext, onFinalSelect }: CategoryStep1Props) {
+    const topCategories = Object.keys(mockCategories); // 대분류 가져오기
+
     return (
         <>
             <S.textSubheaderCategory>
-                <img src={LeftArrowIcon} alt="이전" style={{ marginRight: '8px' }} /> 전체 카테고리
+                <img src={LeftArrowIcon} alt="이전" style={{ marginRight: '8px' }} />
+                전체 카테고리
             </S.textSubheaderCategory>
+
             <S.listCategorySelect>
-                {CATEGORIES.map(category => (
+                {topCategories.map(category => (
                     <S.itemCategorySelect
                         key={category}
                         onClick={() =>

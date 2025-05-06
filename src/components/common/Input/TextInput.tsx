@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 export const TextInput = styled.input`
     display: flex;
-    width: 436px;
+    width: 100%;
     padding: 12px 16px;
     align-items: center;
     gap: 10px;
@@ -12,7 +12,7 @@ export const TextInput = styled.input`
     border: 1px solid ${({ theme }) => theme.colors.neutral[100]};
     background: ${({ theme }) => theme.colors.neutral[0]};
 
-    font-size: 14px;
+    font-size: ${({ theme }) => theme.typography.size.sm};
     color: ${({ theme }) => theme.colors.content.main};
     outline: none;
     `;
