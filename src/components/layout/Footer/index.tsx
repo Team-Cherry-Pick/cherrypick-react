@@ -30,10 +30,20 @@ const Footer = ({ background = 'root' }: FooterProps) => {
 export default Footer;
 
 const FooterContainer = styled.footer<{ $background: 'root' | 'board' }>`
-  width: 100%;
+ position: relative;
+ z-index: 10;
+  max-width: ${({ theme }) => theme.maxWidth};
+  margin-inline: auto;
   background-color: ${({ theme, $background }) => theme.colors.background[$background]};
-  padding: ${({ theme }) => theme.spacing[10]} 0 5% 0;
-  margin-top: ${({ theme }) => theme.spacing[6]};
+  padding-inline: ${({ theme }) => theme.spacing[20]};
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: ${({ theme }) => theme.spacing[12]};
+  padding-bottom: ${({ theme }) => theme.spacing[16]};
+  @media (max-width: 1200px) {
+    padding-inline: ${({ theme }) => theme.spacing[4]};
+  }
 `;
 
 const FooterContent = styled.div`
