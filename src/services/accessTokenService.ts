@@ -32,6 +32,12 @@ export class AccessTokenService {
     return this.decryptData(encrypted);
   }
 
+  // 토큰 여부 확인
+  static hasToken(type: AccessTokenType): boolean {
+    const encrypted = localStorage.getItem(type);
+    return !!encrypted;
+  }
+
   // 삭제
   static clear(type: AccessTokenType) {
     localStorage.removeItem(type);
