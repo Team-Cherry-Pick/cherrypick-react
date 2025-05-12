@@ -11,6 +11,7 @@ const MainPage = () => {
     return (
         <DefaultLayout>
             <MainSearchWrapper>
+                <EmptyBox />
                 <MainSearchBar />
             </MainSearchWrapper>
 
@@ -37,6 +38,9 @@ export default MainPage;
 const MainSearchWrapper = styled.div`
   width: 100%;
   margin-bottom: ${({ theme }) => theme.spacing[4]};
+  display: flex;
+  flex-direction: row;
+  gap: ${({ theme }) => theme.spacing[6]};
 `;
 
 const SortRow = styled.div`
@@ -71,4 +75,16 @@ const FloatingWrapper = styled.div`
   align-items: flex-end;
   gap: ${({ theme }) => theme.spacing[3]};
   z-index: 100;
+`;
+
+const EmptyBox = styled.div`
+    width: 20%;
+    min-width: 240px;
+    height: auto;
+    visibility: hidden;
+    pointer-events: none;
+
+    @media (max-width: 769px) {
+        display: none; // 데스크탑에서만 보임
+    }
 `;
