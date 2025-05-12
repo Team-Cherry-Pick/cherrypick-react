@@ -1,7 +1,7 @@
 import * as S from './modal.style';
 import CloseIcon from '@/assets/icons/close-Icon.svg';
 import { StoreSelectModal } from '@/components/common/Modal/select/StoreSelectModal';
-import { CategorySelectModal } from '@/components/common/Modal/select/category/CategorySelectModal';
+import { CategorySelectModal } from '@/components/common/Modal/select/CategorySelectModal';
 import { DiscountSelectModal } from '@/components/common/Modal/select/DiscountSelectModal';
 
 interface ModalLayoutProps {
