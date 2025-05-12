@@ -37,7 +37,7 @@ const SearchInput = styled.input`
   flex: 1;
   height: 100%;
   font-size: ${({ theme }) => theme.typography.size.base};
-  color: ${({ theme }) => theme.colors.content.tertiary};
+  color: ${({ theme }) => theme.colors.content.main};
   padding-left: ${({ theme }) => theme.spacing[2]};
   border: none;
   outline: none;
