@@ -171,3 +171,13 @@ export const CheckboxWrapper = styled.label`
     flex-shrink: 0;
   }
 `;
+
+export const CategoryPathWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: ${({ theme }) => theme.typography.size.sm};
+  color: ${({ theme }) => theme.colors.content.sub};
+  margin-top: 8px;
+  margin-bottom: 4px;
+`;
