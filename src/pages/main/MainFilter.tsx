@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import { CategoryList } from '@/components/common/Select/CategoryList';
+import { useAtomValue } from 'jotai';
+import { categoryTreeAtom } from '@/store/category';
 import { useFilter } from '@/hooks/useFilter';
 import { FaCheck } from 'react-icons/fa';
 import { IoIosCheckmarkCircleOutline, IoIosCheckmarkCircle } from 'react-icons/io';
@@ -6,13 +9,20 @@ import * as S from './MainFilter.style';
 
 const MainFilter = () => {
     const { filter, toggleFilter, resetFilter } = useFilter();
+    const [selectedSteps, setSelectedSteps] = useState<string[]>([]);
+    const categoryTree = useAtomValue(categoryTreeAtom);
     const [priceChecked, setChecked] = useState(false);
-
     const [currency, setCurrency] = useState<'₩' | '$'>('₩');
+
+    let current = categoryTree;
+    for (const step of selectedSteps) {
+        const found = current.find(c => c.name === step);
+        current = found?.subCategories ?? [];
+    }
+
     const toggleCurrency = () => {
         setCurrency((prev) => (prev === '₩' ? '$' : '₩'));
     };
-
     const togglePrice = () => setChecked((prev) => !prev);
 
     return (
@@ -64,29 +74,41 @@ const MainFilter = () => {
 
             {/* 카테고리 */}
             <S.SectionTitle>카테고리</S.SectionTitle>
-            <S.CategoryHead>
-                <S.CategoryFilter type="button" $active={false}>현재</S.CategoryFilter>
-                <span>|</span>
-                <S.CategoryFilter type="button" $active={true}>전체</S.CategoryFilter>
-            </S.CategoryHead>
-            <S.CategoryGrid>
-                <S.CategoryItem>식품</S.CategoryItem>
-                <S.CategoryItem>출산/유아동</S.CategoryItem>
-                <S.CategoryItem>주방용품</S.CategoryItem>
-                <S.CategoryItem>생활용품</S.CategoryItem>
-                <S.CategoryItem>홈인테리어</S.CategoryItem>
-                <S.CategoryItem>가전/디지털</S.CategoryItem>
-                <S.CategoryItem>패션의류/잡화</S.CategoryItem>
-                <S.CategoryItem>스포츠/레저</S.CategoryItem>
-                <S.CategoryItem>자동차용품</S.CategoryItem>
-                <S.CategoryItem>완구/취미</S.CategoryItem>
-                <S.CategoryItem>반려동물용품</S.CategoryItem>
-                <S.CategoryItem>헬스/건강식품</S.CategoryItem>
-                <S.CategoryItem>여행/티켓</S.CategoryItem>
-                <S.CategoryItem>문구/오피스</S.CategoryItem>
-                <S.CategoryItem>기타</S.CategoryItem>
-            </S.CategoryGrid>
+            {categoryTree ? (
+                <S.CategoryGrid>
+                    {/* 실제 카테고리 리스트 혹은 CategoryList 컴포넌트 */}
+                    <S.CategoryItem>카테고리 데이터 표시 예정</S.CategoryItem>
+                </S.CategoryGrid>
+            ) : (
+                <S.CategoryGrid>
+                    <S.CategoryItem style={{ opacity: 0.5 }}>
+                        카테고리 데이터를 불러오는 중입니다...
+                    </S.CategoryItem>
+                </S.CategoryGrid>
+            )}
+            {/*
+            <S.CategoryPathWrapper>
+                <div>
+                    <strong>현재</strong>
+                    <span> | </span>
+                    {selectedSteps.map((step, idx) => (
+                        <span key={idx} style={{ color: 'tomato', fontWeight: idx === selectedSteps.length - 1 ? 'bold' : 'normal' }}>
+                            {step}
+                            {idx < selectedSteps.length - 1 && ' > '}
+                        </span>
+                    ))}
+                </div>
+                {selectedSteps.length > 0 && (
+                    <button type="button" onClick={() => setSelectedSteps(prev => prev.slice(0, -1))}>
+                        <u style={{ color: 'gray' }}>상위 카테고리 이동</u>
+                    </button>
+                )}
+            </S.CategoryPathWrapper>
 
+            <CategoryList
+                selectedSteps={selectedSteps}
+                onSelect={setSelectedSteps}
+            /> */}
             <S.Divider />
 
             {/* 가격 */}
