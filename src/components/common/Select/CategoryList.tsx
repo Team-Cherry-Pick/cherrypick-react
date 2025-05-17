@@ -28,14 +28,15 @@ export function CategoryList({ selectedSteps, onSelect }: Props) {
 
     return (
         <CategoryGrid>
-            {current.map((item) => (
-                <CategoryItem
-                    key={item.categoryId}
-                    onClick={() => onSelect([...selectedSteps, item.name])}
-                >
-                    {item.name}
-                </CategoryItem>
-            ))}
+            {Array.isArray(current) &&
+                current.map((item) => (
+                    <CategoryItem
+                        key={item.categoryId}
+                        onClick={() => onSelect([...selectedSteps, item.name])}
+                    >
+                        {item.name}
+                    </CategoryItem>
+                ))}
         </CategoryGrid>
     );
 }
