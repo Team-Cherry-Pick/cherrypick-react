@@ -26,6 +26,7 @@ export const ResetText = styled.span`
   font-size: ${({ theme }) => theme.typography.size.sm};
   color: ${({ theme }) => theme.colors.content.sub};
   cursor: pointer;
+  text-decoration: underline;
 `;
 
 export const CheckboxGroup = styled.div`
@@ -87,21 +88,30 @@ export const CategoryFilter = styled.button<{ $active: boolean }>`
         $active ? theme.colors.content.main : theme.colors.content.sub};
 `;
 
-export const CategoryGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: ${({ theme }) => theme.spacing[4]};
+export const CategoryListWrapper = styled.div`
+    width: 100%;
 `;
 
-export const CategoryItem = styled.button`
-  background: none;
-  border: none;
-  font-size: ${({ theme }) => theme.typography.size.sm};
-  font-weight: ${({ theme }) => theme.typography.weight.regular};
-  color: ${({ theme }) => theme.colors.content.main};
-  text-align: left;
-  cursor: pointer;
+export const StepItem = styled.span<{ $isLast: boolean }>`
+  display: inline;
+  color: ${({ theme, $isLast }) =>
+        $isLast ? theme.colors.primary : theme.colors.content.sub};
+  font-weight: ${({ theme, $isLast }) =>
+        $isLast ? theme.typography.weight.bold : theme.typography.weight.regular};
+  cursor: ${({ $isLast }) => ($isLast ? 'default' : 'pointer')};
+  white-space: normal;
+  word-break: keep-all;
+
+  &::before {
+    content: ${({ $isLast }) => ($isLast ? "''" : "' > '")};
+    color: ${({ theme }) => theme.colors.content.sub};
+  }
+
+  &:first-of-type::before {
+    content: '';
+  }
 `;
+
 
 export const PriceContainer = styled.div`
   width: 100%;

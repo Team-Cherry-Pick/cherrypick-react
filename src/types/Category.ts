@@ -1,5 +1,9 @@
 export interface Category {
-    id: number;
+    categoryId: number;
     name: string;
     subCategories: Category[];
+}
+
+export interface CategoryTree {
+    categories: Category[];
 }

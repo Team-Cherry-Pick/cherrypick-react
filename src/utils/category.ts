@@ -30,7 +30,7 @@ export function findCategoryPathById(
     function dfs(nodes: Category[], currentPath: string[]): boolean {
         for (const node of nodes) {
             const nextPath = [...currentPath, node.name];
-            if (node.id === targetId) {
+            if (node.categoryId === targetId) {
                 path.push(...nextPath);
                 return true;
             }
@@ -59,5 +59,5 @@ export function getCategoryIdFromSteps(
         current = match.subCategories;
     }
 
-    return lastMatch?.id ?? null;
+    return lastMatch?.categoryId ?? null;
 }
