@@ -154,17 +154,20 @@ export const LabelRow = styled.label`
 `;
 
 export const AddButton = styled.button`
-  width: 67px;
-  padding: ${({ theme }) => theme.spacing[2]};
-  border-radius: ${({ theme }) => theme.radius[4]};
+  min-width: 67px; /* 고정 크기 */
+  height: 36px; /* 세로 높이 고정 */
+  padding: 0 ${({ theme }) => theme.spacing[3]};
+  border-radius: 999px;
   border: 1px solid ${({ theme }) => theme.colors.border.board};
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  gap: ${({ theme }) => theme.spacing[2]};
   color: ${({ theme }) => theme.colors.content.sub};
   font-size: ${({ theme }) => theme.typography.size.sm};
   font-weight: ${({ theme }) => theme.typography.weight.regular};
+  background: none;
+  cursor: pointer;
+  white-space: nowrap;
 `;
 
 export const CheckboxWrapper = styled.label`
@@ -190,4 +193,40 @@ export const CategoryPathWrapper = styled.div`
   color: ${({ theme }) => theme.colors.content.sub};
   margin-top: 8px;
   margin-bottom: 4px;
+`;
+
+export const InputListWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: ${({ theme }) => theme.spacing[2]};
+  align-items: center;
+`;
+
+export const InputItem = styled.div`
+  display: inline-flex;
+  align-items: center;
+  padding: ${({ theme }) => theme.spacing[2]} ${({ theme }) => theme.spacing[3]};
+  border-radius: 999px;
+  border: 1px solid ${({ theme }) => theme.colors.border.board};
+  background-color: ${({ theme }) => theme.colors.background.card};
+  font-size: ${({ theme }) => theme.typography.size.sm};
+  max-width: 100%;
+  height: 36px;
+
+  input {
+    all: unset;
+    min-width: 40px;
+    max-width: 120px;
+    width: auto;
+    font-size: inherit;
+    background: transparent;
+    outline: none;
+  }
+
+  button {
+    all: unset;
+    margin-left: ${({ theme }) => theme.spacing[1]};
+    cursor: pointer;
+    color: ${({ theme }) => theme.colors.content.sub};
+  }
 `;

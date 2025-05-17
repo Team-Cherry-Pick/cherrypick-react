@@ -14,6 +14,14 @@ const MainFilter = () => {
     const theme = useTheme();
     const { filter, toggleFilter, resetFilter } = useFilter();
 
+    const [stores, setStores] = useState<string[]>([]);
+    const [inputValue, setInputValue] = useState('');
+    const [isAdding, setIsAdding] = useState(false);
+
+    const [discounts, setDiscounts] = useState<string[]>([]);
+    const [isAddingDiscount, setIsAddingDiscount] = useState(false);
+    const [discountInput, setDiscountInput] = useState('');
+
     const [selectedSteps, setSelectedSteps] = useState<string[]>([]);
     const categoryTree = useAtomValue(categoryTreeAtom);
     const resetCategory = () => setSelectedSteps([]);
@@ -35,6 +43,45 @@ const MainFilter = () => {
         setCurrency((prev) => (prev === '₩' ? '$' : '₩'));
     };
     const togglePrice = () => setChecked((prev) => !prev);
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (inputValue.trim()) {
+            setStores((prev) => [...prev, inputValue.trim()]);
+        }
+        setInputValue('');
+        setIsAdding(false);
+    };
+
+    const cancelAdd = () => {
+        setInputValue('');
+        setIsAdding(false);
+    };
+
+    const removeStore = (idx: number) => {
+        setStores((prev) => prev.filter((_, i) => i !== idx));
+    };
+
+    const addDiscount = (value: string) => {
+        if (!value.trim()) return;
+        setDiscounts((prev) => [...prev, value.trim()]);
+        setDiscountInput('');
+        setIsAddingDiscount(false);
+    };
+
+    const removeDiscount = (index: number) => {
+        setDiscounts((prev) => prev.filter((_, i) => i !== index));
+    };
+
+    const handleDiscountSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        addDiscount(discountInput);
+    };
+
+    const cancelAddDiscount = () => {
+        setDiscountInput('');
+        setIsAddingDiscount(false);
+    };
 
     return (
         <S.FilterWrapper>
@@ -166,15 +213,59 @@ const MainFilter = () => {
 
             {/* 스토어 */}
             <S.SectionTitle>스토어</S.SectionTitle>
-            <S.AddButton>
-                <span>추가 +</span>
-            </S.AddButton>
+            <S.InputListWrapper>
+                {stores.map((store, idx) => (
+                    <S.InputItem key={idx}>
+                        <span>{store}</span>
+                        <button type="button" onClick={() => removeStore(idx)}>×</button>
+                    </S.InputItem>
+                ))}
+
+                {isAdding && (
+                    <S.InputItem as="form" onSubmit={handleSubmit}>
+                        <input
+                            autoFocus
+                            value={inputValue}
+                            onChange={(e) => setInputValue(e.target.value)}
+                            onBlur={cancelAdd}
+                        />
+                        <button type="button" onClick={cancelAdd}>×</button>
+                    </S.InputItem>
+                )}
+
+                <S.AddButton type="button" onClick={() => setIsAdding(true)}>
+                    추가 +
+                </S.AddButton>
+            </S.InputListWrapper>
+
+            <S.Divider />
 
             {/* 할인방식 */}
             <S.SectionTitle>할인방식</S.SectionTitle>
-            <S.AddButton>
-                <span>추가 +</span>
-            </S.AddButton>
+            <S.InputListWrapper>
+                {discounts.map((item, idx) => (
+                    <S.InputItem key={idx}>
+                        <span>{item}</span>
+                        <button type="button" onClick={() => removeDiscount(idx)}>×</button>
+                    </S.InputItem>
+                ))}
+
+                {isAddingDiscount && (
+                    <S.InputItem as="form" onSubmit={handleDiscountSubmit}>
+                        <input
+                            autoFocus
+                            value={discountInput}
+                            onChange={(e) => setDiscountInput(e.target.value)}
+                            onBlur={cancelAddDiscount}
+                        />
+                        <button type="button" onClick={cancelAddDiscount}>×</button>
+                    </S.InputItem>
+                )}
+
+                <S.AddButton type="button" onClick={() => setIsAddingDiscount(true)}>
+                    추가 +
+                </S.AddButton>
+            </S.InputListWrapper>
         </S.FilterWrapper>
     );
 };
