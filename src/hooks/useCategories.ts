@@ -1,3 +1,4 @@
+// src/hooks/useCategories.ts
 import { useEffect } from 'react';
 import { useSetAtom } from 'jotai';
 import { fetchCategories } from '@/services/apiCategory';
@@ -7,8 +8,10 @@ export function useCategories() {
     const setCategoryTree = useSetAtom(categoryTreeAtom);
 
     useEffect(() => {
-        console.log('[카테고리 API 호출] GET', '/v1/category');
-
-        fetchCategories().then(setCategoryTree).catch(console.error);
+        fetchCategories()
+            .then(setCategoryTree)
+            .catch((error) => {
+                console.error('[카테고리 API 에러]', error);
+            });
     }, [setCategoryTree]);
 }

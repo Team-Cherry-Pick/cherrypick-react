@@ -1,4 +1,5 @@
+// store/category.ts
 import { atom } from 'jotai';
-import type { Category } from '@/types/Category';
+import type { CategoryTree } from '@/types/Category';
 
-export const categoryTreeAtom = atom<Category[] | null>(null);
+export const categoryTreeAtom = atom<CategoryTree | null>(null);

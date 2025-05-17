@@ -1,23 +1,34 @@
 import { useState } from 'react';
+import { useTheme } from 'styled-components';
 import { CategoryList } from '@/components/common/Select/CategoryList';
 import { useAtomValue } from 'jotai';
 import { categoryTreeAtom } from '@/store/category';
 import { useFilter } from '@/hooks/useFilter';
+import { useCategories } from '@/hooks/useCategories';
 import { FaCheck } from 'react-icons/fa';
 import { IoIosCheckmarkCircleOutline, IoIosCheckmarkCircle } from 'react-icons/io';
 import * as S from './MainFilter.style';
 
 const MainFilter = () => {
+    useCategories();
+    const theme = useTheme();
     const { filter, toggleFilter, resetFilter } = useFilter();
+
     const [selectedSteps, setSelectedSteps] = useState<string[]>([]);
     const categoryTree = useAtomValue(categoryTreeAtom);
+    const resetCategory = () => setSelectedSteps([]);
+
     const [priceChecked, setChecked] = useState(false);
     const [currency, setCurrency] = useState<'₩' | '$'>('₩');
 
-    let current = categoryTree;
+    let current = categoryTree?.categories ?? [];
     for (const step of selectedSteps) {
         const found = current.find(c => c.name === step);
-        current = found?.subCategories ?? [];
+        if (!found) {
+            current = [];
+            break;
+        }
+        current = found.subCategories ?? [];
     }
 
     const toggleCurrency = () => {
@@ -29,7 +40,7 @@ const MainFilter = () => {
         <S.FilterWrapper>
             <S.HeaderRow>
                 <S.SectionTitle>필터</S.SectionTitle>
-                <S.ResetText onClick={resetFilter}>전체 초기화</S.ResetText>
+                <S.ResetText onClick={resetFilter}>초기화</S.ResetText>
             </S.HeaderRow>
 
             <S.CheckboxGroup>
@@ -73,42 +84,61 @@ const MainFilter = () => {
             <S.Divider />
 
             {/* 카테고리 */}
-            <S.SectionTitle>카테고리</S.SectionTitle>
-            {categoryTree ? (
-                <S.CategoryGrid>
-                    {/* 실제 카테고리 리스트 혹은 CategoryList 컴포넌트 */}
-                    <S.CategoryItem>카테고리 데이터 표시 예정</S.CategoryItem>
-                </S.CategoryGrid>
-            ) : (
-                <S.CategoryGrid>
-                    <S.CategoryItem style={{ opacity: 0.5 }}>
-                        카테고리 데이터를 불러오는 중입니다...
-                    </S.CategoryItem>
-                </S.CategoryGrid>
-            )}
-            {/*
+            <S.HeaderRow>
+                <S.SectionTitle>카테고리</S.SectionTitle>
+                <S.ResetText onClick={resetCategory}>초기화</S.ResetText>
+            </S.HeaderRow>
             <S.CategoryPathWrapper>
                 <div>
-                    <strong>현재</strong>
-                    <span> | </span>
-                    {selectedSteps.map((step, idx) => (
-                        <span key={idx} style={{ color: 'tomato', fontWeight: idx === selectedSteps.length - 1 ? 'bold' : 'normal' }}>
-                            {step}
-                            {idx < selectedSteps.length - 1 && ' > '}
-                        </span>
-                    ))}
+                    <span>현재 | </span>
+                    {selectedSteps.length === 0 ? (
+                        <strong>전체</strong>
+                    ) : (
+                        selectedSteps.map((step, idx) => {
+                            const isLast = idx === selectedSteps.length - 1;
+
+                            return (
+                                <span
+                                    key={idx}
+                                    onClick={() => {
+                                        if (!isLast) {
+                                            setSelectedSteps(selectedSteps.slice(0, idx + 1));
+                                        }
+                                    }}
+                                    style={{
+                                        display: 'inline',
+                                        color: isLast ? theme.colors.primary : theme.colors.content.sub,
+                                        fontWeight: isLast ? 'bold' : 'normal',
+                                        cursor: isLast ? 'default' : 'pointer',
+                                        wordBreak: 'keep-all', // 단어 중간에서 줄바꿈 방지
+                                        whiteSpace: 'normal',
+                                    }}
+                                >
+                                    {step}
+                                    {!isLast && <span style={{ color: theme.colors.content.sub }}>{' > '}</span>}
+                                </span>
+                            );
+                        })
+                    )}
                 </div>
-                {selectedSteps.length > 0 && (
-                    <button type="button" onClick={() => setSelectedSteps(prev => prev.slice(0, -1))}>
+
+                {selectedSteps.length === 1 && (
+                    <button
+                        type="button"
+                        onClick={() => setSelectedSteps([])} // 전체로 이동
+                    >
                         <u style={{ color: 'gray' }}>상위 카테고리 이동</u>
                     </button>
                 )}
             </S.CategoryPathWrapper>
 
-            <CategoryList
-                selectedSteps={selectedSteps}
-                onSelect={setSelectedSteps}
-            /> */}
+            {/* 카테고리 목록만 grid로 */}
+            <S.CategoryListWrapper>
+                <CategoryList
+                    selectedSteps={selectedSteps}
+                    onSelect={setSelectedSteps}
+                />
+            </S.CategoryListWrapper>
             <S.Divider />
 
             {/* 가격 */}
