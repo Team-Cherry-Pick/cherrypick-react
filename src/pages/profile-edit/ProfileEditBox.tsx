@@ -1,11 +1,12 @@
 // pages/login/LoginBox.tsx
 import PersonIcon from '@/assets/icons/person-Icon.svg';
 import NicknameEditor from './NicknameEditor';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Gender, isValidProfile, NicknameEditStatus } from '@/types/Profile';
 import { newProfileAtom } from '@/store/profile';
 import { useAtom } from 'jotai';
 import * as S from './ProfileEditBox.style';
+import { uploadProfileImage } from '@/services/apiImage';
 
 const ProfileEditBox = () => {
 
@@ -13,12 +14,28 @@ const ProfileEditBox = () => {
   const [profile, setProfile] = useAtom(newProfileAtom);
 
   // 닉네임 유효성 검증 상태 State
-  const [nicknameEditStatus, setNicknameEditStatus] = useState<NicknameEditStatus>(NicknameEditStatus.NONE)
+  const [nicknameEditStatus, setNicknameEditStatus] = useState<NicknameEditStatus>(NicknameEditStatus.NONE);
+
+  // 숨겨진 파일 input 참조용 Ref
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   // '프로필 사진' 영역 클릭 시 호출
   const onClickBtnProfileImage = () => {
-    //@todo: 프로필 사진 업로드하고 profile에 데이터 설정
+    fileInputRef.current?.click();
   }
+
+  // 실제 이미지 업로드 처리
+  const onChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      const result = await uploadProfileImage(file);
+      setProfile({ ...profile, imageId: result.imageId, imageUrl: result.imageUrl });
+    } catch (error) {
+      alert('이미지 업로드에 실패했습니다.');
+    }
+  };
 
   // '회원가입' 또는 '수정완료' 영역 클릭 시 호출
   const onClickBtnSubmit = () => {
@@ -30,11 +47,19 @@ const ProfileEditBox = () => {
 
       {/* 프로필 사진 변경 영역 */}
       <S.ProfileImageButton onClick={() => onClickBtnProfileImage()}>
-        <S.ProfileImage src={PersonIcon} alt="user" />
+        <S.ProfileImage src={profile.imageUrl?.trim() ? profile.imageUrl : PersonIcon} alt="user" />
       </S.ProfileImageButton>
       <S.ProfileImageTitle>
         프로필 사진 변경 (선택)
       </S.ProfileImageTitle>
+
+      <input
+        type="file"
+        accept="image/*"
+        ref={fileInputRef}
+        style={{ display: 'none' }}
+        onChange={onChangeImage}
+      />
 
       {/* 이메일 영역 */}
       <S.TextLabel>이메일</S.TextLabel>

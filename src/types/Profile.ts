@@ -1,6 +1,6 @@
 export interface Profile {
     nickname: string;
-    imageId: string;
+    imageId: number;
     imageUrl: string;
     gender: Gender;
     birthDay: string;
