@@ -33,3 +33,9 @@ export const isValidProfile = (profile: Profile, nicknameEditStatus: NicknameEdi
         birthDate <= now
     );
 };
+
+export interface GetNicknameValidationRes {
+    nickname: string;
+    isValid: boolean;
+    details: string;
+}

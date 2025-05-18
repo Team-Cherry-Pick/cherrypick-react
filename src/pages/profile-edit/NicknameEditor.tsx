@@ -3,7 +3,8 @@ import styled, { useTheme } from 'styled-components';
 import { TextInput } from '@/components/common/Input';
 import { newProfileAtom } from '@/store/profile';
 import { useAtom } from 'jotai';
-import { NicknameEditStatus } from '@/types/Profile';
+import { GetNicknameValidationRes, NicknameEditStatus } from '@/types/Profile';
+import { getNicknameValidation } from '@/services/apiProfile';
 
 interface NicknameEditorProps {
     editStatus: NicknameEditStatus,
@@ -33,12 +34,24 @@ const NicknameEditor = ({ editStatus, setEditStatus }: NicknameEditorProps) => {
     };
 
     // '중복검사' 버튼 클릭 시 호출
-    const onClickBtnValidateNickname = () => {
-        const isEditing = (editStatus == NicknameEditStatus.EDITING);
+    const onClickBtnValidateNickname = async () => {
+        const isEditing: boolean = (editStatus == NicknameEditStatus.EDITING);
+        const newNickname: string = profile.nickname;
 
         if (isEditing) {
-            //@todo: 닉네임 검사하고 editStatus 수정
-            return;
+            const response: GetNicknameValidationRes = await getNicknameValidation(newNickname)
+            const isValidNickname: boolean = response.isValid;
+
+            // 서버로부터 검증 받은 닉네임 반영
+            setProfile({ ...profile, nickname: response.nickname });
+
+            // 서버로부터 검증 받은 상태 결과 반영
+            if (isValidNickname) {
+                setEditStatus(NicknameEditStatus.VALID);
+            } else {
+                setEditStatus(NicknameEditStatus.INVALID);
+                alert(response.details);
+            }
         }
     }
 
