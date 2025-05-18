@@ -18,6 +18,7 @@ import TestPage from '@/test/TestPage';
 
 import { ErrorModal } from '@/components/common/Modal/ErrorModal';
 import LoginRedirectPage from './pages/login/LoginRedirectPage';
+import ProfileEditPage from './pages/profile-edit/ProfileEditPage';
 
 const App = () => {
     const prefersDark = useSystemTheme();
@@ -44,6 +45,7 @@ const App = () => {
                     <Route path="/" element={<MainPage />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/login-success" element={<LoginRedirectPage />} />
+                    <Route path="/profile-edit" element={<ProfileEditPage />} />
                     {/* <Route path="/user" element={<UserPage />} /> */}
                     <Route path="/product/:id" element={<ProductDetailPage />} />
                     <Route path="/upload" element={<ProductUploadPage />} />
