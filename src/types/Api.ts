@@ -28,6 +28,7 @@ export enum HttpMethod {
     UPDATE = "UPDATE",
     DELETE = "DELETE",
     PATCH = "PATCH",
+    PUT = "PUT",
 }
 
 /**

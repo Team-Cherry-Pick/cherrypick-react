@@ -2,11 +2,13 @@
 import PersonIcon from '@/assets/icons/person-Icon.svg';
 import NicknameEditor from './NicknameEditor';
 import { useRef, useState } from 'react';
-import { Gender, isValidProfile, NicknameEditStatus } from '@/types/Profile';
+import { Gender, isValidProfile, NicknameEditStatus, Profile, PutUserReq, PutUserRes } from '@/types/Profile';
 import { newProfileAtom } from '@/store/profile';
 import { useAtom } from 'jotai';
-import * as S from './ProfileEditBox.style';
 import { uploadProfileImage } from '@/services/apiImage';
+import { putUser } from '@/services/apiProfile';
+
+import * as S from './ProfileEditBox.style';
 
 const ProfileEditBox = () => {
 
@@ -38,8 +40,28 @@ const ProfileEditBox = () => {
   };
 
   // '회원가입' 또는 '수정완료' 영역 클릭 시 호출
-  const onClickBtnSubmit = () => {
-    //@todo: profile을 서버로 제출
+  const onClickBtnSubmit = async () => {
+    if (!isValidProfile(profile, nicknameEditStatus)) {
+      throw (Error("프로필을 업데이트할 수 없습니다."));
+    }
+
+    // API 요청
+    const request: PutUserReq = {
+      nickname: profile.nickname,
+      birthday: profile.birthDay,
+      gender: profile.gender,
+      imageId: profile.imageId
+    };
+    const response: PutUserRes = await putUser(request);
+
+    // 최근 프로필 갱신
+    const currentProfile: Profile = {
+      nickname: response.nickname,
+      gender: response.gender,
+      birthDay: response.birthday,
+      imageId: response.imageId,
+    }
+    setProfile(currentProfile)
   }
 
   return (
@@ -91,7 +113,7 @@ const ProfileEditBox = () => {
       <S.TextLabel>생년월일</S.TextLabel>
       <S.DateInput
         type="date"
-        value={profile.birthDay}
+        value={profile.birthDay ?? ""}
         onChange={(e) =>
           setProfile({ ...profile, birthDay: e.target.value })
         }
@@ -103,7 +125,7 @@ const ProfileEditBox = () => {
       <S.SubmitButton
         onClick={onClickBtnSubmit}
         disabled={!isValidProfile(profile, nicknameEditStatus)}
-      >회원가입
+      >프로필 수정완료
       </S.SubmitButton>
     </S.ProfileEditBoxWrapper>
   );
