@@ -4,8 +4,7 @@ import type { Deal } from '@/types/Deal';
 export const mockDeals: Deal[] = [
     {
         dealId: 1,
-        imageUrls: [
-        ],
+        imageUrls: [],
         title: '갤럭시 Z플립5 자급제',
         categoryId: 1,
         originalUrl: 'https://example.com/deal/1',
@@ -28,6 +27,7 @@ export const mockDeals: Deal[] = [
         viewCount: 1024,
         likeCount: 128,
         commentCount: 16,
+        discountDescription: ''
     },
     {
         dealId: 2,
@@ -54,11 +54,11 @@ export const mockDeals: Deal[] = [
         viewCount: 1024,
         likeCount: 128,
         commentCount: 16,
+        discountDescription: ''
     },
     {
         dealId: 3,
-        imageUrls: [
-        ],
+        imageUrls: [],
         title: '갤럭시 A35 초특가',
         categoryId: 2,
         originalUrl: 'https://example.com/deal/3',
@@ -81,6 +81,7 @@ export const mockDeals: Deal[] = [
         viewCount: 1024,
         likeCount: 128,
         commentCount: 16,
+        discountDescription: ''
     },
     {
         dealId: 4,
@@ -107,11 +108,11 @@ export const mockDeals: Deal[] = [
         viewCount: 1024,
         likeCount: 128,
         commentCount: 16,
+        discountDescription: ''
     },
     {
         dealId: 5,
-        imageUrls: [
-        ],
+        imageUrls: [],
         title: '닌텐도 스위치 OLED',
         categoryId: 4,
         originalUrl: 'https://example.com/deal/5',
@@ -134,5 +135,6 @@ export const mockDeals: Deal[] = [
         viewCount: 1024,
         likeCount: 128,
         commentCount: 16,
+        discountDescription: ''
     },
 ];

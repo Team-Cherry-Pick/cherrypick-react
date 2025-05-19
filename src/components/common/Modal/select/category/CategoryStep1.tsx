@@ -1,8 +1,8 @@
 // components/upload/category/CategoryStep1.tsx
 import { mockCategories } from '@/mocks/mockCategories';
 import * as S from '../select.style';
-import LeftArrowIcon from '@/assets/icons/left-arrow-icon.svg';
-import RightArrowIcon from '@/assets/icons/right-arrow-icon.svg';
+import LeftArrowIcon from '@/assets/icons/left-arrow-Icon.svg';
+import RightArrowIcon from '@/assets/icons/right-arrow-Icon.svg';
 
 interface CategoryStep1Props {
     onNext: (category: string) => void;

@@ -1,7 +1,7 @@
 import * as S from '../select.style';
 import { mockCategories } from '@/mocks/mockCategories';
 import { CategoryNode } from '@/utils/category';
-import LeftArrowIcon from '@/assets/icons/left-arrow-icon.svg';
+import LeftArrowIcon from '@/assets/icons/left-arrow-Icon.svg';
 
 interface CategoryStep3Props {
     onSelect: (category: string[]) => void;
