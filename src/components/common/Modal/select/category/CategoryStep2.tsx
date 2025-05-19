@@ -1,7 +1,7 @@
 import * as S from '../select.style';
 import { mockCategories } from '@/mocks/mockCategories';
-import LeftArrowIcon from '@/assets/icons/left-arrow-icon.svg';
-import RightArrowIcon from '@/assets/icons/right-arrow-icon.svg';
+import LeftArrowIcon from '@/assets/icons/left-arrow-Icon.svg';
+import RightArrowIcon from '@/assets/icons/right-arrow-Icon.svg';
 
 interface CategoryStep2Props {
     onNext: (category: string) => void;
