@@ -22,7 +22,8 @@ export const CardDeal = ({ deal }: Props) => {
             : 0;
 
     return (
-        <S.CardWrapper onClick={() => navigate(`/product/${deal.dealId}`)}>
+        <S.CardWrapper className={deal.isSoldOut ? 'ended' : ''} onClick={() => navigate(`/product/${deal.dealId}`)}>
+            {deal.isSoldOut && <S.Overlay>종료된 핫딜입니다</S.Overlay>}
             <S.ImageBox>
                 {mainImage && <img src={mainImage} alt="" />}
             </S.ImageBox>

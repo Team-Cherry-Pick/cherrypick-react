@@ -1,6 +1,33 @@
 import styled, { css } from 'styled-components';
 
-export const Wrapper = styled.section`
+export const Overlay = styled.div`
+  position: absolute;
+  top: 0; left: 0;
+  border-radius: ${({ theme }) => theme.radius[5]};
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.6);
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  pointer-events: none;
+`;
+
+export const EndButton = styled.button`
+  margin-right: auto;
+  padding: 8px 12px;
+  background-color: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.colors.neutral[50]};
+  border: none;
+  border-radius: ${({ theme }) => theme.radius[2]};
+  cursor: pointer;
+  font-size: 0.9rem;
+`;
+
+export const Wrapper = styled.div`
   display: flex;
   height: 100%;
   gap: ${({ theme }) => theme.spacing[6]};
@@ -11,6 +38,11 @@ export const Wrapper = styled.section`
   box-shadow: 0px 0px 5px ${({ theme }) => theme.colors.border.card};
   background-color: ${({ theme }) => theme.colors.background.root};
   padding: ${({ theme }) => theme.spacing[4]};
+
+  &.ended {
+    filter: grayscale(100%);
+    pointer-events: auto;
+  }
 `;
 
 export const ImageSection = styled.div`

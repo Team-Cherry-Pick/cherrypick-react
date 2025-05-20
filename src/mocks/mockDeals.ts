@@ -34,7 +34,7 @@ export const mockDeals: DetailedDeal[] = [
         totalComments: 16,
         deepLink: null,
         originalUrl: 'https://example.com/deal/1',
-        isSoldOut: false,
+        isSoldOut: true,
     },
     {
         dealId: 2,
@@ -197,7 +197,7 @@ export const recommendedMockDeals: RecommendedDeal[] = [
             regularPrice: 1500000,
             discountedPrice: 986670,
         },
-        isSoldOut: false,
+        isSoldOut: true,
         createdAt: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(), // 2시간 전
         totalLikes: 128,
         totalComments: 16,

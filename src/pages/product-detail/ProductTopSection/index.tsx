@@ -13,7 +13,12 @@ const ProductTopSection = ({ deal }: Props) => {
     const safeContent = (deal.content ?? '').replace(/<hr\s*\/?>/gi, '<div class="custom-divider"></div>');
 
     return (
-        <S.Wrapper>
+        <S.Wrapper className={deal.isSoldOut ? 'ended' : ''}>
+            {deal.isSoldOut && (
+                <S.Overlay>
+                    종료된 핫딜입니다
+                </S.Overlay>
+            )}
             {/* 왼쪽: 대표 이미지 + 썸네일 리스트 */}
             <S.ImageSection>
                 <S.MainImageWrapper>
@@ -85,6 +90,11 @@ const ProductTopSection = ({ deal }: Props) => {
                     <S.Divider />
 
                     <S.BottomActions>
+                        {!deal.isSoldOut && (
+                            <S.EndButton onClick={() => console.log(`딜 종료 요청: dealId=${deal.dealId}`)}>
+                                핫딜 종료
+                            </S.EndButton>
+                        )}
                         <S.ShareButton>공유하기</S.ShareButton>
                         <S.BuyButton>구매하기</S.BuyButton>
                     </S.BottomActions>
