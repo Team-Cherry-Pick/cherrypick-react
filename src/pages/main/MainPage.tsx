@@ -1,21 +1,34 @@
 import styled from 'styled-components';
+import { useState, useEffect } from 'react';
 import DefaultLayout from '@/components/layout/DefaultLayout';
 import MainSearchBar from './MainSearchBar';
 import MainDealList from './MainDealList';
 import MainFilter from './MainFilter';
+import MainKeywords from './MainKeywords';
 import SortButtons from './SortButtons';
 import UploadBtn from '@/components/common/Floating/UploadBtn';
 import ScrollTopBtn from '@/components/common/Floating/ScrollTopBtn';
 
 const MainPage = () => {
+    const [searchQuery, setSearchQuery] = useState<string | null>(null);
+    const [committedQuery, setCommittedQuery] = useState<string | null>(null);
+
+    useEffect(() => {
+        if (searchQuery) {
+            setCommittedQuery(searchQuery);
+        }
+    }, [searchQuery]);
+
     return (
         <DefaultLayout>
             <MainSearchWrapper>
                 <EmptyBox />
-                <MainSearchBar />
+                <MainSearchBar onSearch={(keyword) => setSearchQuery(keyword)} />
             </MainSearchWrapper>
 
             <SortRow>
+                <EmptyBox />
+                <MainKeywords keyword={committedQuery} />
                 <SortButtons />
             </SortRow>
 
@@ -47,6 +60,7 @@ const SortRow = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-end;
+  flex-wrap: wrap;
   margin-bottom: ${({ theme }) => theme.spacing[4]};
 `;
 
