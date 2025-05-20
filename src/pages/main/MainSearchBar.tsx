@@ -34,7 +34,9 @@ const MainSearchBar = ({ onSearch }: Props) => {
         });
 
         onSearch(trimmed);
-        setQuery('');
+        setTimeout(() => {
+            setQuery('');
+        }, 0);
     };
 
     return (
