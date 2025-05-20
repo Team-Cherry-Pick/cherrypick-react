@@ -1,45 +1,64 @@
-export interface Deal {
+// 1. 추천용 딜 (GET /api/deal/recommend)
+export interface RecommendedDeal {
     dealId: number;
     imageUrls: DealImage[];
     title: string;
-    categoryId: number;
-    originalUrl: string;
-    storeId: number;
-    storeName: string;
+    store: string;
+    infoTags: string[];
     price: DealPrice;
-    shipping: DealShipping;
-    content: string;
-    discountIds: number[];
-    discountNames: string[];
-    discountDescription: string;
-
     isSoldOut: boolean;
-
-    viewCount: number;
-    likeCount: number;
-    commentCount: number;
+    createdAt: string;
+    totalLikes: number;
+    totalComments: number;
 }
 
-export interface FetchDealsResponse {
-    items: Deal[];
-    hasMore: boolean;
+// 2. 상세조회용 딜 (GET /api/deal/{dealId})
+export interface DetailedDeal {
+    dealId: number;
+    imageUrls: DealImage[];
+    user: DealUploadUser;
+    store: {
+        storeName: string;
+        textColor: string;
+        backgroundColor: string;
+    };
+    categorys: string[];
+    title: string;
+    infoTags: string[];
+    shipping: DealShipping;
+    price: DealPrice;
+    content: string;
+    totalViews: number;
+    totalLikes: number;
+    totalUnLikes: number;
+    totalComments: number;
+    deepLink: string | null;
+    originalUrl: string;
+    isSoldOut: boolean;
 }
+
+export type PriceType = 'KRW' | 'USD' | 'VARIOUS';
+export type ShippingType = 'FREE' | 'PAID' | 'CONDITIONAL' | null;
 
 export interface DealImage {
     imageId: number;
     url: string;
-    index: number;
+    indexes: number; // recommend: indexes, detail: index
 }
-
-export interface DealPrice { // 한국, 달러
-    priceType: 'KRW' | 'USD' | null;
+export interface DealPrice {
+    priceType: PriceType;
     regularPrice: number;
     discountedPrice: number;
 }
 
-export interface DealShipping { // 무료배송 여부
-    shippingType: 'FREE' | 'PAID' | 'CONDITIONAL' | null;
+export interface DealShipping {
+    shippingType: ShippingType;
     shippingPrice: number;
     shippingRule: string;
 }
 
+export interface DealUploadUser {
+    userId: number;
+    userName: string;
+    userImageUrl: string;
+}

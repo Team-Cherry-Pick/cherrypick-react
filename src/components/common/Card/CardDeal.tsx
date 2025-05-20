@@ -1,10 +1,10 @@
 import * as S from './card.style';
 import { Clock, ThumbsUp, MessageSquare } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import type { Deal } from '@/types/Deal';
+import type { DetailedDeal } from '@/types/Deal';
 
 interface Props {
-    deal: Deal;
+    deal: DetailedDeal;
 }
 
 export const CardDeal = ({ deal }: Props) => {
@@ -31,9 +31,9 @@ export const CardDeal = ({ deal }: Props) => {
                 <S.Title>{deal.title}</S.Title>
 
                 <S.TagRow>
-                    <S.Store>{deal.storeName}</S.Store>
+                    <S.Store>{deal.store?.storeName ?? '알 수 없음'}</S.Store>
                     <span>|</span>
-                    <S.Tags>{deal.discountNames.map(name => `#${name}`).join(' ')}</S.Tags>
+                    <S.Tags>{deal.infoTags.map(name => `#${name}`).join(' ')}</S.Tags>
                 </S.TagRow>
 
                 <S.PriceRow>
