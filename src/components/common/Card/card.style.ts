@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const CardWrapper = styled.div`
   width: 100%;
+  position: relative;
   border-radius: ${({ theme }) => theme.radius[3]};
   overflow: hidden;
   background-color: ${({ theme }) => theme.colors.background.card};
@@ -9,6 +10,24 @@ export const CardWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `;
+
+export const Overlay = styled.div`
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: ${({ theme }) => theme.radius[3]};
+  z-index: 5;
+  pointer-events: none;
+`;
+
 
 export const ImageBox = styled.div`
   width: 100%;
