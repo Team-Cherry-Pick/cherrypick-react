@@ -2,7 +2,11 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import SearchIcon from '@/assets/icons/search-Icon.svg?react';
 
-const MainSearchBar = () => {
+interface Props {
+    onSearch: (keyword: string) => void;
+}
+
+const MainSearchBar = ({ onSearch }: Props) => {
     const [query, setQuery] = useState('');
     const [recentKeywords, setRecentKeywords] = useState<string[]>([
         '갤럭시',
@@ -29,6 +33,7 @@ const MainSearchBar = () => {
             return [trimmed, ...filtered];
         });
 
+        onSearch(trimmed);
         setQuery('');
     };
 
@@ -40,6 +45,7 @@ const MainSearchBar = () => {
                     placeholder="검색어를 입력해주세요"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                 />
                 <SearchButton active={!!query} onClick={handleSearch}>
                     <SearchIcon />
