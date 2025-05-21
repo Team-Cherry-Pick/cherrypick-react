@@ -1,6 +1,5 @@
 // pages/login/LoginSuccessPage.tsx
 import { AccessTokenService } from '@/services/accessTokenService';
-import { getAuthRefresh } from '@/services/apiSign';
 import { AccessTokenType } from '@/types/Api';
 import { useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
@@ -41,16 +40,6 @@ const LoginSuccessPage = () => {
         }
         handleLoginRedirect();
     }, [searchParams, navigate]);
-
-    // 액세스 토큰 발급 및 저장
-    const refreshToken = async () => {
-        const token = await getAuthRefresh();
-        if (token) {
-            AccessTokenService.save(AccessTokenType.USER, token);
-        } else {
-            throw new Error(loginFailMessage);
-        }
-    };
 
     return <div>로그인 처리 중입니다...</div>;
 };
