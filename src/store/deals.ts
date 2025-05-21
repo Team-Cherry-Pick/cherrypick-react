@@ -1,35 +1,46 @@
 // store/deals.ts
 import { atom } from 'jotai';
-import type { Deal } from '@/types/Deal';
+import type { RecommendedDeal, DetailedDeal } from '@/types/Deal';
 
-export const selectedDealAtom = atom<Deal | null>(null);
-export const selectedCategoryPathAtom = atom<string>('');
+export const selectedDealAtom = atom<RecommendedDeal | DetailedDeal | null>(null);
+
+export const selectedCategoryPathAtom = atom<string>(''); // ex: '생활용품 > 세탁세제'
+
 export const imageFilesAtom = atom<File[]>([]);
 
-export const newDealAtom = atom<Deal>({
+// 신규 핫딜 등록 시 사용하는 초기값 (서버 구조 기준 상세용과 유사)
+export const newDealAtom = atom<DetailedDeal>({
     dealId: 0,
     imageUrls: [],
-    title: '',
-    categoryId: 0,
-    originalUrl: '',
-    storeId: 0,
-    storeName: '',
-    price: {
-        priceType: null,
-        regularPrice: 0,
-        discountedPrice: 0,
+    user: {
+        userId: 0,
+        userName: '',
+        userImageUrl: '',
     },
+    store: {
+        storeName: '',
+        textColor: '#000000',
+        backgroundColor: '#ffffff',
+    },
+    categorys: [],
+    title: '',
+    infoTags: [],
     shipping: {
         shippingType: 'FREE',
         shippingPrice: 0,
         shippingRule: '',
     },
+    price: {
+        priceType: 'KRW',
+        regularPrice: 0,
+        discountedPrice: 0,
+    },
     content: '',
-    discountIds: [],
-    discountNames: [],
-    discountDescription: '',
+    totalViews: 0,
+    totalLikes: 0,
+    totalUnLikes: 0,
+    totalComments: 0,
+    deepLink: null,
+    originalUrl: '',
     isSoldOut: false,
-    viewCount: 0,
-    likeCount: 0,
-    commentCount: 0,
 });

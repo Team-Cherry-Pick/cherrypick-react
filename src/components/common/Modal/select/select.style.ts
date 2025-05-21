@@ -239,3 +239,30 @@ export const buttonConfirmDiscount = styled.button<{ active: boolean }>`
     padding: 14px 0;
     cursor: pointer;
 `;
+
+export const CategoryGrid = styled.ul`
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding: 0;
+  margin: 20px 0;
+`;
+
+export const CategoryItem = styled.li<{ $active?: boolean }>`
+  font-size: ${typography.size.base};
+  font-weight: ${typography.weight.regular};
+  color: ${({ theme, $active }) =>
+        $active ? theme.colors.primary : theme.colors.content.main};
+  background-color: ${({ theme, $active }) =>
+        $active ? theme.colors.neutral[100] : 'transparent'};
+  padding: 12px 16px;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.neutral[100]};
+  }
+`;

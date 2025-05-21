@@ -1,15 +1,29 @@
 import styled from 'styled-components';
-import { mockDeals } from '@/mocks/mockDeals';
-import { IoMdEye } from "react-icons/io";
-import { ThumbsUp, MessageSquare } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import type { RecommendedDeal } from '@/types/Deal';
+import { getTimeAgo } from '@/utils/date';
+import { Clock, ThumbsUp, MessageSquare } from 'lucide-react';
+import { recommendedMockDeals } from '@/mocks/mockDeals';
 
 const ProductRecommend = () => {
+    const [deals, setDeals] = useState<RecommendedDeal[]>([]);
+
+    // 마치 API 호출한 것처럼
+    useEffect(() => {
+        const fetchDeals = async () => {
+            // 실제 API 연결 전까지는 mock 사용
+            // 나중에 fetch('/api/deal/recommend') 등으로 교체
+            setDeals(recommendedMockDeals);
+        };
+
+        fetchDeals();
+    }, []);
     return (
         <Wrapper>
             <Title>지금 뜨고 있는 비슷한 핫딜</Title>
             <Divider />
             <RecommendList>
-                {mockDeals.map((deal, index) => (
+                {deals.map((deal, index) => (
                     <>
                         <RecommendItem key={deal.dealId}>
                             <Thumbnail>
@@ -24,12 +38,13 @@ const ProductRecommend = () => {
                                     <DealTitle>{deal.title}</DealTitle>
                                 </TopRow>
                                 <TagRow>
-                                    <StoreName>{deal.storeName}</StoreName>
+                                    <StoreName>{deal.store}</StoreName>
                                     <span>|</span>
-                                    {deal.discountNames.map((tag, idx) => (
+                                    {deal.infoTags.map((tag, idx) => (
                                         <Tag key={idx}>#{tag}</Tag>
                                     ))}
                                 </TagRow>
+
                                 <PriceRow>
                                     <DiscountPercent>
                                         {Math.round(
@@ -43,15 +58,15 @@ const ProductRecommend = () => {
                                     </DiscountedPrice>
                                 </PriceRow>
                                 <MetaRow>
-                                    <span><IoMdEye size={12} /> {deal.viewCount}</span>
+                                    <span><Clock size={12} /> {getTimeAgo(deal.createdAt)}</span>
                                     <span>|</span>
-                                    <span><ThumbsUp size={12} /> {deal.likeCount}</span>
+                                    <span><ThumbsUp size={12} /> {deal.totalLikes}</span>
                                     <span>|</span>
-                                    <span><MessageSquare size={12} /> {deal.commentCount}</span>
+                                    <span><MessageSquare size={12} /> {deal.totalComments}</span>
                                 </MetaRow>
                             </Info>
                         </RecommendItem>
-                        {index !== mockDeals.length - 1 && <ItemDivider />}
+                        {index !== deals.length - 1 && <ItemDivider />}
                     </>
                 ))}
             </RecommendList>

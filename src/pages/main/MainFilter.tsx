@@ -1,25 +1,93 @@
 import { useState } from 'react';
+import { useTheme } from 'styled-components';
+import { CategoryList } from '@/components/common/Select/CategoryList';
+import { useAtomValue } from 'jotai';
+import { categoryTreeAtom } from '@/store/category';
 import { useFilter } from '@/hooks/useFilter';
+import { useCategories } from '@/hooks/useCategories';
 import { FaCheck } from 'react-icons/fa';
 import { IoIosCheckmarkCircleOutline, IoIosCheckmarkCircle } from 'react-icons/io';
 import * as S from './MainFilter.style';
 
 const MainFilter = () => {
+    useCategories();
+    const theme = useTheme();
     const { filter, toggleFilter, resetFilter } = useFilter();
-    const [priceChecked, setChecked] = useState(false);
 
+    const [stores, setStores] = useState<string[]>([]);
+    const [inputValue, setInputValue] = useState('');
+    const [isAdding, setIsAdding] = useState(false);
+
+    const [discounts, setDiscounts] = useState<string[]>([]);
+    const [isAddingDiscount, setIsAddingDiscount] = useState(false);
+    const [discountInput, setDiscountInput] = useState('');
+
+    const [selectedSteps, setSelectedSteps] = useState<string[]>([]);
+    const categoryTree = useAtomValue(categoryTreeAtom);
+    const resetCategory = () => setSelectedSteps([]);
+
+    const [priceChecked, setChecked] = useState(false);
     const [currency, setCurrency] = useState<'₩' | '$'>('₩');
+
+    let current = categoryTree?.categories ?? [];
+    for (const step of selectedSteps) {
+        const found = current.find(c => c.name === step);
+        if (!found) {
+            current = [];
+            break;
+        }
+        current = found.subCategories ?? [];
+    }
+
     const toggleCurrency = () => {
         setCurrency((prev) => (prev === '₩' ? '$' : '₩'));
     };
-
     const togglePrice = () => setChecked((prev) => !prev);
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (inputValue.trim()) {
+            setStores((prev) => [...prev, inputValue.trim()]);
+        }
+        setInputValue('');
+        setIsAdding(false);
+    };
+
+    const cancelAdd = () => {
+        setInputValue('');
+        setIsAdding(false);
+    };
+
+    const removeStore = (idx: number) => {
+        setStores((prev) => prev.filter((_, i) => i !== idx));
+    };
+
+    const addDiscount = (value: string) => {
+        if (!value.trim()) return;
+        setDiscounts((prev) => [...prev, value.trim()]);
+        setDiscountInput('');
+        setIsAddingDiscount(false);
+    };
+
+    const removeDiscount = (index: number) => {
+        setDiscounts((prev) => prev.filter((_, i) => i !== index));
+    };
+
+    const handleDiscountSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        addDiscount(discountInput);
+    };
+
+    const cancelAddDiscount = () => {
+        setDiscountInput('');
+        setIsAddingDiscount(false);
+    };
 
     return (
         <S.FilterWrapper>
             <S.HeaderRow>
                 <S.SectionTitle>필터</S.SectionTitle>
-                <S.ResetText onClick={resetFilter}>전체 초기화</S.ResetText>
+                <S.ResetText onClick={resetFilter}>초기화</S.ResetText>
             </S.HeaderRow>
 
             <S.CheckboxGroup>
@@ -63,30 +131,61 @@ const MainFilter = () => {
             <S.Divider />
 
             {/* 카테고리 */}
-            <S.SectionTitle>카테고리</S.SectionTitle>
-            <S.CategoryHead>
-                <S.CategoryFilter type="button" $active={false}>현재</S.CategoryFilter>
-                <span>|</span>
-                <S.CategoryFilter type="button" $active={true}>전체</S.CategoryFilter>
-            </S.CategoryHead>
-            <S.CategoryGrid>
-                <S.CategoryItem>식품</S.CategoryItem>
-                <S.CategoryItem>출산/유아동</S.CategoryItem>
-                <S.CategoryItem>주방용품</S.CategoryItem>
-                <S.CategoryItem>생활용품</S.CategoryItem>
-                <S.CategoryItem>홈인테리어</S.CategoryItem>
-                <S.CategoryItem>가전/디지털</S.CategoryItem>
-                <S.CategoryItem>패션의류/잡화</S.CategoryItem>
-                <S.CategoryItem>스포츠/레저</S.CategoryItem>
-                <S.CategoryItem>자동차용품</S.CategoryItem>
-                <S.CategoryItem>완구/취미</S.CategoryItem>
-                <S.CategoryItem>반려동물용품</S.CategoryItem>
-                <S.CategoryItem>헬스/건강식품</S.CategoryItem>
-                <S.CategoryItem>여행/티켓</S.CategoryItem>
-                <S.CategoryItem>문구/오피스</S.CategoryItem>
-                <S.CategoryItem>기타</S.CategoryItem>
-            </S.CategoryGrid>
+            <S.HeaderRow>
+                <S.SectionTitle>카테고리</S.SectionTitle>
+                <S.ResetText onClick={resetCategory}>초기화</S.ResetText>
+            </S.HeaderRow>
+            <S.CategoryPathWrapper>
+                <div>
+                    <span>현재 | </span>
+                    {selectedSteps.length === 0 ? (
+                        <strong>전체</strong>
+                    ) : (
+                        selectedSteps.map((step, idx) => {
+                            const isLast = idx === selectedSteps.length - 1;
 
+                            return (
+                                <span
+                                    key={idx}
+                                    onClick={() => {
+                                        if (!isLast) {
+                                            setSelectedSteps(selectedSteps.slice(0, idx + 1));
+                                        }
+                                    }}
+                                    style={{
+                                        display: 'inline',
+                                        color: isLast ? theme.colors.primary : theme.colors.content.sub,
+                                        fontWeight: isLast ? 'bold' : 'normal',
+                                        cursor: isLast ? 'default' : 'pointer',
+                                        wordBreak: 'keep-all', // 단어 중간에서 줄바꿈 방지
+                                        whiteSpace: 'normal',
+                                    }}
+                                >
+                                    {step}
+                                    {!isLast && <span style={{ color: theme.colors.content.sub }}>{' > '}</span>}
+                                </span>
+                            );
+                        })
+                    )}
+                </div>
+
+                {selectedSteps.length === 1 && (
+                    <button
+                        type="button"
+                        onClick={() => setSelectedSteps([])} // 전체로 이동
+                    >
+                        <u style={{ color: 'gray' }}>상위 카테고리 이동</u>
+                    </button>
+                )}
+            </S.CategoryPathWrapper>
+
+            {/* 카테고리 목록만 grid로 */}
+            <S.CategoryListWrapper>
+                <CategoryList
+                    selectedSteps={selectedSteps}
+                    onSelect={setSelectedSteps}
+                />
+            </S.CategoryListWrapper>
             <S.Divider />
 
             {/* 가격 */}
@@ -114,15 +213,59 @@ const MainFilter = () => {
 
             {/* 스토어 */}
             <S.SectionTitle>스토어</S.SectionTitle>
-            <S.AddButton>
-                <span>추가 +</span>
-            </S.AddButton>
+            <S.InputListWrapper>
+                {stores.map((store, idx) => (
+                    <S.InputItem key={idx}>
+                        <span>{store}</span>
+                        <button type="button" onClick={() => removeStore(idx)}>×</button>
+                    </S.InputItem>
+                ))}
+
+                {isAdding && (
+                    <S.InputItem as="form" onSubmit={handleSubmit}>
+                        <input
+                            autoFocus
+                            value={inputValue}
+                            onChange={(e) => setInputValue(e.target.value)}
+                            onBlur={cancelAdd}
+                        />
+                        <button type="button" onClick={cancelAdd}>×</button>
+                    </S.InputItem>
+                )}
+
+                <S.AddButton type="button" onClick={() => setIsAdding(true)}>
+                    추가 +
+                </S.AddButton>
+            </S.InputListWrapper>
+
+            <S.Divider />
 
             {/* 할인방식 */}
             <S.SectionTitle>할인방식</S.SectionTitle>
-            <S.AddButton>
-                <span>추가 +</span>
-            </S.AddButton>
+            <S.InputListWrapper>
+                {discounts.map((item, idx) => (
+                    <S.InputItem key={idx}>
+                        <span>{item}</span>
+                        <button type="button" onClick={() => removeDiscount(idx)}>×</button>
+                    </S.InputItem>
+                ))}
+
+                {isAddingDiscount && (
+                    <S.InputItem as="form" onSubmit={handleDiscountSubmit}>
+                        <input
+                            autoFocus
+                            value={discountInput}
+                            onChange={(e) => setDiscountInput(e.target.value)}
+                            onBlur={cancelAddDiscount}
+                        />
+                        <button type="button" onClick={cancelAddDiscount}>×</button>
+                    </S.InputItem>
+                )}
+
+                <S.AddButton type="button" onClick={() => setIsAddingDiscount(true)}>
+                    추가 +
+                </S.AddButton>
+            </S.InputListWrapper>
         </S.FilterWrapper>
     );
 };
