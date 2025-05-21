@@ -1,7 +1,9 @@
 import styled from 'styled-components';
-import { useAtomValue } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { authTokenAtom } from '@/store/auth';
+import { themeAtom } from '@/store/theme';
 import PersonIcon from '@/assets/icons/person-Icon.svg';
+import { Moon } from 'lucide-react';
 import Logo from '@/assets/icons/logo-Icon.svg';
 
 interface HeaderProps {
@@ -10,6 +12,7 @@ interface HeaderProps {
 
 const Header = ({ background = 'root' }: HeaderProps) => {
     const token = useAtomValue(authTokenAtom);
+    const setTheme = useSetAtom(themeAtom);
     const isLoggedIn = !!token;
 
     const handleProfileClick = () => {
@@ -20,6 +23,10 @@ const Header = ({ background = 'root' }: HeaderProps) => {
         }
     };
 
+    const toggleTheme = () => {
+        setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
+    };
+
     return (
         <HeaderWrapper $background={background}>
             <HeaderContainer>
@@ -27,11 +34,14 @@ const Header = ({ background = 'root' }: HeaderProps) => {
                     <LogoImg src={Logo} alt="logo" />
                     <LogoText>Repik</LogoText>
                 </LogoWrapper>
-                <ProfileIcon onClick={handleProfileClick}>
-                    <IconWrapper>
-                        <img src={PersonIcon} alt="user" />
-                    </IconWrapper>
-                </ProfileIcon>
+                <PersonalContainer>
+                    <ThemeToggleIcon onClick={toggleTheme} />
+                    <ProfileIcon onClick={handleProfileClick}>
+                        <IconWrapper>
+                            <img src={PersonIcon} alt="user" />
+                        </IconWrapper>
+                    </ProfileIcon>
+                </PersonalContainer>
             </HeaderContainer>
         </HeaderWrapper>
     );
@@ -97,4 +107,17 @@ const IconWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+const PersonalContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: ${({ theme }) => theme.spacing[4]};
+`;
+
+const ThemeToggleIcon = styled(Moon)`
+  width: ${({ theme }) => theme.spacing[8]};
+  height: ${({ theme }) => theme.spacing[8]};
+  cursor: pointer;
+  color: ${({ theme }) => theme.colors.content.tertiary};
 `;
