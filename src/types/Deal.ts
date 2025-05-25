@@ -1,6 +1,7 @@
 // 1. 추천용 딜 (GET /api/deal/recommend)
 export interface RecommendedDeal {
     dealId: number;
+    heat: number;
     imageUrls: DealImage[];
     title: string;
     store: string;
@@ -15,6 +16,7 @@ export interface RecommendedDeal {
 // 2. 상세조회용 딜 (GET /api/deal/{dealId})
 export interface DetailedDeal {
     dealId: number;
+    heat: number;
     imageUrls: DealImage[];
     user: DealUploadUser;
     store: {

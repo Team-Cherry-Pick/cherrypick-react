@@ -31,6 +31,7 @@ export const Overlay = styled.div`
 
 export const ImageBox = styled.div`
   width: 100%;
+    position: relative;
   aspect-ratio: 1 / 1;
   background-color: ${({ theme }) => theme.colors.neutral[50]};
 `;
@@ -112,4 +113,12 @@ export const Meta = styled.div`
     margin: 0 ${({ theme }) => theme.spacing[1]};
     color: ${({ theme }) => theme.colors.content.tertiary};
   }
+`;
+
+export const HeatBadgeWrapper = styled.div`
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
 `;

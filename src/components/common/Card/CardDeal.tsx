@@ -2,6 +2,7 @@ import * as S from './card.style';
 import { Clock, ThumbsUp, MessageSquare } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import type { DetailedDeal } from '@/types/Deal';
+import HeatBadge from '@/components/common/Badge/HeatBadge';
 
 interface Props {
     deal: DetailedDeal;
@@ -26,6 +27,9 @@ export const CardDeal = ({ deal }: Props) => {
             {deal.isSoldOut && <S.Overlay>종료된 핫딜입니다</S.Overlay>}
             <S.ImageBox>
                 {mainImage && <img src={mainImage} alt="" />}
+                <S.HeatBadgeWrapper>
+                    <HeatBadge heat={deal.heat} size="large" />
+                </S.HeatBadgeWrapper>
             </S.ImageBox>
 
             <S.InfoBox>

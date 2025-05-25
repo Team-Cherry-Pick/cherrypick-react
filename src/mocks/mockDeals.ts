@@ -4,6 +4,7 @@ export const mockDeals: DetailedDeal[] = [
     {
         dealId: 1,
         imageUrls: [],
+        heat: 228,
         user: {
             userId: 101,
             userName: '홍길동',
@@ -39,6 +40,7 @@ export const mockDeals: DetailedDeal[] = [
     {
         dealId: 2,
         imageUrls: [],
+        heat: 130,
         user: {
             userId: 102,
             userName: '이몽룡',
@@ -74,6 +76,7 @@ export const mockDeals: DetailedDeal[] = [
     {
         dealId: 3,
         imageUrls: [],
+        heat: 28,
         user: {
             userId: 103,
             userName: '성춘향',
@@ -109,6 +112,7 @@ export const mockDeals: DetailedDeal[] = [
     {
         dealId: 4,
         imageUrls: [],
+        heat: -10,
         user: {
             userId: 104,
             userName: '변학도',
@@ -144,6 +148,7 @@ export const mockDeals: DetailedDeal[] = [
     {
         dealId: 5,
         imageUrls: [],
+        heat: 0,
         user: {
             userId: 105,
             userName: '임꺽정',
@@ -182,6 +187,7 @@ export const mockDeals: DetailedDeal[] = [
 export const recommendedMockDeals: RecommendedDeal[] = [
     {
         dealId: 1,
+        heat: 128,
         imageUrls: [
             {
                 imageId: 101,
@@ -204,6 +210,7 @@ export const recommendedMockDeals: RecommendedDeal[] = [
     },
     {
         dealId: 2,
+        heat: 130,
         imageUrls: [
             {
                 imageId: 102,
@@ -227,6 +234,7 @@ export const recommendedMockDeals: RecommendedDeal[] = [
     {
         dealId: 3,
         imageUrls: [],
+        heat: 28,
         title: '닌텐도 스위치 OLED',
         store: 'G마켓',
         infoTags: ['무료배송'],
