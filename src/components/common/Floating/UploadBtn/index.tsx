@@ -1,13 +1,19 @@
 // components/common/Floating/UploadButton.tsx
 import styled, { css } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { useRequireLogin } from '@/hooks/useRequireLogin';
 import { HiFire } from 'react-icons/hi2';
 
 const UploadBtn = () => {
     const navigate = useNavigate();
+    const { guard } = useRequireLogin();
 
+    const handleClick = () => {
+        if (!guard()) return;
+        navigate('/upload');
+    };
     return (
-        <Wrapper onClick={() => navigate('/upload')}>
+        <Wrapper onClick={handleClick}>
             <HiFire size={20} />
             <span>내가 찾은 핫딜 업로드</span>
         </Wrapper>
