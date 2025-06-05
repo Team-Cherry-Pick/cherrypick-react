@@ -1,0 +1,87 @@
+.containerDiscountSelected {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-2)p;
+  padding: var(--spacing-4) var(--spacing-5);
+  background-color: var(--color-neutral-100);
+  min-height: 3rem;
+}
+
+.tagSelected {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-3);
+  background-color: var(--color-neutral-0);
+  border: 0.0625rem solid var(--color-neutral-200);
+  border-radius: var(--radius-5);
+  font-size: var(--font-size-sm);
+}
+
+.buttonRemoveTag {
+  font-size: var(--font-size-sm);
+  color: var(--color-content-sub);
+}
+
+.selectContainerSearch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 100%;
+  height: auto;
+  background-color: var(--color-neutral-0);
+}
+
+.listDiscountSelect {
+  flex: 1;
+  max-height: 20rem;
+  padding-top: var(--spacing-2-5);
+  padding-right: var(--spacing-3);
+  overflow-y: scroll;
+}
+
+.itemDiscountSelect {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-2-5) 0;
+  cursor: pointer;
+
+  img {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+  }
+}
+
+.labelDiscount {
+  color: var(--color-content-main);
+}
+
+.selected {
+  color: var(--color-primary);
+}
+
+.buttonResetDiscount {
+  padding: var(--spacing-3-5) var(--spacing-5);
+  border: none;
+  border-radius: var(--radius-2);
+  color: var(--color-content-sub);
+}
+
+.buttonConfirmDiscount {
+  flex: 1;
+  padding: var(--spacing-3-5) 0;
+  background-color: var(--color-neutral-300);
+  border: none;
+  border-radius: var(--radius-2);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-neutral-100);
+}
+
+.active {
+  background-color: var(--color-neutral-900);
+  color: var(--color-neutral-0);
+}

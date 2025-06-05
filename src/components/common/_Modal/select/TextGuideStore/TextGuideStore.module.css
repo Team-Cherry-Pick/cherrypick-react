@@ -1,0 +1,8 @@
+.textGuideStore {
+  margin: var(--spacing-6) auto;
+  padding: 6.25rem 0;
+  color: var(--color-content-sub);
+  font-size: var(--font-size-sm);
+  text-align: center;
+  white-space: pre-line;
+}
