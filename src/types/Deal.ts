@@ -1,13 +1,13 @@
 // 1. 추천용 딜 (GET /api/deal/recommend)
 export interface RecommendedDeal {
     dealId: number;
-    heat: number;
+    heat?: number;
     imageUrls: DealImage[];
     title: string;
     store: string;
     infoTags: string[];
     price: DealPrice;
-    isSoldOut: boolean;
+    soldout: boolean;
     createdAt: string;
     totalLikes: number;
     totalComments: number;
@@ -16,7 +16,7 @@ export interface RecommendedDeal {
 // 2. 상세조회용 딜 (GET /api/deal/{dealId})
 export interface DetailedDeal {
     dealId: number;
-    heat: number;
+    heat?: number;
     imageUrls: DealImage[];
     user: DealUploadUser;
     store: {
@@ -36,8 +36,24 @@ export interface DetailedDeal {
     totalComments: number;
     deepLink: string | null;
     originalUrl: string;
-    isSoldOut: boolean;
+    soldout: boolean;
 }
+
+// 3. 전체 조회용 딜 타입 (단일 이미지, 단순 구조)
+export interface FetchedDeal {
+    dealId: number;
+    imageUrl: DealImage;
+    heat?: number;
+    title: string;
+    store: string;
+    infoTags: string[];
+    price: DealPrice;
+    createdAt: string;
+    totalLikes: number;
+    totalComments: number;
+    soldout: boolean;
+}
+
 
 export type PriceType = 'KRW' | 'USD' | 'VARIOUS';
 export type ShippingType = 'FREE' | 'PAID' | 'CONDITIONAL' | null;
@@ -63,4 +79,9 @@ export interface DealUploadUser {
     userId: number;
     userName: string;
     userImageUrl: string;
+}
+
+export interface FetchDealsResponse {
+    deals: FetchedDeal[];
+    hasNext: boolean;
 }

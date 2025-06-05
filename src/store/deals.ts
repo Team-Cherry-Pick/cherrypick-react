@@ -11,6 +11,7 @@ export const imageFilesAtom = atom<File[]>([]);
 // 신규 핫딜 등록 시 사용하는 초기값 (서버 구조 기준 상세용과 유사)
 export const newDealAtom = atom<DetailedDeal>({
     dealId: 0,
+    heat: 0,
     imageUrls: [],
     user: {
         userId: 0,
@@ -42,5 +43,5 @@ export const newDealAtom = atom<DetailedDeal>({
     totalComments: 0,
     deepLink: null,
     originalUrl: '',
-    isSoldOut: false,
+    soldout: false,
 });
