@@ -1,0 +1,10 @@
+.containerFooterSelect {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  width: 100%;
+  height: auto;
+  background-color: var(--color-neutral-0);
+  border-top: 0.03125rem solid var(--color-neutral-300);
+}

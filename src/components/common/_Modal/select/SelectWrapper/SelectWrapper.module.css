@@ -1,0 +1,6 @@
+.selectWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: var(--spacing-5);
+}
