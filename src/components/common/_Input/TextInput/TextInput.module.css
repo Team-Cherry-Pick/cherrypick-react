@@ -14,3 +14,8 @@
 .textInput::placeholder {
   color: var(--color-content-sub);
 }
+
+.textInput:disabled {
+  background-color: var(--color-neutral-50);
+  border: 0.0625rem solid var(--color-neutral-200);
+}

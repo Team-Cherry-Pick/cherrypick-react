@@ -54,7 +54,6 @@ export default function StoreSelectModal({ onClose }: StoreSelectModalProps) {
             </ul>
             <ContainerFooterSelect>
                 <ModalSearchInput
-                    style={{ paddingTop: '20px' }}
                     placeholder="스토어 검색"
                     value={inputName}
                     onChange={handleChange}
