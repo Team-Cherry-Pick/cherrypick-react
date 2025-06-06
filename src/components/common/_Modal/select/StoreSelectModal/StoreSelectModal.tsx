@@ -5,7 +5,7 @@ import { useState } from 'react';
 import SelectWrapper from '../SelectWrapper';
 import TextGuideStore from '../TextGuideStore';
 import ContainerFooterSelect from '../ContainerFooterSelect';
-import ModalSearchInput from '@/components/common/_Input/ModalSearchInput/ModalSearchInput';
+import ModalSearchInput from '@/components/common/_Input/ModalSearchInput';
 
 interface StoreSelectModalProps {
     onClose: () => void;
