@@ -28,10 +28,10 @@ export default function ModalSearchInput({
                     placeholder={placeholder}
                     onChange={e => onChange(e.target.value)}
                 />
+                <button className={styles.iconButton}>
+                    <img src={SearchIcon} alt="검색" />
+                </button>
             </div>
-            <button className={styles.iconButton}>
-                <img src={SearchIcon} alt="검색" />
-            </button>
             <button
                 className={`${styles.directInputButton} ${value.trim().length > 0 && styles.active}`}
                 onClick={onConfirm}
