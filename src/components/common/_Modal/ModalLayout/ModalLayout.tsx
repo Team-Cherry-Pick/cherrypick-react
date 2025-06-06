@@ -33,7 +33,10 @@ export default function ModalLayout({ title, onClose }: ModalLayoutProps) {
 
     return (
         <div className={styles.modalOverlay} onClick={handleOverlayClick}>
-            <div className={styles.modalWrapper} onClick={stopPropagation}>
+            <div
+                className={`${styles.modalWrapper} ${title === '할인방식 선택' && styles.longModal}`}
+                onClick={stopPropagation}
+            >
                 <div className={styles.modalHeader}>
                     <h2 className={styles.modalTitle}>{title}</h2>
                     <button className={styles.closeButton} onClick={onClose}>

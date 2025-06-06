@@ -2,7 +2,6 @@ import styles from './StoreSelectModal.module.css';
 import { useDealUpload } from '@/hooks/useDealUpload';
 import { mockStores } from '@/mocks/mockStores';
 import { useState } from 'react';
-import SelectWrapper from '../SelectWrapper';
 import TextGuideStore from '../TextGuideStore';
 import ContainerFooterSelect from '../ContainerFooterSelect';
 import ModalSearchInput from '@/components/common/_Input/ModalSearchInput';
@@ -34,7 +33,7 @@ export default function StoreSelectModal({ onClose }: StoreSelectModalProps) {
     };
 
     return (
-        <SelectWrapper>
+        <div>
             <ul className={styles.listStoreSelect}>
                 {filteredStores.length > 0 ? (
                     filteredStores.map(store => (
@@ -61,6 +60,6 @@ export default function StoreSelectModal({ onClose }: StoreSelectModalProps) {
                     directInputLabel="직접 입력"
                 />
             </ContainerFooterSelect>
-        </SelectWrapper>
+        </div>
     );
 }

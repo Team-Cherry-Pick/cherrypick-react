@@ -1,17 +1,28 @@
 .containerDiscountSelected {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
-  gap: var(--spacing-2)p;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  white-space: nowrap;
+  gap: var(--spacing-2);
+  min-height: 4rem;
   padding: var(--spacing-4) var(--spacing-5);
   background-color: var(--color-neutral-100);
-  min-height: 3rem;
+  color: var(--color-content-sub);
+
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE / Edge */
+}
+
+.containerDiscountSelected::-webkit-scrollbar {
+  display: none;
 }
 
 .tagSelected {
   display: flex;
   align-items: center;
   gap: var(--spacing-2);
+  height: 2rem;
   padding: var(--spacing-2) var(--spacing-3);
   background-color: var(--color-neutral-0);
   border: 0.0625rem solid var(--color-neutral-200);
@@ -31,15 +42,23 @@
   flex-shrink: 0;
   width: 100%;
   height: auto;
+  padding: var(--spacing-5);
+  padding-bottom: var(--spacing-3-5);
   background-color: var(--color-neutral-0);
 }
 
 .listDiscountSelect {
-  flex: 1;
-  max-height: 20rem;
-  padding-top: var(--spacing-2-5);
-  padding-right: var(--spacing-3);
-  overflow-y: scroll;
+  height: 19.875rem;
+  padding: 0 var(--spacing-5);
+  padding-bottom: var(--spacing-3-5);
+  overflow-y: auto;
+
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE / Edge */
+}
+
+.listDiscountSelect::-webkit-scrollbar {
+  display: none;
 }
 
 .itemDiscountSelect {
@@ -65,6 +84,7 @@
 }
 
 .buttonResetDiscount {
+  margin-right: var(--spacing-5);
   padding: var(--spacing-3-5) var(--spacing-5);
   border: none;
   border-radius: var(--radius-2);

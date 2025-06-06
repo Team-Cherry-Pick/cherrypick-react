@@ -5,7 +5,6 @@ import { getCategoryIdFromSteps } from '@/utils/category';
 import { useAtomValue } from 'jotai';
 import { useState } from 'react';
 import CategoryStep from './CategoryStep';
-import SelectWrapper from '../SelectWrapper';
 
 interface CategorySelectModalProps {
     onClose: () => void;
@@ -33,13 +32,13 @@ export default function CategourySelectModal({ onClose }: CategorySelectModalPro
     };
 
     return (
-        <SelectWrapper>
+        <div>
             <CategoryStep
                 selectedSteps={selectedSteps}
                 onNext={handleNextStep}
                 onBack={handleBackStep}
                 onSelectFinal={handleFinalSelect}
             />
-        </SelectWrapper>
+        </div>
     );
 }
