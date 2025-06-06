@@ -1,13 +1,13 @@
 .listStoreSelect {
+  display: flex;
+  flex-direction: column;
   flex: 1;
+  padding-top: var(--spacing-2-5);
   overflow-y: auto;
 }
 
 .itemSelectStore {
-  padding: var(--spacing-3-5) 0;
+  padding: var(--spacing-2-5) var(--spacing-5);
+  line-height: 1rem;
   cursor: pointer;
-
-  &:last-child {
-    border-bottom: none;
-  }
 }
