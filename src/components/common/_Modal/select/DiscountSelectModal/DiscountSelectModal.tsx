@@ -3,7 +3,7 @@ import styles from './DiscountSelectModal.module.css';
 import { useState } from 'react';
 import { mockDiscounts } from '@/mocks/mockDiscounts';
 import SelectWrapper from '../SelectWrapper';
-import ModalSearchInput from '@/components/common/_Input/ModalSearchInput/ModalSearchInput';
+import ModalSearchInput from '@/components/common/_Input/ModalSearchInput';
 import CheckIcon from '@/assets/icons/check-Icon.svg';
 import UnCheckIcon from '@/assets/icons/un-check-Icon.svg';
 import TextGuideStore from '../TextGuideStore';
