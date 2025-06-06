@@ -15,7 +15,7 @@ type PriceBadgeLabel = keyof typeof priceBadgeMap;
 
 export default function PriceInfo() {
     const [deal, setDeal] = useAtom(newDealAtom);
-    const [selectedType, setSelectedType] = useState<'다양한 가격' | '$' | null>(null);
+    const [selectedType, setSelectedType] = useState<'다양한 가격' | '$' | null>('다양한 가격');
 
     const handleBadgeClick = (label: PriceBadgeLabel) => {
         setSelectedType(label);
