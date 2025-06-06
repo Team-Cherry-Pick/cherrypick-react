@@ -22,6 +22,10 @@
   overflow: hidden;
 }
 
+.longModal {
+  height: 37.5rem;
+}
+
 .modalHeader {
   display: flex;
   justify-content: space-between;
@@ -37,6 +41,9 @@
 }
 
 .closeButton {
+  display: flex;
+  align-items: center;
+
   svg,
   img {
     width: 1rem;

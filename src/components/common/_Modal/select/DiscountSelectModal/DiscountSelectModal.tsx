@@ -2,7 +2,6 @@ import { useDealUpload } from '@/hooks/useDealUpload';
 import styles from './DiscountSelectModal.module.css';
 import { useState } from 'react';
 import { mockDiscounts } from '@/mocks/mockDiscounts';
-import SelectWrapper from '../SelectWrapper';
 import ModalSearchInput from '@/components/common/_Input/ModalSearchInput';
 import CheckIcon from '@/assets/icons/check-Icon.svg';
 import UnCheckIcon from '@/assets/icons/un-check-Icon.svg';
@@ -56,6 +55,7 @@ export default function DiscountSelectModal({ onClose }: DiscountSelectModalProp
     return (
         <>
             <div className={styles.containerDiscountSelected}>
+                {selected.length === 0 && '할인방식을 추가해주세요.'}
                 {selected.map(item => (
                     <div className={styles.tagSelected} key={item.name}>
                         {item.name}
@@ -66,7 +66,7 @@ export default function DiscountSelectModal({ onClose }: DiscountSelectModalProp
                 ))}
             </div>
 
-            <SelectWrapper>
+            <div>
                 <div className={styles.selectContainerSearch}>
                     <ModalSearchInput
                         placeholder="할인방식 검색"
@@ -103,7 +103,7 @@ export default function DiscountSelectModal({ onClose }: DiscountSelectModalProp
                         </TextGuideStore>
                     )}
                 </ul>
-            </SelectWrapper>
+            </div>
 
             <ContainerFooterSelect>
                 <button className={styles.buttonResetDiscount} onClick={handleReset}>

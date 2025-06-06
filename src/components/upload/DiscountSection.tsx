@@ -9,17 +9,13 @@ const DiscountSection = ({ onOpenDiscountModal }: { onOpenDiscountModal: () => v
     return (
         <SectionContainer>
             <SectionTitle>할인 정보 (선택)</SectionTitle>
-            <SelectTrigger
-                label={deal.discountNames.join(', ') || '할인방식 선택'}
-                onClick={onOpenDiscountModal}
-            />
+            <SelectTrigger label={'할인방식 선택'} onClick={onOpenDiscountModal} />
             <TextAreaWrapper>
                 <TextArea
                     placeholder="최저가로 구매하기 위한 방법을 작성해주세요."
-                    value={deal.discountDescription}
-                    onChange={(e) => setDeal({ ...deal, discountDescription: e.target.value })}
+                    onChange={e => setDeal({ ...deal, discountDescription: e.target.value })}
                 />
-                <CharCount>{deal.discountDescription.length} / 800</CharCount>
+                <CharCount>0 / 800</CharCount>
             </TextAreaWrapper>
         </SectionContainer>
     );
@@ -28,30 +24,30 @@ const DiscountSection = ({ onOpenDiscountModal }: { onOpenDiscountModal: () => v
 export default DiscountSection;
 
 const SectionContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 50%;
-  gap: ${({ theme }) => theme.spacing[2]};
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    gap: ${({ theme }) => theme.spacing[2]};
 
-  @media (max-width: 768px) {
-    width: 100%;
-  }
+    @media (max-width: 768px) {
+        width: 100%;
+    }
 `;
 
 const SectionTitle = styled.div`
-  color: ${({ theme }) => theme.colors.content.main};
-  font-size: ${({ theme }) => theme.typography.size.lg};
-  font-weight: ${({ theme }) => theme.typography.weight.semibold};
+    color: ${({ theme }) => theme.colors.content.main};
+    font-size: ${({ theme }) => theme.typography.size.lg};
+    font-weight: ${({ theme }) => theme.typography.weight.semibold};
 `;
 
 const TextAreaWrapper = styled.div`
-  position: relative;
+    position: relative;
 `;
 
 const CharCount = styled.div`
-  position: absolute;
-  bottom: 8px;
-  right: 12px;
-  font-size: ${({ theme }) => theme.typography.size.xs};
-  color: ${({ theme }) => theme.colors.content.sub};
+    position: absolute;
+    bottom: 8px;
+    right: 12px;
+    font-size: ${({ theme }) => theme.typography.size.xs};
+    color: ${({ theme }) => theme.colors.content.sub};
 `;
