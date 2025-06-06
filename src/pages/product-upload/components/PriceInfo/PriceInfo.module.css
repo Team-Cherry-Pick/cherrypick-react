@@ -1,0 +1,15 @@
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.badgeContainer {
+  display: flex;
+  gap: var(--spacing-2);
+}
+
+.textInputContainer {
+  display: flex;
+  gap: var(--spacing-4);
+}

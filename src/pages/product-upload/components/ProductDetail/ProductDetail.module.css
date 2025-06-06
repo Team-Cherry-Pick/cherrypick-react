@@ -1,0 +1,13 @@
+.textAreaWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 15rem;
+}
+
+.contentLength {
+  padding: var(--spacing-2) var(--spacing-1);
+  color: var(--color-content-tertiary);
+  font-size: var(--font-size-sm);
+  line-height: 1rem;
+  text-align: end;
+}
