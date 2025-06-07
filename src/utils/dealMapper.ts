@@ -9,7 +9,7 @@ import type { FetchedDeal, DetailedDeal } from '@/types/Deal';
  */
 export const toDetailedDeal = (deal: FetchedDeal): DetailedDeal => ({
     dealId: deal.dealId,
-    heat: 100, // 임시 고정값 (서버 미지원 중)
+    heat: deal.heat,
     imageUrls: [deal.imageUrl],
     user: {
         userId: 0,
