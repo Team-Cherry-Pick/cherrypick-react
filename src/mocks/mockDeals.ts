@@ -35,7 +35,7 @@ export const mockDeals: DetailedDeal[] = [
         totalComments: 16,
         deepLink: null,
         originalUrl: 'https://example.com/deal/1',
-        isSoldOut: true,
+        soldout: true,
     },
     {
         dealId: 2,
@@ -71,7 +71,7 @@ export const mockDeals: DetailedDeal[] = [
         totalComments: 16,
         deepLink: null,
         originalUrl: 'https://example.com/deal/2',
-        isSoldOut: false,
+        soldout: false,
     },
     {
         dealId: 3,
@@ -107,7 +107,7 @@ export const mockDeals: DetailedDeal[] = [
         totalComments: 16,
         deepLink: null,
         originalUrl: 'https://example.com/deal/3',
-        isSoldOut: false,
+        soldout: false,
     },
     {
         dealId: 4,
@@ -143,7 +143,7 @@ export const mockDeals: DetailedDeal[] = [
         totalComments: 16,
         deepLink: null,
         originalUrl: 'https://example.com/deal/4',
-        isSoldOut: false,
+        soldout: false,
     },
     {
         dealId: 5,
@@ -179,7 +179,7 @@ export const mockDeals: DetailedDeal[] = [
         totalComments: 16,
         deepLink: null,
         originalUrl: 'https://example.com/deal/5',
-        isSoldOut: false,
+        soldout: false,
     },
 ];
 
@@ -203,7 +203,7 @@ export const recommendedMockDeals: RecommendedDeal[] = [
             regularPrice: 1500000,
             discountedPrice: 986670,
         },
-        isSoldOut: true,
+        soldout: true,
         createdAt: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(), // 2시간 전
         totalLikes: 128,
         totalComments: 16,
@@ -226,7 +226,7 @@ export const recommendedMockDeals: RecommendedDeal[] = [
             regularPrice: 1800000,
             discountedPrice: 1340000,
         },
-        isSoldOut: false,
+        soldout: false,
         createdAt: new Date(Date.now() - 1000 * 60 * 60 * 5).toISOString(), // 5시간 전
         totalLikes: 201,
         totalComments: 42,
@@ -243,7 +243,7 @@ export const recommendedMockDeals: RecommendedDeal[] = [
             regularPrice: 450000,
             discountedPrice: 399000,
         },
-        isSoldOut: false,
+        soldout: false,
         createdAt: new Date(Date.now() - 1000 * 60 * 60 * 26).toISOString(), // 1일 전
         totalLikes: 78,
         totalComments: 11,

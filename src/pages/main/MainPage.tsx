@@ -35,6 +35,7 @@ const MainPage = () => {
             <ContentWrapper>
                 <MainFilter />
                 <MainDealList />
+                {/* [To do] API 응답 없거나 오류 발생 시 예외 처리 로직 추가해야합니다 */}
             </ContentWrapper>
 
             <FloatingWrapper>
