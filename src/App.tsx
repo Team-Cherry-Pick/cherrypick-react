@@ -1,12 +1,10 @@
 import '@/styles/_global/index.css';
-import { useEffect } from 'react';
 import { useAtom } from 'jotai';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
 import { themeAtom } from '@/store/theme';
 import { lightTheme, darkTheme } from '@/styles/theme';
-import useSystemTheme from '@/hooks/useSystemTheme';
 
 import MainPage from '@/pages/main/MainPage';
 import LoginPage from '@/pages/login/LoginPage';
@@ -18,19 +16,7 @@ import TestPage from '@/test/TestPage';
 import LoginRedirectPage from './pages/login/LoginRedirectPage';
 
 const App = () => {
-    const prefersDark = useSystemTheme();
-    const [theme, setTheme] = useAtom(themeAtom);
-
-    // 초기 테마 설정
-    useEffect(() => {
-        const stored = localStorage.getItem('theme') as 'light' | 'dark' | null;
-        if (stored) {
-            setTheme(stored);
-        } else {
-            setTheme(prefersDark ? 'dark' : 'light');
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    const [theme] = useAtom(themeAtom);
 
     return (
         <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
