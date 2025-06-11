@@ -1,0 +1,20 @@
+.textArea {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: var(--spacing-2-5);
+  width: 100%;
+  flex: 1;
+  padding: var(--spacing-4);
+  background-color: var(--color-neutral-0);
+  border: 0.0625rem solid var(--color-neutral-100);
+  border-radius: var(--radius-2);
+  color: var(--color-content-sub);
+  line-height: 1.5rem;
+  resize: none;
+  outline: none;
+}
+
+.textArea::placeholder {
+  color: var(--color-content-sub);
+}

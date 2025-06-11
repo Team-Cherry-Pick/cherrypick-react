@@ -1,0 +1,73 @@
+.headerWrapper {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+}
+
+.rootBackground {
+  background-color: var(--color-background-root);
+}
+
+.boardBackground {
+  background-color: var(--color-background-board);
+}
+
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 90rem;
+  height: var(--spacing-24);
+  margin: 0 auto;
+}
+
+.logoWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-content-sub);
+  font-size: var(--font-size-xxxm);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+}
+
+.logoText {
+  padding-left: var(--spacing-2);
+}
+
+.logoImg {
+  width: var(--spacing-7);
+  height: var(--spacing-10);
+  padding-bottom: var(--spacing-3)
+}
+
+.profileIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--spacing-8);
+  height: var(--spacing-8);
+  background-color: var(--color-background-card);
+  border: 0.0625rem solid var(--color-content-tertiary);
+  border-radius: var(--radius-4);
+  cursor: pointer;
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.personalContainer {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
+.themeToggleIcon {
+  width: var(--spacing-6);
+  height: var(--spacing-6);
+  color: var(--color-content-tertiary);
+  cursor: pointer;
+}

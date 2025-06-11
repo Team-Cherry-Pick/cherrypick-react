@@ -1,0 +1,21 @@
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  height: 15rem;
+}
+
+.textAreaWrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  position: relative;
+}
+
+.contentLength {
+  padding: var(--spacing-2) var(--spacing-1);
+  color: var(--color-content-tertiary);
+  font-size: var(--font-size-sm);
+  line-height: 1rem;
+  text-align: end;
+}

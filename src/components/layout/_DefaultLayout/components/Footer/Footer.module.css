@@ -1,0 +1,67 @@
+.footerWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 11.25rem;
+}
+
+.footerContainer {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 90rem;
+  margin-inline: auto;
+}
+
+.rootBackground {
+  background-color: var(--color-background-root);
+}
+
+.boardBackground {
+  background-color: var(--color-background-board);
+}
+
+.footerContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-2);
+  max-width: 64rem;
+  margin: 0;
+}
+
+.logoSection {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.logoImg {
+  width: var(--spacing-8);
+  height: var(--spacing-8);
+  padding-bottom: var(--spacing-1);
+}
+
+.serviceName {
+  color: var(--color-content-tertiary);
+  font-size: var(--font-size-xxxm);
+  font-weight: var(--font-weight-bold);
+}
+
+.linkList {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  color: var(--color-content-sub);
+  font-size: var(--font-size-sm);
+}
+
+.divider {
+  margin: 0 var(--spacing-1);
+}
+
+.copyNotice {
+  color: var(--color-content-tertiary);
+  font-size: var(--font-size-xs);
+}

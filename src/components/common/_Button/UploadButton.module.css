@@ -1,0 +1,12 @@
+.styledButton {
+  padding: var(--spacing-3) var(--spacing-5);
+  border-radius: var(--radius-2);
+  font-weight: var(--font-weight-semibold);
+  background-color: var(--color-primary);
+  color: var(--color-neutral-0);
+}
+
+.disabled {
+  background-color: var(--color-neutral-300);
+  cursor: not-allowed;
+}
