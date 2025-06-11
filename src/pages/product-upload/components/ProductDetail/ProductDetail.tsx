@@ -1,4 +1,4 @@
-import TextArea from '@/components/common/_Input/TextArea';
+import { TextArea } from '@/components/common/Input';
 import styles from './ProductDetail.module.css';
 import { newDealAtom } from '@/store';
 import { useAtom } from 'jotai';

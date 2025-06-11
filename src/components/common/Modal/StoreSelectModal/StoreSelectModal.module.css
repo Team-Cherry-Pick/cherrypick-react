@@ -1,0 +1,58 @@
+.container {
+  width: 24.375rem;
+  background-color: var(--color-neutral-0);
+  border-radius: var(--radius-5);
+}
+
+.container_upload {
+  height: 28.125rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 4rem;
+  padding: var(--spacing-5);
+}
+
+.title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+}
+
+.closeButton {
+  display: flex;
+  align-items: center;
+
+  svg,
+  img {
+    width: 1rem;
+    height: 1rem;
+    fill: var(--color-content-sub);
+  }
+}
+
+.storeContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-5);
+  height: 19.125rem;
+  padding: var(--spacing-5);
+  border-top: 0.0625rem solid var(--color-neutral-100);
+  border-bottom: 0.0625rem solid var(--color-neutral-100);
+  list-style: none;
+}
+
+.storeItem {
+  font-size: var(--font-size-sm);
+  line-height: 1rem;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 5rem;
+  padding: var(--spacing-5);
+}

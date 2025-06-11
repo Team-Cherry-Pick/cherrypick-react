@@ -1,22 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { ThemeContext } from './ThemeContext';
-
-type Theme = 'light' | 'dark';
+import { useAtom } from 'jotai';
+import { themeAtom, type Theme } from '@/store/theme';
 
 interface ThemeProviderProps {
     children: React.ReactNode;
-    defaultTheme?: Theme;
 }
 
-export function ThemeProvider({ children, defaultTheme = 'light' }: ThemeProviderProps) {
-    const [theme, setThemeState] = useState<Theme>(() => {
-        const savedTheme = localStorage.getItem('theme') as Theme;
-        return savedTheme || defaultTheme;
-    });
+export function ThemeProvider({ children }: ThemeProviderProps) {
+    const [theme, setThemeState] = useAtom(themeAtom);
 
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', theme);
-        localStorage.setItem('theme', theme);
     }, [theme]);
 
     const toggleTheme = () => {
