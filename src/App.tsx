@@ -1,9 +1,9 @@
+import '@/styles/_global/index.css';
 import { useEffect } from 'react';
 import { useAtom } from 'jotai';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
-import GlobalStyle from '@/styles/global';
 import { themeAtom } from '@/store/theme';
 import { lightTheme, darkTheme } from '@/styles/theme';
 import useSystemTheme from '@/hooks/useSystemTheme';
@@ -15,8 +15,6 @@ import ProductDetailPage from '@/pages/product-detail/ProductDetailPage';
 import ProductUploadPage from '@/pages/product-upload/ProductUploadPage';
 import ErrorPage from '@/pages/error/ErrorPage';
 import TestPage from '@/test/TestPage';
-
-import { ErrorModal } from '@/components/common/Modal/ErrorModal';
 import LoginRedirectPage from './pages/login/LoginRedirectPage';
 
 const App = () => {
@@ -36,9 +34,7 @@ const App = () => {
 
     return (
         <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
-            <GlobalStyle />
             <Router>
-                <ErrorModal />
                 <Routes>
                     <Route path="/test" element={<TestPage />} />
                     <Route path="/" element={<MainPage />} />
