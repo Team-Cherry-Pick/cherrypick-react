@@ -1,9 +1,9 @@
 import styles from './ShippingInfo.module.css';
-import BadgeLabel from '@/components/common/_Badge/BadgeLabel';
-import TextInput from '@/components/common/_Input/TextInput';
 import { useAtom } from 'jotai';
 import { newDealAtom } from '@/store';
 import { useState } from 'react';
+import { BadgeLabel } from '@/components/common/Badge';
+import { TextInput } from '@/components/common/Input';
 
 const SHIPPING_BADGES = ['무료배송', '조건 무료배송', '유료 배송'];
 const shippingBadgeMap = {
