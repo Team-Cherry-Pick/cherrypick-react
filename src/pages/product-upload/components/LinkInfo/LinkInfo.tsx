@@ -1,14 +1,11 @@
-import TextInput from '@/components/common/_Input/TextInput';
 import styles from './LinkInfo.module.css';
 import { newDealAtom } from '@/store';
 import { useAtom } from 'jotai';
-import SelectTrigger from '@/components/common/_Input/SelectTrigger';
+import { overlay } from '@/context/overlay';
+import { StoreSelectModal } from '@/components/common/Modal';
+import { SelectTrigger, TextInput } from '@/components/common/Input';
 
-interface LinkInfoProps {
-    onOpenStoreModal: () => void;
-}
-
-export default function LinkInfo({ onOpenStoreModal }: LinkInfoProps) {
+export default function LinkInfo() {
     const [deal, setDeal] = useAtom(newDealAtom);
 
     return (
@@ -22,7 +19,14 @@ export default function LinkInfo({ onOpenStoreModal }: LinkInfoProps) {
                     textDecoration: /^https?:\/\//.test(deal.originalUrl) ? 'underline' : undefined,
                 }}
             />
-            <SelectTrigger label={deal.storeName || '스토어 선택'} onClick={onOpenStoreModal} />
+            <SelectTrigger
+                label={deal.store.storeName || '스토어 선택'}
+                onClick={() => {
+                    overlay.open(props => {
+                        return <StoreSelectModal {...props} context="upload" />;
+                    });
+                }}
+            />
         </div>
     );
 }

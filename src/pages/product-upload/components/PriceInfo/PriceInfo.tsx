@@ -1,9 +1,9 @@
 import styles from './PriceInfo.module.css';
 import { useAtom } from 'jotai';
 import { newDealAtom } from '@/store';
-import BadgeLabel from '@/components/common/_Badge/BadgeLabel';
-import TextInput from '@/components/common/_Input/TextInput';
 import { useState } from 'react';
+import { BadgeLabel } from '@/components/common/Badge';
+import { TextInput } from '@/components/common/Input';
 
 const PRICE_BADGES = ['다양한 가격', '$'];
 const priceBadgeMap = {
