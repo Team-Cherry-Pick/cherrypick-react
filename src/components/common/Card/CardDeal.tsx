@@ -37,7 +37,7 @@ export const CardDeal = ({ deal }: Props) => {
                 <S.TagRow>
                     <S.Store>{deal.store?.storeName ?? '알 수 없음'}</S.Store>
                     <span>|</span>
-                    <S.Tags>{deal.infoTags.map(name => `#${name}`).join(' ')}</S.Tags>
+                    <S.Tags>{deal.infoTags.map(name => `${name}`).join(' ')}</S.Tags>
                 </S.TagRow>
 
                 <S.PriceRow>

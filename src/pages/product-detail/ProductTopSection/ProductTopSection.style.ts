@@ -67,6 +67,11 @@ export const MainImage = styled.img`
   object-fit: cover;
   background-color: ${({ theme }) => theme.colors.neutral[50]};
   border: 1px solid ${({ theme }) => theme.colors.border.card};
+
+   &.hovered {
+    opacity: 0.6; // 연하게 보이도록
+  }
+
 `;
 
 export const ImagePlaceholder = styled.div`
@@ -195,16 +200,18 @@ export const DiscountPercent = styled.span`
 `;
 
 export const Content = styled.div`
-  margin: ${({ theme }) => theme.spacing[3]} 0;
-  font-size: ${({ theme }) => theme.typography.size.base};
-  color: ${({ theme }) => theme.colors.content.main};
-  line-height: 1.5;
-
-  .custom-divider {
-    height: 1px;
-    background-color: ${({ theme }) => theme.colors.border.board};
-    margin: ${({ theme }) => theme.spacing[6]} 0;
-  }
+    margin: ${({ theme }) => theme.spacing[3]} 0;
+    font-size: ${({ theme }) => theme.typography.size.base};
+    color: ${({ theme }) => theme.colors.content.main};
+    line-height: 1.5;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+    .custom-divider {
+        height: 1px;
+        background-color: ${({ theme }) => theme.colors.border.board};
+        margin: ${({ theme }) => theme.spacing[6]} 0;
+    }
 `;
 
 export const MetaRow = styled.div`

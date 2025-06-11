@@ -1,7 +1,8 @@
 // product-detail/ProductTopSection.tsx
+import { useState } from 'react';
 import type { DetailedDeal } from '@/types/Deal';
 import { IoMdEye } from "react-icons/io";
-import { ThumbsUp, MessageSquare } from 'lucide-react';
+import { MessageSquare } from 'lucide-react';
 import * as S from './ProductTopSection.style';
 
 interface Props {
@@ -9,7 +10,8 @@ interface Props {
 }
 
 const ProductTopSection = ({ deal }: Props) => {
-    const mainImage = deal.imageUrls[0]?.url || '';
+    const [mainImage, setMainImage] = useState(deal.imageUrls[0]?.url || '');
+    const [hoverImage, setHoverImage] = useState<string | null>(null);
     const safeContent = (deal.content ?? '').replace(/<hr\s*\/?>/gi, '<div class="custom-divider"></div>');
 
     return (
@@ -22,15 +24,21 @@ const ProductTopSection = ({ deal }: Props) => {
             {/* 왼쪽: 대표 이미지 + 썸네일 리스트 */}
             <S.ImageSection>
                 <S.MainImageWrapper>
-                    {mainImage ? (
-                        <S.MainImage src={mainImage} alt={deal.title} />
-                    ) : (
-                        <S.ImagePlaceholder />
-                    )}
+                    <S.MainImage
+                        src={hoverImage || mainImage}
+                        alt={deal.title}
+                        className={hoverImage ? 'hovered' : ''}
+                    />
                 </S.MainImageWrapper>
                 <S.ThumbnailRow>
                     {deal.imageUrls.map((img) => (
-                        <S.Thumbnail key={img.imageId}>
+                        <S.Thumbnail
+                            key={img.imageId}
+                            onMouseEnter={() => setHoverImage(img.url)}
+                            onMouseLeave={() => setHoverImage(null)}
+                            onClick={() => setMainImage(img.url)}
+                            className={mainImage === img.url ? 'active' : ''}
+                        >
                             <S.ThumbnailImage src={img.url} alt="썸네일" />
                         </S.Thumbnail>
                     ))}
@@ -44,7 +52,7 @@ const ProductTopSection = ({ deal }: Props) => {
                     <S.StoreBadge>{deal?.store?.storeName ?? '알 수 없음'}</S.StoreBadge>
                     <S.TagList>
                         {deal.infoTags.map((tag, idx) => (
-                            <S.Tag key={idx}>#{tag}</S.Tag>
+                            <S.Tag key={idx}>{tag}</S.Tag>
                         ))}
                     </S.TagList>
                 </S.StoreTagContainer>
@@ -82,8 +90,6 @@ const ProductTopSection = ({ deal }: Props) => {
                         <span>by {deal.user.userName}</span>
                         <span>|</span>
                         <span><IoMdEye size={14} /> {deal.totalViews}</span>
-                        <span>|</span>
-                        <span><ThumbsUp size={14} /> {deal.totalLikes}</span>
                         <span>|</span>
                         <span><MessageSquare size={14} /> {deal.totalComments}</span>
                     </S.MetaRow>
