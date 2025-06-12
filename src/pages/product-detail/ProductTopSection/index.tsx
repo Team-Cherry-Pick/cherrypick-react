@@ -1,4 +1,6 @@
 // product-detail/ProductTopSection.tsx
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import type { DetailedDeal } from '@/types/Deal';
 import { IoMdEye } from "react-icons/io";
@@ -12,7 +14,45 @@ interface Props {
 const ProductTopSection = ({ deal }: Props) => {
     const [mainImage, setMainImage] = useState(deal.imageUrls[0]?.url || '');
     const [hoverImage, setHoverImage] = useState<string | null>(null);
+    const navigate = useNavigate();
     const safeContent = (deal.content ?? '').replace(/<hr\s*\/?>/gi, '<div class="custom-divider"></div>');
+
+    const handleEndDeal = async () => {
+        try {
+            await axios.patch(`${import.meta.env.VITE_API_URL}/deal`, {
+                dealId: deal.dealId,
+                isSoldOut: true,
+            }, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            });
+
+            alert('핫딜이 종료되었습니다!');
+            window.location.reload(); // 또는 상태 업데이트
+        } catch (err) {
+            alert('종료 처리에 실패했습니다.');
+            console.error(err);
+        }
+    };
+
+    const handleDeleteDeal = async () => {
+        const confirmed = window.confirm('정말 삭제하시겠습니까?');
+        if (!confirmed) return;
+
+        try {
+            await axios.delete(`${import.meta.env.VITE_API_URL}/deal/${deal.dealId}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            });
+            alert('삭제되었습니다!');
+            navigate('/');
+        } catch (err) {
+            alert('삭제에 실패했습니다.');
+            console.error(err);
+        }
+    };
 
     return (
         <S.Wrapper className={deal.soldout ? 'ended' : ''}>
@@ -55,6 +95,11 @@ const ProductTopSection = ({ deal }: Props) => {
                             <S.Tag key={idx}>{tag}</S.Tag>
                         ))}
                     </S.TagList>
+                    <S.ActionGroup>
+                        <S.ActionButton onClick={handleEndDeal}>종료처리</S.ActionButton>
+                        <S.ActionButton onClick={() => console.log('수정')}>수정</S.ActionButton>
+                        <S.ActionButton onClick={handleDeleteDeal}>삭제</S.ActionButton>
+                    </S.ActionGroup>
                 </S.StoreTagContainer>
 
                 <S.Divider />
@@ -96,11 +141,6 @@ const ProductTopSection = ({ deal }: Props) => {
                     <S.Divider />
 
                     <S.BottomActions>
-                        {!deal.soldout && (
-                            <S.EndButton onClick={() => console.log(`딜 종료 요청: dealId=${deal.dealId}`)}>
-                                핫딜 종료
-                            </S.EndButton>
-                        )}
                         <S.ShareButton>공유하기</S.ShareButton>
                         <S.BuyButton>구매하기</S.BuyButton>
                     </S.BottomActions>

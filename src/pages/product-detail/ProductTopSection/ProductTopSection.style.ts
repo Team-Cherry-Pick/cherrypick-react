@@ -158,6 +158,26 @@ export const Tag = styled.span`
   font-weight: 400;
 `;
 
+export const ActionGroup = styled.div`
+  display: flex;
+    gap: ${({ theme }) => theme.spacing[2]};
+  margin-left: auto;
+`;
+
+export const ActionButton = styled.button`
+  font-size: ${({ theme }) => theme.typography.size.sm};
+  text-decoration: underline;
+  background-color: none;
+  color: ${({ theme }) => theme.colors.content.main};
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.neutral[300]};
+  }
+`;
+
 export const PriceContainer = styled.div`
   display: flex;
   flex-direction: column;

@@ -28,8 +28,7 @@ export async function fetchDeals(page: number): Promise<FetchDealsResponse> {
 export async function fetchDetailedDeal(id: string): Promise<DetailedDeal> {
     const res = await axios.get(`${API}/deal/${id}`);
     const deal: DetailedDeal = res.data;
-    console.log('[📦 fetchDetailedDeal 전체 응답]', res.data); // 전체 출력
-    console.log('[🧾 price 정보]', res.data.price);
+
     return {
         ...deal,
         title: cleanTitle(deal.title),
