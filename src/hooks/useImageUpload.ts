@@ -14,7 +14,10 @@ export const useImageUpload = () => {
     const sortableRef = useRef<Sortable | null>(null);
 
     useEffect(() => {
-        setImageFiles(images);
+        setImageFiles({
+            images: images,
+            indexes: images.map((_, index) => index),
+        });
     }, [images, setImageFiles]);
 
     useEffect(() => {

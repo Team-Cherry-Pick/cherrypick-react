@@ -7,25 +7,25 @@ import { TextInput } from '@/components/common/Input';
 
 const PRICE_BADGES = ['다양한 가격', '$'];
 const priceBadgeMap = {
-    '다양한 가격': 'KRW',
+    '다양한 가격': 'VARIOUS',
     $: 'USD',
 } as const;
 
 type PriceBadgeLabel = keyof typeof priceBadgeMap;
 
-export default function PriceInfo() {
+export function PriceInfo() {
     const [deal, setDeal] = useAtom(newDealAtom);
-    const [selectedType, setSelectedType] = useState<'다양한 가격' | '$' | null>('다양한 가격');
+    const [selectedType, setSelectedType] = useState<'다양한 가격' | '$' | null>(null);
 
     const handleBadgeClick = (label: PriceBadgeLabel) => {
-        setSelectedType(label);
+        setSelectedType(prev => (prev === label ? null : label));
         const clickedType = priceBadgeMap[label];
 
         setDeal({
             ...deal,
             price: {
                 ...deal.price,
-                priceType: deal.price.priceType === clickedType ? null : clickedType,
+                priceType: deal.price.priceType === clickedType ? 'KRW' : clickedType,
             },
         });
     };
