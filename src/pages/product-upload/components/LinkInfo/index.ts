@@ -1,1 +1,1 @@
-export { default } from './LinkInfo';
+export { LinkInfo } from './LinkInfo';

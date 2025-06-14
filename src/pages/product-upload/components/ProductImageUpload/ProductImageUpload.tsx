@@ -1,9 +1,9 @@
 import { X } from 'lucide-react';
-import styles from './ProudctImageUpload.module.css';
+import styles from './ProductImageUpload.module.css';
 import { MAX_IMAGES, useImageUpload } from '@/hooks/useImageUpload';
 import UploadIcon from '@/assets/icons/upload-image-Icon.svg';
 
-export default function ProductImageUpload() {
+export function ProductImageUpload() {
     const { images, inputRef, containerRef, handleFileSelect, handleDropFiles, handleRemove } = useImageUpload();
 
     const handleClick = () => {

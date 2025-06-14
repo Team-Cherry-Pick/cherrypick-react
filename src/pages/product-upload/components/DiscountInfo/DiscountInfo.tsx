@@ -5,14 +5,17 @@ import { overlay } from '@/context/overlay';
 import { newDealAtom } from '@/store';
 import { useAtom } from 'jotai';
 
-export default function DiscountInfo() {
+export function DiscountInfo() {
     const [deal, setDeal] = useAtom(newDealAtom);
 
     return (
         <div className={styles.inputContainer}>
-            {/* <SelectTrigger label={'할인방식 선택'} onClick={onOpenDiscountModal} /> */}
             <SelectTrigger
-                label={'할인방식 선택'}
+                label={
+                    deal.discountNames.length > 0
+                        ? deal.discountNames.map(discountName => `#${discountName}`).join(' ')
+                        : '할인방식 선택'
+                }
                 onClick={() => {
                     overlay.open(DiscountSelectModal);
                 }}

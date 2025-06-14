@@ -40,13 +40,14 @@ export interface DetailedDeal {
 }
 
 export type PriceType = 'KRW' | 'USD' | 'VARIOUS';
-export type ShippingType = 'FREE' | 'PAID' | 'CONDITIONAL' | null;
+export type ShippingType = 'FREE' | 'CONDITIONAL' | 'KRW' | 'USD';
 
 export interface DealImage {
     imageId: number;
     url: string;
     indexes: number; // recommend: indexes, detail: index
 }
+
 export interface DealPrice {
     priceType: PriceType;
     regularPrice: number;
@@ -55,7 +56,7 @@ export interface DealPrice {
 
 export interface DealShipping {
     shippingType: ShippingType;
-    shippingPrice: number;
+    shippingPrice?: number;
     shippingRule: string;
 }
 
@@ -63,4 +64,30 @@ export interface DealUploadUser {
     userId: number;
     userName: string;
     userImageUrl: string;
+}
+
+export interface DealStore {
+    storeName: string;
+    textColor: string;
+    backgroundColor: string;
+}
+
+export interface UploadDeal {
+    title: string;
+    categoryId?: number;
+    imageIds: number[];
+    originalUrl: string;
+    storeId?: number;
+    storeName: string;
+    price: DealPrice;
+    shipping: DealShipping;
+    content: string;
+    discountIds: number[];
+    discountNames: string[];
+    discountDescription: string;
+}
+
+export interface UploadDealResponse {
+    dealId: number;
+    message: string;
 }
