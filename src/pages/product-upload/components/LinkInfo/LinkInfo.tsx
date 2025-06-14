@@ -5,7 +5,7 @@ import { overlay } from '@/context/overlay';
 import { StoreSelectModal } from '@/components/common/Modal';
 import { SelectTrigger, TextInput } from '@/components/common/Input';
 
-export default function LinkInfo() {
+export function LinkInfo() {
     const [deal, setDeal] = useAtom(newDealAtom);
 
     return (
@@ -20,7 +20,7 @@ export default function LinkInfo() {
                 }}
             />
             <SelectTrigger
-                label={deal.store.storeName || '스토어 선택'}
+                label={deal.storeName || '스토어 선택'}
                 onClick={() => {
                     overlay.open(props => {
                         return <StoreSelectModal {...props} context="upload" />;

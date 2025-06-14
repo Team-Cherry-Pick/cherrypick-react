@@ -1,1 +1,1 @@
-export { default } from './ProudctImageUpload';
+export { ProductImageUpload } from './ProductImageUpload';

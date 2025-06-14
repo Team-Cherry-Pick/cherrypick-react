@@ -3,7 +3,7 @@ import styles from './ProductDetail.module.css';
 import { newDealAtom } from '@/store';
 import { useAtom } from 'jotai';
 
-export default function ProductDetail() {
+export function ProductDetail() {
     const [deal, setDeal] = useAtom(newDealAtom);
 
     return (

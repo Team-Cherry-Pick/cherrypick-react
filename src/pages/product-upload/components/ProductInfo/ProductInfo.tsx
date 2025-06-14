@@ -5,7 +5,7 @@ import { overlay } from '@/context/overlay';
 import { newDealAtom, selectedCategoryPathAtom } from '@/store';
 import { useAtom } from 'jotai';
 
-export default function ProductInfo() {
+export function ProductInfo() {
     const [deal, setDeal] = useAtom(newDealAtom);
     const [categoryPath] = useAtom(selectedCategoryPathAtom);
 

@@ -2,19 +2,132 @@ import { MdArrowForwardIos } from 'react-icons/md';
 import styles from './ProductUploadPage.module.css';
 import DefaultLayout from '@/components/layout/DefaultLayout';
 import { UploadButton } from '@/components/common/Button';
-import ProductImageUpload from './components/ProductImageUpload';
-import ProductInfo from './components/ProductInfo';
-import LinkInfo from './components/LinkInfo';
-import PriceInfo from './components/PriceInfo';
-import ShippingInfo from './components/ShippingInfo';
-import ProductDetail from './components/ProductDetail';
-import DiscountInfo from './components/DiscountInfo';
+import {
+    DiscountInfo,
+    LinkInfo,
+    PriceInfo,
+    ProductDetail,
+    ProductImageUpload,
+    ProductInfo,
+    ShippingInfo,
+} from './components';
+import { useAtom } from 'jotai';
+import { imageFilesAtom, newDealAtom } from '@/store';
+import { uploadImage } from '@/services/apiImage';
+import { uploadDeal } from '@/services/apiDeal';
+import { useEffect, useState } from 'react';
 
 export default function ProductUploadPage() {
-    const handleSubmit = () => {
-        console.log('업로드할 deal 데이터:');
-        alert('업로드할 deal 데이터:');
+    const [deal, setDeal] = useAtom(newDealAtom);
+    const [images] = useAtom(imageFilesAtom);
+    const [valid, setValid] = useState<
+        'Title' | 'Category' | 'Image' | 'OriginalUrl' | 'Store' | 'Shipping' | 'Content' | null
+    >(null);
+
+    const isTitleValid = deal.title.length > 0;
+    const isCategoryValid = deal.categoryId !== undefined;
+    const isImageValid = images.images.length > 0;
+    const isOriginalUrlValid = deal.originalUrl.length > 0;
+    const isStoreValid = deal.storeId !== undefined || deal.storeName.length > 0;
+    const isShippingValid =
+        !(deal.shipping.shippingType === 'CONDITIONAL' && deal.shipping.shippingRule.length === 0) &&
+        !(
+            (deal.shipping.shippingType === 'KRW' || deal.shipping.shippingType === 'USD') &&
+            deal.shipping.shippingPrice === 0
+        );
+    const isContentValid = deal.content.length > 0;
+
+    const handleSubmit = async () => {
+        if (valid) {
+            switch (valid) {
+                case 'Title':
+                    alert('제목을 입력해주세요.');
+                    break;
+                case 'Category':
+                    alert('카테고리를 선택해주세요.');
+                    break;
+                case 'Image':
+                    alert('이미지를 추가해주세요.');
+                    break;
+                case 'OriginalUrl':
+                    alert('링크 정보를 입력해주세요.');
+                    break;
+                case 'Store':
+                    alert('스토어를 선택해주세요.');
+                    break;
+                case 'Shipping':
+                    alert('배송 정보를 확인해주세요.');
+                    break;
+                case 'Content':
+                    alert('상품에 대한 설명을 추가해주세요.');
+            }
+            return;
+        }
+
+        if (images.images.length > 0) {
+            setDeal({
+                ...deal,
+                imageIds: (await uploadImage(images)).map(image => image.imageId),
+            });
+        }
+
+        const uploadDealData = {
+            title: deal.title,
+            categoryId: deal.categoryId,
+            imageIds: deal.imageIds,
+            originalUrl: deal.originalUrl,
+            storeId: deal.storeId,
+            storeName: deal.storeName,
+            price: {
+                priceType: deal.price.priceType,
+                regularPrice: deal.price.priceType === 'VARIOUS' ? 0 : deal.price.regularPrice,
+                discountedPrice: deal.price.priceType === 'VARIOUS' ? 0 : deal.price.discountedPrice,
+            },
+            shipping: {
+                shippingType: deal.shipping.shippingType,
+                shippingPrice:
+                    deal.shipping.shippingType === 'CONDITIONAL' || deal.shipping.shippingType === 'FREE'
+                        ? 0
+                        : deal.shipping.shippingPrice,
+                shippingRule: deal.shipping.shippingType === 'CONDITIONAL' ? deal.shipping.shippingRule : '',
+            },
+            content: deal.content,
+            discountIds: deal.discountIds,
+            discountNames: deal.discountNames,
+            discountDescription: deal.discountDescription,
+        };
+
+        uploadDeal(uploadDealData)
+            .then(response => console.log(response))
+            .catch(error => console.error(error));
     };
+
+    // 유효성 검사
+    useEffect(() => {
+        if (!isImageValid) {
+            setValid('Image');
+        } else if (!isTitleValid) {
+            setValid('Title');
+        } else if (!isCategoryValid) {
+            setValid('Category');
+        } else if (!isOriginalUrlValid) {
+            setValid('OriginalUrl');
+        } else if (!isStoreValid) {
+            setValid('Store');
+        } else if (!isShippingValid) {
+            setValid('Shipping');
+        } else if (!isContentValid) {
+            setValid('Content');
+        }
+    }, [
+        isCategoryValid,
+        isContentValid,
+        isImageValid,
+        isOriginalUrlValid,
+        isShippingValid,
+        isStoreValid,
+        isTitleValid,
+    ]);
 
     return (
         <>
@@ -38,7 +151,7 @@ export default function ProductUploadPage() {
                     </div>
                     <div className={styles.contentWrapper}>
                         <div className={styles.uploadButtonWrapper}>
-                            <UploadButton disabled={true} onClick={handleSubmit}>
+                            <UploadButton disabled={valid !== null} onClick={handleSubmit}>
                                 업로드
                             </UploadButton>
                         </div>
