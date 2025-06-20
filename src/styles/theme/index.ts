@@ -3,9 +3,19 @@ import { DefaultTheme } from 'styled-components';
 import { typography } from '../global/typography';
 import { spacing, radius, maxWidth } from './variables';
 
+export const primaryLayer = {
+    900: '#7A0A25',
+    700: '#B71A27',
+    600: '#DB2726',
+    500: '#FF4635',
+    400: '#FF8067',
+    300: '#FFA385',
+    100: '#FFE7D6',
+};
+
 export const lightTheme: DefaultTheme = {
     colors: {
-        primary: '#db2726',
+        primary: primaryLayer[600],
         content: {
             main: '#333333',
             sub: '#767676',
@@ -33,7 +43,8 @@ export const lightTheme: DefaultTheme = {
             700: '#4d4d4d',
             800: '#333333',
             900: '#1a1a1a'
-        }
+        },
+        primaryLayer, // ✅ 여기 추가
     },
     typography,
     spacing,
@@ -43,7 +54,7 @@ export const lightTheme: DefaultTheme = {
 
 export const darkTheme: DefaultTheme = {
     colors: {
-        primary: '#ff4635',
+        primary: primaryLayer[500],
         content: {
             main: '#ffffff',
             sub: '#cccccc',
@@ -71,7 +82,8 @@ export const darkTheme: DefaultTheme = {
             700: '#cccccc',
             800: '#e6e6e6',
             900: '#ffffff'
-        }
+        },
+        primaryLayer,
     },
     typography,
     spacing,
