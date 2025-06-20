@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import DefaultLayout from '@/components/layout/DefaultLayout';
 import ProductTopSection from "./ProductTopSection";
 import ProductComments from "./ProductComments";
-import ProductRecommend from "./ProductRecommend";
+import ProductRecommend from "../../components/detail/ProductRecommend/ProductRecommend";
 import styled from "styled-components";
 import { fetchDetailedDeal } from '@/services/apiDeal';
 
