@@ -5,6 +5,7 @@ import { useState } from 'react';
 import type { DetailedDeal } from '@/types/Deal';
 import { IoMdEye } from "react-icons/io";
 import { MessageSquare } from 'lucide-react';
+import HeatFeedback from '@/components/detail/HeatFeedback';
 import * as S from './ProductTopSection.style';
 
 interface Props {
@@ -141,8 +142,15 @@ const ProductTopSection = ({ deal }: Props) => {
                     <S.Divider />
 
                     <S.BottomActions>
-                        <S.ShareButton>공유하기</S.ShareButton>
-                        <S.BuyButton>구매하기</S.BuyButton>
+                        <HeatFeedback
+                            heat={deal.heat}
+                            likes={deal.totalLikes}
+                            dislikes={deal.totalUnLikes}
+                        />
+                        <div style={{ marginLeft: 'auto', display: 'flex', gap: '0.5rem' }}>
+                            <S.ShareButton>공유하기</S.ShareButton>
+                            <S.BuyButton>구매하기</S.BuyButton>
+                        </div>
                     </S.BottomActions>
                 </S.BottomContainer>
             </S.DetailSection>

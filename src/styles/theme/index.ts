@@ -44,7 +44,7 @@ export const lightTheme: DefaultTheme = {
             800: '#333333',
             900: '#1a1a1a'
         },
-        primaryLayer, // ✅ 여기 추가
+        primaryLayer,
     },
     typography,
     spacing,
