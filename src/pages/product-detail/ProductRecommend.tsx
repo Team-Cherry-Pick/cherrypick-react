@@ -41,7 +41,7 @@ const ProductRecommend = () => {
                                     <StoreName>{deal.store}</StoreName>
                                     <span>|</span>
                                     {deal.infoTags.map((tag, idx) => (
-                                        <Tag key={idx}>#{tag}</Tag>
+                                        <Tag key={idx}>{tag}</Tag>
                                     ))}
                                 </TagRow>
 
