@@ -1,16 +1,18 @@
-// components/detail/ProductRecommend/ProductRecommend.style.ts
 import styled from 'styled-components';
 
 export const Wrapper = styled.section`
+  display: block;
   width: 34%;
   flex: 1;
+  margin: 0;
+  padding: ${({ theme }) => theme.spacing[4]};
   border-radius: ${({ theme }) => theme.radius[5]};
   box-shadow: 0px 0px 5px ${({ theme }) => theme.colors.border.card};
   background-color: ${({ theme }) => theme.colors.background.root};
-  padding: ${({ theme }) => theme.spacing[4]};
 `;
 
 export const Title = styled.h2`
+  display: block;
   margin-bottom: ${({ theme }) => theme.spacing[4]};
   font-size: ${({ theme }) => theme.typography.size.lg};
   font-weight: ${({ theme }) => theme.typography.weight.bold};
@@ -20,34 +22,37 @@ export const RecommendList = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing[3]};
-
 `;
 
 export const RecommendItem = styled.div`
   display: flex;
-  gap: ${({ theme }) => theme.spacing[4]};
   align-items: center;
+  width: 100%;
+  margin-bottom: ${({ theme }) => theme.spacing[3]};
+  gap: ${({ theme }) => theme.spacing[4]};
   cursor: pointer;
-    margin-bottom: ${({ theme }) => theme.spacing[3]};
 `;
 
 export const Thumbnail = styled.div`
   position: relative;
+  display: block;
   width: 100px;
   height: 100px;
-  border-radius: ${({ theme }) => theme.radius[2]};
-  background-color: ${({ theme }) => theme.colors.background.root};
-  border: 1px solid ${({ theme }) => theme.colors.neutral[200]};
   padding: 3px;
   box-sizing: border-box;
+  border: 1px solid ${({ theme }) => theme.colors.neutral[200]};
+  border-radius: ${({ theme }) => theme.radius[2]};
+  background-color: ${({ theme }) => theme.colors.background.root};
 `;
 
 export const StyledImageWrapper = styled.div`
-    width: 100%;
+  display: block;
+  width: 100%;
   height: 100%;
 `;
 
 export const StyledImage = styled.img`
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -55,16 +60,16 @@ export const StyledImage = styled.img`
 
 export const HeatBadgeWrapper = styled.div`
   position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translate(-50%, 30%);
-  background-color: ${({ theme }) => theme.colors.neutral[0]};
-  border: 1px solid ${({ theme }) => theme.colors.border.card};
-  border-radius: 999px;
-  padding: 0 0.3rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 30%);
+  padding: 0 0.3rem;
+  border: 1px solid ${({ theme }) => theme.colors.border.card};
+  border-radius: 999px;
+  background-color: ${({ theme }) => theme.colors.neutral[0]};
   z-index: 99;
 `;
 
@@ -84,7 +89,11 @@ export const TopRow = styled.div`
 `;
 
 export const DealTitle = styled.div`
+  display: block;
   flex: 1;
+  margin: 0;
+  padding: 0;
+  border: none;
   color: ${({ theme }) => theme.colors.content.main};
   font-size: ${({ theme }) => theme.typography.size.base};
   font-weight: ${({ theme }) => theme.typography.weight.semibold};
@@ -95,41 +104,45 @@ export const DealTitle = styled.div`
 `;
 
 export const TagRow = styled.div`
-  margin-top: ${({ theme }) => theme.spacing[1]};
-  color: ${({ theme }) => theme.colors.content.sub};
-  font-size: ${({ theme }) => theme.typography.size.sm};
   display: flex;
+  margin-top: ${({ theme }) => theme.spacing[1]};
   gap: ${({ theme }) => theme.spacing[1]};
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: ${({ theme }) => theme.colors.content.sub};
+  font-size: ${({ theme }) => theme.typography.size.sm};
 `;
 
 export const StoreName = styled.span`
-  color: ${({ theme }) => theme.colors.content.sub};
+  display: inline;
   font-weight: ${({ theme }) => theme.typography.weight.semibold};
+  color: ${({ theme }) => theme.colors.content.sub};
 `;
 
 export const Tags = styled.span`
+  display: inline;
+  flex-shrink: 1;
   font-size: ${({ theme }) => theme.typography.size.sm};
   white-space: nowrap;
   overflow: hidden;
-  flex-shrink: 1;
 `;
 
 export const PriceRow = styled.div`
-  margin-top: ${({ theme }) => theme.spacing[3]};
-  font-weight: ${({ theme }) => theme.typography.weight.semibold};
   display: flex;
   justify-content: flex-end;
+  margin-top: ${({ theme }) => theme.spacing[3]};
   gap: ${({ theme }) => theme.spacing[2]};
+  font-weight: ${({ theme }) => theme.typography.weight.semibold};
 `;
 
 export const Percent = styled.span`
+  display: inline;
   color: ${({ theme }) => theme.colors.primary};
 `;
 
 export const Price = styled.span`
+  display: inline;
   color: ${({ theme }) => theme.colors.content.main};
 `;
 
@@ -142,10 +155,10 @@ export const Meta = styled.div`
   color: ${({ theme }) => theme.colors.content.sub};
 
   svg {
-    color: ${({ theme }) => theme.colors.content.tertiary};
     width: 10px;
     height: 10px;
     vertical-align: middle;
+    color: ${({ theme }) => theme.colors.content.tertiary};
   }
 
   .divider {
@@ -155,15 +168,17 @@ export const Meta = styled.div`
 `;
 
 export const Divider = styled.div`
-  border: none;
+  display: block;
   height: 1px;
-  background-color: ${({ theme }) => theme.colors.border.board};
   margin: ${({ theme }) => theme.spacing[3]} 0;
+  border: none;
+  background-color: ${({ theme }) => theme.colors.border.board};
 `;
 
 export const ItemDivider = styled.div`
-  border: none;
+  display: block;
   height: 1px;
-  background-color: ${({ theme }) => theme.colors.border.board};
   margin: 0;
+  border: none;
+  background-color: ${({ theme }) => theme.colors.border.board};
 `;
