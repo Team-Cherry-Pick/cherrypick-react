@@ -22,11 +22,26 @@ function HeatFeedback({ heat }: HeatFeedbackProps) {
     const [disliked, setDisliked] = useState(false);
     const [showModal, setShowModal] = useState(false);
 
+    const handleLike = () => {
+        setLiked((prev) => {
+            if (!prev) setDisliked(false);
+            return !prev;
+        });
+        setShowModal(false);
+    };
+
+    const handleDislike = () => {
+        setDisliked((prev) => {
+            if (!prev) setLiked(false);
+            return !prev;
+        });
+        setShowModal((prev) => !prev);
+    };
 
     return (
         <Container>
             <ThumbWrapper>
-                <LikeBtn $active={liked} onClick={() => setLiked(!liked)}>
+                <LikeBtn $active={liked} onClick={handleLike}>
                     <LikeIcon />
                 </LikeBtn>
             </ThumbWrapper>
@@ -36,13 +51,7 @@ function HeatFeedback({ heat }: HeatFeedbackProps) {
             </HeatWrapper>
 
             <ThumbWrapper>
-                <DislikeBtn
-                    $active={disliked}
-                    onClick={() => {
-                        setDisliked(!disliked);
-                        setShowModal((prev) => !prev);
-                    }}
-                >
+                <DislikeBtn $active={disliked} onClick={handleDislike}>
                     <DislikeIcon />
                 </DislikeBtn>
                 {showModal && (

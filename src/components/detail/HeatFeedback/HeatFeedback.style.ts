@@ -69,15 +69,15 @@ export const DislikeModal = styled.ul`
   border-radius: ${({ theme }) => theme.radius[2]};
     border: 1px solid ${({ theme }) => theme.colors.neutral[100]};
   box-shadow: 0 0 0.3rem rgba(0, 0, 0, 0.3);
-  padding: 1px 1rem;
-  width: 14rem;
+  padding: 1px 0.5rem;
+  width: 11rem;
   list-style: none;
   z-index: 10;
 
   li {
     padding: 0.75rem 1rem;
     color: ${({ theme }) => theme.colors.content.sub};
-    font-size: 1rem;
+    font-size: 0.9rem;
     text-align: left;
     background: none;
     border: none;
