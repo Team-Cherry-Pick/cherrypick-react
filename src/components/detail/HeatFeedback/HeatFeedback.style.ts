@@ -7,7 +7,7 @@ export const Container = styled.div`
   justify-content: space-between;
   background-color: ${({ theme }) => theme.colors.neutral[0]};
   border-radius: 999rem;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem;
   position: relative;
   gap: 1rem;
     border: 1px solid ${({ theme }) => theme.colors.neutral[100]};

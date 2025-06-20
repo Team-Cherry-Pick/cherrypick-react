@@ -144,8 +144,6 @@ const ProductTopSection = ({ deal }: Props) => {
                     <S.BottomActions>
                         <HeatFeedback
                             heat={deal.heat}
-                            likes={deal.totalLikes}
-                            dislikes={deal.totalUnLikes}
                         />
                         <div style={{ marginLeft: 'auto', display: 'flex', gap: '0.5rem' }}>
                             <S.ShareButton>공유하기</S.ShareButton>
