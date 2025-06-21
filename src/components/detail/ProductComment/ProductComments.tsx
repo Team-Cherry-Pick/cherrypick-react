@@ -4,6 +4,7 @@ import CommentInput from './CommentInput';
 import {
     Wrapper,
     NoComment,
+    Divider,
 } from './ProductComments.style';
 
 const ProductComments = () => {
@@ -15,9 +16,12 @@ const ProductComments = () => {
 
             <NoComment>아직 댓글이 없어요. 첫 댓글의 주인공이 되어 보세요!</NoComment>
 
+            <Divider />
+
             <CommentInput />
         </Wrapper>
     );
 };
 
 export default ProductComments;
+
