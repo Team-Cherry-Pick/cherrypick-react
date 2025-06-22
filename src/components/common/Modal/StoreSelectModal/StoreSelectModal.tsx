@@ -1,11 +1,12 @@
 import styles from './StoreSelectModal.module.css';
 import CloseIcon from '@/assets/icons/close-Icon.svg';
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { useDealUpload } from '@/hooks/useDealUpload';
-import { mockStores } from '@/mocks/mockStores';
 import TextGuideStore from '../components/TextGuideStore';
 import ModalSearchInput from '../components/ModalSearchInput';
 import ModalLayout from '../components/ModalLayout';
+import { useAtomValue } from 'jotai';
+import { storesAtom } from '@/store';
 
 interface StoreSelectModalProps {
     isOpen: boolean;
@@ -14,12 +15,36 @@ interface StoreSelectModalProps {
     context: string;
 }
 
+function StoreList({ query, onSelectStore }: { query: string; onSelectStore: (id: number, name: string) => void }) {
+    const stores = useAtomValue(storesAtom);
+
+    const filteredStores = stores.filter(store => store.name.includes(query));
+
+    return (
+        <>
+            {filteredStores.length > 0 ? (
+                filteredStores.map(store => (
+                    <li
+                        className={styles.storeItem}
+                        key={store.storeId}
+                        onClick={() => onSelectStore(store.storeId, store.name)}
+                    >
+                        {store.name}
+                    </li>
+                ))
+            ) : (
+                <TextGuideStore>
+                    검색되지 않는 스토어인 경우 <br /> 작성 완료 후 직접 입력 버튼을 클릭해주세요
+                </TextGuideStore>
+            )}
+        </>
+    );
+}
+
 export function StoreSelectModal({ isOpen, close, unmount, context }: StoreSelectModalProps) {
     const [query, setQuery] = useState('');
     const [inputName, setInputName] = useState('');
     const { setStore } = useDealUpload();
-
-    const filteredStores = mockStores.filter(store => store.name.includes(query));
 
     const handleChange = (value: string) => {
         setQuery(value);
@@ -46,21 +71,9 @@ export function StoreSelectModal({ isOpen, close, unmount, context }: StoreSelec
                     </button>
                 </div>
                 <ul className={styles.storeContainer}>
-                    {filteredStores.length > 0 ? (
-                        filteredStores.map(store => (
-                            <li
-                                className={styles.storeItem}
-                                key={store.id}
-                                onClick={() => handleSelectStore(store.id, store.name)}
-                            >
-                                {store.name}
-                            </li>
-                        ))
-                    ) : (
-                        <TextGuideStore>
-                            검색되지 않는 스토어인 경우 <br /> 작성 완료 후 직접 입력 버튼을 클릭해주세요
-                        </TextGuideStore>
-                    )}
+                    <Suspense fallback={<div>스토어 목록을 불러오는 중...</div>}>
+                        <StoreList query={query} onSelectStore={handleSelectStore} />
+                    </Suspense>
                 </ul>
                 <div className={styles.footer}>
                     <ModalSearchInput

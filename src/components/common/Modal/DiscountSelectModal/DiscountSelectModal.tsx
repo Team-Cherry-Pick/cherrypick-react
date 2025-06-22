@@ -1,13 +1,14 @@
 import styles from './DiscountSelectModal.module.css';
 import CloseIcon from '@/assets/icons/close-Icon.svg';
 import { useDealUpload } from '@/hooks/useDealUpload';
-import { useState } from 'react';
-import { mockDiscounts } from '@/mocks/mockDiscounts';
+import { Suspense, useState } from 'react';
 import TextGuideStore from '../components/TextGuideStore';
 import ModalSearchInput from '../components/ModalSearchInput';
 import CheckIcon from '@/assets/icons/check-Icon.svg';
 import UnCheckIcon from '@/assets/icons/un-check-Icon.svg';
 import ModalLayout from '../components/ModalLayout';
+import { useAtomValue } from 'jotai';
+import { discountsAtom } from '@/store';
 
 interface DiscountSelectModalProps {
     isOpen: boolean;
@@ -15,13 +16,50 @@ interface DiscountSelectModalProps {
     unmount: () => void;
 }
 
+function DiscountList({
+    query,
+    selected,
+    toggleDiscount,
+}: {
+    query: string;
+    selected: { id: number; name: string }[];
+    toggleDiscount: (discount: { id: number; name: string }) => void;
+}) {
+    const discounts = useAtomValue(discountsAtom);
+    const filtered = discounts.filter(discount => discount.name.includes(query));
+
+    return (
+        <>
+            {filtered.length > 0 ? (
+                filtered.map(discount => (
+                    <li
+                        className={styles.itemDiscountSelect}
+                        key={discount.discountId}
+                        onClick={() => toggleDiscount({ id: discount.discountId, name: discount.name })}
+                    >
+                        <span
+                            className={`${styles.labelDiscount} ${selected.some(d => d.name === discount.name) && styles.selected}`}
+                        >
+                            {discount.name}
+                        </span>
+                        <img src={selected.some(d => d.name === discount.name) ? CheckIcon : UnCheckIcon} alt="체크" />
+                    </li>
+                ))
+            ) : (
+                <TextGuideStore>
+                    검색되지 않는 할인방식인 경우 <br />
+                    직접 추가 버튼을 클릭해주세요
+                </TextGuideStore>
+            )}
+        </>
+    );
+}
+
 export function DiscountSelectModal({ isOpen, close, unmount }: DiscountSelectModalProps) {
     const { setDiscounts } = useDealUpload();
     const [query, setQuery] = useState('');
     const [inputValue, setInputValue] = useState('');
     const [selected, setSelected] = useState<{ id: number; name: string }[]>([]);
-
-    const filtered = mockDiscounts.filter(d => d.name.includes(query));
 
     const handleChange = (value: string) => {
         setQuery(value);
@@ -88,30 +126,9 @@ export function DiscountSelectModal({ isOpen, close, unmount }: DiscountSelectMo
                     </div>
 
                     <ul className={styles.listDiscountSelect}>
-                        {filtered.length > 0 ? (
-                            filtered.map(discount => (
-                                <li
-                                    className={styles.itemDiscountSelect}
-                                    key={discount.id}
-                                    onClick={() => toggleDiscount(discount)}
-                                >
-                                    <span
-                                        className={`${styles.labelDiscount} ${selected.some(d => d.name === discount.name) && styles.selected}`}
-                                    >
-                                        {discount.name}
-                                    </span>
-                                    <img
-                                        src={selected.some(d => d.name === discount.name) ? CheckIcon : UnCheckIcon}
-                                        alt="체크"
-                                    />
-                                </li>
-                            ))
-                        ) : (
-                            <TextGuideStore>
-                                검색되지 않는 할인방식인 경우 <br />
-                                직접 추가 버튼을 클릭해주세요
-                            </TextGuideStore>
-                        )}
+                        <Suspense fallback={<div>할인방식 목록을 불러오는 중...</div>}>
+                            <DiscountList query={query} selected={selected} toggleDiscount={toggleDiscount} />
+                        </Suspense>
                     </ul>
                 </div>
                 <div className={styles.footer}>

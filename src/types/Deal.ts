@@ -111,3 +111,12 @@ export interface UploadDealResponse {
     dealId: number;
     message: string;
 }
+
+export interface Store {
+    storeId: number;
+    name: string;
+    isAffiliate: boolean;
+    backgroundColor: string;
+    textColor: string;
+    storeRank: number;
+}
