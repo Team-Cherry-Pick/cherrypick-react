@@ -1,6 +1,8 @@
 import axios from 'axios';
-import type { FetchDealsResponse, FetchedDeal, DetailedDeal } from '@/types/Deal';
+import type { FetchDealsResponse, FetchedDeal, DetailedDeal, UploadDeal, UploadDealResponse } from '@/types/Deal';
 import { cleanTitle, cleanStore } from '@/utils/stringCleaner';
+import apiClientService from './apiClientService';
+import { HttpMethod } from '@/types/Api';
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -38,3 +40,14 @@ export async function fetchDetailedDeal(id: string): Promise<DetailedDeal> {
         },
     };
 }
+
+export const uploadDeal = async (deal: UploadDeal): Promise<UploadDealResponse> => {
+    try {
+        const response = await apiClientService.request<UploadDealResponse>(HttpMethod.POST, '/deal', deal);
+
+        return response;
+    } catch (error) {
+        console.error('핫딜 업로드 실패:', error);
+        throw error;
+    }
+};

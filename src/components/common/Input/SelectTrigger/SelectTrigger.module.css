@@ -1,0 +1,16 @@
+.styledSelectTrigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-2-5);
+  width: 100%;
+  padding: var(--spacing-3) var(--spacing-4);
+  border: 0.0625rem solid var(--color-neutral-100);
+  border-radius: var(--radius-2);
+  background-color: var(--color-neutral-0);
+  color: var(--color-content-sub);
+}
+
+.label {
+  color: var(--color-content-sub);
+}
