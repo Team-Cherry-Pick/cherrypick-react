@@ -7,7 +7,7 @@ export interface RecommendedDeal {
     store: string;
     infoTags: string[];
     price: DealPrice;
-    isSoldOut: boolean;
+    soldout: boolean;
     createdAt: string;
     totalLikes: number;
     totalComments: number;
@@ -36,8 +36,24 @@ export interface DetailedDeal {
     totalComments: number;
     deepLink: string | null;
     originalUrl: string;
-    isSoldOut: boolean;
+    soldout: boolean;
 }
+
+// 3. 전체 조회용 딜 타입 (단일 이미지, 단순 구조)
+export interface FetchedDeal {
+    dealId: number;
+    imageUrl: DealImage;
+    heat: number;
+    title: string;
+    store: string;
+    infoTags: string[];
+    price: DealPrice;
+    createdAt: string;
+    totalLikes: number;
+    totalComments: number;
+    soldout: boolean;
+}
+
 
 export type PriceType = 'KRW' | 'USD' | 'VARIOUS';
 export type ShippingType = 'FREE' | 'CONDITIONAL' | 'KRW' | 'USD';

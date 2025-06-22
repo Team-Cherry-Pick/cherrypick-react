@@ -28,12 +28,21 @@ export const Overlay = styled.div`
   pointer-events: none;
 `;
 
+export const StyledImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center; /* ✅ 중앙 기준으로 잘라 보여줌 */
+  display: block;
+`;
 
 export const ImageBox = styled.div`
   width: 100%;
     position: relative;
   aspect-ratio: 1 / 1;
   background-color: ${({ theme }) => theme.colors.neutral[50]};
+  object-fit: cover;
+    overflow: hidden;
 `;
 
 export const InfoBox = styled.div`
@@ -50,7 +59,11 @@ export const Title = styled.div`
   font-weight: ${({ theme }) => theme.typography.weight.semibold};
   line-height: ${({ theme }) => theme.typography.lineHeight.base};
   margin-bottom: ${({ theme }) => theme.spacing[2]};
-`;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  `;
 
 export const TagRow = styled.div`
   display: flex;
