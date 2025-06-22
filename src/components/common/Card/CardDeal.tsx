@@ -15,7 +15,7 @@ export const CardDeal = ({ deal }: Props) => {
         return null;
     }
 
-    const mainImage = deal.imageUrls && deal.imageUrls.length > 0 ? deal.imageUrls[0].url : null;
+    const mainImage = deal.imageUrls?.[0]?.url ?? null;
 
     const discountPercent =
         deal.price && deal.price.regularPrice > 0
@@ -37,7 +37,7 @@ export const CardDeal = ({ deal }: Props) => {
                 <S.TagRow>
                     <S.Store>{deal.store?.storeName ?? '알 수 없음'}</S.Store>
                     <span>|</span>
-                    <S.Tags>{deal.infoTags.map(name => `#${name}`).join(' ')}</S.Tags>
+                    <S.Tags>{deal.infoTags.map(name => `${name}`).join(' ')}</S.Tags>
                 </S.TagRow>
 
                 <S.PriceRow>
