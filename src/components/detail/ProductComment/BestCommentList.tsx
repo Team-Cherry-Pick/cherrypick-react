@@ -6,6 +6,7 @@ type Props = {
 };
 
 const BestCommentList = ({ bestComments }: Props) => {
+
     return (
         <BestCommentWrapper>
             <h3>🔥 베스트 댓글</h3>

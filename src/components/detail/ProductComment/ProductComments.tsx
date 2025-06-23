@@ -25,52 +25,48 @@ type ProductCommentsProps = {
 
 const ProductComments = ({ initialComments, dealId }: ProductCommentsProps) => {
     const [sortOption, setSortOption] = useState<'최신순' | '인기순'>('최신순');
-    const [comments, setComments] = useState<Comment[]>(initialComments);
-
-    useEffect(() => {
-        setComments(initialComments);
-    }, [initialComments]);
+    const [popularComments, setPopularComments] = useState<Comment[]>([]);
 
     useEffect(() => {
         if (sortOption === '인기순') {
             fetchCommentsByDealId(dealId, 'POPULAR').then(data => {
-                setComments(data);
+                setPopularComments(data);
             });
-        } else {
-            setComments(initialComments);
         }
-    }, [sortOption, dealId, initialComments]);
+    }, [sortOption, dealId]);
+
+    const activeComments = sortOption === '인기순' ? popularComments : initialComments;
 
     return (
         <Wrapper>
             <CommentHeader
                 sortOption={sortOption}
                 onChange={setSortOption}
-                count={comments.length}
+                count={activeComments.length}
             />
 
-            {comments.length === 0 ? (
+            {activeComments.length === 0 ? (
                 <NoComment>아직 댓글이 없어요. 첫 댓글의 주인공이 되어 보세요!</NoComment>
             ) : (
                 <CommentList>
-                    {comments.map((item) => (
+                    {activeComments.map((item) => (
                         <CommentItem key={item.commentId}>
-                            <ProfileImage src={item.user.userImageUrl} alt={item.user.userName} />
+                            <ProfileImage
+                                src={item.user.userImageUrl ?? '/fallback.png'}
+                                alt={item.user.userName}
+                            />
                             <CommentContent>
                                 <UserName>{item.user.userName}</UserName>
                                 <CommentText>{item.content}</CommentText>
                                 <CommentFooter>
                                     <CommentStat>👍 {item.totalLikes}</CommentStat>
-                                    <CommentStat>
-                                        <MessageSquare size={16} /> {item.totalReplys}
-                                    </CommentStat>
+                                    <MessageSquare />{item.totalReplys}
                                 </CommentFooter>
                             </CommentContent>
                         </CommentItem>
                     ))}
                 </CommentList>
             )}
-
             <Divider />
             <CommentInput />
         </Wrapper>

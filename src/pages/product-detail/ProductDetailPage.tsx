@@ -27,7 +27,7 @@ function ProductDetailPage() {
     });
 
     const {
-        data: comments = [],
+        data: comments,
         isLoading: isLoadingComments,
     } = useQuery<Comment[]>({
         queryKey: ['comments', id],
@@ -36,7 +36,7 @@ function ProductDetailPage() {
     });
 
     const {
-        data: bestComments = [],
+        data: bestComments,
         isLoading: isLoadingBestComments,
     } = useQuery<BestComment[]>({
         queryKey: ['bestComments', id],
@@ -61,9 +61,11 @@ function ProductDetailPage() {
                 </RecommendWrapper>
 
                 <CommentContainer>
-                    <BestCommentList bestComments={bestComments} />
+                    {bestComments && bestComments.length > 0 && (
+                        <BestCommentList bestComments={bestComments} />
+                    )}
                     <ProductComments
-                        initialComments={comments}
+                        initialComments={comments ?? []}
                         dealId={id!}
                     />
                 </CommentContainer>

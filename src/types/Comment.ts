@@ -16,7 +16,7 @@ export interface Reply {
 
 export interface Comment {
     commentId: number;
-    parentId: null; // 항상 null
+    parentId: number | null;
     user: CommentUser;
     content: string;
     totalLikes: number;
@@ -31,5 +31,4 @@ export interface BestComment {
     user: CommentUser;
     content: string;
     totalLikes: number;
-    createdAt: string;
 }
