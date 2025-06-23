@@ -25,3 +25,11 @@ export interface Comment {
     isDelete: boolean;
     replies: Reply[];
 }
+
+export interface BestComment {
+    commentId: number;
+    user: CommentUser;
+    content: string;
+    totalLikes: number;
+    createdAt: string;
+}

@@ -2,7 +2,6 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.section`
-  width: 65%;
   border-radius: ${({ theme }) => theme.radius[5]};
   box-shadow: 0px 0px 5px ${({ theme }) => theme.colors.border.card};
   background-color: ${({ theme }) => theme.colors.background.root};
@@ -109,3 +108,41 @@ export const Divider = styled.hr`
   background-color: ${({ theme }) => theme.colors.border.card};
   margin-top: 10%;
 `;
+
+export const CommentList = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.spacing[4]};
+`;
+
+export const CommentItem = styled.div`
+    display: flex;
+    align-items: flex-start;
+    gap: ${({ theme }) => theme.spacing[3]};
+`;
+
+export const CommentContent = styled.div`
+    flex: 1;
+`;
+
+export const UserName = styled.div`
+    font-weight: ${({ theme }) => theme.typography.weight.bold};
+`;
+
+export const CommentText = styled.p`
+    margin: ${({ theme }) => theme.spacing[1]} 0;
+`;
+
+export const CommentFooter = styled.div`
+    display: flex;
+    gap: ${({ theme }) => theme.spacing[3]};
+    font-size: ${({ theme }) => theme.typography.size.sm};
+    color: ${({ theme }) => theme.colors.content.sub};
+`;
+
+export const CommentStat = styled.div`
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.spacing[1]};
+`;
+

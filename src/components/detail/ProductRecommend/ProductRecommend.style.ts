@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 export const Wrapper = styled.section`
   display: block;
-  width: 34%;
   flex: 1;
   margin: 0;
   padding: ${({ theme }) => theme.spacing[4]};
