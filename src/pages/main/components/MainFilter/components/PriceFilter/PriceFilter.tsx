@@ -1,13 +1,9 @@
+import { formatNumber } from '@/utils/number';
 import styles from './PriceFilter.module.css';
 import { priceFilterAtom, triggerFetchAtom, updatePriceFilterAtom, variousPriceAtom } from '@/store/search';
 import { useAtom, useSetAtom } from 'jotai';
 import { useState } from 'react';
 import { IoIosCheckmarkCircle, IoIosCheckmarkCircleOutline } from 'react-icons/io';
-
-function formatNumber(value: number | undefined) {
-    if (value === undefined || value === null || isNaN(value)) return '';
-    return value.toLocaleString();
-}
 
 function parseNumber(str: string) {
     const num = Number(str.replace(/,/g, ''));

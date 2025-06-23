@@ -22,8 +22,6 @@ export async function fetchDeals(page: number, searchRequest?: SearchRequest): P
         size: 20,
     });
 
-    console.log(page, searchRequest, res);
-
     const cleanedDeals: FetchedDeal[] = res.data.deals.map((deal: FetchedDeal) => ({
         ...deal,
         title: cleanTitle(deal.title),

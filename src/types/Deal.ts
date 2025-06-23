@@ -48,6 +48,7 @@ export interface FetchedDeal {
     store: string;
     infoTags: string[];
     price: DealPrice;
+    nickname: string;
     createdAt: string;
     totalLikes: number;
     totalComments: number;

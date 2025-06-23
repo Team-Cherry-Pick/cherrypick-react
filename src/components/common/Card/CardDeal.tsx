@@ -3,6 +3,8 @@ import { Clock, MessageSquare } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import type { FetchedDeal } from '@/types/Deal';
 import { HeatBadge } from '../Badge';
+import { getRelativeTime } from '@/utils/time';
+import { formatNumber } from '@/utils/number';
 
 interface Props {
     deal: FetchedDeal;
@@ -35,21 +37,34 @@ export const CardDeal = ({ deal }: Props) => {
                 <S.Title>{deal.title}</S.Title>
 
                 <S.TagRow>
-                    <S.Store>{'알 수 없음'}</S.Store>
+                    <S.Store>{deal.store}</S.Store>
                     <span>|</span>
                     <S.Tags>{deal.infoTags.map(name => `${name}`).join(' ')}</S.Tags>
                 </S.TagRow>
 
                 <S.PriceRow>
                     <S.Percent>{discountPercent}%</S.Percent>
-                    <S.Price>{deal.price.discountedPrice.toLocaleString()}원</S.Price>
+                    <S.Price>{formatNumber(deal.price.discountedPrice)}원</S.Price>
                 </S.PriceRow>
 
                 <S.Meta>
-                    <span>by {'알 수 없음'}</span>
+                    <span
+                        style={{
+                            width: '7rem',
+                            textAlign: 'end',
+                            textOverflow: 'ellipsis',
+                            overflow: 'hidden',
+                            whiteSpace: 'nowrap',
+                            display: 'inline-block',
+                            verticalAlign: 'bottom',
+                        }}
+                        title={deal.nickname}
+                    >
+                        by {deal.nickname}
+                    </span>
                     <span className="divider">|</span>
                     <span>
-                        <Clock /> 1시간 전
+                        <Clock /> {getRelativeTime(deal.createdAt)}
                     </span>
                     <span className="divider">|</span>
                     <span>
