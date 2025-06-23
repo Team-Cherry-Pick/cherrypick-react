@@ -33,6 +33,7 @@
   height: 2.5rem;
   border: 0.0625rem solid var(--color-border-board);
   border-radius: var(--radius-2);
+  color: var(--color-content-main);
   font-size: var(--font-size-sm);
 }
 
@@ -49,6 +50,7 @@
   padding: var(--spacing-3) var(--spacing-4);
   border: 0.0625rem solid var(--color-border-board);
   border-radius: var(--radius-2);
+  color: var(--color-content-main);
   font-size: var(--font-size-sm);
 }
 
