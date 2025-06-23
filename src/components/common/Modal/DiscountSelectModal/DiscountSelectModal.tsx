@@ -7,8 +7,9 @@ import ModalSearchInput from '../components/ModalSearchInput';
 import CheckIcon from '@/assets/icons/check-Icon.svg';
 import UnCheckIcon from '@/assets/icons/un-check-Icon.svg';
 import ModalLayout from '../components/ModalLayout';
-import { useAtomValue } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import { discountsAtom } from '@/store';
+import { selectedDiscountAtom } from '@/store/search';
 
 interface DiscountSelectModalProps {
     isOpen: boolean;
@@ -59,7 +60,12 @@ export function DiscountSelectModal({ isOpen, close, unmount }: DiscountSelectMo
     const { setDiscounts } = useDealUpload();
     const [query, setQuery] = useState('');
     const [inputValue, setInputValue] = useState('');
-    const [selected, setSelected] = useState<{ id: number; name: string }[]>([]);
+    const [selectedDiscount, setSelectedDiscount] = useAtom(selectedDiscountAtom);
+    const [selected, setSelected] = useState<{ id: number; name: string }[]>(
+        selectedDiscount.map(d => {
+            return { id: d.discountId, name: d.name };
+        }),
+    );
 
     const handleChange = (value: string) => {
         setQuery(value);
@@ -89,6 +95,7 @@ export function DiscountSelectModal({ isOpen, close, unmount }: DiscountSelectMo
             const ids = selected.map(d => d.id);
             const names = selected.map(d => d.name);
             setDiscounts(ids, names);
+            setSelectedDiscount(selected.map(discount => ({ discountId: discount.id, name: discount.name })));
             close();
         }
     };

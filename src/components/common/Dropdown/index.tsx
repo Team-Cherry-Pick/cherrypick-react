@@ -15,13 +15,7 @@ interface DropdownProps {
     onClose: () => void;
 }
 
-export default function Dropdown({
-    anchorRef,
-    options,
-    selected,
-    onSelect,
-    onClose,
-}: DropdownProps) {
+export default function Dropdown({ anchorRef, options, selected, onSelect, onClose }: DropdownProps) {
     const ref = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -45,12 +39,8 @@ export default function Dropdown({
     return (
         <Wrapper ref={ref}>
             <List>
-                {options.map((option) => (
-                    <Item
-                        key={option.value}
-                        onClick={() => onSelect(option.value)}
-                        $active={option.value === selected}
-                    >
+                {options.map(option => (
+                    <Item key={option.value} onClick={() => onSelect(option.value)} $active={option.value === selected}>
                         {option.label}
                     </Item>
                 ))}
@@ -60,31 +50,30 @@ export default function Dropdown({
 }
 
 const Wrapper = styled.div`
-  position: absolute;
-  background-color: ${({ theme }) => theme.colors.neutral[0]};
-  border: 1px solid ${({ theme }) => theme.colors.border.card};
-  border-radius: ${({ theme }) => theme.radius[4]};
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  z-index: 200;
-  min-width: 140px;
+    position: absolute;
+    background-color: ${({ theme }) => theme.colors.neutral[0]};
+    border: 1px solid ${({ theme }) => theme.colors.border.card};
+    border-radius: ${({ theme }) => theme.radius[4]};
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    z-index: 200;
+    min-width: 140px;
 `;
 
 const List = styled.ul`
-  list-style: none;
-  margin: 0;
-  padding: ${({ theme }) => theme.spacing[2]} 0;
+    list-style: none;
+    margin: 0;
+    padding: ${({ theme }) => theme.spacing[2]} 0;
 `;
 
 const Item = styled.li<{ $active: boolean }>`
-  padding: ${({ theme }) => theme.spacing[2]} ${({ theme }) => theme.spacing[4]};
-  font-size: ${({ theme }) => theme.typography.size.sm};
-  color: ${({ theme, $active }) =>
-        $active ? theme.colors.primary : theme.colors.content.main};
-  font-weight: ${({ theme, $active }) =>
+    padding: ${({ theme }) => theme.spacing[2]} ${({ theme }) => theme.spacing[4]};
+    font-size: ${({ theme }) => theme.typography.size.sm};
+    color: ${({ theme, $active }) => ($active ? theme.colors.primary : theme.colors.content.main)};
+    font-weight: ${({ theme, $active }) =>
         $active ? theme.typography.weight.semibold : theme.typography.weight.regular};
-  cursor: pointer;
+    cursor: pointer;
 
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.neutral[100]};
-  }
+    &:hover {
+        background-color: ${({ theme }) => theme.colors.neutral[100]};
+    }
 `;

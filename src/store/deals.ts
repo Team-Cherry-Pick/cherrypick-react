@@ -1,12 +1,9 @@
 // store/deals.ts
 import { atom } from 'jotai';
-import type { RecommendedDeal, DetailedDeal, UploadDeal, Store } from '@/types/Deal';
+import type { RecommendedDeal, DetailedDeal, UploadDeal } from '@/types/Deal';
 import { Images } from '@/types/Image';
-import { fetchDiscounts, fetchStores } from '@/services/apiDeal';
 
 export const selectedDealAtom = atom<RecommendedDeal | DetailedDeal | null>(null);
-
-export const selectedCategoryPathAtom = atom<string>(''); // ex: '생활용품 > 세탁세제'
 
 export const imageFilesAtom = atom<Images>({ images: [], indexes: [] });
 
@@ -32,18 +29,4 @@ export const newDealAtom = atom<UploadDeal>({
     discountIds: [],
     discountNames: [],
     discountDescription: '',
-});
-
-// 스토어 목록
-export const storesAtom = atom(async () => {
-    const response = await fetchStores();
-    console.log(response);
-    return response;
-});
-
-// 할인방식 목록
-export const discountsAtom = atom(async () => {
-    const response = await fetchDiscounts();
-    console.log(response);
-    return response;
 });

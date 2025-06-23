@@ -10,16 +10,19 @@ import type {
 import { cleanTitle, cleanStore } from '@/utils/stringCleaner';
 import apiClientService from './apiClientService';
 import { HttpMethod } from '@/types/Api';
+import { SearchRequest } from '@/store/search';
 
 const API = import.meta.env.VITE_API_URL;
 
 // 전체 딜 목록
-export async function fetchDeals(page: number): Promise<FetchDealsResponse> {
+export async function fetchDeals(page: number, searchRequest?: SearchRequest): Promise<FetchDealsResponse> {
     const res = await axios.post(`${API}/search/deal`, {
+        ...searchRequest,
         page,
         size: 20,
-        sortType: 'LATEST',
     });
+
+    console.log(page, searchRequest, res);
 
     const cleanedDeals: FetchedDeal[] = res.data.deals.map((deal: FetchedDeal) => ({
         ...deal,

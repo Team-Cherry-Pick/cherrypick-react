@@ -1,11 +1,11 @@
 import * as S from './card.style';
 import { Clock, MessageSquare } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import type { DetailedDeal } from '@/types/Deal';
+import type { FetchedDeal } from '@/types/Deal';
 import { HeatBadge } from '../Badge';
 
 interface Props {
-    deal: DetailedDeal;
+    deal: FetchedDeal;
 }
 
 export const CardDeal = ({ deal }: Props) => {
@@ -15,7 +15,7 @@ export const CardDeal = ({ deal }: Props) => {
         return null;
     }
 
-    const mainImage = deal.imageUrls?.[0]?.url ?? null;
+    const mainImage = deal.imageUrl?.url ?? null;
 
     const discountPercent =
         deal.price && deal.price.regularPrice > 0
@@ -35,7 +35,7 @@ export const CardDeal = ({ deal }: Props) => {
                 <S.Title>{deal.title}</S.Title>
 
                 <S.TagRow>
-                    <S.Store>{deal.store?.storeName ?? '알 수 없음'}</S.Store>
+                    <S.Store>{'알 수 없음'}</S.Store>
                     <span>|</span>
                     <S.Tags>{deal.infoTags.map(name => `${name}`).join(' ')}</S.Tags>
                 </S.TagRow>
@@ -46,7 +46,7 @@ export const CardDeal = ({ deal }: Props) => {
                 </S.PriceRow>
 
                 <S.Meta>
-                    <span>by {deal.user?.userName ?? '알 수 없음'}</span>
+                    <span>by {'알 수 없음'}</span>
                     <span className="divider">|</span>
                     <span>
                         <Clock /> 1시간 전
