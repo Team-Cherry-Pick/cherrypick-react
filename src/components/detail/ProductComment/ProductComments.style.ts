@@ -56,13 +56,12 @@ export const CommentInputWrapper = styled.div`
 
 export const InputRow = styled.div`
   display: flex;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing[2]};
 `;
 
 export const SubmitButtonRow = styled.div`
   display: flex;
   justify-content: flex-end;
+    gap: ${({ theme }) => theme.spacing[2]};
   margin-top: ${({ theme }) => theme.spacing[2]};
 `;
 
@@ -93,13 +92,34 @@ export const InputArea = styled.textarea`
 
 export const SubmitButton = styled.button<{ disabled?: boolean }>`
   padding: ${({ theme }) => theme.spacing[3]} ${({ theme }) => theme.spacing[5]};
+  font-size: ${({ theme }) => theme.typography.size.sm};
+  font-weight: ${({ theme }) => theme.typography.weight.bold};
   border-radius: ${({ theme }) => theme.radius[2]};
-  border: none;
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
   background: ${({ theme, disabled }) =>
         disabled ? theme.colors.neutral[300] : theme.colors.neutral[800]};
   color: ${({ theme }) => theme.colors.neutral[20]};
   transition: background 0.2s;
+
+  &:hover {
+    background: ${({ theme, disabled }) =>
+        !disabled && theme.colors.neutral[700]};
+  }
+`;
+
+export const CancelButton = styled.button`
+  padding: ${({ theme }) => theme.spacing[3]} ${({ theme }) => theme.spacing[5]};
+  font-size: ${({ theme }) => theme.typography.size.sm};
+  font-weight: ${({ theme }) => theme.typography.weight.bold};
+  border-radius: ${({ theme }) => theme.radius[2]};
+  border: 1px solid ${({ theme }) => theme.colors.border.card};
+  background-color: ${({ theme }) => theme.colors.background.root};
+  color: ${({ theme }) => theme.colors.content.main};
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.neutral[100]};
+  }
 `;
 
 export const Divider = styled.hr`

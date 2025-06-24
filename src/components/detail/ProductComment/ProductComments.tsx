@@ -33,6 +33,7 @@ type ProductCommentsProps = {
 const ProductComments = ({ initialComments, dealId }: ProductCommentsProps) => {
     const [sortOption, setSortOption] = useState<'최신순' | '인기순'>('최신순');
     const [popularComments, setPopularComments] = useState<Comment[]>([]);
+    const [replyingCommentId, setReplyingCommentId] = useState<number | null>(null);
 
     useEffect(() => {
         if (sortOption === '인기순') {
@@ -77,12 +78,19 @@ const ProductComments = ({ initialComments, dealId }: ProductCommentsProps) => {
                                             <ItemDivider>|</ItemDivider>
                                             <MessageSquare size={14} />{item.totalReplys}
                                             <ItemDivider>|</ItemDivider>
-                                            <Reply>답글달기</Reply>
+                                            <Reply onClick={() => setReplyingCommentId(item.commentId)}>답글달기</Reply>
                                         </LeftSection>
                                         <RightSection>
                                             <CommentTime>{timeSince(item.createdAt)}</CommentTime>
                                         </RightSection>
                                     </CommentFooter>
+                                    {replyingCommentId === item.commentId && (
+                                        <CommentInput
+                                            isReply={true}
+                                            onCancel={() => setReplyingCommentId(null)}
+                                            userImageUrl={item.user.userImageUrl}
+                                        />
+                                    )}
                                 </CommentContent>
                             </CommentItem>
                             <Divider />
