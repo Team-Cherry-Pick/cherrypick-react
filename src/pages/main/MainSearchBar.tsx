@@ -2,13 +2,15 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import SearchIcon from '@/assets/icons/search-Icon.svg?react';
 
-interface Props {
+interface MainSearchBarProps {
+    aiActive: boolean;
+    setAiActive: React.Dispatch<React.SetStateAction<boolean>>;
     onSearch: (keyword: string) => void;
 }
 
 const RECENT_KEYWORDS_KEY = 'recentKeywords';
 
-const MainSearchBar = ({ onSearch }: Props) => {
+const MainSearchBar = ({ aiActive, setAiActive, onSearch }: MainSearchBarProps) => {
     const [query, setQuery] = useState('');
     const [recentKeywords, setRecentKeywords] = useState<string[]>([]);
 
@@ -39,6 +41,10 @@ const MainSearchBar = ({ onSearch }: Props) => {
         const trimmed = (keyword ?? query).trim();
         if (!trimmed) return;
 
+        if (aiActive) {
+            setAiActive(false);
+        }
+
         const filtered = recentKeywords.filter(item => item !== trimmed);
         const updated = [trimmed, ...filtered].slice(0, 10); // 최대 10개 저장
         updateRecentKeywords(updated);
@@ -56,7 +62,12 @@ const MainSearchBar = ({ onSearch }: Props) => {
                     type="text"
                     placeholder="검색어를 입력해주세요"
                     value={query}
-                    onChange={e => setQuery(e.target.value)}
+                    onChange={e => {
+                        if (e.target.value.length > 0) {
+                            setAiActive(false);
+                        }
+                        setQuery(e.target.value);
+                    }}
                     onKeyDown={e => e.key === 'Enter' && handleSearch()}
                 />
                 <SearchButton active={!!query} onClick={() => handleSearch()}>

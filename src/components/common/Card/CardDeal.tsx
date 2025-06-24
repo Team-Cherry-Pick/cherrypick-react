@@ -28,7 +28,18 @@ export const CardDeal = ({ deal }: Props) => {
         <S.CardWrapper className={deal.soldout ? 'ended' : ''} onClick={() => navigate(`/product/${deal.dealId}`)}>
             {deal.soldout && <S.Overlay>종료된 핫딜입니다</S.Overlay>}
             <S.ImageBox>
-                {mainImage && <S.StyledImage src={mainImage} alt="" />}
+                {mainImage && (
+                    <S.StyledImage
+                        src={`${mainImage} `}
+                        alt=""
+                        onError={e => {
+                            const img = e.currentTarget as HTMLImageElement;
+                            img.src = 'src/assets/icons/black-logo-Icon.svg';
+                            img.style.height = '5rem';
+                            img.style.width = '5rem';
+                        }}
+                    />
+                )}
                 <S.HeatBadgeWrapper>
                     <HeatBadge heat={deal.heat} size="large" />
                 </S.HeatBadgeWrapper>
