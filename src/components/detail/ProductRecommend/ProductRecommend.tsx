@@ -6,7 +6,6 @@ import { fetchDeals } from '@/services/apiDeal';
 import type { FetchedDeal } from '@/types/Deal';
 import { HeatBadge } from '@/components/common/Badge/HeatBadge';
 import * as S from './ProductRecommend.style';
-import { HeatBadge } from '@/components/common/Badge';
 
 export const ProductRecommend = () => {
     const [deals, setDeals] = useState<FetchedDeal[]>([]);
