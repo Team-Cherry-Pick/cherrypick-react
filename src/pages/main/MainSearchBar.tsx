@@ -146,7 +146,6 @@ const SearchContainer = styled.div`
     flex-direction: column;
     gap: ${({ theme }) => theme.spacing[6]};
     width: 100%;
-    height: 5.5rem;
 `;
 
 const RecentSearchWrapper = styled.div`
@@ -154,6 +153,7 @@ const RecentSearchWrapper = styled.div`
     flex-direction: row;
     gap: ${({ theme }) => theme.spacing[3]};
     height: 1rem;
+    padding-bottom: ${({ theme }) => theme.spacing[2]}
     font-size: ${({ theme }) => theme.typography.size.sm};
     color: ${({ theme }) => theme.colors.content.sub};
 `;
