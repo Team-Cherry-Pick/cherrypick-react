@@ -34,7 +34,7 @@ export const ProductRecommend = () => {
                         <S.RecommendItem onClick={() => navigate(`/product/${item.dealId}`)}>
                             <S.Thumbnail>
                                 <S.StyledImageWrapper>
-                                    <S.StyledImage src={item.imageUrl.url} alt={item.title} />
+                                    <S.StyledImage src={item.imageUrl.url} />
                                 </S.StyledImageWrapper>
                                 <S.HeatBadgeWrapper>
                                     <HeatBadge heat={item.heat} size="large" />

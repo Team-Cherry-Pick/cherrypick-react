@@ -22,8 +22,9 @@ import {
 } from './ProductComments.style';
 import { fetchCommentsByDealId } from '@/services/apiComment';
 import { MessageSquare, ThumbsUp, CircleUserRound } from 'lucide-react';
-import type { Comment } from '@/types/Comment';
 import { timeSince } from '@/utils/timeSince';
+import type { Comment } from '@/types/Comment';
+import { LoadingSpinner } from '@/components/common/Loading/LoadingSpinner';
 
 type ProductCommentsProps = {
     initialComments: Comment[];
@@ -34,12 +35,26 @@ const ProductComments = ({ initialComments, dealId }: ProductCommentsProps) => {
     const [sortOption, setSortOption] = useState<'최신순' | '인기순'>('최신순');
     const [popularComments, setPopularComments] = useState<Comment[]>([]);
     const [replyingCommentId, setReplyingCommentId] = useState<number | null>(null);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (sortOption === '인기순') {
-            fetchCommentsByDealId(dealId, 'POPULAR').then(data => {
-                setPopularComments(data);
-            });
+            setLoading(true);
+            fetchCommentsByDealId(dealId, 'POPULAR')
+                .then(data => {
+                    setPopularComments(data);
+                })
+                .catch(error => {
+                    if (error?.response?.status === 404) {
+                        // 댓글이 없으면 빈 배열로 저장
+                        setPopularComments([]);
+                    } else {
+                        console.error(error);
+                    }
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
         }
     }, [sortOption, dealId]);
 
@@ -53,13 +68,15 @@ const ProductComments = ({ initialComments, dealId }: ProductCommentsProps) => {
                 count={activeComments.length}
             />
 
-            {activeComments.length === 0 ? (
+            {loading ? (
+                <LoadingSpinner />
+            ) : activeComments.length === 0 ? (
                 <NoComment>아직 댓글이 없어요. 첫 댓글의 주인공이 되어 보세요!</NoComment>
             ) : (
                 <CommentList>
                     {activeComments.map((item) => (
-                        <>
-                            <CommentItem key={item.commentId}>
+                        <div key={item.commentId}>
+                            <CommentItem>
                                 {item.user.userImageUrl ? (
                                     <ProfileImage src={item.user.userImageUrl} />
                                 ) : (
@@ -94,7 +111,7 @@ const ProductComments = ({ initialComments, dealId }: ProductCommentsProps) => {
                                 </CommentContent>
                             </CommentItem>
                             <Divider />
-                        </>
+                        </div>
                     ))}
                 </CommentList>
             )}

@@ -41,20 +41,29 @@ export const Thumbnail = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.neutral[200]};
   border-radius: ${({ theme }) => theme.radius[2]};
   background-color: ${({ theme }) => theme.colors.background.root};
-  overflow: hidden;
 `;
 
 export const StyledImageWrapper = styled.div`
+  position: relative;
   display: block;
   width: 100%;
   height: 100%;
+  overflow: hidden;
+  border-radius: inherit;
 `;
 
-export const StyledImage = styled.img`
+export const StyledImage = styled.div<{ src: string }>`
   display: block;
+  position: relative;
+
   width: 100%;
   height: 100%;
-  object-fit: cover;
+
+  background-image: ${({ src }) => `url(${src})`};
+  background-size: cover;
+  background-position: center;
+  border-radius: inherit;
+
 `;
 
 export const HeatBadgeWrapper = styled.div`

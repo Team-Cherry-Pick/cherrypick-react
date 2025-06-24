@@ -33,6 +33,7 @@ function ProductDetailPage() {
         queryKey: ['comments', id],
         queryFn: () => fetchCommentsByDealId(id!, 'LATEST'),
         enabled: !!id,
+        retry: false,
     });
 
     const {
