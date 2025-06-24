@@ -62,7 +62,7 @@ const SortRow = styled.div`
     display: flex;
     justify-content: flex-end;
     flex-wrap: wrap;
-    margin-top: ${({ theme }) => theme.spacing[8]};
+    margin-top: ${({ theme }) => theme.spacing[6]};
     margin-bottom: ${({ theme }) => theme.spacing[4]};
 `;
 
