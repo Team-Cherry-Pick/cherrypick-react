@@ -48,6 +48,7 @@ export interface FetchedDeal {
     store: string;
     infoTags: string[];
     price: DealPrice;
+    nickname: string;
     createdAt: string;
     totalLikes: number;
     totalComments: number;
@@ -110,4 +111,13 @@ export interface UploadDeal {
 export interface UploadDealResponse {
     dealId: number;
     message: string;
+}
+
+export interface Store {
+    storeId: number;
+    name: string;
+    isAffiliate: boolean;
+    backgroundColor: string;
+    textColor: string;
+    storeRank: number;
 }

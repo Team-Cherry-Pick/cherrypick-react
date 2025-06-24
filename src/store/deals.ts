@@ -5,11 +5,9 @@ import { Images } from '@/types/Image';
 
 export const selectedDealAtom = atom<RecommendedDeal | DetailedDeal | null>(null);
 
-export const selectedCategoryPathAtom = atom<string>(''); // ex: '생활용품 > 세탁세제'
-
 export const imageFilesAtom = atom<Images>({ images: [], indexes: [] });
 
-// 신규 핫딜 등록 시 사용하는 초기값 (서버 구조 기준 상세용과 유사)
+// 핫딜 등록 초기값
 export const newDealAtom = atom<UploadDeal>({
     title: '',
     categoryId: undefined,

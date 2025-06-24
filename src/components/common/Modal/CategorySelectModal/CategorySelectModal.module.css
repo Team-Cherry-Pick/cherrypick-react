@@ -63,4 +63,8 @@
   font-size: var(--font-size-sm);
   line-height: 1rem;
   cursor: pointer;
+
+  svg {
+    color: var(--color-content-main);
+  }
 }

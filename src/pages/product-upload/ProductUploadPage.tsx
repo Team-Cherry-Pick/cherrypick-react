@@ -16,10 +16,13 @@ import { imageFilesAtom, newDealAtom } from '@/store';
 import { uploadImage } from '@/services/apiImage';
 import { uploadDeal } from '@/services/apiDeal';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function ProductUploadPage() {
+    const navigate = useNavigate();
     const [deal, setDeal] = useAtom(newDealAtom);
     const [images] = useAtom(imageFilesAtom);
+
     const [valid, setValid] = useState<
         'Title' | 'Category' | 'Image' | 'OriginalUrl' | 'Store' | 'Shipping' | 'Content' | null
     >(null);
@@ -98,8 +101,14 @@ export default function ProductUploadPage() {
         };
 
         uploadDeal(uploadDealData)
-            .then(response => console.log(response))
-            .catch(error => console.error(error));
+            .then(response => {
+                console.log(response);
+                navigate('/');
+            })
+            .catch(error => {
+                alert('핫딜 게시글 작성 실패');
+                console.error(error);
+            });
     };
 
     // 유효성 검사
@@ -118,6 +127,8 @@ export default function ProductUploadPage() {
             setValid('Shipping');
         } else if (!isContentValid) {
             setValid('Content');
+        } else {
+            setValid(null);
         }
     }, [
         isCategoryValid,

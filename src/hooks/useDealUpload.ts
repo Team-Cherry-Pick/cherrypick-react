@@ -1,14 +1,13 @@
 // hooks/useDealUpload.ts
 import { useSetAtom } from 'jotai';
 import { UploadDeal } from '@/types/Deal';
-import { newDealAtom, selectedCategoryPathAtom } from '@/store/deals';
+import { newDealAtom } from '@/store/deals';
 
 /**
  * 업로드용 딜 상태 조작 훅
  */
 export function useDealUpload() {
     const setDeal = useSetAtom(newDealAtom);
-    const setCategoryPath = useSetAtom(selectedCategoryPathAtom);
 
     const setStore = (storeId: number, storeName: string) => {
         setDeal((prev: UploadDeal) => ({
@@ -18,9 +17,7 @@ export function useDealUpload() {
         }));
     };
 
-    const setCategory = (steps: string[], categoryId: number) => {
-        const pathString = steps.join(' > ');
-        setCategoryPath(pathString);
+    const setCategory = (categoryId: number) => {
         setDeal((prev: UploadDeal) => ({
             ...prev,
             categoryId,

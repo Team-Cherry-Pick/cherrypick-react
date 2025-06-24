@@ -94,16 +94,15 @@ const HighlightColor = styled.span`
 `;
 
 const KakaoLoginButton = styled.button`
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     height: 48px;
     margin-top: 16px;
     border-radius: ${({ theme }) => theme.radius[2]};
     background-color: #fee502;
     color: ${({ theme }) => theme.colors.neutral[500]};
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: row;
     cursor: pointer;
     gap: 16px;
 `;
@@ -115,8 +114,6 @@ const KakaoLoginLogoImage = styled.img`
 
 const KakaoLoginText = styled.p`
     ${textStyles.subtitle}
-    margin-top: 20px;
-    text-align: start;
     font-size: 18px;
     color: #392020;
 `;
