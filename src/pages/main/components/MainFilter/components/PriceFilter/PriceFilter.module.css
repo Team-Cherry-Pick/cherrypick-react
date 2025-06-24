@@ -75,5 +75,7 @@
 }
 
 .variousPriceButton_active {
-  font-weight: var(--font-weight-semibold);
+  svg {
+    color: var(--color-primary);
+  }
 }

@@ -94,7 +94,10 @@ export function PriceFilter() {
                     maxLength={15}
                 />
             </div>
-            <button className={styles.variousPriceButton} onClick={() => setVariousPrice(!variousPrice)}>
+            <button
+                className={`${styles.variousPriceButton} ${variousPrice && styles.variousPriceButton_active}`}
+                onClick={() => setVariousPrice(!variousPrice)}
+            >
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                     {variousPrice ? <IoIosCheckmarkCircle size={20} /> : <IoIosCheckmarkCircleOutline size={20} />}
                 </div>

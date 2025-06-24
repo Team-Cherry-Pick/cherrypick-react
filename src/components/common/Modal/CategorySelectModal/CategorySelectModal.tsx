@@ -5,7 +5,7 @@ import { Suspense } from 'react';
 import { Category } from '@/types/Category';
 import CloseIcon from '@/assets/icons/close-Icon.svg';
 import LeftArrowIcon from '@/assets/icons/left-arrow-icon.svg';
-import RightArrowIcon from '@/assets/icons/right-arrow-icon.svg';
+import RightArrowIcon from '@/assets/icons/right-arrow-icon.svg?react';
 import ModalLayout from '../components/ModalLayout';
 import { useDealUpload } from '@/hooks/useDealUpload';
 
@@ -39,7 +39,7 @@ function CategoryList({ close }: { close: () => void }) {
                     onClick={() => handleClick(item, item.subCategories.length === 0)}
                 >
                     {item.name}
-                    {item.subCategories.length > 0 && <img src={RightArrowIcon} alt="다음" />}
+                    {item.subCategories.length > 0 && <RightArrowIcon />}
                 </li>
             ))}
         </>
