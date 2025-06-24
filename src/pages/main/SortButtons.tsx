@@ -5,6 +5,7 @@ import UnderArrowIcon from '@/assets/icons/under-arrow-Icon.svg';
 import Dropdown from '@/components/common/Dropdown';
 import { useAtom } from 'jotai';
 import { sortTypeAtom, timeRangeAtom, triggerFetchAtom } from '@/store/search';
+import { MdAutoAwesome } from 'react-icons/md';
 
 const timeRangeOptions = [
     { label: '최근 3시간', value: 'LAST3HOURS' },
@@ -26,7 +27,7 @@ const sortOptions = [
 ];
 
 const SortButtons = () => {
-    // const [aiActive, setAiActive] = useState(false);
+    const [aiActive, setAiActive] = useState(false);
 
     const [timeRange, setTimeRange] = useAtom(timeRangeAtom);
     const [sortType, setSortType] = useAtom(sortTypeAtom);
@@ -43,7 +44,7 @@ const SortButtons = () => {
 
     return (
         <SortWrapper>
-            {/* <AiSortButton active={aiActive} onClick={() => setAiActive(prev => !prev)}>
+            <AiSortButton active={aiActive} onClick={() => setAiActive(prev => !prev)}>
                 <SlidingContent>
                     <IconCircle active={aiActive} $side={aiActive ? 'right' : 'left'}>
                         <MdAutoAwesome />
@@ -52,7 +53,7 @@ const SortButtons = () => {
                         AI 추천
                     </SlidingText>
                 </SlidingContent>
-            </AiSortButton> */}
+            </AiSortButton>
 
             <SortButton
                 ref={timeRef}
@@ -109,15 +110,15 @@ const SortWrapper = styled.div`
     }
 `;
 
-// const SlidingContent = styled.div`
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   gap: ${({ theme }) => theme.spacing[1]};
-//   position: relative;
-//   width: 100%;
-//   height: ${({ theme }) => theme.spacing[6]};
-// `;
+const SlidingContent = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: ${({ theme }) => theme.spacing[1]};
+  position: relative;
+  width: 100%;
+  height: ${({ theme }) => theme.spacing[6]};
+`;
 
 const ArrowIcon = styled.img<{ $open: boolean }>`
     width: ${({ theme }) => theme.typography.size.xs};
@@ -137,51 +138,51 @@ const BaseButton = styled.button`
     gap: ${({ theme }) => theme.spacing[1]};
 `;
 
-// const AiSortButton = styled(BaseButton) <{ active?: boolean }>`
-//   background: ${({ active }) =>
-//         active ? 'linear-gradient(90deg, #FF8067, #FF4635)' : ({ theme }) => theme.colors.neutral[20]};
-//   color: ${({ active }) => (active ? 'white' : ({ theme }) => theme.colors.content.sub)};
-//   font-weight: ${({ theme }) => theme.typography.weight.semibold};
-//   position: relative;
-//   transition: all 0.3s ease;
-//   justify-content: flex-start;
-// `;
+const AiSortButton = styled(BaseButton) <{ active?: boolean }>`
+  background: ${({ active }) =>
+        active ? 'linear-gradient(90deg, #FF8067, #FF4635)' : ({ theme }) => theme.colors.neutral[20]};
+  color: ${({ active }) => (active ? 'white' : ({ theme }) => theme.colors.content.sub)};
+  font-weight: ${({ theme }) => theme.typography.weight.semibold};
+  position: relative;
+  transition: all 0.3s ease;
+  justify-content: flex-start;
+`;
 
 const SortButton = styled(BaseButton)`
     font-weight: ${({ theme }) => theme.typography.weight.regular};
 `;
 
-// const SlidingText = styled.span<{ active: boolean; $side: 'left' | 'right' }>`
-//    order: ${({ $side }) => ($side === 'left' ? 0 : 1)};
-//   opacity: 0;
-//   animation: fadeIn 0.4s ease forwards;
+const SlidingText = styled.span<{ active: boolean; $side: 'left' | 'right' }>`
+   order: ${({ $side }) => ($side === 'left' ? 0 : 1)};
+  opacity: 0;
+  animation: fadeIn 0.4s ease forwards;
 
-//   @keyframes fadeIn {
-//     0% {
-//       opacity: 0;
-//       transform: translateX(${props => (props.$side === 'left' ? '-5px' : '5px')});
-//     }
-//     100% {
-//       opacity: 1;
-//       transform: translateX(0);
-//     }
-//   }
-// `;
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateX(${props => (props.$side === 'left' ? '-5px' : '5px')});
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+`;
 
-// const IconCircle = styled.div<{ active?: boolean; $side: 'left' | 'right' }>`
-//   order: ${({ $side }) => ($side === 'left' ? 0 : 1)};
-//   width: ${({ theme }) => theme.spacing[6]};
-//   height: ${({ theme }) => theme.spacing[6]};
-//   border-radius: 50%;
-//   background-color: ${({ active }) => (active ? '#FFD56A' : '#C4C4C4')};
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   transition: all 0.3s ease;
+const IconCircle = styled.div<{ active?: boolean; $side: 'left' | 'right' }>`
+  order: ${({ $side }) => ($side === 'left' ? 0 : 1)};
+  width: ${({ theme }) => theme.spacing[6]};
+  height: ${({ theme }) => theme.spacing[6]};
+  border-radius: 50%;
+  background-color: ${({ active }) => (active ? '#FFD56A' : '#C4C4C4')};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
 
-//   svg {
-//     width: ${({ theme }) => theme.spacing[3]};
-//     height: ${({ theme }) => theme.spacing[3]};
-//     fill: white;
-//   }
-// `;
+  svg {
+    width: ${({ theme }) => theme.spacing[3]};
+    height: ${({ theme }) => theme.spacing[3]};
+    fill: white;
+  }
+`;
