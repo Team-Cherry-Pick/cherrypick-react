@@ -1,12 +1,11 @@
-// MainDealList.tsx
 import { useEffect, useRef, useCallback, useState } from 'react';
 import { CardDeal } from '@/components/common/Card';
-import { fetchDeals } from '@/services/apiDeal';
+import { fetchDeals, fetchRecommendedDeals } from '@/services/apiDeal';
 import styled from 'styled-components';
 import type { FetchedDeal } from '@/types/Deal';
 import { LoadingSpinner } from '@/components/common/Loading/LoadingSpinner';
 import { useAtomValue } from 'jotai';
-import { fetchTriggerAtom, searchRequestAtom } from '@/store/search';
+import { aiActiveAtom, fetchTriggerAtom, searchRequestAtom } from '@/store/search';
 
 const MainDealList = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -17,34 +16,10 @@ const MainDealList = () => {
 
     const searchRequest = useAtomValue(searchRequestAtom);
     const fetchTrigger = useAtomValue(fetchTriggerAtom);
-
-    // 트리거가 바뀌면 0페이지부터 새로 fetch
-    useEffect(() => {
-        let ignore = false;
-        async function fetchFirstPage() {
-            setIsLoading(true);
-            try {
-                const { deals, hasNext: next } = await fetchDeals(0, searchRequest);
-                if (!ignore) {
-                    setItems(deals);
-                    pageRef.current = 1;
-                    setHasNext(next);
-                }
-            } catch {
-                if (!ignore) setItems([]);
-            } finally {
-                if (!ignore) setIsLoading(false);
-            }
-        }
-        fetchFirstPage();
-        return () => {
-            ignore = true;
-        };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [fetchTrigger]);
+    const aiActive = useAtomValue(aiActiveAtom);
 
     const loadMore = useCallback(async () => {
-        if (isLoading || !hasNext) return;
+        if (isLoading || !hasNext || aiActive) return;
         setIsLoading(true);
         try {
             const { deals, hasNext: next } = await fetchDeals(pageRef.current, searchRequest);
@@ -56,7 +31,7 @@ const MainDealList = () => {
         } finally {
             setIsLoading(false);
         }
-    }, [isLoading, hasNext, searchRequest]);
+    }, [isLoading, hasNext, searchRequest, aiActive]);
 
     const handleObserver = useCallback(
         (entries: IntersectionObserverEntry[]) => {
@@ -68,7 +43,46 @@ const MainDealList = () => {
         [loadMore, isLoading],
     );
 
+    // 최초 데이터 fetch (fetchTrigger 또는 aiActive 변경 시)
     useEffect(() => {
+        let ignore = false;
+
+        async function fetchInitial() {
+            setIsLoading(true);
+            try {
+                if (aiActive) {
+                    const deals = await fetchRecommendedDeals(searchRequest);
+                    if (!ignore) {
+                        setItems(deals);
+                        setHasNext(false);
+                    }
+                } else {
+                    const { deals, hasNext: next } = await fetchDeals(0, searchRequest);
+                    if (!ignore) {
+                        setItems(deals);
+                        pageRef.current = 1;
+                        setHasNext(next);
+                    }
+                }
+            } catch (error) {
+                if (!ignore) setItems([]);
+                console.error(error);
+            } finally {
+                if (!ignore) setIsLoading(false);
+            }
+        }
+
+        fetchInitial();
+        return () => {
+            ignore = true;
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [fetchTrigger, aiActive]);
+
+    // 무한 스크롤 observer (ai 모드에서는 사용하지 않음)
+    useEffect(() => {
+        if (aiActive) return;
+
         const observer = new IntersectionObserver(handleObserver, {
             threshold: 1.0,
         });
@@ -79,7 +93,7 @@ const MainDealList = () => {
         return () => {
             if (currentTarget) observer.unobserve(currentTarget);
         };
-    }, [handleObserver]);
+    }, [handleObserver, aiActive]);
 
     return (
         <DealGrid>
@@ -91,13 +105,14 @@ const MainDealList = () => {
                     <LoadingSpinner />
                 </SpinnerWrapper>
             )}
-            <ObserverTarget ref={observerRef} />
+            {!aiActive && <ObserverTarget ref={observerRef} />}
         </DealGrid>
     );
 };
 
 export default MainDealList;
 
+// Styled Components
 const DealGrid = styled.div`
     flex: 1;
     display: grid;

@@ -3,8 +3,8 @@ import styled from 'styled-components';
 // import { MdAutoAwesome } from 'react-icons/md';
 import UnderArrowIcon from '@/assets/icons/under-arrow-Icon.svg';
 import Dropdown from '@/components/common/Dropdown';
-import { useAtom } from 'jotai';
-import { sortTypeAtom, timeRangeAtom, triggerFetchAtom } from '@/store/search';
+import { useAtom, useAtomValue } from 'jotai';
+import { aiActiveAtom, sortTypeAtom, timeRangeAtom, triggerFetchAtom } from '@/store/search';
 import { MdAutoAwesome } from 'react-icons/md';
 
 const timeRangeOptions = [
@@ -27,7 +27,7 @@ const sortOptions = [
 ];
 
 const SortButtons = () => {
-    const [aiActive, setAiActive] = useState(false);
+    const [aiActive, setAiActive] = useAtom(aiActiveAtom);
 
     const [timeRange, setTimeRange] = useAtom(timeRangeAtom);
     const [sortType, setSortType] = useAtom(sortTypeAtom);

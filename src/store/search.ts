@@ -58,6 +58,8 @@ export const selectedStoresAtom = atom<{ name: string; storeId: number }[]>([]);
 
 export const selectedDiscountAtom = atom<{ name: string; discountId: number }[]>([]);
 
+export const aiActiveAtom = atom<boolean>(false);
+
 // 필터 조작을 위한 유틸 Atoms
 export const toggleBasicFilterAtom = atom(null, (get, set, filterKey: keyof BasicFilters) => {
     const current = get(basicFiltersAtom);

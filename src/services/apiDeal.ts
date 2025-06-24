@@ -34,6 +34,20 @@ export async function fetchDeals(page: number, searchRequest?: SearchRequest): P
     };
 }
 
+// 추천 딜 목록
+export async function fetchRecommendedDeals(): Promise<FetchedDeal[]> {
+    
+    const res = await apiClientService.request<FetchDealsResponse>(HttpMethod.GET, '/deal/recommend');
+    
+    const cleanedDeals: FetchedDeal[] = res.deals.map((deal: FetchedDeal) => ({
+        ...deal,
+        title: cleanTitle(deal.title),
+        store: cleanStore(deal.store),
+    }));
+
+    return cleanedDeals;
+}
+
 // 상세 딜
 export async function fetchDetailedDeal(id: string): Promise<DetailedDeal> {
     const res = await axios.get(`${API}/deal/${id}`);
