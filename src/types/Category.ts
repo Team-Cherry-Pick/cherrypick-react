@@ -3,7 +3,3 @@ export interface Category {
     name: string;
     subCategories: Category[];
 }
-
-export interface CategoryTree {
-    categories: Category[];
-}

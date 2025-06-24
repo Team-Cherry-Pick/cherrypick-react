@@ -1,0 +1,32 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.rootBackground {
+  background-color: var(--color-background-root);
+}
+
+.boradBackground {
+  background-color: var(--color-background-board);
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+}
+
+.innerFullWidth {
+  padding-inline: 0;
+}

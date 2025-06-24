@@ -1,0 +1,81 @@
+.flexBox {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-4);
+}
+
+.title {
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: -0.025rem;
+  line-height: 1.125rem;
+}
+
+.applyButton {
+  color: var(--color-content-sub);
+  font-size: var(--font-size-sm);
+  letter-spacing: -0.02188rem;
+  line-height: 1rem;
+  text-decoration: underline;
+}
+
+.priceContainer {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+}
+
+.priceType {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 0.0625rem solid var(--color-border-board);
+  border-radius: var(--radius-2);
+  color: var(--color-content-main);
+  font-size: var(--font-size-sm);
+}
+
+.priceDivider {
+  width: 0.875rem;
+  height: 0.0625rem;
+  margin: 0 var(--spacing-1);
+  background-color: var(--color-neutral-200);
+}
+
+.priceInput {
+  width: 6rem;
+  height: 2.5rem;
+  padding: var(--spacing-3) var(--spacing-4);
+  border: 0.0625rem solid var(--color-border-board);
+  border-radius: var(--radius-2);
+  color: var(--color-content-main);
+  font-size: var(--font-size-sm);
+}
+
+.priceInput:focus {
+  outline: none;
+}
+
+.priceInput[type="number"]::-webkit-inner-spin-button,
+.priceInput[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.variousPriceButton {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  margin-top: var(--spacing-4);
+  color: var(--color-content-sub);
+  font-size: var(--font-size-sm);
+  line-height: 1rem;
+}
+
+.variousPriceButton_active {
+  svg {
+    color: var(--color-primary);
+  }
+}

@@ -1,0 +1,130 @@
+.container {
+  width: 24.375rem;
+  height: 37.5rem;
+  background-color: var(--color-neutral-0);
+  border-radius: var(--radius-5);
+}
+
+.container_upload {
+  height: 28.125rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 4rem;
+  padding: var(--spacing-5);
+}
+
+.title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+}
+
+.closeButton {
+  display: flex;
+  align-items: center;
+
+  svg,
+  img {
+    width: 1rem;
+    height: 1rem;
+    fill: var(--color-content-sub);
+  }
+}
+
+.selectedStoreContainer {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  gap: var(--spacing-2);
+  height: 4rem;
+  padding: var(--spacing-4) var(--spacing-5);
+  background-color: var(--color-neutral-100);
+  font-size: var(--font-size-sm);
+  color: var(--color-content-sub);
+  overflow-x: scroll;
+
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE / Edge */
+}
+
+.selectedStoreContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.selectedStoreWrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  height: 2rem;
+  padding: var(--spacing-2) var(--spacing-3);
+  border: 0.0625rem solid var(--color-neutral-200);
+  border-radius: var(--radius-4);
+  background-color: var(--color-neutral-0);
+  color: var(--color-content-main);
+}
+
+.selectedStoreName {
+  height: 1.125rem;
+}
+
+.removeButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.searchInputWrapper {
+  padding: var(--spacing-5);
+}
+
+.storeContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-5);
+  height: 19.125rem;
+  padding: var(--spacing-5);
+  border-top: 0.0625rem solid var(--color-neutral-100);
+  border-bottom: 0.0625rem solid var(--color-neutral-100);
+  list-style: none;
+  overflow-y: auto;
+
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE / Edge */
+}
+
+.storeItem {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-size-sm);
+  line-height: 1rem;
+  cursor: pointer;
+
+  svg {
+    color: var(--color-content-tertiary);
+  }
+}
+
+.storeItem_selected {
+  color: var(--color-primary);
+  
+  svg {
+    color: var(--color-primary);
+  }
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 5rem;
+  padding: var(--spacing-5);
+}
+
+.resetButton {
+  flex: 1;
+  margin-right: var(--spacing-2);
+  color: var(--color-content-sub);
+}

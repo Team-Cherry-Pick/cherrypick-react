@@ -1,0 +1,55 @@
+.flexBox {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.title {
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: -0.025rem;
+  line-height: 1.125rem;
+}
+
+.resetButton {
+  color: var(--color-content-sub);
+  font-size: var(--font-size-sm);
+  letter-spacing: -0.02188rem;
+  line-height: 1rem;
+  text-decoration: underline;
+}
+
+.storeContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+  margin-top: var(--spacing-4);
+}
+
+.addButton {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1-5);
+  height: 2rem;
+  padding: var(--spacing-2) var(--spacing-3);
+  border: 0.0625rem solid var(--color-border-board);
+  border-radius: var(--radius-4);
+  background-color: var(--color-neutral-0);
+  color: var(--color-content-sub);
+  font-size: var(--font-size-sm);
+
+  svg {
+    color: var(--color-content-tertiary);
+  }
+}
+
+.storeBadge {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  height: 2rem;
+  padding: var(--spacing-2) var(--spacing-3);
+  border: 0.0625rem solid var(--color-neutral-200);
+  border-radius: var(--radius-4);
+  background-color: var(--color-neutral-0);
+  font-size: var(--font-size-sm);
+}

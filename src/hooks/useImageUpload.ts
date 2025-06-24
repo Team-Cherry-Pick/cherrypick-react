@@ -3,7 +3,7 @@ import Sortable from 'sortablejs';
 import { useSetAtom } from 'jotai';
 import { imageFilesAtom } from '@/store/deals';
 
-export const MAX_IMAGES = 4;
+export const MAX_IMAGES = 5;
 
 export const useImageUpload = () => {
     const [images, setImages] = useState<File[]>([]);
@@ -14,7 +14,10 @@ export const useImageUpload = () => {
     const sortableRef = useRef<Sortable | null>(null);
 
     useEffect(() => {
-        setImageFiles(images);
+        setImageFiles({
+            images: images,
+            indexes: images.map((_, index) => index),
+        });
     }, [images, setImageFiles]);
 
     useEffect(() => {
