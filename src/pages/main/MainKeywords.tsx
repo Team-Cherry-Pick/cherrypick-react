@@ -12,8 +12,7 @@ const MainKeywords = ({ keyword }: Props) => {
 export default MainKeywords;
 
 const SearchResult = styled.span`
-  font-size: ${({ theme }) => theme.typography.size.xxl};
-  font-weight: ${({ theme }) => theme.typography.weight.bold};
-  margin-left: ${({ theme }) => theme.spacing[6]};
-  flex: 1;
+    font-size: ${({ theme }) => theme.typography.size.xxl};
+    font-weight: ${({ theme }) => theme.typography.weight.bold};
+    flex: 1;
 `;

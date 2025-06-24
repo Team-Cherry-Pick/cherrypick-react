@@ -6,6 +6,7 @@ import { fetchDeals } from '@/services/apiDeal';
 import type { FetchedDeal } from '@/types/Deal';
 import { HeatBadge } from '@/components/common/Badge/HeatBadge';
 import * as S from './ProductRecommend.style';
+import { HeatBadge } from '@/components/common/Badge';
 
 export const ProductRecommend = () => {
     const [deals, setDeals] = useState<FetchedDeal[]>([]);
@@ -54,15 +55,21 @@ export const ProductRecommend = () => {
                                     <S.Percent>
                                         {Math.round(
                                             ((item.price.regularPrice - item.price.discountedPrice) /
-                                                item.price.regularPrice) * 100
-                                        )}%
+                                                item.price.regularPrice) *
+                                                100,
+                                        )}
+                                        %
                                     </S.Percent>
                                     <S.Price>{item.price.discountedPrice.toLocaleString()}원</S.Price>
                                 </S.PriceRow>
                                 <S.Meta>
-                                    <span><Clock /> {getTimeAgo(item.createdAt)}</span>
+                                    <span>
+                                        <Clock /> {getTimeAgo(item.createdAt)}
+                                    </span>
                                     <span className="divider">|</span>
-                                    <span><MessageSquare /> {item.totalComments}</span>
+                                    <span>
+                                        <MessageSquare /> {item.totalComments}
+                                    </span>
                                 </S.Meta>
                             </S.Info>
                         </S.RecommendItem>

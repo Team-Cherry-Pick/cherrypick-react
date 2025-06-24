@@ -25,7 +25,7 @@ export const toDetailedDeal = (deal: FetchedDeal): DetailedDeal => ({
     title: deal.title,
     infoTags: deal.infoTags,
     shipping: {
-        shippingType: null,
+        shippingType: 'FREE',
         shippingPrice: 0,
         shippingRule: '',
     },
