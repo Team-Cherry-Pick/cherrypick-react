@@ -13,6 +13,7 @@ import { useAtom } from 'jotai';
 import { keywordAtom, triggerFetchAtom } from '@/store/search';
 
 const MainPage = () => {
+    const [aiActive, setAiActive] = useState(false);
     const [searchQuery, setSearchQuery] = useState<string | null>(null);
     const [keyword, setKeyword] = useAtom(keywordAtom);
     const [, triggerFetch] = useAtom(triggerFetchAtom);
@@ -31,14 +32,18 @@ const MainPage = () => {
     return (
         <DefaultLayout>
             <div className={styles.container}>
-                <MainFilter />
+                <MainFilter aiActive={aiActive} />
                 <div style={{ width: '100%' }}>
-                    <MainSearchBar onSearch={keyword => setSearchQuery(keyword)} />
+                    <MainSearchBar
+                        aiActive={aiActive}
+                        setAiActive={setAiActive}
+                        onSearch={keyword => setSearchQuery(keyword)}
+                    />
                     <SortRow>
-                        <MainKeywords keyword={keyword} />
-                        <SortButtons />
+                        <MainKeywords aiActive={aiActive} keyword={keyword} />
+                        <SortButtons aiActive={aiActive} setAiActive={setAiActive} />
                     </SortRow>
-                    <MainDealList />
+                    <MainDealList aiActive={aiActive} />
                 </div>
             </div>
 

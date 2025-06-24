@@ -6,6 +6,7 @@ import type {
     UploadDeal,
     UploadDealResponse,
     Store,
+    FetchRecommendResponse,
 } from '@/types/Deal';
 import { cleanTitle, cleanStore } from '@/utils/stringCleaner';
 import apiClientService from './apiClientService';
@@ -32,6 +33,21 @@ export async function fetchDeals(page: number, searchRequest?: SearchRequest): P
         deals: cleanedDeals,
         hasNext: res.data.hasNext,
     };
+}
+
+// AI 추천 딜 목록
+export async function fetchRecommend(): Promise<FetchRecommendResponse> {
+    try {
+        const response = await apiClientService.request<FetchRecommendResponse>(
+            HttpMethod.GET,
+            `${API}/deal/recommend`,
+        );
+
+        return response;
+    } catch (error) {
+        console.error('AI 추천 딜 목록 조회 실패:', error);
+        throw error;
+    }
 }
 
 // 상세 딜
