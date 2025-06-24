@@ -5,18 +5,25 @@ import {
     Wrapper,
     NoComment,
     Divider,
+    ItemDivider,
     CommentList,
     CommentItem,
     ProfileImage,
     CommentContent,
     UserName,
+    FallbackIcon,
     CommentText,
     CommentFooter,
-    CommentStat,
+    Likes,
+    Reply,
+    CommentTime,
+    LeftSection,
+    RightSection,
 } from './ProductComments.style';
 import { fetchCommentsByDealId } from '@/services/apiComment';
-import { MessageSquare } from 'lucide-react';
+import { MessageSquare, ThumbsUp, CircleUserRound } from 'lucide-react';
 import type { Comment } from '@/types/Comment';
+import { timeSince } from '@/utils/timeSince';
 
 type ProductCommentsProps = {
     initialComments: Comment[];
@@ -50,24 +57,39 @@ const ProductComments = ({ initialComments, dealId }: ProductCommentsProps) => {
             ) : (
                 <CommentList>
                     {activeComments.map((item) => (
-                        <CommentItem key={item.commentId}>
-                            <ProfileImage
-                                src={item.user.userImageUrl ?? '/fallback.png'}
-                                alt={item.user.userName}
-                            />
-                            <CommentContent>
-                                <UserName>{item.user.userName}</UserName>
-                                <CommentText>{item.content}</CommentText>
-                                <CommentFooter>
-                                    <CommentStat>👍 {item.totalLikes}</CommentStat>
-                                    <MessageSquare />{item.totalReplys}
-                                </CommentFooter>
-                            </CommentContent>
-                        </CommentItem>
+                        <>
+                            <CommentItem key={item.commentId}>
+                                {item.user.userImageUrl ? (
+                                    <ProfileImage src={item.user.userImageUrl} />
+                                ) : (
+                                    <FallbackIcon>
+                                        <CircleUserRound size={32} />
+                                    </FallbackIcon>
+                                )}
+                                <CommentContent>
+                                    <UserName>{item.user.userName}</UserName>
+                                    <CommentText>{item.content}</CommentText>
+                                    <CommentFooter>
+                                        <LeftSection>
+                                            <Likes>
+                                                <ThumbsUp size={14} />{item.totalLikes}
+                                            </Likes>
+                                            <ItemDivider>|</ItemDivider>
+                                            <MessageSquare size={14} />{item.totalReplys}
+                                            <ItemDivider>|</ItemDivider>
+                                            <Reply>답글달기</Reply>
+                                        </LeftSection>
+                                        <RightSection>
+                                            <CommentTime>{timeSince(item.createdAt)}</CommentTime>
+                                        </RightSection>
+                                    </CommentFooter>
+                                </CommentContent>
+                            </CommentItem>
+                            <Divider />
+                        </>
                     ))}
                 </CommentList>
             )}
-            <Divider />
             <CommentInput />
         </Wrapper>
     );
