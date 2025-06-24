@@ -1,19 +1,42 @@
 import type { BestComment } from '@/types/Comment';
 import styled from 'styled-components';
+import {
+    ProfileImage,
+    CommentText,
+    CommentContent,
+    UserName,
+    FallbackIcon,
+    Likes,
+} from './ProductComments.style';
+import { CircleUserRound, ThumbsUp } from 'lucide-react';
 
 type Props = {
     bestComments: BestComment[];
 };
 
 const BestCommentList = ({ bestComments }: Props) => {
-
     return (
         <BestCommentWrapper>
-            <h3>🔥 베스트 댓글</h3>
-            {bestComments.map((c) => (
-                <BestCommentItem key={c.commentId}>
-                    <UserName>{c.user.userName}</UserName> ({c.totalLikes})
-                    <CommentContent>{c.content}</CommentContent>
+            <Title>🔥 베스트 댓글</Title>
+            {bestComments.map((item) => (
+                <BestCommentItem key={item.commentId}>
+                    {item.user.userImageUrl ? (
+                        <ProfileImage src={item.user.userImageUrl} />
+                    ) : (
+                        <FallbackIcon>
+                            <CircleUserRound size={32} />
+                        </FallbackIcon>
+                    )}
+                    <CommentContent>
+                        <HeaderRow>
+                            <UserName>{item.user.userName}</UserName>
+                            <Likes>
+                                <ThumbsUp size={16} />
+                                {item.totalLikes}
+                            </Likes>
+                        </HeaderRow>
+                        <CommentText>{item.content}</CommentText>
+                    </CommentContent>
                 </BestCommentItem>
             ))}
         </BestCommentWrapper>
@@ -22,26 +45,33 @@ const BestCommentList = ({ bestComments }: Props) => {
 
 export default BestCommentList;
 
-
 const BestCommentWrapper = styled.div`
-    background-color: ${({ theme }) => theme.colors.neutral[50]};
-    border: 1px solid ${({ theme }) => theme.colors.neutral[100]};
-    padding: ${({ theme }) => theme.spacing[1]} ${({ theme }) => theme.spacing[6]};
-    border-radius: ${({ theme }) => theme.radius[3]};
     display: flex;
+    width: 100%;
     flex-direction: column;
+    background-color: ${({ theme }) => theme.colors.neutral[50]};
+    padding: ${({ theme }) => theme.spacing[6]};
+    border-radius: ${({ theme }) => theme.radius[4]};
     gap: ${({ theme }) => theme.spacing[3]};
 `;
 
+const Title = styled.h3`
+    margin: ${({ theme }) => theme.spacing[2]} 0;
+`;
+
 const BestCommentItem = styled.div`
-    padding: ${({ theme }) => theme.spacing[2]};
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    background-color: ${({ theme }) => theme.colors.neutral[20]};
+    border-radius: ${({ theme }) => theme.radius[4]};
+    padding: ${({ theme }) => theme.spacing[4]};
+    box-sizing: border-box;
 `;
 
-const UserName = styled.strong`
-    font-weight: ${({ theme }) => theme.typography.weight.bold};
+const HeaderRow = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 `;
 
-const CommentContent = styled.p`
-    margin: ${({ theme }) => theme.spacing[1]} 0 0;
-    color: ${({ theme }) => theme.colors.content.main};
-`;
