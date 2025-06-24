@@ -103,31 +103,31 @@ export default function ProductUploadPage() {
     };
 
     // 유효성 검사
-    useEffect(() => {
-        if (!isImageValid) {
-            setValid('Image');
-        } else if (!isTitleValid) {
-            setValid('Title');
-        } else if (!isCategoryValid) {
-            setValid('Category');
-        } else if (!isOriginalUrlValid) {
-            setValid('OriginalUrl');
-        } else if (!isStoreValid) {
-            setValid('Store');
-        } else if (!isShippingValid) {
-            setValid('Shipping');
-        } else if (!isContentValid) {
-            setValid('Content');
-        }
-    }, [
-        isCategoryValid,
-        isContentValid,
-        isImageValid,
-        isOriginalUrlValid,
-        isShippingValid,
-        isStoreValid,
-        isTitleValid,
-    ]);
+    // useEffect(() => {
+    //     if (!isImageValid) {
+    //         setValid('Image');
+    //     } else if (!isTitleValid) {
+    //         setValid('Title');
+    //     } else if (!isCategoryValid) {
+    //         setValid('Category');
+    //     } else if (!isOriginalUrlValid) {
+    //         setValid('OriginalUrl');
+    //     } else if (!isStoreValid) {
+    //         setValid('Store');
+    //     } else if (!isShippingValid) {
+    //         setValid('Shipping');
+    //     } else if (!isContentValid) {
+    //         setValid('Content');
+    //     }
+    // }, [
+    //     isCategoryValid,
+    //     isContentValid,
+    //     isImageValid,
+    //     isOriginalUrlValid,
+    //     isShippingValid,
+    //     isStoreValid,
+    //     isTitleValid,
+    // ]);
 
     return (
         <>
