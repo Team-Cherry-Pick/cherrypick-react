@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { getTimeAgo } from '@/utils/date';
 import { fetchDeals } from '@/services/apiDeal';
 import type { FetchedDeal } from '@/types/Deal';
-import HeatBadge from '@/components/common/Badge/HeatBadge';
+import { HeatBadge } from '@/components/common/Badge/HeatBadge';
 import * as S from './ProductRecommend.style';
 
 export const ProductRecommend = () => {
