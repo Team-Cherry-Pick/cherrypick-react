@@ -1,37 +1,106 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import CommentHeader from './CommentHeader';
 import CommentInput from './CommentInput';
 import {
     Wrapper,
     NoComment,
     Divider,
+    ItemDivider,
+    CommentList,
+    CommentItem,
+    ProfileImage,
+    CommentContent,
+    UserName,
+    FallbackIcon,
+    CommentText,
+    CommentFooter,
+    Likes,
+    Reply,
+    CommentTime,
+    LeftSection,
+    RightSection,
 } from './ProductComments.style';
+import { fetchCommentsByDealId } from '@/services/apiComment';
+import { MessageSquare, ThumbsUp, CircleUserRound } from 'lucide-react';
 import type { Comment } from '@/types/Comment';
+import { timeSince } from '@/utils/timeSince';
 
 type ProductCommentsProps = {
-    comments: Comment[];
+    initialComments: Comment[];
+    dealId: string;
 };
 
-const ProductComments = ({ comments }: ProductCommentsProps) => {
+const ProductComments = ({ initialComments, dealId }: ProductCommentsProps) => {
     const [sortOption, setSortOption] = useState<'최신순' | '인기순'>('최신순');
+    const [popularComments, setPopularComments] = useState<Comment[]>([]);
+    const [replyingCommentId, setReplyingCommentId] = useState<number | null>(null);
+
+    useEffect(() => {
+        if (sortOption === '인기순') {
+            fetchCommentsByDealId(dealId, 'POPULAR').then(data => {
+                setPopularComments(data);
+            });
+        }
+    }, [sortOption, dealId]);
+
+    const activeComments = sortOption === '인기순' ? popularComments : initialComments;
 
     return (
         <Wrapper>
-            <CommentHeader sortOption={sortOption} onChange={setSortOption} />
+            <CommentHeader
+                sortOption={sortOption}
+                onChange={setSortOption}
+                count={activeComments.length}
+            />
 
-            {comments?.length === 0 ? (
+            {activeComments.length === 0 ? (
                 <NoComment>아직 댓글이 없어요. 첫 댓글의 주인공이 되어 보세요!</NoComment>
             ) : (
-                // 댓글 리스트 매핑 컴포넌트 추후 삽입
-                <div>댓글 {comments?.length}</div>
+                <CommentList>
+                    {activeComments.map((item) => (
+                        <>
+                            <CommentItem key={item.commentId}>
+                                {item.user.userImageUrl ? (
+                                    <ProfileImage src={item.user.userImageUrl} />
+                                ) : (
+                                    <FallbackIcon>
+                                        <CircleUserRound size={32} />
+                                    </FallbackIcon>
+                                )}
+                                <CommentContent>
+                                    <UserName>{item.user.userName}</UserName>
+                                    <CommentText>{item.content}</CommentText>
+                                    <CommentFooter>
+                                        <LeftSection>
+                                            <Likes>
+                                                <ThumbsUp size={14} />{item.totalLikes}
+                                            </Likes>
+                                            <ItemDivider>|</ItemDivider>
+                                            <MessageSquare size={14} />{item.totalReplys}
+                                            <ItemDivider>|</ItemDivider>
+                                            <Reply onClick={() => setReplyingCommentId(item.commentId)}>답글달기</Reply>
+                                        </LeftSection>
+                                        <RightSection>
+                                            <CommentTime>{timeSince(item.createdAt)}</CommentTime>
+                                        </RightSection>
+                                    </CommentFooter>
+                                    {replyingCommentId === item.commentId && (
+                                        <CommentInput
+                                            isReply={true}
+                                            onCancel={() => setReplyingCommentId(null)}
+                                            userImageUrl={item.user.userImageUrl}
+                                        />
+                                    )}
+                                </CommentContent>
+                            </CommentItem>
+                            <Divider />
+                        </>
+                    ))}
+                </CommentList>
             )}
-
-            <Divider />
-
             <CommentInput />
         </Wrapper>
     );
 };
 
 export default ProductComments;
-

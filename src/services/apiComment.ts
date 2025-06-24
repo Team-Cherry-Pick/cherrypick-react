@@ -1,10 +1,20 @@
 import axios from 'axios';
-import { Comment } from '@/types/Comment';
+import { Comment, BestComment } from '@/types/Comment';
 
-export const fetchCommentsByDealId = async (dealId: string, sortType: 'LATEST' | 'POPULAR' = 'LATEST'): Promise<Comment[]> => {
-    const res = await axios.get<{ comments: Comment[] }>(
-        `${import.meta.env.VITE_API_URL}/comment/${dealId}`,
-        { params: { sortType } }
+export const fetchCommentsByDealId = async (
+    dealId: string,
+    sortType: 'LATEST' | 'POPULAR'
+): Promise<Comment[]> => {
+    const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/comment/${dealId}?sortType=${sortType}&version=v1`
     );
-    return res.data.comments;
+    return response.data ?? [];
 };
+
+export const fetchBestCommentsByDealId = async (dealId: string): Promise<BestComment[]> => {
+    const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/best-comment/${dealId}`
+    );
+    return response.data ?? [];
+};
+
