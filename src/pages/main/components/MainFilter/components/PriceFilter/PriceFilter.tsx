@@ -22,48 +22,36 @@ export function PriceFilter() {
     const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const raw = e.target.value.replace(/[^0-9]/g, '');
         const min = parseNumber(raw);
-        const max = priceFilter.maxPrice;
-
-        // 최대값보다 크면 max도 같이 조정
-        if (min !== undefined && max !== undefined && min > max) {
-            updatePriceFilter({
-                minPrice: min,
-                maxPrice: min,
-            });
-            setMaxInput(formatNumber(min));
-        } else {
-            updatePriceFilter({
-                minPrice: min,
-            });
-        }
+        updatePriceFilter({
+            minPrice: min,
+        });
         setMinInput(raw ? formatNumber(Number(raw)) : '');
     };
 
     const handleMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const raw = e.target.value.replace(/[^0-9]/g, '');
         const max = parseNumber(raw);
-        const min = priceFilter.minPrice;
-
-        // 최소값보다 작으면 min도 같이 조정
-        if (max !== undefined && min !== undefined && max < min) {
-            updatePriceFilter({
-                minPrice: max,
-                maxPrice: max,
-            });
-            setMinInput(formatNumber(max));
-        } else {
-            updatePriceFilter({
-                maxPrice: max,
-            });
-        }
+        updatePriceFilter({
+            maxPrice: max,
+        });
         setMaxInput(raw ? formatNumber(Number(raw)) : '');
+    };
+
+    const handleApply = () => {
+        const min = parseNumber(minInput);
+        const max = parseNumber(maxInput);
+        if (min !== undefined && max !== undefined && min > max) {
+            alert('최소 가격은 최대 가격보다 클 수 없습니다.');
+            return;
+        }
+        triggerFetch();
     };
 
     return (
         <div>
             <div className={styles.flexBox}>
                 <div className={styles.title}>가격</div>
-                <button className={styles.applyButton} onClick={() => triggerFetch()}>
+                <button className={styles.applyButton} onClick={handleApply}>
                     적용하기
                 </button>
             </div>
