@@ -9,6 +9,8 @@
   border-radius: var(--radius-2);
   color: var(--color-content-sub);
   outline: none;
+
+  -webkit-text-fill-color: var(--color-content-sub);
 }
 
 .textInput::placeholder {

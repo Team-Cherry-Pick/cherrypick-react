@@ -73,7 +73,3 @@
   font-size: var(--font-size-sm);
   line-height: 1rem;
 }
-
-.variousPriceButton_active {
-  font-weight: var(--font-weight-semibold);
-}
