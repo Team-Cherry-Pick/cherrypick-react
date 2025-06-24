@@ -34,4 +34,4 @@ export const radius = {
     6: '1.5rem',
 };
 
-export const maxWidth = '1400px';
+export const maxWidth = '1440px';

@@ -33,10 +33,6 @@ const Wrapper = styled.div<{ $background: 'root' | 'board' }>`
   flex-direction: column;
   background-color: ${({ theme, $background }) => theme.colors.background[$background]};
   min-height: 100vh;
-
-  @media (max-width: 1200px) {
-    padding-inline: ${({ theme }) => theme.spacing[4]};
-  }
 `;
 
 const Main = styled.main`
@@ -53,11 +49,4 @@ const Inner = styled.div<{ $fullWidth?: boolean }>`
   flex-direction: column;
   flex: 1;
   margin-inline: auto;
-  padding-inline: ${({ theme, $fullWidth }) =>
-        $fullWidth ? '0' : theme.spacing[20]};
-
-  @media (max-width: 1200px) {
-    padding-inline: ${({ theme, $fullWidth }) =>
-        $fullWidth ? '0' : theme.spacing[4]};
-  }
 `;

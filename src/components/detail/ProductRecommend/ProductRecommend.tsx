@@ -40,7 +40,6 @@ export const ProductRecommend = () => {
                                     <HeatBadge heat={item.heat} size="large" />
                                 </S.HeatBadgeWrapper>
                             </S.Thumbnail>
-
                             <S.Info>
                                 <S.TopRow>
                                     <S.DealTitle title={item.title}>{item.title}</S.DealTitle>

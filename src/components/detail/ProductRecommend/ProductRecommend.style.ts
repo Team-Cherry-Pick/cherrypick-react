@@ -37,11 +37,11 @@ export const Thumbnail = styled.div`
   display: block;
   width: 100px;
   height: 100px;
-  padding: 3px;
   box-sizing: border-box;
   border: 1px solid ${({ theme }) => theme.colors.neutral[200]};
   border-radius: ${({ theme }) => theme.radius[2]};
   background-color: ${({ theme }) => theme.colors.background.root};
+  overflow: hidden;
 `;
 
 export const StyledImageWrapper = styled.div`
