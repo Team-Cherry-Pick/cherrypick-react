@@ -37,6 +37,7 @@ export const Wrapper = styled.div`
   border-radius: ${({ theme }) => theme.radius[5]};
   box-shadow: 0px 0px 5px ${({ theme }) => theme.colors.border.card};
   background-color: ${({ theme }) => theme.colors.background.root};
+  margin-top: 1.5%;
   padding: ${({ theme }) => theme.spacing[4]};
 
   &.ended {

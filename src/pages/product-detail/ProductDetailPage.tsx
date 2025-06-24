@@ -54,7 +54,7 @@ function ProductDetailPage() {
     }
 
     return (
-        <DefaultLayout background="board">
+        <DefaultLayout>
             <ProductTopSection deal={deal} />
             <SubContainer>
                 <RecommendWrapper>
@@ -80,7 +80,7 @@ export default ProductDetailPage;
 const SubContainer = styled.div`
     display: flex;
     flex-direction: row;
-    padding-top: ${({ theme }) => theme.spacing[4]};
+    padding: ${({ theme }) => theme.spacing[4]} 0;
     gap: ${({ theme }) => theme.spacing[4]};
 `;
 
