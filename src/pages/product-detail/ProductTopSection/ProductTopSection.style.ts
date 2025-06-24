@@ -221,7 +221,7 @@ export const DiscountPercent = styled.span`
 
 export const Content = styled.div`
     margin: ${({ theme }) => theme.spacing[3]} 0;
-    font-size: ${({ theme }) => theme.typography.size.base};
+    font-size: ${({ theme }) => theme.typography.size.lg};
     color: ${({ theme }) => theme.colors.content.main};
     line-height: 1.5;
     word-break: break-word;

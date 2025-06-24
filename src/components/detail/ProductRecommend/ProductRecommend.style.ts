@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 export const Wrapper = styled.section`
   display: block;
-  width: 34%;
   flex: 1;
   margin: 0;
   padding: ${({ theme }) => theme.spacing[4]};
@@ -38,7 +37,6 @@ export const Thumbnail = styled.div`
   display: block;
   width: 100px;
   height: 100px;
-  padding: 3px;
   box-sizing: border-box;
   border: 1px solid ${({ theme }) => theme.colors.neutral[200]};
   border-radius: ${({ theme }) => theme.radius[2]};
@@ -46,16 +44,26 @@ export const Thumbnail = styled.div`
 `;
 
 export const StyledImageWrapper = styled.div`
+  position: relative;
   display: block;
   width: 100%;
   height: 100%;
+  overflow: hidden;
+  border-radius: inherit;
 `;
 
-export const StyledImage = styled.img`
+export const StyledImage = styled.div<{ src: string }>`
   display: block;
+  position: relative;
+
   width: 100%;
   height: 100%;
-  object-fit: cover;
+
+  background-image: ${({ src }) => `url(${src})`};
+  background-size: cover;
+  background-position: center;
+  border-radius: inherit;
+
 `;
 
 export const HeatBadgeWrapper = styled.div`
