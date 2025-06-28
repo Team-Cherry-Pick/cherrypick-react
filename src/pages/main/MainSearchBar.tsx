@@ -14,7 +14,6 @@ const MainSearchBar = ({ aiActive, setAiActive, onSearch }: MainSearchBarProps) 
     const [query, setQuery] = useState('');
     const [recentKeywords, setRecentKeywords] = useState<string[]>([]);
 
-    // 최근 검색어를 localStorage에서 불러오기
     useEffect(() => {
         const stored = localStorage.getItem(RECENT_KEYWORDS_KEY);
         if (stored) {
@@ -22,7 +21,6 @@ const MainSearchBar = ({ aiActive, setAiActive, onSearch }: MainSearchBarProps) 
         }
     }, []);
 
-    // 최근 검색어를 localStorage에 저장
     const updateRecentKeywords = (keywords: string[]) => {
         setRecentKeywords(keywords);
         localStorage.setItem(RECENT_KEYWORDS_KEY, JSON.stringify(keywords));
@@ -70,7 +68,7 @@ const MainSearchBar = ({ aiActive, setAiActive, onSearch }: MainSearchBarProps) 
                     }}
                     onKeyDown={e => e.key === 'Enter' && handleSearch()}
                 />
-                <SearchButton active={!!query} onClick={() => handleSearch()}>
+                <SearchButton $active={query.length > 0} onClick={() => handleSearch()}>
                     <SearchIcon />
                 </SearchButton>
             </SearchBarWrapper>
@@ -125,11 +123,11 @@ const SearchInput = styled.input`
     }
 `;
 
-const SearchButton = styled.button<{ active: boolean }>`
+const SearchButton = styled.button<{ $active: boolean }>`
     width: ${({ theme }) => theme.spacing[8]};
     height: ${({ theme }) => theme.spacing[8]};
     border-radius: 2rem;
-    background-color: ${({ theme, active }) => (active ? theme.colors.primary : theme.colors.neutral[300])};
+    background-color: ${({ theme, $active }) => ($active ? theme.colors.primary : theme.colors.neutral[300])};
     display: flex;
     align-items: center;
     justify-content: center;

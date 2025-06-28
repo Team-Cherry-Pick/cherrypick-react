@@ -12,7 +12,6 @@ import LoginPage from '@/pages/login/LoginPage';
 import ProductDetailPage from '@/pages/product-detail/ProductDetailPage';
 import ProductUploadPage from '@/pages/product-upload/ProductUploadPage';
 import ErrorPage from '@/pages/error/ErrorPage';
-import TestPage from '@/test/TestPage';
 import LoginRedirectPage from './pages/login/LoginRedirectPage';
 
 const App = () => {
@@ -22,7 +21,6 @@ const App = () => {
         <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
             <Router>
                 <Routes>
-                    <Route path="/test" element={<TestPage />} />
                     <Route path="/" element={<MainPage />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/login-success" element={<LoginRedirectPage />} />

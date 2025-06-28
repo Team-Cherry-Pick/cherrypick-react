@@ -1,5 +1,6 @@
 import { Images, UploadImageResponse } from '@/types/Image';
-import apiClient from './apiClient';
+import { publicRequest } from './apiClient';
+import { HttpMethod } from '@/types/Api';
 
 export const uploadImage = async ({ images, indexes }: Images): Promise<UploadImageResponse> => {
     const formData = new FormData();
@@ -14,18 +15,16 @@ export const uploadImage = async ({ images, indexes }: Images): Promise<UploadIm
         formData.append('indexes', index.toString());
     });
 
-    const response = await apiClient.post('/image', formData, {
+    const response = await publicRequest<UploadImageResponse>(HttpMethod.POST, '/image', formData, {
         headers: {
             'Content-Type': 'multipart/form-data',
         },
     });
 
-    console.log(response);
-
-    return response.data;
+    return response;
 };
 
 export const deleteImage = async (imageId: number) => {
-    const response = await apiClient.delete(`/image/${imageId}`);
-    console.log(response);
+    const response = await publicRequest(HttpMethod.DELETE, `/image/${imageId}`);
+    return response;
 };

@@ -67,7 +67,6 @@ const MainDealList = ({ aiActive }: MainDealListProps) => {
         return () => {
             ignore = true;
         };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [fetchTrigger, aiActive, searchRequest]);
 
     // 무한스크롤 추가 로딩 (aiActive가 아닐 때만)
