@@ -46,12 +46,12 @@ const SortButtons = ({ aiActive, setAiActive }: SortButtonsProps) => {
 
     return (
         <SortWrapper>
-            <AiSortButton active={aiActive} onClick={() => setAiActive(prev => !prev)}>
+            <AiSortButton $active={aiActive} onClick={() => setAiActive(prev => !prev)}>
                 <SlidingContent>
-                    <IconCircle active={aiActive} $side={aiActive ? 'right' : 'left'}>
+                    <IconCircle $active={aiActive} $side={aiActive ? 'right' : 'left'}>
                         <MdAutoAwesome />
                     </IconCircle>
-                    <SlidingText active={aiActive} $side={aiActive ? 'left' : 'right'}>
+                    <SlidingText $active={aiActive} $side={aiActive ? 'left' : 'right'}>
                         AI 추천
                     </SlidingText>
                 </SlidingContent>
@@ -140,10 +140,10 @@ const BaseButton = styled.button`
     gap: ${({ theme }) => theme.spacing[1]};
 `;
 
-const AiSortButton = styled(BaseButton)<{ active?: boolean }>`
-    background: ${({ active }) =>
-        active ? 'linear-gradient(90deg, #FF8067, #FF4635)' : ({ theme }) => theme.colors.neutral[20]};
-    color: ${({ active }) => (active ? 'white' : ({ theme }) => theme.colors.content.sub)};
+const AiSortButton = styled(BaseButton)<{ $active?: boolean }>`
+    background: ${({ $active }) =>
+        $active ? 'linear-gradient(90deg, #FF8067, #FF4635)' : ({ theme }) => theme.colors.neutral[20]};
+    color: ${({ $active }) => ($active ? 'white' : ({ theme }) => theme.colors.content.sub)};
     font-weight: ${({ theme }) => theme.typography.weight.semibold};
     position: relative;
     transition: all 0.3s ease;
@@ -154,7 +154,7 @@ const SortButton = styled(BaseButton)`
     font-weight: ${({ theme }) => theme.typography.weight.regular};
 `;
 
-const SlidingText = styled.span<{ active: boolean; $side: 'left' | 'right' }>`
+const SlidingText = styled.span<{ $active: boolean; $side: 'left' | 'right' }>`
     order: ${({ $side }) => ($side === 'left' ? 0 : 1)};
     opacity: 0;
     animation: fadeIn 0.4s ease forwards;
@@ -171,12 +171,12 @@ const SlidingText = styled.span<{ active: boolean; $side: 'left' | 'right' }>`
     }
 `;
 
-const IconCircle = styled.div<{ active?: boolean; $side: 'left' | 'right' }>`
+const IconCircle = styled.div<{ $active?: boolean; $side: 'left' | 'right' }>`
     order: ${({ $side }) => ($side === 'left' ? 0 : 1)};
     width: ${({ theme }) => theme.spacing[6]};
     height: ${({ theme }) => theme.spacing[6]};
     border-radius: 50%;
-    background-color: ${({ active }) => (active ? '#FFD56A' : '#C4C4C4')};
+    background-color: ${({ $active }) => ($active ? '#FFD56A' : '#C4C4C4')};
     display: flex;
     align-items: center;
     justify-content: center;
