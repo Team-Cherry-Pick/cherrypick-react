@@ -101,8 +101,7 @@ export default function ProductUploadPage() {
         };
 
         uploadDeal(uploadDealData)
-            .then(response => {
-                console.log(response);
+            .then(() => {
                 navigate('/');
             })
             .catch(error => {

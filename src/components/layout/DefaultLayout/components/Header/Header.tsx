@@ -18,8 +18,6 @@ export default function Header({ background = 'root' }: HeaderProps) {
     const handleProfileClick = () => {
         if (!isLoggedIn) {
             window.location.href = '/login';
-        } else {
-            console.log('유저 프로필 보기');
         }
     };
 

@@ -10,7 +10,6 @@ export interface Category {
 
 export const categoriesAtom = atom(async () => {
     const response = await fetchCategories();
-    console.log('Categories loaded:', response);
     return response;
 });
 
