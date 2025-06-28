@@ -22,9 +22,9 @@ import {
 } from './ProductComments.style';
 import { fetchCommentsByDealId } from '@/services/apiComment';
 import { MessageSquare, ThumbsUp, CircleUserRound } from 'lucide-react';
-import { timeSince } from '@/utils/timeSince';
 import type { Comment } from '@/types/Comment';
 import { LoadingSpinner } from '@/components/common/Loading/LoadingSpinner';
+import { getRelativeTime } from '@/utils/time';
 
 type ProductCommentsProps = {
     initialComments: Comment[];
@@ -62,11 +62,7 @@ const ProductComments = ({ initialComments, dealId }: ProductCommentsProps) => {
 
     return (
         <Wrapper>
-            <CommentHeader
-                sortOption={sortOption}
-                onChange={setSortOption}
-                count={activeComments.length}
-            />
+            <CommentHeader sortOption={sortOption} onChange={setSortOption} count={activeComments.length} />
 
             {loading ? (
                 <LoadingSpinner />
@@ -74,7 +70,7 @@ const ProductComments = ({ initialComments, dealId }: ProductCommentsProps) => {
                 <NoComment>아직 댓글이 없어요. 첫 댓글의 주인공이 되어 보세요!</NoComment>
             ) : (
                 <CommentList>
-                    {activeComments.map((item) => (
+                    {activeComments.map(item => (
                         <div key={item.commentId}>
                             <CommentItem>
                                 {item.user.userImageUrl ? (
@@ -90,15 +86,17 @@ const ProductComments = ({ initialComments, dealId }: ProductCommentsProps) => {
                                     <CommentFooter>
                                         <LeftSection>
                                             <Likes>
-                                                <ThumbsUp size={14} />{item.totalLikes}
+                                                <ThumbsUp size={14} />
+                                                {item.totalLikes}
                                             </Likes>
                                             <ItemDivider>|</ItemDivider>
-                                            <MessageSquare size={14} />{item.totalReplys}
+                                            <MessageSquare size={14} />
+                                            {item.totalReplys}
                                             <ItemDivider>|</ItemDivider>
                                             <Reply onClick={() => setReplyingCommentId(item.commentId)}>답글달기</Reply>
                                         </LeftSection>
                                         <RightSection>
-                                            <CommentTime>{timeSince(item.createdAt)}</CommentTime>
+                                            <CommentTime>{getRelativeTime(item.createdAt)}</CommentTime>
                                         </RightSection>
                                     </CommentFooter>
                                     {replyingCommentId === item.commentId && (

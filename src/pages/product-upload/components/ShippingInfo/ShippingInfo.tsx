@@ -61,7 +61,7 @@ export function ShippingInfo() {
                 />
                 <TextInput
                     placeholder="배송비"
-                    value={deal.shipping.shippingPrice === 0 ? '' : deal.shipping.shippingPrice.toString()}
+                    value={deal.shipping.shippingPrice === 0 ? '' : deal.shipping.shippingPrice?.toString()}
                     onChange={e =>
                         setDeal({
                             ...deal,
