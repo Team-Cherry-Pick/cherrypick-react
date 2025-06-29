@@ -14,6 +14,9 @@
   /* Border Colors */
   --color-border-board: #e6e6e6;
   --color-border-card: #f2f2f2;
+
+  /* Box Shadows */
+  --card-shadow: 0 0 0.3125rem rgba(0, 0, 0, 0.1);
   
   /* Neutral Colors */
   --color-neutral-0: #ffffff;
@@ -98,6 +101,8 @@
   
   --color-border-board: #4d4d4d;
   --color-border-card: #4d4d4d;
+
+  --card-shadow: 0 0 0.3125rem rgba(255, 255, 255, 0.1);
   
   --color-neutral-0: #1a1a1a;
   --color-neutral-20: #212121;

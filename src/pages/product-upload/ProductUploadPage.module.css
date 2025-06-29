@@ -37,6 +37,7 @@
 }
 
 .guideButtonWrapper {
+  visibility: hidden;
   display: flex;
   justify-content: flex-end;
   padding-bottom: var(--spacing-4);
@@ -64,6 +65,7 @@
   position: relative;
   background-color: var(--color-background-card);
   border-radius: var(--radius-5);
+  box-shadow: var(--card-shadow);
 }
 
 .uploadButtonWrapper {

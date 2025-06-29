@@ -1,7 +1,7 @@
 import { X } from 'lucide-react';
 import styles from './ProductImageUpload.module.css';
 import { MAX_IMAGES, useImageUpload } from '@/hooks/useImageUpload';
-import UploadIcon from '@/assets/icons/upload-image-Icon.svg';
+import UploadIcon from '@/assets/icons/upload-image-Icon.svg?react';
 
 export function ProductImageUpload() {
     const { images, inputRef, containerRef, handleFileSelect, handleDropFiles, handleRemove } = useImageUpload();
@@ -53,13 +53,17 @@ export function ProductImageUpload() {
                     ref={inputRef}
                 />
                 <div className={styles.content}>
-                    <img className={styles.icon} src={UploadIcon} alt="Upload Icon" />
+                    <UploadIcon width={20} height={20} />
                     <div className={styles.guideText}>
                         {images.length === 0 ? '클릭 또는 파일을 드래그해주세요.' : '추가 업로드'}
                     </div>
                 </div>
-                <div className={styles.imageCount}>
-                    {images.length} / {MAX_IMAGES}
+                <div className={styles.description}>
+                    <div>* 파일 하나당 최대 10MB</div>
+                    <span>|</span>
+                    <div className={styles.imageCount}>
+                        {images.length} / {MAX_IMAGES}
+                    </div>
                 </div>
             </div>
         </div>
