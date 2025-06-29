@@ -37,15 +37,16 @@ const MainSearchBar = ({ aiActive, setAiActive, onSearch }: MainSearchBarProps) 
 
     const handleSearch = (keyword?: string) => {
         const trimmed = (keyword ?? query).trim();
-        if (!trimmed) return;
 
         if (aiActive) {
             setAiActive(false);
         }
 
         const filtered = recentKeywords.filter(item => item !== trimmed);
-        const updated = [trimmed, ...filtered].slice(0, 10); // 최대 10개 저장
-        updateRecentKeywords(updated);
+        if (trimmed) {
+            const updated = [trimmed, ...filtered].slice(0, 10); // 최대 10개 저장
+            updateRecentKeywords(updated);
+        }
 
         onSearch(trimmed);
         setTimeout(() => {

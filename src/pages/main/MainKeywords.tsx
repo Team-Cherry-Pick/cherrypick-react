@@ -8,7 +8,7 @@ interface MainKeywordsProps {
 const MainKeywords = ({ aiActive, keyword }: MainKeywordsProps) => {
     if (!aiActive && !keyword) return null;
 
-    return <SearchResult>{aiActive ? 'AI 추천 검색 결과' : `${keyword} 검색 결과`}</SearchResult>;
+    return <SearchResult>{aiActive ? 'AI 추천 검색 결과' : `‘${keyword}‘ 검색 결과`}</SearchResult>;
 };
 export default MainKeywords;
 
