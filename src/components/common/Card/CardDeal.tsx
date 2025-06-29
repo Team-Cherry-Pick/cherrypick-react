@@ -17,8 +17,6 @@ export const CardDeal = ({ deal }: Props) => {
         return null;
     }
 
-    const mainImage = deal.imageUrl?.url ?? null;
-
     const discountPercent =
         deal.price && deal.price.regularPrice > 0
             ? Math.round((1 - deal.price.discountedPrice / deal.price.regularPrice) * 100)
@@ -28,18 +26,16 @@ export const CardDeal = ({ deal }: Props) => {
         <S.CardWrapper className={deal.soldout ? 'ended' : ''} onClick={() => navigate(`/product/${deal.dealId}`)}>
             {deal.soldout && <S.Overlay>종료된 핫딜입니다</S.Overlay>}
             <S.ImageBox>
-                {mainImage && (
-                    <S.StyledImage
-                        src={`${mainImage} `}
-                        alt=""
-                        onError={e => {
-                            const img = e.currentTarget as HTMLImageElement;
-                            img.src = 'src/assets/icons/black-logo-Icon.svg';
-                            img.style.height = '5rem';
-                            img.style.width = '5rem';
-                        }}
-                    />
-                )}
+                <S.StyledImage
+                    src={`${deal.imageUrl?.url}`}
+                    alt=""
+                    onError={e => {
+                        const img = e.currentTarget as HTMLImageElement;
+                        img.src = 'src/assets/icons/black-logo-Icon.svg';
+                        img.style.height = '5rem';
+                        img.style.width = '5rem';
+                    }}
+                />
                 <S.HeatBadgeWrapper>
                     <HeatBadge heat={deal.heat} size="large" />
                 </S.HeatBadgeWrapper>
@@ -54,8 +50,18 @@ export const CardDeal = ({ deal }: Props) => {
                 </S.TagRow>
 
                 <S.PriceRow>
-                    <S.Percent>{discountPercent}%</S.Percent>
-                    <S.Price>{formatNumber(deal.price.discountedPrice)}원</S.Price>
+                    {deal.price.priceType === 'VARIOUS' ? (
+                        <S.VariousPrice>다양한 가격</S.VariousPrice>
+                    ) : (
+                        <>
+                            <S.Percent>{discountPercent}%</S.Percent>
+                            <S.Price>
+                                {deal.price.priceType === 'KRW'
+                                    ? `${formatNumber(deal.price.discountedPrice)}원`
+                                    : `$ ${formatNumber(deal.price.discountedPrice)}`}
+                            </S.Price>
+                        </>
+                    )}
                 </S.PriceRow>
 
                 <S.Meta>
