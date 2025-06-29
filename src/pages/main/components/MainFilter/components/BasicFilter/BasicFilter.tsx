@@ -32,7 +32,7 @@ export function BasicFilter() {
                 >
                     {basicFilters.freeShipping && <FaCheck />}
                 </div>
-                <span>무료배송</span>
+                <span>무료배송만</span>
             </label>
             <label className={styles.checkBoxLabel}>
                 <div
@@ -41,7 +41,7 @@ export function BasicFilter() {
                 >
                     {basicFilters.globalShipping && <FaCheck />}
                 </div>
-                <span>해외직구</span>
+                <span>해외직구만</span>
             </label>
         </div>
     );

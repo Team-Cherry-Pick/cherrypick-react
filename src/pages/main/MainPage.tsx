@@ -1,29 +1,20 @@
 import styles from './MainPage.module.css';
 import { useEffect, useState } from 'react';
 import DefaultLayout from '@/components/layout/DefaultLayout';
-import { MainFilter } from './components';
+import { MainFilter, SortButtons } from './components';
 import MainDealList from './MainDealList';
 import MainSearchBar from './MainSearchBar';
 import styled from 'styled-components';
-import SortButtons from './SortButtons';
 import MainKeywords from './MainKeywords';
 import UploadBtn from '@/components/common/Floating/UploadBtn';
 import ScrollTopBtn from '@/components/common/Floating/ScrollTopBtn';
-import { useAtom } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { keywordAtom, triggerFetchAtom } from '@/store/search';
 
 const MainPage = () => {
     const [aiActive, setAiActive] = useState(false);
-    const [searchQuery, setSearchQuery] = useState<string | null>(null);
-    const [keyword, setKeyword] = useAtom(keywordAtom);
-    const [, triggerFetch] = useAtom(triggerFetchAtom);
-
-    useEffect(() => {
-        if (searchQuery) {
-            setKeyword(searchQuery);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [searchQuery]);
+    const keyword = useAtomValue(keywordAtom);
+    const triggerFetch = useSetAtom(triggerFetchAtom);
 
     useEffect(() => {
         triggerFetch();
@@ -34,11 +25,7 @@ const MainPage = () => {
             <div className={styles.container}>
                 <MainFilter aiActive={aiActive} />
                 <div style={{ width: '100%' }}>
-                    <MainSearchBar
-                        aiActive={aiActive}
-                        setAiActive={setAiActive}
-                        onSearch={keyword => setSearchQuery(keyword)}
-                    />
+                    <MainSearchBar aiActive={aiActive} setAiActive={setAiActive} />
                     <SortRow>
                         <MainKeywords aiActive={aiActive} keyword={keyword} />
                         <SortButtons aiActive={aiActive} setAiActive={setAiActive} />

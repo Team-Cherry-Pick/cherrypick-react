@@ -2,7 +2,7 @@ import { formatNumber } from '@/utils/number';
 import styles from './PriceFilter.module.css';
 import { priceFilterAtom, triggerFetchAtom, updatePriceFilterAtom, variousPriceAtom } from '@/store/search';
 import { useAtom, useSetAtom } from 'jotai';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IoIosCheckmarkCircle, IoIosCheckmarkCircleOutline } from 'react-icons/io';
 
 function parseNumber(str: string) {
@@ -21,31 +21,33 @@ export function PriceFilter() {
 
     const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const raw = e.target.value.replace(/[^0-9]/g, '');
-        const min = parseNumber(raw);
-        updatePriceFilter({
-            minPrice: min,
-        });
         setMinInput(raw ? formatNumber(Number(raw)) : '');
     };
 
     const handleMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const raw = e.target.value.replace(/[^0-9]/g, '');
-        const max = parseNumber(raw);
-        updatePriceFilter({
-            maxPrice: max,
-        });
         setMaxInput(raw ? formatNumber(Number(raw)) : '');
     };
 
     const handleApply = () => {
-        const min = parseNumber(minInput);
-        const max = parseNumber(maxInput);
+        const min = parseNumber(minInput.replace(/[^0-9]/g, ''));
+        const max = parseNumber(maxInput.replace(/[^0-9]/g, ''));
         if (min !== undefined && max !== undefined && min > max) {
             alert('최소 가격은 최대 가격보다 클 수 없습니다.');
             return;
         }
+        updatePriceFilter({
+            minPrice: min,
+            maxPrice: max,
+        });
         triggerFetch();
     };
+
+    // 필터 리셋될 때 input도 초기화
+    useEffect(() => {
+        setMinInput(formatNumber(priceFilter.minPrice));
+        setMaxInput(formatNumber(priceFilter.maxPrice));
+    }, [priceFilter]);
 
     return (
         <div>

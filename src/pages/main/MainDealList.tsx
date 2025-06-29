@@ -17,56 +17,55 @@ const MainDealList = ({ aiActive }: MainDealListProps) => {
     const pageRef = useRef(0);
     const [hasNext, setHasNext] = useState(true);
     const observerRef = useRef<HTMLDivElement | null>(null);
+    const prevSearchRequestRef = useRef<string>('');
 
     const searchRequest = useAtomValue(searchRequestAtom);
     const fetchTrigger = useAtomValue(fetchTriggerAtom);
 
     // AI 모드일 때: 추천 딜만 fetch, 필터/observer 무시
     useEffect(() => {
-        if (!aiActive) return;
-        let ignore = false;
+        if (!aiActive) {
+            prevSearchRequestRef.current = '';
+            return;
+        }
         setIsLoading(true);
         fetchRecommend()
             .then(res => {
-                if (!ignore) {
-                    setItems(res.deals);
-                    setHasNext(false);
-                }
+                setItems(res.deals);
+                setHasNext(false);
             })
             .catch(() => {
-                if (!ignore) setItems([]);
+                setItems([]);
             })
             .finally(() => {
-                if (!ignore) setIsLoading(false);
+                setIsLoading(false);
             });
-        return () => {
-            ignore = true;
-        };
     }, [aiActive]);
 
-    // 트리거가 바뀌면 0페이지부터 새로 fetch (aiActive가 아닐 때만)
     useEffect(() => {
         if (aiActive) return;
-        let ignore = false;
+
+        // searchRequest가 실제로 바뀌었을 때만 fetch
+        const stringified = JSON.stringify(searchRequest);
+        if (prevSearchRequestRef.current === stringified) return;
+        prevSearchRequestRef.current = stringified;
+
         async function fetchFirstPage() {
             setIsLoading(true);
             try {
                 const { deals, hasNext: next } = await fetchDeals(0, searchRequest);
-                if (!ignore) {
-                    setItems(deals);
-                    pageRef.current = 1;
-                    setHasNext(next);
-                }
+
+                setItems(deals);
+                pageRef.current = 1;
+                setHasNext(next);
             } catch {
-                if (!ignore) setItems([]);
+                setItems([]);
             } finally {
-                if (!ignore) setIsLoading(false);
+                setIsLoading(false);
             }
         }
+
         fetchFirstPage();
-        return () => {
-            ignore = true;
-        };
     }, [fetchTrigger, aiActive, searchRequest]);
 
     // 무한스크롤 추가 로딩 (aiActive가 아닐 때만)
@@ -112,13 +111,14 @@ const MainDealList = ({ aiActive }: MainDealListProps) => {
 
     return (
         <DealGrid>
-            {items.map((deal, i) => (
-                <CardDeal key={`${deal.dealId}-${i}`} deal={deal} />
-            ))}
-            {isLoading && (
+            {isLoading ? (
                 <SpinnerWrapper>
                     <LoadingSpinner />
                 </SpinnerWrapper>
+            ) : items.length ? (
+                items.map((deal, i) => <CardDeal key={`${deal.dealId}-${i}`} deal={deal} />)
+            ) : (
+                <NoSearchResult>검색 결과가 없습니다.</NoSearchResult>
             )}
             {!aiActive && <ObserverTarget ref={observerRef} />}
         </DealGrid>
@@ -131,6 +131,7 @@ const DealGrid = styled.div`
     flex: 1;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
+    position: relative;
     gap: ${({ theme }) => theme.spacing[4]};
 
     @media (max-width: 1024px) {
@@ -151,4 +152,13 @@ const SpinnerWrapper = styled.div`
     display: flex;
     justify-content: center;
     padding: ${({ theme }) => theme.spacing[4]};
+`;
+
+const NoSearchResult = styled.div`
+    position: absolute;
+    left: 50%;
+    top: 30vh;
+    transform: translateX(-50%);
+    color: ${({ theme }) => theme.colors.content.sub};
+    font-size: ${({ theme }) => theme.typography.size.sm};
 `;

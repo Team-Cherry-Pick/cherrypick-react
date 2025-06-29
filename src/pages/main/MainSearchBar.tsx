@@ -1,18 +1,20 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import SearchIcon from '@/assets/icons/search-Icon.svg?react';
+import { useSetAtom } from 'jotai';
+import { keywordAtom } from '@/store/search';
 
 interface MainSearchBarProps {
     aiActive: boolean;
     setAiActive: React.Dispatch<React.SetStateAction<boolean>>;
-    onSearch: (keyword: string) => void;
 }
 
 const RECENT_KEYWORDS_KEY = 'recentKeywords';
 
-const MainSearchBar = ({ aiActive, setAiActive, onSearch }: MainSearchBarProps) => {
+const MainSearchBar = ({ aiActive, setAiActive }: MainSearchBarProps) => {
     const [query, setQuery] = useState('');
     const [recentKeywords, setRecentKeywords] = useState<string[]>([]);
+    const setKeyword = useSetAtom(keywordAtom);
 
     useEffect(() => {
         const stored = localStorage.getItem(RECENT_KEYWORDS_KEY);
@@ -37,17 +39,18 @@ const MainSearchBar = ({ aiActive, setAiActive, onSearch }: MainSearchBarProps) 
 
     const handleSearch = (keyword?: string) => {
         const trimmed = (keyword ?? query).trim();
-        if (!trimmed) return;
 
         if (aiActive) {
             setAiActive(false);
         }
 
         const filtered = recentKeywords.filter(item => item !== trimmed);
-        const updated = [trimmed, ...filtered].slice(0, 10); // 최대 10개 저장
-        updateRecentKeywords(updated);
+        if (trimmed) {
+            const updated = [trimmed, ...filtered].slice(0, 10); // 최대 10개 저장
+            updateRecentKeywords(updated);
+        }
 
-        onSearch(trimmed);
+        setKeyword(trimmed);
         setTimeout(() => {
             setQuery('');
         }, 0);

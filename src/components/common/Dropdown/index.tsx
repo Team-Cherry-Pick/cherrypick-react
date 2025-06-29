@@ -20,13 +20,18 @@ export default function Dropdown({ anchorRef, options, selected, onSelect, onClo
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            if (ref.current && !ref.current.contains(event.target as Node)) {
+            if (
+                ref.current &&
+                !ref.current.contains(event.target as Node) &&
+                anchorRef.current &&
+                !anchorRef.current.contains(event.target as Node)
+            ) {
                 onClose();
             }
         };
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, [onClose]);
+    }, [anchorRef, onClose]);
 
     useEffect(() => {
         if (anchorRef.current && ref.current) {

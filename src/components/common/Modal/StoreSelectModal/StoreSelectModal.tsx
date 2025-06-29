@@ -31,7 +31,7 @@ function StoreList({
 }) {
     const stores = useAtomValue(storesAtom);
 
-    const filteredStores = stores.filter(store => store.name.includes(query));
+    const filteredStores = stores.filter(store => store.name.toLowerCase().includes(query.toLowerCase()));
 
     return (
         <>
@@ -94,7 +94,9 @@ export function StoreSelectModal({ isOpen, close, unmount, context }: StoreSelec
 
     const handleDirectInput = () => {
         if (context === 'main') {
-            if (inputName.trim() && !selectedStores.some(store => store.name === inputName.trim())) {
+            const trimmed = inputName.trim();
+            if (!trimmed) return;
+            if (!selectedStores.find(s => s.name === trimmed)) {
                 setSelectedStores(prev => [...prev, { storeId: 0, name: inputName.trim() }]);
             }
         } else {
@@ -141,7 +143,7 @@ export function StoreSelectModal({ isOpen, close, unmount, context }: StoreSelec
                             value={inputName}
                             onChange={handleChange}
                             onConfirm={handleDirectInput}
-                            directInputLabel="직접 입력"
+                            directInputLabel="직접 추가"
                         />
                     </div>
                     <Suspense>
