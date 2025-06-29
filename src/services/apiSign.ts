@@ -13,14 +13,12 @@ export const getAuthKakao = async (redirectPath: string) => {
 };
 
 export const getAuthRefresh = async (): Promise<string> => {
-    try {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const response = await publicRequest<any>(HttpMethod.GET, `/auth/refresh`);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result = await publicRequest<any>(HttpMethod.GET, `/auth/refresh`);
 
-        // accessToken만 꺼내서 반환
-        return response?.accessToken;
-    } catch (error) {
-        console.error('토큰 갱신 실패:', error);
-        throw error;
+    if (result.success) {
+        return result.data.accessToken;
+    } else {
+        throw new Error('Failed to get Auth refresh');
     }
 };
