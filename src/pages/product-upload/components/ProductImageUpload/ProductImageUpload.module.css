@@ -83,7 +83,6 @@
   border: 0.0625rem dashed var(--color-neutral-100);
   border-radius: var(--radius-2);
   color: var(--color-content-sub);
-  font-size: var(--font-size-sm);
   cursor: pointer;
 }
 
@@ -98,20 +97,22 @@
   gap: var(--spacing-2);
 }
 
-.icon {
-  width: var(--font-size-lg);
-  height: var(--font-size-lg);
-}
-
 .guideText {
   color: var(--color-content-sub);
+  font-size: var(--font-size-base);
 }
 
-.imageCount {
+.description {
+  display: flex;
+  gap: var(--spacing-2);
   position: absolute;
   bottom: var(--spacing-1);
   right: var(--spacing-2);
+  color: var(--color-content-tertiary);
   font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
+}
+
+.imageCount {
+  font-weight: var(--font-weight-semibold);
   color: var(--color-content-sub);
 }
