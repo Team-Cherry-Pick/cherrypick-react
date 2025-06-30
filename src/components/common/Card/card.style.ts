@@ -99,6 +99,12 @@ export const PriceRow = styled.div`
     margin: ${({ theme }) => `${theme.spacing[2]} 0 ${theme.spacing[1]} 0`};
 `;
 
+export const VariousPrice = styled.span`
+    color: ${({ theme }) => theme.colors.content.sub};
+    font-size: ${({ theme }) => theme.typography.size.lg};
+    font-weight: ${({ theme }) => theme.typography.weight.semibold};
+`;
+
 export const Percent = styled.span`
     color: ${({ theme }) => theme.colors.primary};
     font-size: ${({ theme }) => theme.typography.size.lg};

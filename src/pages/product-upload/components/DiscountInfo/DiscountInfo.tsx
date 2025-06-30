@@ -25,7 +25,7 @@ export function DiscountInfo() {
                     placeholder="최저가로 구매하기 위한 방법을 작성해주세요."
                     onChange={e => setDeal({ ...deal, discountDescription: e.target.value })}
                 />
-                <div className={styles.contentLength}>{deal.content.length} / 800</div>
+                <div className={styles.contentLength}>{deal.discountDescription.length} / 800</div>
             </div>
         </div>
     );

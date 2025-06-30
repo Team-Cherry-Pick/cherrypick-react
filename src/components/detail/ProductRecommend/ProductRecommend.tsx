@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Clock, MessageSquare } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { getTimeAgo } from '@/utils/date';
 import { fetchDeals } from '@/services/apiDeal';
 import type { FetchedDeal } from '@/types/Deal';
 import * as S from './ProductRecommend.style';
 import { HeatBadge } from '@/components/common/Badge';
+import { getRelativeTime } from '@/utils/time';
 
 export const ProductRecommend = () => {
     const [deals, setDeals] = useState<FetchedDeal[]>([]);
@@ -62,7 +62,7 @@ export const ProductRecommend = () => {
                                 </S.PriceRow>
                                 <S.Meta>
                                     <span>
-                                        <Clock /> {getTimeAgo(item.createdAt)}
+                                        <Clock /> {getRelativeTime(item.createdAt)}
                                     </span>
                                     <span className="divider">|</span>
                                     <span>

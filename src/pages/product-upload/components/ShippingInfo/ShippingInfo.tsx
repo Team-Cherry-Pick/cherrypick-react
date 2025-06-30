@@ -4,6 +4,7 @@ import { newDealAtom } from '@/store';
 import { useState } from 'react';
 import { BadgeLabel } from '@/components/common/Badge';
 import { TextInput } from '@/components/common/Input';
+import { formatNumber } from '@/utils/number';
 
 const SHIPPING_BADGES = ['무료배송', '조건 무료배송', '유료 배송', '$'];
 const shippingBadgeMap = {
@@ -20,14 +21,18 @@ export function ShippingInfo() {
     const [selectedType, setSelectedType] = useState<'무료배송' | '조건 무료배송' | '유료 배송' | '$'>('무료배송');
 
     const handleBadgeClick = (label: ShippingBadgeLabel) => {
+        if (label === selectedType) return;
+
         setSelectedType(label);
-        const selectedType = shippingBadgeMap[label];
+        const clickedType = shippingBadgeMap[label];
 
         setDeal({
             ...deal,
             shipping: {
-                ...deal.shipping,
-                shippingType: selectedType,
+                shippingPrice:
+                    clickedType === 'FREE' || clickedType === 'CONDITIONAL' ? 0 : deal.shipping.shippingPrice,
+                shippingRule: '',
+                shippingType: clickedType,
             },
         });
     };
@@ -61,16 +66,24 @@ export function ShippingInfo() {
                 />
                 <TextInput
                     placeholder="배송비"
-                    value={deal.shipping.shippingPrice === 0 ? '' : deal.shipping.shippingPrice.toString()}
-                    onChange={e =>
+                    value={
+                        deal.shipping.shippingPrice === 0
+                            ? ''
+                            : deal.shipping.shippingType === 'KRW'
+                              ? `${formatNumber(deal.shipping.shippingPrice)} 원`
+                              : `$ ${formatNumber(deal.shipping.shippingPrice)}`
+                    }
+                    onChange={e => {
+                        const raw = e.target.value.replace(/[^0-9]/g, '');
+                        if (raw.length > 8) return;
                         setDeal({
                             ...deal,
                             shipping: {
                                 ...deal.shipping,
-                                shippingPrice: Number(e.target.value) || 0,
+                                shippingPrice: Number(raw) || 0,
                             },
-                        })
-                    }
+                        });
+                    }}
                     disabled={selectedType === '무료배송' || selectedType === '조건 무료배송'}
                 />
             </div>

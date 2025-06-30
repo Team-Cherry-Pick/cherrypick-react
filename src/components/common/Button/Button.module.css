@@ -29,10 +29,12 @@
 /* Color */
 .variant-main {
   background-color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
 }
 
 .variant-sub {
   background-color: var(--color-neutral-900);
+  font-weight: var(--font-weight-semibold);
 }
 
 .variant-disabled {

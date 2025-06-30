@@ -1,20 +1,21 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import SearchIcon from '@/assets/icons/search-Icon.svg?react';
+import { useSetAtom } from 'jotai';
+import { keywordAtom } from '@/store/search';
 
 interface MainSearchBarProps {
     aiActive: boolean;
     setAiActive: React.Dispatch<React.SetStateAction<boolean>>;
-    onSearch: (keyword: string) => void;
 }
 
 const RECENT_KEYWORDS_KEY = 'recentKeywords';
 
-const MainSearchBar = ({ aiActive, setAiActive, onSearch }: MainSearchBarProps) => {
+const MainSearchBar = ({ aiActive, setAiActive }: MainSearchBarProps) => {
     const [query, setQuery] = useState('');
     const [recentKeywords, setRecentKeywords] = useState<string[]>([]);
+    const setKeyword = useSetAtom(keywordAtom);
 
-    // 최근 검색어를 localStorage에서 불러오기
     useEffect(() => {
         const stored = localStorage.getItem(RECENT_KEYWORDS_KEY);
         if (stored) {
@@ -22,7 +23,6 @@ const MainSearchBar = ({ aiActive, setAiActive, onSearch }: MainSearchBarProps) 
         }
     }, []);
 
-    // 최근 검색어를 localStorage에 저장
     const updateRecentKeywords = (keywords: string[]) => {
         setRecentKeywords(keywords);
         localStorage.setItem(RECENT_KEYWORDS_KEY, JSON.stringify(keywords));
@@ -39,17 +39,18 @@ const MainSearchBar = ({ aiActive, setAiActive, onSearch }: MainSearchBarProps) 
 
     const handleSearch = (keyword?: string) => {
         const trimmed = (keyword ?? query).trim();
-        if (!trimmed) return;
 
         if (aiActive) {
             setAiActive(false);
         }
 
         const filtered = recentKeywords.filter(item => item !== trimmed);
-        const updated = [trimmed, ...filtered].slice(0, 10); // 최대 10개 저장
-        updateRecentKeywords(updated);
+        if (trimmed) {
+            const updated = [trimmed, ...filtered].slice(0, 10); // 최대 10개 저장
+            updateRecentKeywords(updated);
+        }
 
-        onSearch(trimmed);
+        setKeyword(trimmed);
         setTimeout(() => {
             setQuery('');
         }, 0);
@@ -70,7 +71,7 @@ const MainSearchBar = ({ aiActive, setAiActive, onSearch }: MainSearchBarProps) 
                     }}
                     onKeyDown={e => e.key === 'Enter' && handleSearch()}
                 />
-                <SearchButton active={!!query} onClick={() => handleSearch()}>
+                <SearchButton $active={query.length > 0} onClick={() => handleSearch()}>
                     <SearchIcon />
                 </SearchButton>
             </SearchBarWrapper>
@@ -125,11 +126,11 @@ const SearchInput = styled.input`
     }
 `;
 
-const SearchButton = styled.button<{ active: boolean }>`
+const SearchButton = styled.button<{ $active: boolean }>`
     width: ${({ theme }) => theme.spacing[8]};
     height: ${({ theme }) => theme.spacing[8]};
     border-radius: 2rem;
-    background-color: ${({ theme, active }) => (active ? theme.colors.primary : theme.colors.neutral[300])};
+    background-color: ${({ theme, $active }) => ($active ? theme.colors.primary : theme.colors.neutral[300])};
     display: flex;
     align-items: center;
     justify-content: center;

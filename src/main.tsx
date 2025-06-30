@@ -1,4 +1,3 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 
@@ -9,12 +8,10 @@ import { OverlayProvider } from './context/overlay';
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-    <React.StrictMode>
-        <QueryClientProvider client={queryClient}>
-            <OverlayProvider>
-                <App />
-                <ReactQueryDevtools initialIsOpen={false} />
-            </OverlayProvider>
-        </QueryClientProvider>
-    </React.StrictMode>,
+    <QueryClientProvider client={queryClient}>
+        <OverlayProvider>
+            <App />
+            <ReactQueryDevtools initialIsOpen={false} />
+        </OverlayProvider>
+    </QueryClientProvider>,
 );

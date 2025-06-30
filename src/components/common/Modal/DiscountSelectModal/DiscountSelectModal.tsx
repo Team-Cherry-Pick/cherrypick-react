@@ -27,7 +27,7 @@ function DiscountList({
     toggleDiscount: (discount: { id: number; name: string }) => void;
 }) {
     const discounts = useAtomValue(discountsAtom);
-    const filtered = discounts.filter(discount => discount.name.includes(query));
+    const filtered = discounts.filter(discount => discount.name.toLowerCase().includes(query.toLowerCase()));
 
     return (
         <>
