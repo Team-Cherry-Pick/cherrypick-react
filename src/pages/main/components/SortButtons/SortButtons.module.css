@@ -1,0 +1,116 @@
+.container {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-2);
+}
+
+.sortButton {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  height: 2rem;
+  padding: var(--spacing-2) var(--spacing-3);
+  border: 0.0625rem solid var(--color-neutral-300);
+  border-radius: var(--radius-4);
+  color: var(--color-content-sub);
+  font-size: var(--font-size-sm);
+}
+
+.aiSortButton {
+  position: relative;
+  width: 5.4375rem; 
+  overflow: hidden;
+  transition: border 0.5s ease;
+}
+
+.aiSortButton_active {
+  border: none;
+}
+
+.aiSortButton__gradient {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(135deg, #FF8067 0%, #FF4635 100%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.aiSortButton_active .aiSortButton__gradient {
+  opacity: 1;
+}
+
+.aiSortButtonContent {
+  transform: translateX(1.375rem);
+  color: var(--color-neutral-500);
+  font-weight: var(--font-weight-semibold);
+}
+
+.aiSortButtonContentFadeIn {
+  color: white;
+  animation: contentMoveFadeIn 0.5s forwards;
+}
+
+.aiSortButtonContentFadeOut {
+  color: var(--color-neutral-500);
+  animation: contentMoveFadeOut 0.5s forwards;
+}
+
+@keyframes contentMoveFadeIn {
+  0% {
+    opacity: 1;
+    transform: translateX(1.375rem);
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0rem);
+  }
+}
+
+@keyframes contentMoveFadeOut {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(1.375rem);
+  }
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: 0;
+  z-index: 2;
+  transform: translateX(var(--spacing-1));
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: var(--radius-3);
+  background-color: var(--color-neutral-300);
+  transition: transform 0.5s ease;
+}
+
+.iconWrapper_active {
+  transform: translateX(calc(3.9375rem - var(--spacing-1)));
+  background-color: var(--color-neutral-0);
+}
+
+.aiIcon_active {
+  position: absolute;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.iconWrapper_active .aiIcon_active {
+  opacity: 1;
+}
