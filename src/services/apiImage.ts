@@ -15,16 +15,15 @@ export const uploadImage = async ({ images, indexes }: Images): Promise<UploadIm
         formData.append('indexes', index.toString());
     });
 
-    const response = await publicRequest<UploadImageResponse>(HttpMethod.POST, '/image', formData, {
+    const result = await publicRequest<UploadImageResponse>(HttpMethod.POST, '/image', formData, {
         headers: {
             'Content-Type': 'multipart/form-data',
         },
     });
 
-    return response;
-};
-
-export const deleteImage = async (imageId: number) => {
-    const response = await publicRequest(HttpMethod.DELETE, `/image/${imageId}`);
-    return response;
+    if (result.success) {
+        return result.data;
+    } else {
+        return [];
+    }
 };

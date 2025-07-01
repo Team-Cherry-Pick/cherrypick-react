@@ -97,14 +97,9 @@ export default function ProductUploadPage() {
             discountDescription: deal.discountDescription,
         };
 
-        uploadDeal(uploadDealData)
-            .then(() => {
-                navigate('/');
-            })
-            .catch(error => {
-                alert('핫딜 게시글 작성 실패');
-                console.error(error);
-            });
+        uploadDeal(uploadDealData).then(() => {
+            navigate('/');
+        });
     };
 
     // 유효성 검사
@@ -138,7 +133,7 @@ export default function ProductUploadPage() {
 
     return (
         <>
-            <DefaultLayout>
+            <DefaultLayout background="board">
                 <div className={styles.topBackground}>
                     <h1 className={styles.title}>
                         쇼핑몰에서 찾은 <b className={styles.semibold}>저렴한 할인상품</b>을 공유하세요!
