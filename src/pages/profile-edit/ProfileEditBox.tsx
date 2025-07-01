@@ -5,10 +5,11 @@ import { useRef, useState } from 'react';
 import { Gender, isValidProfile, NicknameEditStatus, Profile, PutUserReq, PutUserRes } from '@/types/Profile';
 import { newProfileAtom } from '@/store/profile';
 import { useAtom } from 'jotai';
-import { uploadProfileImage } from '@/services/apiImage';
 import { putUser } from '@/services/apiProfile';
 
 import * as S from './ProfileEditBox.style';
+import { uploadImage } from '@/services/apiImage';
+import { Images, UploadImageResponse } from '@/types/Image';
 
 const ProfileEditBox = () => {
 
@@ -31,12 +32,9 @@ const ProfileEditBox = () => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    try {
-      const result = await uploadProfileImage(file);
-      setProfile({ ...profile, imageId: result.imageId, imageUrl: result.imageUrl });
-    } catch (error) {
-      alert('이미지 업로드에 실패했습니다.');
-    }
+    const image: Images = { images: [file], indexes: [0] };
+    const result: UploadImageResponse = await uploadImage(image);
+    setProfile({ ...profile, imageId: result[0].imageId, imageUrl: result[0].imageUrl });
   };
 
   // '회원가입' 또는 '수정완료' 영역 클릭 시 호출
