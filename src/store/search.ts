@@ -1,4 +1,5 @@
 import { atom } from 'jotai';
+import { finalSelectedCategoryAtom, selectedCategoryPathAtom } from './category';
 
 // 타입
 export type TimeRange = 'LAST3HOURS' | 'LAST6HOURS' | 'LAST12HOURS' | 'LAST24HOURS' | 'LAST3DAYS' | 'LAST7DAYS';
@@ -128,10 +129,12 @@ export const resetFiltersAtom = atom(null, (_, set) => {
     });
     set(timeRangeAtom, 'LAST24HOURS');
     set(sortTypeAtom, 'LATEST');
+    set(finalSelectedCategoryAtom, null);
+    set(selectedCategoryPathAtom, []);
     set(categoryIdAtom, undefined);
     set(keywordAtom, '');
     set(priceFilterAtom, {
-        priceType: undefined,
+        priceType: 'KRW',
         minPrice: undefined,
         maxPrice: undefined,
     });

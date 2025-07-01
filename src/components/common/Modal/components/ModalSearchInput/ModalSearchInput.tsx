@@ -1,5 +1,5 @@
 import styles from './ModalSearchInput.module.css';
-import SearchIcon from '@/assets/icons/search-Icon.svg';
+import SearchIcon from '@/assets/icons/search-Icon.svg?react';
 
 interface ModalSearchInputProps {
     placeholder?: string;
@@ -29,7 +29,7 @@ export default function ModalSearchInput({
                     onChange={e => onChange(e.target.value)}
                 />
                 <button className={styles.iconButton}>
-                    <img src={SearchIcon} alt="검색" />
+                    <SearchIcon width={16} height={16} />
                 </button>
             </div>
             <button

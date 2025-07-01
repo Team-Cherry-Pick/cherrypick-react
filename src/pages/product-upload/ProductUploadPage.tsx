@@ -53,7 +53,7 @@ export default function ProductUploadPage() {
                     alert('이미지를 추가해주세요.');
                     break;
                 case 'OriginalUrl':
-                    alert('링크 정보를 입력해주세요.');
+                    alert('링크 정보를 확인해주세요.');
                     break;
                 case 'Store':
                     alert('스토어를 선택해주세요.');
@@ -83,16 +83,13 @@ export default function ProductUploadPage() {
             storeName: deal.storeName,
             price: {
                 priceType: deal.price.priceType,
-                regularPrice: deal.price.priceType === 'VARIOUS' ? 0 : deal.price.regularPrice,
-                discountedPrice: deal.price.priceType === 'VARIOUS' ? 0 : deal.price.discountedPrice,
+                regularPrice: deal.price.regularPrice,
+                discountedPrice: deal.price.discountedPrice,
             },
             shipping: {
                 shippingType: deal.shipping.shippingType,
-                shippingPrice:
-                    deal.shipping.shippingType === 'CONDITIONAL' || deal.shipping.shippingType === 'FREE'
-                        ? 0
-                        : deal.shipping.shippingPrice,
-                shippingRule: deal.shipping.shippingType === 'CONDITIONAL' ? deal.shipping.shippingRule : '',
+                shippingPrice: deal.shipping.shippingPrice,
+                shippingRule: deal.shipping.shippingRule,
             },
             content: deal.content,
             discountIds: deal.discountIds,
