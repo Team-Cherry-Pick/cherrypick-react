@@ -20,10 +20,12 @@ import axios from 'axios';
 type CommentInputProps = {
     userImageUrl?: string | null;
     isReply?: boolean;
+    parentId?: number | null;
     onCancel?: () => void;
+    onSuccess?: () => void;
 };
 
-const CommentInput = ({ userImageUrl, isReply = false, onCancel }: CommentInputProps) => {
+const CommentInput = ({ userImageUrl, isReply = false, parentId = null, onCancel, onSuccess }: CommentInputProps) => {
     const [comment, setComment] = useState('');
     const { guard } = useRequireLogin();
     const { id } = useParams();
@@ -33,13 +35,20 @@ const CommentInput = ({ userImageUrl, isReply = false, onCancel }: CommentInputP
     };
 
     const handleSubmit = async () => {
+        const token = AccessTokenService.get(AccessTokenType.USER);
+        if (!token) {
+            alert('로그인 후 이용해주세요');
+            return;
+        }
         if (!guard()) return;
 
         try {
-            const token = AccessTokenService.get(AccessTokenType.USER);
             await axios.post(
                 `${import.meta.env.VITE_API_URL}/comment/${id}`,
-                { content: comment },
+                {
+                    content: comment,
+                    ...(isReply && parentId !== null && { parentId }),
+                },
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -48,11 +57,16 @@ const CommentInput = ({ userImageUrl, isReply = false, onCancel }: CommentInputP
             );
             alert(isReply ? '답글이 작성되었습니다.' : '댓글이 작성되었습니다.');
             setComment('');
+            onSuccess?.();
         } catch (error) {
             console.error(isReply ? '답글 작성 실패:' : '댓글 작성 실패:', error);
             alert(isReply ? '답글 작성에 실패했습니다.' : '댓글 작성에 실패했습니다.');
         }
     };
+
+    const token = AccessTokenService.get(AccessTokenType.USER);
+    const isLoggedIn = !!token;
+
     return (
         <CommentInputWrapper>
             {!isReply && <Title>댓글 작성</Title>}
@@ -66,20 +80,21 @@ const CommentInput = ({ userImageUrl, isReply = false, onCancel }: CommentInputP
                     </FallbackIcon>
                 )}
                 <InputArea
-                    placeholder={isReply ? '답글을 작성해주세요.' : '댓글을 작성해주세요.'}
+                    placeholder={isReply ? '답글을 작성해주세요.' : isLoggedIn ? '댓글을 작성해주세요.' : '로그인 후 이용해주세요.'}
                     value={comment}
                     onChange={handleChange}
+                    disabled={!isLoggedIn}
                 />
             </InputRow>
             <SubmitButtonRow>
-                <SubmitButton disabled={!comment.trim()} onClick={handleSubmit}>
-                    {isReply ? '답글 달기' : '댓글 달기'}
-                </SubmitButton>
                 {isReply && onCancel && (
                     <CancelButton onClick={onCancel}>
                         취소
                     </CancelButton>
                 )}
+                <SubmitButton disabled={!comment.trim() || !isLoggedIn} onClick={handleSubmit}>
+                    {isReply ? '답글 달기' : '댓글 달기'}
+                </SubmitButton>
             </SubmitButtonRow>
         </CommentInputWrapper>
     );

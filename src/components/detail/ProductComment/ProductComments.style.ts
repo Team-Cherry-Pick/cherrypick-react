@@ -36,9 +36,9 @@ export const SortOptions = styled.div`
 export const SortOption = styled.span<{ $selected: boolean }>`
   cursor: pointer;
   color: ${({ theme, $selected }) =>
-        $selected ? theme.colors.content.main : theme.colors.content.sub};
+    $selected ? theme.colors.content.main : theme.colors.content.sub};
   font-weight: ${({ $selected, theme }) =>
-        $selected ? theme.typography.weight.semibold : 'normal'};
+    $selected ? theme.typography.weight.semibold : 'normal'};
 `;
 
 export const NoComment = styled.div`
@@ -91,30 +91,30 @@ export const InputArea = styled.textarea`
 `;
 
 export const SubmitButton = styled.button<{ disabled?: boolean }>`
-  padding: ${({ theme }) => theme.spacing[3]} ${({ theme }) => theme.spacing[5]};
+  padding: ${({ theme }) => theme.spacing[2]} ${({ theme }) => theme.spacing[4]};
   font-size: ${({ theme }) => theme.typography.size.sm};
   font-weight: ${({ theme }) => theme.typography.weight.bold};
   border-radius: ${({ theme }) => theme.radius[2]};
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
   background: ${({ theme, disabled }) =>
-        disabled ? theme.colors.neutral[300] : theme.colors.neutral[800]};
+    disabled ? theme.colors.neutral[300] : theme.colors.neutral[800]};
   color: ${({ theme }) => theme.colors.neutral[20]};
   transition: background 0.2s;
 
   &:hover {
     background: ${({ theme, disabled }) =>
-        !disabled && theme.colors.neutral[700]};
+    !disabled && theme.colors.neutral[700]};
   }
 `;
 
 export const CancelButton = styled.button`
-  padding: ${({ theme }) => theme.spacing[3]} ${({ theme }) => theme.spacing[5]};
+  padding: ${({ theme }) => theme.spacing[2]} ${({ theme }) => theme.spacing[4]};
   font-size: ${({ theme }) => theme.typography.size.sm};
   font-weight: ${({ theme }) => theme.typography.weight.bold};
   border-radius: ${({ theme }) => theme.radius[2]};
-  border: 1px solid ${({ theme }) => theme.colors.border.card};
+  border: 1px solid ${({ theme }) => theme.colors.neutral[300]};
   background-color: ${({ theme }) => theme.colors.background.root};
-  color: ${({ theme }) => theme.colors.content.main};
+  color: ${({ theme }) => theme.colors.content.sub};
   cursor: pointer;
 
   &:hover {
@@ -208,10 +208,33 @@ export const LeftSection = styled.div`
 
 export const RightSection = styled.div`
     display: flex;
-    justify-content: flex-end;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    height: 48px;
 `;
 
 export const CommentTime = styled.span`
     font-size: ${({ theme }) => theme.typography.size.sm};
     color: ${({ theme }) => theme.colors.content.sub};
+`;
+
+export const DeleteButton = styled.button`
+  font-size: ${({ theme }) => theme.typography.size.sm};
+  color: ${({ theme }) => theme.colors.content.sub};
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 4px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+`;
+
+export const ReplyDivider = styled.hr`
+  border: none;
+  height: 1px;
+  background-color: ${({ theme }) => theme.colors.border.card};
+  margin: ${({ theme }) => theme.spacing[2]} 0;
+  width: calc(100% - 3rem);
+  margin-left: 3rem;
 `;

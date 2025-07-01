@@ -10,8 +10,8 @@ import styled from "styled-components";
 import { LoadingSpinner } from '@/components/common/Loading/LoadingSpinner';
 
 import { fetchDetailedDeal } from '@/services/apiDeal';
-import { fetchCommentsByDealId, fetchBestCommentsByDealId } from '@/services/apiComment';
-import { Comment, BestComment } from '@/types/Comment';
+import { fetchBestCommentsByDealId } from '@/services/apiComment';
+import { BestComment } from '@/types/Comment';
 
 function ProductDetailPage() {
     const { id } = useParams<{ id: string }>();
@@ -26,15 +26,7 @@ function ProductDetailPage() {
         enabled: !!id,
     });
 
-    const {
-        data: comments,
-        isLoading: isLoadingComments,
-    } = useQuery<Comment[]>({
-        queryKey: ['comments', id],
-        queryFn: () => fetchCommentsByDealId(id!, 'LATEST'),
-        enabled: !!id,
-        retry: false,
-    });
+
 
     const {
         data: bestComments,
@@ -45,7 +37,7 @@ function ProductDetailPage() {
         enabled: !!id,
     });
 
-    if (isLoadingDeal || isLoadingComments || isLoadingBestComments) {
+    if (isLoadingDeal || isLoadingBestComments) {
         return <LoadingSpinner />;
     }
 
@@ -66,7 +58,6 @@ function ProductDetailPage() {
                         <BestCommentList bestComments={bestComments} />
                     )}
                     <ProductComments
-                        initialComments={comments ?? []}
                         dealId={id!}
                     />
                 </CommentContainer>
