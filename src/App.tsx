@@ -7,12 +7,11 @@ import { themeAtom } from '@/store/theme';
 import { lightTheme, darkTheme } from '@/styles/theme';
 
 import MainPage from '@/pages/main/MainPage';
-import LoginPage from '@/pages/login/LoginPage';
-// import UserPage from '@/pages/user/UserPage';
+import LoginPage from '@/pages/auth/LoginPage';
 import ProductDetailPage from '@/pages/product-detail/ProductDetailPage';
 import ProductUploadPage from '@/pages/product-upload/ProductUploadPage';
 import ErrorPage from '@/pages/error/ErrorPage';
-import LoginRedirectPage from './pages/login/LoginRedirectPage';
+import LoginRedirectPage from './pages/auth/LoginRedirectPage';
 import ProfileEditPage from './pages/profile-edit/ProfileEditPage';
 
 const App = () => {
@@ -26,7 +25,6 @@ const App = () => {
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/login-success" element={<LoginRedirectPage />} />
                     <Route path="/profile-edit" element={<ProfileEditPage />} />
-                    {/* <Route path="/user" element={<UserPage />} /> */}
                     <Route path="/product/:id" element={<ProductDetailPage />} />
                     <Route path="/upload" element={<ProductUploadPage />} />
                     <Route path="/error" element={<ErrorPage />} />

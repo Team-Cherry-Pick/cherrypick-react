@@ -44,18 +44,18 @@ export interface GetNicknameValidationRes {
 }
 
 export interface PutUserReq {
-  nickname: string;
-  birthday?: string | null;
-  gender?: Gender | null;
-  imageId?: number | null;
+    nickname: string;
+    birthday?: string | null;
+    gender?: Gender | null;
+    imageId?: number | null;
 }
 
 export interface PutUserRes {
-  userId: number;
-  nickname: string;
-  email: string;
-  birthday?: string | null;
-  gender?: Gender | null;
-  imageURL?: string | null;
-  imageId?: number | null;
+    userId: number;
+    nickname: string;
+    email: string;
+    birthday?: string | null;
+    gender?: Gender | null;
+    imageURL?: string | null;
+    imageId?: number | null;
 }

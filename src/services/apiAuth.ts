@@ -1,0 +1,50 @@
+import { HttpMethod } from '@/types/Api';
+import { publicRequest } from './apiClient';
+import { generateDeviceID, GetAuthReq, parseUserAgent } from '@/types/Auth';
+
+const apiUrl = import.meta.env.VITE_API_URL || null;
+
+export const getAuthKakao = async (request: GetAuthReq) => {
+    if (!apiUrl) {
+        alert('서비스 환경이 올바르게 설정되지 않았습니다. 잠시 후 다시 시도해주세요.');
+        return;
+    }
+
+    // deviceID(UUID) 설정
+    let savedDeviceID: string | null = localStorage.getItem('deviceID');
+    if (!savedDeviceID) {
+        savedDeviceID = generateDeviceID();
+        localStorage.setItem('deviceID', savedDeviceID);
+    }
+    request.deviceId = savedDeviceID;
+
+    // os, browser, version 설정
+    const { os, browser, version } = parseUserAgent(navigator.userAgent);
+    request.os = request.os ?? os;
+    request.browser = request.browser ?? browser;
+    request.version = request.version ?? version;
+
+    // query 파라미터 설정
+    const query = new URLSearchParams();
+    for (const [key, value] of Object.entries(request)) {
+        if (value !== null && value !== undefined) {
+            query.append(key, value);
+        }
+    }
+
+    // 카카오 로그인으로 이동
+    const baseUrl = apiUrl.replace(/\/api$/, '');
+    const url = `${baseUrl}/oauth2/authorization/kakao?${query.toString()}`;
+    window.location.href = url;
+};
+
+export const getAuthRefresh = async (): Promise<string> => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result = await publicRequest<any>(HttpMethod.GET, `/auth/refresh`);
+
+    if (result.success) {
+        return result.data.accessToken;
+    } else {
+        throw new Error('Failed to get Auth refresh');
+    }
+};
