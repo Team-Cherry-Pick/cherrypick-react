@@ -1,20 +1,22 @@
 import { useQuery } from '@tanstack/react-query';
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from 'react-router-dom';
 
 import DefaultLayout from '@/components/layout/DefaultLayout';
-import ProductTopSection from "./ProductTopSection";
-import ProductComments from "../../components/detail/ProductComment";
-import ProductRecommend from "../../components/detail/ProductRecommend";
+import ProductTopSection from './ProductTopSection';
+import ProductComments from '../../components/detail/ProductComment';
+import ProductRecommend from '../../components/detail/ProductRecommend';
 import BestCommentList from '@/components/detail/ProductComment/BestCommentList';
-import styled from "styled-components";
+import styled from 'styled-components';
 import { LoadingSpinner } from '@/components/common/Loading/LoadingSpinner';
 
 import { fetchDetailedDeal } from '@/services/apiDeal';
 import { fetchCommentsByDealId, fetchBestCommentsByDealId } from '@/services/apiComment';
 import { Comment, BestComment } from '@/types/Comment';
+import { useEffect } from 'react';
 
 function ProductDetailPage() {
     const { id } = useParams<{ id: string }>();
+    const navigate = useNavigate();
 
     const {
         data: deal,
@@ -24,26 +26,27 @@ function ProductDetailPage() {
         queryKey: ['deal', id],
         queryFn: () => fetchDetailedDeal(id!),
         enabled: !!id,
+        retry: false,
     });
 
-    const {
-        data: comments,
-        isLoading: isLoadingComments,
-    } = useQuery<Comment[]>({
+    const { data: comments, isLoading: isLoadingComments } = useQuery<Comment[]>({
         queryKey: ['comments', id],
         queryFn: () => fetchCommentsByDealId(id!, 'LATEST'),
         enabled: !!id,
         retry: false,
     });
 
-    const {
-        data: bestComments,
-        isLoading: isLoadingBestComments,
-    } = useQuery<BestComment[]>({
+    const { data: bestComments, isLoading: isLoadingBestComments } = useQuery<BestComment[]>({
         queryKey: ['bestComments', id],
         queryFn: () => fetchBestCommentsByDealId(id!),
         enabled: !!id,
     });
+
+    useEffect(() => {
+        if (isErrorDeal) {
+            navigate('/');
+        }
+    }, [isErrorDeal, navigate]);
 
     if (isLoadingDeal || isLoadingComments || isLoadingBestComments) {
         return <LoadingSpinner />;
@@ -62,13 +65,8 @@ function ProductDetailPage() {
                 </RecommendWrapper>
 
                 <CommentContainer>
-                    {bestComments && bestComments.length > 0 && (
-                        <BestCommentList bestComments={bestComments} />
-                    )}
-                    <ProductComments
-                        initialComments={comments ?? []}
-                        dealId={id!}
-                    />
+                    {bestComments && bestComments.length > 0 && <BestCommentList bestComments={bestComments} />}
+                    <ProductComments initialComments={comments ?? []} dealId={id!} />
                 </CommentContainer>
             </SubContainer>
         </DefaultLayout>
