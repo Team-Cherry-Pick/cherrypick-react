@@ -3,7 +3,20 @@ import Sortable from 'sortablejs';
 import { useSetAtom } from 'jotai';
 import { imageFilesAtom } from '@/store/deals';
 
-export const MAX_IMAGES = 4;
+export const MAX_IMAGES = 5;
+export const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+
+function validateImages(currentLength: number, files: File[]) {
+    if (files.some(file => file.size > MAX_FILE_SIZE)) {
+        alert('제한된 크기(10MB)를 초과하여 업로드되지 않았습니다.');
+        return false;
+    }
+    if (currentLength + files.length > MAX_IMAGES) {
+        alert(`이미지는 최대 ${MAX_IMAGES}장까지 등록할 수 있어요.`);
+        return false;
+    }
+    return true;
+}
 
 export const useImageUpload = () => {
     const [images, setImages] = useState<File[]>([]);
@@ -14,7 +27,10 @@ export const useImageUpload = () => {
     const sortableRef = useRef<Sortable | null>(null);
 
     useEffect(() => {
-        setImageFiles(images);
+        setImageFiles({
+            images: images,
+            indexes: images.map((_, index) => index),
+        });
     }, [images, setImageFiles]);
 
     useEffect(() => {
@@ -46,19 +62,13 @@ export const useImageUpload = () => {
     const handleFileSelect = (files: FileList | null) => {
         if (!files) return;
         const fileArray = Array.from(files);
-        if (images.length + fileArray.length > MAX_IMAGES) {
-            alert(`이미지는 최대 ${MAX_IMAGES}장까지 등록할 수 있어요.`);
-            return;
-        }
+        if (!validateImages(images.length, fileArray)) return;
         setImages(prev => [...prev, ...fileArray]);
     };
 
     const handleDropFiles = (files: FileList) => {
         const fileArray = Array.from(files);
-        if (images.length + fileArray.length > MAX_IMAGES) {
-            alert(`이미지는 최대 ${MAX_IMAGES}장까지 등록할 수 있어요.`);
-            return;
-        }
+        if (!validateImages(images.length, fileArray)) return;
         setImages(prev => [...prev, ...fileArray]);
     };
 

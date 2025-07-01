@@ -1,0 +1,55 @@
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-2);
+  width: 100%;
+}
+
+.inputContainer {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding: var(--spacing-3) var(--spacing-4);
+  background-color: var(--color-neutral-50);
+  border-radius: var(--radius-2);
+}
+
+.styledInput {
+  flex: 1;
+  border: none;
+  outline: none;
+  color: var(--color-content-main);
+  font-size: var(--font-size-sm);
+}
+
+.styledInput::placeholder {
+  color: var(--color-content-sub);
+}
+
+.iconButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: var(--spacing-3);
+
+  svg,
+  img {
+    width: 1rem;
+    height: 1rem;
+    fill: var(--color-content-sub);
+  }
+}
+
+.directInputButton {
+  flex: 1;
+  padding: var(--spacing-3) var(--spacing-4);
+  border-radius: var(--radius-2);
+  background-color: var(--color-neutral-300);
+  font-size: var(--font-size-sm);
+  color: white;
+}
+
+.active {
+  background-color: var(--color-neutral-700);
+}

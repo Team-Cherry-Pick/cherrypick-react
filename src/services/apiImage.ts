@@ -1,22 +1,29 @@
-// apis/uploadProfileImage.ts
-import axios from 'axios';
+import { Images, UploadImageResponse } from '@/types/Image';
+import { publicRequest } from './apiClient';
+import { HttpMethod } from '@/types/Api';
 
-export interface UploadedImageInfo {
-  imageId: number;
-  imageUrl: string;
-  indexes: number;
-}
+export const uploadImage = async ({ images, indexes }: Images): Promise<UploadImageResponse> => {
+    const formData = new FormData();
 
-export const uploadProfileImage = async (file: File): Promise<UploadedImageInfo> => {
-  const formData = new FormData();
-  formData.append('images', file);
-  formData.append('indexes', '0');
+    indexes.forEach(index => {
+        if (index < images.length) {
+            formData.append('images', images[index]);
+        }
+    });
 
-  const res = await axios.post(`${import.meta.env.VITE_API_URL}/image`, formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
+    indexes.forEach(index => {
+        formData.append('indexes', index.toString());
+    });
 
-  return res.data[0];
+    const result = await publicRequest<UploadImageResponse>(HttpMethod.POST, '/image', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
+
+    if (result.success) {
+        return result.data;
+    } else {
+        return [];
+    }
 };

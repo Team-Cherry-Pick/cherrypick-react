@@ -1,0 +1,48 @@
+.flexBox {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.title {
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: -0.025rem;
+  line-height: 1.125rem;
+}
+
+.goToParentButton {
+  color: var(--color-content-sub);
+  font-size: var(--font-size-sm);
+  letter-spacing: -0.02188rem;
+  line-height: 1rem;
+  text-decoration: underline;
+}
+
+.categoryPath {
+  display: flex;
+  justify-content: end;
+  gap: var(--spacing-2);
+  max-width: 100%;
+  width: fit-content;
+  margin: var(--spacing-5) 0;
+  color: var(--color-content-tertiary);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.currentPath {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+.categoryList {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: var(--spacing-5);
+  list-style: none;
+}
+
+.categoryItem {
+  font-size: var(--font-size-sm);
+  line-height: var(--font-size-sm);
+}

@@ -1,10 +1,13 @@
 import * as S from './card.style';
-import { Clock, ThumbsUp, MessageSquare } from 'lucide-react';
+import { Clock, MessageSquare } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import type { Deal } from '@/types/Deal';
+import type { FetchedDeal } from '@/types/Deal';
+import { HeatBadge } from '../Badge';
+import { getRelativeTime } from '@/utils/time';
+import { formatNumber } from '@/utils/number';
 
 interface Props {
-    deal: Deal;
+    deal: FetchedDeal;
 }
 
 export const CardDeal = ({ deal }: Props) => {
@@ -14,39 +17,76 @@ export const CardDeal = ({ deal }: Props) => {
         return null;
     }
 
-    const mainImage = deal.imageUrls && deal.imageUrls.length > 0 ? deal.imageUrls[0].url : null;
-
     const discountPercent =
         deal.price && deal.price.regularPrice > 0
             ? Math.round((1 - deal.price.discountedPrice / deal.price.regularPrice) * 100)
             : 0;
 
     return (
-        <S.CardWrapper onClick={() => navigate(`/product/${deal.dealId}`)}>
+        <S.CardWrapper className={deal.soldout ? 'ended' : ''} onClick={() => navigate(`/product/${deal.dealId}`)}>
+            {deal.soldout && <S.Overlay>종료된 핫딜입니다</S.Overlay>}
             <S.ImageBox>
-                {mainImage && <img src={mainImage} alt="" />}
+                <S.StyledImage
+                    src={`${deal.imageUrl?.url}`}
+                    alt=""
+                    onError={e => {
+                        const img = e.currentTarget as HTMLImageElement;
+                        img.src = 'src/assets/icons/black-logo-Icon.svg';
+                        img.style.height = '5rem';
+                        img.style.width = '5rem';
+                    }}
+                />
+                <S.HeatBadgeWrapper>
+                    <HeatBadge heat={deal.heat} size="large" />
+                </S.HeatBadgeWrapper>
             </S.ImageBox>
-
             <S.InfoBox>
                 <S.Title>{deal.title}</S.Title>
 
                 <S.TagRow>
-                    <S.Store>{deal.storeName}</S.Store>
+                    <S.Store>{deal.store}</S.Store>
                     <span>|</span>
-                    <S.Tags>{deal.discountNames.map(name => `#${name}`).join(' ')}</S.Tags>
+                    <S.Tags>{deal.infoTags.map(name => `${name}`).join(' ')}</S.Tags>
                 </S.TagRow>
 
                 <S.PriceRow>
-                    <S.Percent>{discountPercent}%</S.Percent>
-                    <S.Price>{deal.price.discountedPrice.toLocaleString()}원</S.Price>
+                    {deal.price.priceType === 'VARIOUS' ? (
+                        <S.VariousPrice>다양한 가격</S.VariousPrice>
+                    ) : (
+                        <>
+                            <S.Percent>{discountPercent}%</S.Percent>
+                            <S.Price>
+                                {deal.price.priceType === 'KRW'
+                                    ? `${formatNumber(deal.price.discountedPrice)}원`
+                                    : `$ ${formatNumber(deal.price.discountedPrice)}`}
+                            </S.Price>
+                        </>
+                    )}
                 </S.PriceRow>
 
                 <S.Meta>
-                    <span><Clock /> 1시간 전</span>
+                    <span
+                        style={{
+                            width: '7rem',
+                            textAlign: 'end',
+                            textOverflow: 'ellipsis',
+                            overflow: 'hidden',
+                            whiteSpace: 'nowrap',
+                            display: 'inline-block',
+                            verticalAlign: 'bottom',
+                        }}
+                        title={deal.nickname}
+                    >
+                        by {deal.nickname}
+                    </span>
                     <span className="divider">|</span>
-                    <span><ThumbsUp /> 0</span>
+                    <span>
+                        <Clock /> {getRelativeTime(deal.createdAt)}
+                    </span>
                     <span className="divider">|</span>
-                    <span><MessageSquare /> 0</span>
+                    <span>
+                        <MessageSquare /> {deal.totalComments}
+                    </span>
                 </S.Meta>
             </S.InfoBox>
         </S.CardWrapper>

@@ -1,6 +1,33 @@
 import styled, { css } from 'styled-components';
 
-export const Wrapper = styled.section`
+export const Overlay = styled.div`
+  position: absolute;
+  top: 0; left: 0;
+  border-radius: ${({ theme }) => theme.radius[5]};
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.6);
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  pointer-events: none;
+`;
+
+export const EndButton = styled.button`
+  margin-right: auto;
+  padding: 8px 12px;
+  background-color: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.colors.neutral[50]};
+  border: none;
+  border-radius: ${({ theme }) => theme.radius[2]};
+  cursor: pointer;
+  font-size: 0.9rem;
+`;
+
+export const Wrapper = styled.div`
   display: flex;
   height: 100%;
   gap: ${({ theme }) => theme.spacing[6]};
@@ -10,7 +37,13 @@ export const Wrapper = styled.section`
   border-radius: ${({ theme }) => theme.radius[5]};
   box-shadow: 0px 0px 5px ${({ theme }) => theme.colors.border.card};
   background-color: ${({ theme }) => theme.colors.background.root};
+  margin-top: 1.5%;
   padding: ${({ theme }) => theme.spacing[4]};
+
+  &.ended {
+    filter: grayscale(100%);
+    pointer-events: auto;
+  }
 `;
 
 export const ImageSection = styled.div`
@@ -35,6 +68,11 @@ export const MainImage = styled.img`
   object-fit: cover;
   background-color: ${({ theme }) => theme.colors.neutral[50]};
   border: 1px solid ${({ theme }) => theme.colors.border.card};
+
+   &.hovered {
+    opacity: 0.6; // 연하게 보이도록
+  }
+
 `;
 
 export const ImagePlaceholder = styled.div`
@@ -121,6 +159,26 @@ export const Tag = styled.span`
   font-weight: 400;
 `;
 
+export const ActionGroup = styled.div`
+  display: flex;
+    gap: ${({ theme }) => theme.spacing[2]};
+  margin-left: auto;
+`;
+
+export const ActionButton = styled.button`
+  font-size: ${({ theme }) => theme.typography.size.sm};
+  text-decoration: underline;
+  background-color: none;
+  color: ${({ theme }) => theme.colors.content.main};
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.neutral[300]};
+  }
+`;
+
 export const PriceContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -163,16 +221,18 @@ export const DiscountPercent = styled.span`
 `;
 
 export const Content = styled.div`
-  margin: ${({ theme }) => theme.spacing[3]} 0;
-  font-size: ${({ theme }) => theme.typography.size.base};
-  color: ${({ theme }) => theme.colors.content.main};
-  line-height: 1.5;
-
-  .custom-divider {
-    height: 1px;
-    background-color: ${({ theme }) => theme.colors.border.board};
-    margin: ${({ theme }) => theme.spacing[6]} 0;
-  }
+    margin: ${({ theme }) => theme.spacing[3]} 0;
+    font-size: ${({ theme }) => theme.typography.size.lg};
+    color: ${({ theme }) => theme.colors.content.main};
+    line-height: 1.5;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+    .custom-divider {
+        height: 1px;
+        background-color: ${({ theme }) => theme.colors.border.board};
+        margin: ${({ theme }) => theme.spacing[6]} 0;
+    }
 `;
 
 export const MetaRow = styled.div`

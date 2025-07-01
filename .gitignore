@@ -23,9 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
-# storybook
-*storybook.log
-
 # env
 .env
 .env.production

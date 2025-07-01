@@ -1,0 +1,32 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  margin-top: var(--spacing-4);
+}
+
+.checkBoxLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.checkBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 0.125rem solid var(--color-content-tertiary);
+  border-radius: var(--radius-1);
+
+  svg {
+    color: var(--color-primary);
+    width: 0.8rem;
+    height: 0.8rem;
+  }
+}
+
+.checkBox_checked {
+  border: 0.125rem solid var(--color-primary);
+}

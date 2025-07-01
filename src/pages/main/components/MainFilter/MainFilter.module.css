@@ -1,0 +1,32 @@
+.container {
+  width: 16.875rem;
+  min-width: 16.875rem;
+  margin: 7.5rem 0;
+}
+
+.flexBox {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: -0.03125rem;
+  line-height: 1.5rem;
+}
+
+.resetButton {
+  color: var(--color-content-sub);
+  font-size: var(--font-size-sm);
+  letter-spacing: -0.02188rem;
+  line-height: 1rem;
+  text-decoration: underline;
+}
+
+.divider {
+  height: 0.0625rem;
+  margin: var(--spacing-8) 0;
+  background-color: var(--color-border-board);
+}

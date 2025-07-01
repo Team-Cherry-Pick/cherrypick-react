@@ -2,46 +2,43 @@
 import { AccessTokenService } from '@/services/accessTokenService';
 import { AccessTokenType } from '@/types/Api';
 import { useEffect } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useLocation, useSearchParams, useNavigate } from 'react-router-dom';
 
 const LoginSuccessPage = () => {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
-    const loginFailMessage: string = '로그인에 실패했습니다.'
+    const location = useLocation();
+    const loginFailMessage = '로그인에 실패했습니다.';
+
+    const redirectURL = searchParams.get('redirectUrl') || location.state?.from || '/';
 
     useEffect(() => {
         const handleLoginRedirect = async () => {
-            // SearchParams 추출
             const userId = searchParams.get('userId');
-            const redirectURL = searchParams.get('redirectUrl');
+            const accessToken = searchParams.get('accessToken');
             const isNewUser = searchParams.get('isNewUser') === 'true';
-            if (!userId || !redirectURL) throw new Error(loginFailMessage);
 
-            /**
-             * 토큰 재발급 및 저장
-             * @todo Token 하드코딩 (수정 필요)
-             */
-            //await refreshToken();
-            const accessToken = searchParams.get('accessToken') ?? "";
-            if(!accessToken) navigate(redirectURL);
+            if (!userId || !accessToken) {
+                alert(loginFailMessage);
+                navigate('/');
+                return;
+            }
+
+            // 토큰 저장
             AccessTokenService.save(AccessTokenType.USER, accessToken);
-            localStorage.setItem("userId", userId);
+            localStorage.setItem('userId', userId);
 
-            /**
-             * 신규회원/기존회원 여부 파악하여 경로 이동
-             * @todo 경로 수정
-             */
             if (isNewUser) {
-                //navigate('/update/profile');
+                // 최초 로그인 사용자 처리
                 navigate(redirectURL);
             } else {
                 navigate(redirectURL);
             }
-        }
+        };
+
         handleLoginRedirect();
-    }, [searchParams, navigate]);
+    }, [searchParams, navigate, redirectURL]);
 
     return <div>로그인 처리 중입니다...</div>;
 };
-
 export default LoginSuccessPage;
