@@ -1,9 +1,15 @@
 import { HttpMethod } from '@/types/Api';
 import { publicRequest } from './apiClient';
-import { generateDeviceID, GetAuthReq, parseUserAgent } from '@/types/Auth';
+import { generateDeviceID, GetAuthReq, parseUserAgent, PostAuthRegisterCompletionReq } from '@/types/Auth';
 
 const apiUrl = import.meta.env.VITE_API_URL || null;
 
+/**
+ * 카카오 로그인/회원가입 API
+ * 
+ * @param request: 유저 사용 환경 정보
+ * @returns 리턴 값 없으며 카카오 로그인 성공 시 'login-success'로 라우팅
+ */
 export const getAuthKakao = async (request: GetAuthReq) => {
     if (!apiUrl) {
         alert('서비스 환경이 올바르게 설정되지 않았습니다. 잠시 후 다시 시도해주세요.');
@@ -37,6 +43,24 @@ export const getAuthKakao = async (request: GetAuthReq) => {
     const url = `${baseUrl}/oauth2/authorization/kakao?${query.toString()}`;
     window.location.href = url;
 };
+
+/**
+ * 리픽 회원가입 API
+ * 
+ * @param request: 회원가입에 필요한 유저 정보
+ * @returns 액세스 토큰
+ */
+export async function postAuthRegisterCompletion(request: PostAuthRegisterCompletionReq): Promise<string> {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result = await publicRequest<any>(HttpMethod.POST, `/auth/register-completion`, request);
+
+    if (result.success) {
+        return result.data.accessToken;
+    } else {
+        throw result.error;
+    }
+};
+
 
 export const getAuthRefresh = async (): Promise<string> => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

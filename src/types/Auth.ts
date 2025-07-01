@@ -1,9 +1,20 @@
+import { Gender } from "./Profile";
+
 export interface GetAuthReq {
     redirect: string;
     deviceId?: string;
     os?: string;
     browser?: string;
     version?: string;
+}
+
+export interface PostAuthRegisterCompletionReq {
+    registerToken: string;
+    nickname: string;
+    email: string;
+    birthday: string;
+    gender: Gender;
+    imageId?: number | null;
 }
 
 export function generateDeviceID(): string {

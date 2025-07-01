@@ -1,0 +1,144 @@
+.container {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+}
+
+.profileEditBoxWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  margin-top: 80px;
+  align-items: center;
+  border-radius: 20px 20px 0 0;
+  padding: 60px 32px 32px 32px;
+  border: 1px solid var(--color-border-card);
+  border-bottom: none;
+  background-color: var(--color-background-card);
+}
+
+.textLabel {
+  font-size: 18px;
+  font-weight: 600;
+  width: 100%;
+  padding-left: 4px;
+  margin-top: 32px;
+  margin-bottom: 0px;
+  color: var(--color-content-main);
+}
+
+.profileImageButton {
+  width: 120px;
+  height: 120px;
+  border-radius: 60px;
+  border: 1px solid var(--color-neutral-200);
+  background-color: var(--color-neutral-100);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profileImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 60px;
+}
+
+.profileImageTitle {
+  font-size: 16px;
+  color: var(--color-content-sub);
+  margin-top: 8px;
+}
+
+.emailValue {
+  width: 100%;
+  height: 48px;
+  border: 1px solid var(--color-border-card);
+  border-radius: 8px;
+  padding: 0 16px;
+  font-size: 16px;
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  color: var(--color-content-sub);
+  background-color: var(--color-neutral-100);
+}
+
+.invalidNicknameHelper {
+  font-size: 14px;
+  width: 100%;
+  text-align: start;
+  margin-top: 8px;
+  padding: 0 8px;
+  color: var(--color-primary);
+}
+
+.genderToggleWrapper {
+  display: flex;
+  width: 100%;
+  margin-top: 16px;
+  border-radius: 10px;
+  border: 1px solid var(--color-neutral-200);
+}
+
+.genderButton {
+  width: 50%;
+  height: 48px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 400;
+  border: none;
+  transition: background-color 0.2s ease;
+  color: var(--color-content-sub);
+}
+
+.genderButton[data-selected='true'] {
+  font-weight: 600;
+  border: 2px solid var(--color-neutral-500);
+  color: var(--color-content-main);
+}
+
+.genderButton:hover {
+  background-color: var(--color-neutral-100);
+}
+
+.dateInput {
+  width: 100%;
+  height: 48px;
+  padding: 0 16px;
+  font-size: 16px;
+  border-radius: 8px;
+  margin-top: 16px;
+  border: 1px solid var(--color-neutral-100);
+  color: var(--color-content-main);
+}
+
+.dateInput:focus {
+  outline: none;
+  border: 1px solid var(--color-neutral-500);
+}
+
+.submitButton {
+  width: 100%;
+  height: 48px;
+  margin: 48px 0 80px 0;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  background-color: var(--color-primary);
+}
+
+.submitButton:disabled {
+  background-color: var(--color-neutral-300);
+  cursor: not-allowed;
+}
+
+.submitButton:hover {
+  opacity: 0.9;
+}

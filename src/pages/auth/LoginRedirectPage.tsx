@@ -28,7 +28,9 @@ const LoginSuccessPage = () => {
                 return;
             }
 
-            // 신규 유저일 시 회원가입 시도 후 회원정보수정 페이지로 이동
+            // 신규 유저일 시 회원정보수정 페이지로 이동 (회원가입 진행)
+            // @todo : redirect, redirectToken, email 등 넣어서 진행
+            navigate('/profile-edit');
         };
 
         handleLoginRedirect();

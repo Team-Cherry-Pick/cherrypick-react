@@ -1,9 +1,9 @@
 export interface Profile {
     nickname: string;
+    gender: Gender;
+    birthDay: string;
     imageId?: number | null;
     imageUrl?: string | null;
-    gender?: Gender | null;
-    birthDay?: string | null;
 }
 
 export enum NicknameEditStatus {
@@ -18,9 +18,6 @@ export enum Gender {
     FEMALE = "FEMALE"
 }
 
-/**
- * @todo: 얘들 다 nullable한지 결정합시다
- */
 export const isValidProfile = (profile: Profile, nicknameEditStatus: NicknameEditStatus) => {
     const { nickname, gender, birthDay } = profile;
     const birthDate = new Date(birthDay ?? "");
@@ -45,8 +42,8 @@ export interface GetNicknameValidationRes {
 
 export interface PutUserReq {
     nickname: string;
-    birthday?: string | null;
-    gender?: Gender | null;
+    birthday: string;
+    gender: Gender;
     imageId?: number | null;
 }
 
@@ -54,8 +51,8 @@ export interface PutUserRes {
     userId: number;
     nickname: string;
     email: string;
-    birthday?: string | null;
-    gender?: Gender | null;
+    birthday: string;
+    gender: Gender;
     imageURL?: string | null;
     imageId?: number | null;
 }
