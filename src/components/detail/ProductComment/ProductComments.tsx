@@ -209,7 +209,11 @@ const ProductComments = ({ dealId }: ProductCommentsProps) => {
                                             </DeleteButton>
                                         )}
                                     </div>
-                                    <CommentText>{item.content}</CommentText>
+                                    <CommentText
+                                        style={item.isDelete ? { color: 'var(--content-sub, #767676)' } : undefined}
+                                    >
+                                        {item.isDelete ? '삭제된 댓글입니다.' : item.content}
+                                    </CommentText>
                                     <CommentFooter>
                                         <LeftSection>
                                             <Likes onClick={() => handleLikeToggle(item.commentId)} style={{ cursor: 'pointer', color: likedComments[item.commentId] ? '#1976d2' : undefined }}>
@@ -270,7 +274,11 @@ const ProductComments = ({ dealId }: ProductCommentsProps) => {
                                                     </DeleteButton>
                                                 )}
                                             </div>
-                                            <CommentText>{reply.content}</CommentText>
+                                            <CommentText
+                                                style={reply.isDelete ? { color: 'var(--content-sub, #767676)' } : undefined}
+                                            >
+                                                {reply.isDelete ? '삭제된 댓글입니다.' : reply.content}
+                                            </CommentText>
                                             <CommentFooter>
                                                 <LeftSection>
                                                     <Likes onClick={() => handleLikeToggle(reply.commentId)} style={{ cursor: 'pointer', color: likedComments[reply.commentId] ? '#1976d2' : undefined }}>
