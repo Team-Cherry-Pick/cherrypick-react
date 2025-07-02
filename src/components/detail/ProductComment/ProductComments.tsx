@@ -218,11 +218,26 @@ const ProductComments = ({ dealId }: ProductCommentsProps) => {
                                     <CommentFooter>
                                         <LeftSection>
                                             <Likes onClick={() => handleLikeToggle(item.commentId)} style={{ cursor: 'pointer', color: likedComments[item.commentId] ? '#1976d2' : undefined }}>
-                                                <img src={LikeIcon} alt="좋아요" width={14} height={14} style={{ filter: likedComments[item.commentId] ? 'invert(34%) sepia(98%) saturate(749%) hue-rotate(181deg) brightness(93%) contrast(92%)' : 'none' }} />
+                                                <img
+                                                    src={LikeIcon}
+                                                    alt="좋아요"
+                                                    width={14}
+                                                    height={14}
+                                                    style={{
+                                                        verticalAlign: 'middle',
+                                                        ...(likedComments[item.commentId] ? { filter: 'invert(34%) sepia(98%) saturate(749%) hue-rotate(181deg) brightness(93%) contrast(92%)' } : {})
+                                                    }}
+                                                />
                                                 {likeCounts[item.commentId] ?? item.totalLikes}
                                             </Likes>
                                             <ItemDivider>|</ItemDivider>
-                                            <img src={TalkBubbleIcon} alt="댓글 수" width={14} height={14} style={{ verticalAlign: 'middle' }} />
+                                            <img
+                                                src={TalkBubbleIcon}
+                                                alt="댓글 수"
+                                                width={14}
+                                                height={14}
+                                                style={{ verticalAlign: 'middle' }}
+                                            />
                                             {item.totalReplys}
                                             <ItemDivider>|</ItemDivider>
                                             <Reply onClick={() => setReplyingCommentId(item.commentId)}>답글달기</Reply>
@@ -283,7 +298,16 @@ const ProductComments = ({ dealId }: ProductCommentsProps) => {
                                             <CommentFooter>
                                                 <LeftSection>
                                                     <Likes onClick={() => handleLikeToggle(reply.commentId)} style={{ cursor: 'pointer', color: likedComments[reply.commentId] ? '#1976d2' : undefined }}>
-                                                        <img src={LikeIcon} alt="좋아요" width={14} height={14} style={{ filter: likedComments[reply.commentId] ? 'invert(34%) sepia(98%) saturate(749%) hue-rotate(181deg) brightness(93%) contrast(92%)' : 'none' }} />
+                                                        <img
+                                                            src={LikeIcon}
+                                                            alt="좋아요"
+                                                            width={14}
+                                                            height={14}
+                                                            style={{
+                                                                verticalAlign: 'middle',
+                                                                ...(likedComments[reply.commentId] ? { filter: 'invert(34%) sepia(98%) saturate(749%) hue-rotate(181deg) brightness(93%) contrast(92%)' } : {})
+                                                            }}
+                                                        />
                                                         {likeCounts[reply.commentId] ?? reply.totalLikes}
                                                     </Likes>
                                                 </LeftSection>
