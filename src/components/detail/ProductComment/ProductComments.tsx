@@ -22,13 +22,14 @@ import {
     DeleteButton,
 } from './ProductComments.style';
 import { fetchCommentsByDealId, deleteCommentById } from '@/services/apiComment';
-import { MessageSquare, ThumbsUp, CircleUserRound } from 'lucide-react';
+import { MessageSquare, ThumbsUp } from 'lucide-react';
 import type { Comment } from '@/types/Comment';
 import { LoadingSpinner } from '@/components/common/Loading/LoadingSpinner';
 import { getRelativeTime } from '@/utils/time';
 import { AccessTokenService } from '@/services/accessTokenService';
 import { AccessTokenType } from '@/types/Api';
 import { jwtDecode } from 'jwt-decode';
+import DefaultProfileIcon from '@/assets/icons/profile-Icon.svg';
 
 type ProductCommentsProps = {
     dealId: string;
@@ -45,8 +46,6 @@ function getUserIdFromToken() {
     }
 }
 
-const myUserId = getUserIdFromToken();
-
 const ProductComments = ({ dealId }: ProductCommentsProps) => {
     const [sortOption, setSortOption] = useState<'최신순' | '인기순'>('최신순');
     const [comments, setComments] = useState<Comment[]>([]);
@@ -57,45 +56,45 @@ const ProductComments = ({ dealId }: ProductCommentsProps) => {
     const [likedComments, setLikedComments] = useState<{ [key: number]: boolean }>({});
     const [likeCounts, setLikeCounts] = useState<{ [key: number]: number }>({});
 
+    // 현재 사용자 ID를 가져오는 함수
+    const getCurrentUserId = () => getUserIdFromToken();
+
     // 최신순 댓글 로드
     useEffect(() => {
-        setLoading(true);
-        fetchCommentsByDealId(dealId, 'LATEST')
-            .then(data => {
-                setComments(data);
-            })
-            .catch(error => {
-                if (error?.response?.status === 404) {
-                    setComments([]);
-                } else {
-                    console.error(error);
-                }
-            })
-            .finally(() => {
-                setLoading(false);
-            });
-    }, [dealId, refreshKey]);
-
-    // 인기순 댓글 로드
-    useEffect(() => {
-        if (sortOption === '인기순') {
+        // dealId가 유효한 경우에만 API 호출
+        if (dealId) {
             setLoading(true);
-            fetchCommentsByDealId(dealId, 'POPULAR')
+            fetchCommentsByDealId(dealId, 'LATEST')
                 .then(data => {
-                    setPopularComments(data);
-                })
-                .catch(error => {
-                    if (error?.response?.status === 404) {
+                    setComments(data);
+                    // 댓글이 없으면 인기순도 빈 배열로 설정
+                    if (data.length === 0) {
                         setPopularComments([]);
-                    } else {
-                        console.error(error);
                     }
                 })
                 .finally(() => {
                     setLoading(false);
                 });
         }
-    }, [sortOption, dealId, refreshKey]);
+    }, [dealId, refreshKey]);
+
+    // 인기순 댓글 로드 - 댓글이 있을 때만 호출
+    useEffect(() => {
+        // 댓글이 있고, 인기순을 선택했을 때만 API 호출
+        if (sortOption === '인기순' && dealId && comments.length > 0) {
+            setLoading(true);
+            fetchCommentsByDealId(dealId, 'POPULAR')
+                .then(data => {
+                    setPopularComments(data);
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
+        } else if (sortOption === '인기순' && comments.length === 0) {
+            // 댓글이 없으면 인기순도 빈 배열로 설정
+            setPopularComments([]);
+        }
+    }, [sortOption, dealId, refreshKey, comments.length]);
 
     useEffect(() => {
         // 모든 댓글과 답글을 flatten해서 likeCounts 초기화
@@ -128,11 +127,40 @@ const ProductComments = ({ dealId }: ProductCommentsProps) => {
             return;
         }
         if (!window.confirm('정말 삭제하시겠습니까?')) return;
+
+        console.log('삭제 시도:', commentId);
+        console.log('토큰:', token.substring(0, 20) + '...');
+        console.log('삭제 전 댓글 수:', comments.length);
+
         try {
-            await deleteCommentById(commentId, token);
+            const response = await deleteCommentById(commentId, token);
+            console.log('삭제 API 응답 전체:', JSON.stringify(response, null, 2));
+            console.log('응답 상태:', response.status);
+            console.log('응답 데이터:', response.data);
+            console.log('응답 헤더:', response.headers);
             alert('삭제되었습니다.');
+
+            // 로컬 상태에서 삭제된 댓글 제거
+            setComments(prev => prev.filter(comment => comment.commentId !== commentId));
+            setPopularComments(prev => prev.filter(comment => comment.commentId !== commentId));
+
+            // 답글인 경우 부모 댓글의 replies에서도 제거
+            setComments(prev => prev.map(comment => ({
+                ...comment,
+                replies: comment.replies?.filter(reply => reply.commentId !== commentId) || []
+            })));
+            setPopularComments(prev => prev.map(comment => ({
+                ...comment,
+                replies: comment.replies?.filter(reply => reply.commentId !== commentId) || []
+            })));
+
+            console.log('삭제 후 댓글 수:', comments.length);
+
+            // API는 성공했지만 실제 삭제가 안 되고 있으므로 강제 새로고침
+            console.log('API 성공했지만 실제 삭제가 안 됨. 강제 새로고침 실행');
             handleCommentSuccess();
-        } catch {
+        } catch (error) {
+            console.error('삭제 실패:', error);
             alert('삭제에 실패했습니다.');
         }
     };
@@ -169,13 +197,13 @@ const ProductComments = ({ dealId }: ProductCommentsProps) => {
                                     <ProfileImage src={item.user.userImageUrl} />
                                 ) : (
                                     <FallbackIcon>
-                                        <CircleUserRound size={32} />
+                                        <img src={DefaultProfileIcon} alt="기본 프로필" width={32} height={32} />
                                     </FallbackIcon>
                                 )}
                                 <CommentContent>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                         <UserName>{item.user.userName}</UserName>
-                                        {myUserId === item.user.userId && (
+                                        {getCurrentUserId() === item.user.userId && (
                                             <DeleteButton onClick={() => handleDelete(item.commentId)}>
                                                 댓글 삭제
                                             </DeleteButton>
@@ -201,11 +229,25 @@ const ProductComments = ({ dealId }: ProductCommentsProps) => {
                                 </CommentContent>
                             </CommentItem>
 
-                            {/* 댓글과 답글 사이 구분선 (짧은 선) */}
+                            {/* 답글 입력창 */}
+                            {replyingCommentId === item.commentId && (
+                                <>
+                                    <ReplyDivider />
+                                    <div style={{ marginLeft: '3rem' }}>
+                                        <CommentInput
+                                            isReply
+                                            parentId={item.commentId}
+                                            onCancel={() => setReplyingCommentId(null)}
+                                            onSuccess={handleCommentSuccess}
+                                            userImageUrl={item.user.userImageUrl}
+                                        />
+                                    </div>
+                                </>
+                            )}
+
                             {(repliesMap.get(item.commentId) ?? []).length > 0 && (
                                 <ReplyDivider />
                             )}
-
                             {/* 답글들 표시 */}
                             {(repliesMap.get(item.commentId) ?? []).map((reply, ridx) => (
                                 <div key={reply.commentId} style={{ marginLeft: '3rem', marginTop: '1rem' }}>
@@ -216,13 +258,13 @@ const ProductComments = ({ dealId }: ProductCommentsProps) => {
                                             <ProfileImage src={reply.user.userImageUrl} />
                                         ) : (
                                             <FallbackIcon>
-                                                <CircleUserRound size={32} />
+                                                <img src={DefaultProfileIcon} alt="기본 프로필" width={32} height={32} />
                                             </FallbackIcon>
                                         )}
                                         <CommentContent>
                                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                                 <UserName>{reply.user.userName}</UserName>
-                                                {myUserId === reply.user.userId && (
+                                                {getCurrentUserId() === reply.user.userId && (
                                                     <DeleteButton onClick={() => handleDelete(reply.commentId)}>
                                                         댓글 삭제
                                                     </DeleteButton>
@@ -247,23 +289,11 @@ const ProductComments = ({ dealId }: ProductCommentsProps) => {
 
                             {/* 댓글 사이 구분선 (긴 선) */}
                             {idx !== rootComments.length - 1 && <Divider />}
-
-                            {/* 답글 입력창 */}
-                            {replyingCommentId === item.commentId && (
-                                <div style={{ marginTop: '1rem', marginLeft: '3rem' }}>
-                                    <CommentInput
-                                        isReply
-                                        parentId={item.commentId}
-                                        onCancel={() => setReplyingCommentId(null)}
-                                        onSuccess={handleCommentSuccess}
-                                        userImageUrl={item.user.userImageUrl}
-                                    />
-                                </div>
-                            )}
                         </div>
                     ))}
                 </CommentList>
             )}
+            {rootComments.length > 0 && <Divider />}
             <CommentInput onSuccess={handleCommentSuccess} />
         </Wrapper>
     );

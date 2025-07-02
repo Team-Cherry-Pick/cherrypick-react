@@ -5,13 +5,10 @@ import DefaultLayout from '@/components/layout/DefaultLayout';
 import ProductTopSection from "./ProductTopSection";
 import ProductComments from "../../components/detail/ProductComment";
 import ProductRecommend from "../../components/detail/ProductRecommend";
-import BestCommentList from '@/components/detail/ProductComment/BestCommentList';
 import styled from "styled-components";
 import { LoadingSpinner } from '@/components/common/Loading/LoadingSpinner';
 
 import { fetchDetailedDeal } from '@/services/apiDeal';
-import { fetchBestCommentsByDealId } from '@/services/apiComment';
-import { BestComment } from '@/types/Comment';
 
 function ProductDetailPage() {
     const { id } = useParams<{ id: string }>();
@@ -26,18 +23,7 @@ function ProductDetailPage() {
         enabled: !!id,
     });
 
-
-
-    const {
-        data: bestComments,
-        isLoading: isLoadingBestComments,
-    } = useQuery<BestComment[]>({
-        queryKey: ['bestComments', id],
-        queryFn: () => fetchBestCommentsByDealId(id!),
-        enabled: !!id,
-    });
-
-    if (isLoadingDeal || isLoadingBestComments) {
+    if (isLoadingDeal) {
         return <LoadingSpinner />;
     }
 
@@ -54,9 +40,6 @@ function ProductDetailPage() {
                 </RecommendWrapper>
 
                 <CommentContainer>
-                    {bestComments && bestComments.length > 0 && (
-                        <BestCommentList bestComments={bestComments} />
-                    )}
                     <ProductComments
                         dealId={id!}
                     />
@@ -82,6 +65,7 @@ const RecommendWrapper = styled.div`
 const CommentContainer = styled.div`
     display: flex;
     flex-direction: column;
+    padding-top: 1rem;
     gap: ${({ theme }) => theme.spacing[4]};
     flex: 1;
 `;

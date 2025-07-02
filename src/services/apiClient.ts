@@ -66,9 +66,16 @@ authApiClient.interceptors.response.use(
  */
 function handleError(error: AxiosError) {
     if (error.response) {
+        const status = error.response.status;
         const responseData = error.response.data as ResponseData<null>;
-        console.error('[API Error]', error.response.status, responseData?.message);
-        return new APIException(error.response.status, responseData?.message || 'API Error');
+
+        // 404 에러는 조용히 처리 (댓글이 없는 정상적인 상황)
+        if (status === 404) {
+            return new APIException(status, 'Not found');
+        }
+
+        console.error('[API Error]', status, responseData?.message);
+        return new APIException(status, responseData?.message || 'API Error');
     } else if (error.request) {
         console.error('[Network Error]', error.message);
         return new APIException(0, 'Network error');

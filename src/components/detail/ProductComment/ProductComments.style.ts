@@ -5,7 +5,7 @@ export const Wrapper = styled.section`
   border-radius: ${({ theme }) => theme.radius[5]};
   box-shadow: 0px 0px 5px ${({ theme }) => theme.colors.border.card};
   background-color: ${({ theme }) => theme.colors.background.root};
-  padding: ${({ theme }) => theme.spacing[2]} ${({ theme }) => theme.spacing[6]};
+  padding: 2rem 1.25rem;
 `;
 
 export const Header = styled.div`
@@ -51,7 +51,6 @@ export const CommentInputWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing[2]};
-  margin: ${({ theme }) => theme.spacing[4]} 0;
 `;
 
 export const InputRow = styled.div`
@@ -126,8 +125,10 @@ export const Divider = styled.hr`
   border: none;
   height: 1px;
   background-color: ${({ theme }) => theme.colors.border.card};
-  margin: ${({ theme }) => theme.spacing[2]} 0;
+  margin: 1rem 0;
   width: 100%;
+  margin-left: 0;
+  padding: 0;
 `;
 
 export const ItemDivider = styled.span`
@@ -234,7 +235,8 @@ export const ReplyDivider = styled.hr`
   border: none;
   height: 1px;
   background-color: ${({ theme }) => theme.colors.border.card};
-  margin: ${({ theme }) => theme.spacing[2]} 0;
+  margin: 1rem 0;
   width: calc(100% - 3rem);
   margin-left: 3rem;
+  padding: 0;
 `;

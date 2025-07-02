@@ -9,7 +9,7 @@ const queryClient = new QueryClient();
 
 if (import.meta.env.DEV) {
     import('crypto-js').then(CryptoJS => {
-        const token = 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjIsIm5pY2tuYW1lIjoi7IK065yw7ZWcIOq5gOuPmeyZhCIsInJvbGUiOiJDTElFTlQiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzUxMjk2MDI2LCJleHAiOjE3NTE2NTYwMjZ9.g1r13SmWAqGriWnJU4nlJhOhido5f2fJ-nEY__qoyqU'; // 작업용 JWT 토큰
+        const token = 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsIm5pY2tuYW1lIjoiY2hlcnJ5cGlja19kZXZfdGVhbSIsInJvbGUiOiJDTElFTlQiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzUxNDM5NzQ5LCJleHAiOjE3NTE3OTk3NDl9.W__-9BBOPTeTVkjZz9K7Iy88TTM4w3EGmtLhQP9a0xA'; // 작업용 JWT 토큰
         const secret = import.meta.env.VITE_ENCRYPTION_KEY;
         const encrypted = CryptoJS.AES.encrypt(token, secret).toString();
         localStorage.setItem('USER_ACCESS_TOKEN', encrypted);

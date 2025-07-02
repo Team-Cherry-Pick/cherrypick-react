@@ -10,12 +10,12 @@ import {
     FallbackIcon,
     CancelButton,
 } from './ProductComments.style';
-import { CircleUserRound } from 'lucide-react';
 import { useRequireLogin } from '@/hooks/useRequireLogin';
 import { useParams } from 'react-router-dom';
 import { AccessTokenService } from '@/services/accessTokenService';
 import { AccessTokenType } from '@/types/Api';
 import axios from 'axios';
+import DefaultProfileIcon from '@/assets/icons/profile-Icon.svg';
 
 type CommentInputProps = {
     userImageUrl?: string | null;
@@ -72,18 +72,23 @@ const CommentInput = ({ userImageUrl, isReply = false, parentId = null, onCancel
             {!isReply && <Title>댓글 작성</Title>}
 
             <InputRow>
-                {userImageUrl ? (
-                    <ProfileImage src={userImageUrl} alt="profile" />
-                ) : (
-                    <FallbackIcon>
-                        <CircleUserRound size={32} />
-                    </FallbackIcon>
+                {!isReply && (
+                    <>
+                        {userImageUrl ? (
+                            <ProfileImage src={userImageUrl} alt="profile" />
+                        ) : (
+                            <FallbackIcon>
+                                <img src={DefaultProfileIcon} alt="기본 프로필" width={32} height={32} />
+                            </FallbackIcon>
+                        )}
+                    </>
                 )}
                 <InputArea
                     placeholder={isReply ? '답글을 작성해주세요.' : isLoggedIn ? '댓글을 작성해주세요.' : '로그인 후 이용해주세요.'}
                     value={comment}
                     onChange={handleChange}
                     disabled={!isLoggedIn}
+                    style={isReply ? { marginLeft: 0 } : undefined}
                 />
             </InputRow>
             <SubmitButtonRow>
