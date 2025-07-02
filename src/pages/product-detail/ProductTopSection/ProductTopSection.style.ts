@@ -53,7 +53,7 @@ export const ImageSection = styled.div`
 export const MainImageWrapper = styled.div`
   width: 100%;
   aspect-ratio: 1 / 1;
-  background: var(--card-bg, white);
+  background-color: ${({ theme }) => theme.colors.neutral[50]};
   border-radius: 20px;
   overflow: hidden;
   border: 1px solid ${({ theme }) => theme.colors.border.card};
@@ -63,14 +63,14 @@ export const MainImageWrapper = styled.div`
 `;
 
 export const MainImage = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  width: 5rem;
+  height: 5rem;
+  object-fit: contain;
   background-color: ${({ theme }) => theme.colors.neutral[50]};
   border: 1px solid ${({ theme }) => theme.colors.border.card};
 
    &.hovered {
-    opacity: 0.6; // 연하게 보이도록
+    opacity: 0.6;
   }
 
 `;

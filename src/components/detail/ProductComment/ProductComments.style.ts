@@ -60,8 +60,7 @@ export const InputRow = styled.div`
 export const SubmitButtonRow = styled.div`
   display: flex;
   justify-content: flex-end;
-    gap: ${({ theme }) => theme.spacing[2]};
-  margin-top: ${({ theme }) => theme.spacing[2]};
+  gap: ${({ theme }) => theme.spacing[2]};
 `;
 
 export const ProfileImage = styled.img`

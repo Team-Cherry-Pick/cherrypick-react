@@ -7,6 +7,7 @@ import { IoMdEye } from "react-icons/io";
 import { MessageSquare } from 'lucide-react';
 import HeatFeedback from '@/components/detail/HeatFeedback';
 import * as S from './ProductTopSection.style';
+import BlackLogoIcon from '@/assets/icons/black-logo-Icon.svg';
 
 interface Props {
     deal: DetailedDeal;
@@ -97,10 +98,17 @@ const ProductTopSection = ({ deal }: Props) => {
                 <S.ImageSection>
                     <S.MainImageWrapper>
                         <S.MainImage
-                            src={hoverImage || mainImage}
+                            src={hoverImage || mainImage || BlackLogoIcon}
                             alt={deal.title}
                             className={hoverImage ? 'hovered' : ''}
                             onClick={() => setEnlargedImage(hoverImage || mainImage)}
+                            onError={e => {
+                                const img = e.currentTarget as HTMLImageElement;
+                                img.src = BlackLogoIcon;
+                                img.style.height = '5rem';
+                                img.style.width = '5rem';
+                                img.style.objectFit = 'contain';
+                            }}
                         />
                     </S.MainImageWrapper>
                     <S.ThumbnailRow>

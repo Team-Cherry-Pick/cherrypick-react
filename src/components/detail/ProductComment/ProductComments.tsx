@@ -22,13 +22,14 @@ import {
     DeleteButton,
 } from './ProductComments.style';
 import { fetchCommentsByDealId, deleteCommentById } from '@/services/apiComment';
-import { MessageSquare, ThumbsUp } from 'lucide-react';
 import type { Comment } from '@/types/Comment';
 import { LoadingSpinner } from '@/components/common/Loading/LoadingSpinner';
 import { getRelativeTime } from '@/utils/time';
 import { AccessTokenService } from '@/services/accessTokenService';
 import { AccessTokenType } from '@/types/Api';
 import { jwtDecode } from 'jwt-decode';
+import LikeIcon from '@/assets/icons/like.svg';
+import TalkBubbleIcon from '@/assets/icons/talkbubble.svg';
 import DefaultProfileIcon from '@/assets/icons/profile-Icon.svg';
 
 type ProductCommentsProps = {
@@ -217,11 +218,11 @@ const ProductComments = ({ dealId }: ProductCommentsProps) => {
                                     <CommentFooter>
                                         <LeftSection>
                                             <Likes onClick={() => handleLikeToggle(item.commentId)} style={{ cursor: 'pointer', color: likedComments[item.commentId] ? '#1976d2' : undefined }}>
-                                                <ThumbsUp size={14} fill={likedComments[item.commentId] ? '#1976d2' : 'none'} />
+                                                <img src={LikeIcon} alt="좋아요" width={14} height={14} style={{ filter: likedComments[item.commentId] ? 'invert(34%) sepia(98%) saturate(749%) hue-rotate(181deg) brightness(93%) contrast(92%)' : 'none' }} />
                                                 {likeCounts[item.commentId] ?? item.totalLikes}
                                             </Likes>
                                             <ItemDivider>|</ItemDivider>
-                                            <MessageSquare size={14} />
+                                            <img src={TalkBubbleIcon} alt="댓글 수" width={14} height={14} style={{ verticalAlign: 'middle' }} />
                                             {item.totalReplys}
                                             <ItemDivider>|</ItemDivider>
                                             <Reply onClick={() => setReplyingCommentId(item.commentId)}>답글달기</Reply>
@@ -282,7 +283,7 @@ const ProductComments = ({ dealId }: ProductCommentsProps) => {
                                             <CommentFooter>
                                                 <LeftSection>
                                                     <Likes onClick={() => handleLikeToggle(reply.commentId)} style={{ cursor: 'pointer', color: likedComments[reply.commentId] ? '#1976d2' : undefined }}>
-                                                        <ThumbsUp size={14} fill={likedComments[reply.commentId] ? '#1976d2' : 'none'} />
+                                                        <img src={LikeIcon} alt="좋아요" width={14} height={14} style={{ filter: likedComments[reply.commentId] ? 'invert(34%) sepia(98%) saturate(749%) hue-rotate(181deg) brightness(93%) contrast(92%)' : 'none' }} />
                                                         {likeCounts[reply.commentId] ?? reply.totalLikes}
                                                     </Likes>
                                                 </LeftSection>
