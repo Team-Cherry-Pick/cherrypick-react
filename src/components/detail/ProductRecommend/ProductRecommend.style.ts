@@ -4,15 +4,15 @@ export const Wrapper = styled.section`
   display: block;
   flex: 1;
   margin: 0;
-  padding: ${({ theme }) => theme.spacing[4]};
+  padding: ${({ theme }) => theme.spacing[5]};
   border-radius: ${({ theme }) => theme.radius[5]};
-  box-shadow: 0px 0px 5px ${({ theme }) => theme.colors.border.card};
-  background-color: ${({ theme }) => theme.colors.background.root};
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  background-color: ${({ theme }) => theme.colors.background.card};
 `;
 
 export const Title = styled.h2`
   display: block;
-  margin-bottom: ${({ theme }) => theme.spacing[4]};
+  margin-top: ${({ theme }) => theme.spacing[3]};
   font-size: ${({ theme }) => theme.typography.size.lg};
   font-weight: ${({ theme }) => theme.typography.weight.bold};
 `;
@@ -178,7 +178,7 @@ export const Meta = styled.div`
 export const Divider = styled.div`
   display: block;
   height: 1px;
-  margin: ${({ theme }) => theme.spacing[3]} 0;
+  margin: ${({ theme }) => theme.spacing[4]} 0;
   border: none;
   background-color: ${({ theme }) => theme.colors.border.board};
 `;

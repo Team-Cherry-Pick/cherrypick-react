@@ -110,6 +110,8 @@ const BestCommentWrapper = styled.div`
     padding: ${({ theme }) => theme.spacing[5]};
     border-radius: ${({ theme }) => theme.radius[4]};
     gap: ${({ theme }) => theme.spacing[4]};
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    border: 1px solid ${({ theme }) => theme.colors.neutral[100]};
 `;
 
 const Title = styled.h3`

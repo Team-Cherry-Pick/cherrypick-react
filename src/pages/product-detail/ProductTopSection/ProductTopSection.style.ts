@@ -33,7 +33,7 @@ export const Wrapper = styled.div`
   height: 100%;
   gap: ${({ theme }) => theme.spacing[8]};
   border-radius: ${({ theme }) => theme.radius[5]};
-  box-shadow: 0px 0px 5px ${({ theme }) => theme.colors.border.card};
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
   background-color: ${({ theme }) => theme.colors.background.root};
   margin-top: ${({ theme }) => theme.spacing[6]};
   padding: ${({ theme }) => theme.spacing[4]};
@@ -45,30 +45,32 @@ export const Wrapper = styled.div`
 `;
 
 export const ImageSection = styled.div`
-  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing[2]};
 `;
 
 export const MainImageWrapper = styled.div`
-  width: auto;
-  height: 100%;
-  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30rem;
+  height: 30rem;
   background-color: ${({ theme }) => theme.colors.neutral[50]};
   border-radius: 20px;
   overflow: hidden;
   border: 1px solid ${({ theme }) => theme.colors.border.card};
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 export const MainImage = styled.img`
-  width: 5rem;
-  height: 5rem;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
   background-color: ${({ theme }) => theme.colors.neutral[50]};
   border: 1px solid ${({ theme }) => theme.colors.border.card};
 
-   &.hovered {
+  &.hovered {
     opacity: 0.6;
   }
 `;
@@ -107,8 +109,9 @@ export const ThumbnailImage = styled.img`
 `;
 
 export const DetailSection = styled.div`
-  width: 60%;
+  width: auto;
   display: flex;
+  flex: 1;
   position: relative;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing[2.5]};
@@ -256,7 +259,7 @@ export const BottomActions = styled.div`
 `;
 
 export const ShareButton = styled.button`
-  padding: ${({ theme }) => `${theme.spacing[3]} ${theme.spacing[10]}`};
+  padding: ${({ theme }) => `${theme.spacing[5]} ${theme.spacing[16]}`};
   border-radius: 8px;
   background-color: ${({ theme }) => theme.colors.neutral[900]};
   color: ${({ theme }) => theme.colors.neutral[0]};
@@ -267,7 +270,7 @@ export const ShareButton = styled.button`
 `;
 
 export const BuyButton = styled.button`
-  padding: ${({ theme }) => `${theme.spacing[3]} ${theme.spacing[10]}`};
+  padding: ${({ theme }) => `${theme.spacing[5]} ${theme.spacing[16]}`};
   border-radius: 8px;
   background: ${({ theme }) => css`
     linear-gradient(

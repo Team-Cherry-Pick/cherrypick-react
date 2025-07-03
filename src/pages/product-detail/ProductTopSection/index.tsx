@@ -100,13 +100,18 @@ const ProductTopSection = ({ deal }: Props) => {
                         <S.MainImage
                             src={hoverImage || mainImage || BlackLogoIcon}
                             alt={deal.title}
-                            className={hoverImage ? 'hovered' : ''}
+                            className={
+                                (!hoverImage && !mainImage) || (hoverImage || mainImage) === BlackLogoIcon
+                                    ? 'default-logo'
+                                    : (hoverImage ? 'hovered' : '')
+                            }
                             onClick={() => setEnlargedImage(hoverImage || mainImage)}
                             onError={e => {
                                 const img = e.currentTarget as HTMLImageElement;
                                 img.src = BlackLogoIcon;
-                                img.style.height = '5rem';
-                                img.style.width = '5rem';
+                                img.className = 'default-logo';
+                                img.style.height = '';
+                                img.style.width = '';
                                 img.style.objectFit = 'contain';
                             }}
                         />
@@ -117,10 +122,24 @@ const ProductTopSection = ({ deal }: Props) => {
                                 key={img.imageId}
                                 onMouseEnter={() => setHoverImage(img.url)}
                                 onMouseLeave={() => setHoverImage(null)}
-                                onClick={() => setMainImage(img.url)}
+                                onClick={() => {
+                                    setMainImage(img.url);
+                                    setHoverImage(null);
+                                }}
                                 className={mainImage === img.url ? 'active' : ''}
                             >
-                                <S.ThumbnailImage src={img.url} alt="썸네일" />
+                                <S.ThumbnailImage
+                                    src={img.url}
+                                    alt="썸네일"
+                                    onError={(e) => {
+                                        const target = e.currentTarget as HTMLImageElement;
+                                        target.src = BlackLogoIcon;
+                                        target.className = 'default-logo';
+                                        target.style.objectFit = 'contain';
+                                        target.style.width = '100%';
+                                        target.style.height = '100%';
+                                    }}
+                                />
                             </S.Thumbnail>
                         ))}
                     </S.ThumbnailRow>
