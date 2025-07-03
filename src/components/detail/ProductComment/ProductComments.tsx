@@ -21,7 +21,7 @@ import {
     ReplyDivider,
     DeleteButton,
 } from './ProductComments.style';
-import { fetchCommentsByDealId, deleteCommentById } from '@/services/apiComment';
+import { fetchCommentsByDealId, deleteCommentById, toggleCommentLike } from '@/services/apiComment';
 import type { Comment } from '@/types/Comment';
 import { LoadingSpinner } from '@/components/common/Loading/LoadingSpinner';
 import { getRelativeTime } from '@/utils/time';
@@ -35,6 +35,8 @@ import DefaultProfileIcon from '@/assets/icons/profile-Icon.svg';
 
 type ProductCommentsProps = {
     dealId: string;
+    refreshKey?: number;
+    onLikeToggle?: () => void;
 };
 
 function getUserIdFromToken() {
@@ -48,7 +50,7 @@ function getUserIdFromToken() {
     }
 }
 
-const ProductComments = ({ dealId }: ProductCommentsProps) => {
+const ProductComments = ({ dealId, refreshKey: externalRefreshKey, onLikeToggle }: ProductCommentsProps) => {
     const [sortOption, setSortOption] = useState<'최신순' | '인기순'>('최신순');
     const [comments, setComments] = useState<Comment[]>([]);
     const [popularComments, setPopularComments] = useState<Comment[]>([]);
@@ -78,7 +80,7 @@ const ProductComments = ({ dealId }: ProductCommentsProps) => {
                     setLoading(false);
                 });
         }
-    }, [dealId, refreshKey]);
+    }, [dealId, externalRefreshKey, refreshKey]);
 
     // 인기순 댓글 로드 - 댓글이 있을 때만 호출
     useEffect(() => {
@@ -114,12 +116,39 @@ const ProductComments = ({ dealId }: ProductCommentsProps) => {
         setReplyingCommentId(null);
     };
 
-    const handleLikeToggle = (commentId: number) => {
-        setLikedComments(prev => ({ ...prev, [commentId]: !prev[commentId] }));
-        setLikeCounts(prev => ({
-            ...prev,
-            [commentId]: prev[commentId] + (likedComments[commentId] ? -1 : 1)
-        }));
+    const handleLikeToggle = async (commentId: number) => {
+        const token = AccessTokenService.get(AccessTokenType.USER);
+        if (!token) {
+            alert('로그인 후 이용해주세요');
+            return;
+        }
+
+        const isLike = !likedComments[commentId];
+
+        try {
+            // UI 먼저 업데이트
+            setLikedComments(prev => ({ ...prev, [commentId]: isLike }));
+            setLikeCounts(prev => ({
+                ...prev,
+                [commentId]: prev[commentId] + (isLike ? 1 : -1)
+            }));
+
+            // API 호출
+            await toggleCommentLike(commentId, isLike, token);
+
+            // 성공 시 콜백 실행 (댓글 새로고침)
+            onLikeToggle?.();
+        } catch (error) {
+            console.error('좋아요 토글 실패:', error);
+            alert('좋아요 처리에 실패했습니다.');
+
+            // 실패 시 UI 되돌리기
+            setLikedComments(prev => ({ ...prev, [commentId]: !isLike }));
+            setLikeCounts(prev => ({
+                ...prev,
+                [commentId]: prev[commentId] + (isLike ? -1 : 1)
+            }));
+        }
     };
 
     const handleDelete = async (commentId: number) => {
@@ -130,16 +159,9 @@ const ProductComments = ({ dealId }: ProductCommentsProps) => {
         }
         if (!window.confirm('정말 삭제하시겠습니까?')) return;
 
-        console.log('삭제 시도:', commentId);
-        console.log('토큰:', token.substring(0, 20) + '...');
-        console.log('삭제 전 댓글 수:', comments.length);
-
         try {
             const response = await deleteCommentById(commentId, token);
-            console.log('삭제 API 응답 전체:', JSON.stringify(response, null, 2));
-            console.log('응답 상태:', response.status);
             console.log('응답 데이터:', response.data);
-            console.log('응답 헤더:', response.headers);
             alert('삭제되었습니다.');
 
             // 로컬 상태에서 삭제된 댓글 제거
@@ -155,11 +177,6 @@ const ProductComments = ({ dealId }: ProductCommentsProps) => {
                 ...comment,
                 replies: comment.replies?.filter(reply => reply.commentId !== commentId) || []
             })));
-
-            console.log('삭제 후 댓글 수:', comments.length);
-
-            // API는 성공했지만 실제 삭제가 안 되고 있으므로 강제 새로고침
-            console.log('API 성공했지만 실제 삭제가 안 됨. 강제 새로고침 실행');
             handleCommentSuccess();
         } catch (error) {
             console.error('삭제 실패:', error);
@@ -184,7 +201,6 @@ const ProductComments = ({ dealId }: ProductCommentsProps) => {
                 onChange={setSortOption}
                 count={rootComments.length}
             />
-
             {loading ? (
                 <LoadingSpinner />
             ) : rootComments.length === 0 ? (
@@ -218,7 +234,7 @@ const ProductComments = ({ dealId }: ProductCommentsProps) => {
                                     </CommentText>
                                     <CommentFooter>
                                         <LeftSection>
-                                            <Likes onClick={() => handleLikeToggle(item.commentId)} style={{ cursor: 'pointer', color: likedComments[item.commentId] ? '#1976d2' : undefined }}>
+                                            <Likes onClick={() => handleLikeToggle(item.commentId)} style={{ cursor: 'pointer', color: likedComments[item.commentId] ? 'var(--content-main)' : undefined }}>
                                                 <img
                                                     src={likedComments[item.commentId] ? LikeMainIcon : LikeTertiaryIcon}
                                                     alt="좋아요"
@@ -295,7 +311,7 @@ const ProductComments = ({ dealId }: ProductCommentsProps) => {
                                             </CommentText>
                                             <CommentFooter>
                                                 <LeftSection>
-                                                    <Likes onClick={() => handleLikeToggle(reply.commentId)} style={{ cursor: 'pointer', color: likedComments[reply.commentId] ? '#1976d2' : undefined }}>
+                                                    <Likes onClick={() => handleLikeToggle(reply.commentId)} style={{ cursor: 'pointer', color: likedComments[reply.commentId] ? 'var(--content-main)' : undefined }}>
                                                         <img
                                                             src={likedComments[reply.commentId] ? LikeMainIcon : LikeTertiaryIcon}
                                                             alt="좋아요"

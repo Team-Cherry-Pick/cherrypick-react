@@ -8,13 +8,63 @@ import {
     FallbackIcon,
     Likes,
 } from './ProductComments.style';
-import { CircleUserRound, ThumbsUp } from 'lucide-react';
+import { CircleUserRound } from 'lucide-react';
+import LikeMainIcon from '@/assets/icons/like-main.svg';
+import LikeTertiaryIcon from '@/assets/icons/like-tertiary.svg';
+import { useState } from 'react';
+import { toggleCommentLike } from '@/services/apiComment';
+import { AccessTokenService } from '@/services/accessTokenService';
+import { AccessTokenType } from '@/types/Api';
 
 type Props = {
     bestComments: BestComment[];
+    onLikeToggle?: () => void;
 };
 
-const BestCommentList = ({ bestComments }: Props) => {
+const BestCommentList = ({ bestComments, onLikeToggle }: Props) => {
+    // 좋아요 상태 및 카운트 관리
+    const [likedComments, setLikedComments] = useState<{ [key: number]: boolean }>(
+        () => Object.fromEntries(bestComments.map(item => [item.commentId, false]))
+    );
+    const [likeCounts, setLikeCounts] = useState<{ [key: number]: number }>(
+        () => Object.fromEntries(bestComments.map(item => [item.commentId, item.totalLikes]))
+    );
+
+    const handleLikeToggle = async (commentId: number) => {
+        const token = AccessTokenService.get(AccessTokenType.USER);
+        if (!token) {
+            alert('로그인 후 이용해주세요');
+            return;
+        }
+
+        const isLike = !likedComments[commentId];
+
+        try {
+            // UI 먼저 업데이트
+            setLikedComments(prev => ({ ...prev, [commentId]: isLike }));
+            setLikeCounts(prev => ({
+                ...prev,
+                [commentId]: prev[commentId] + (isLike ? 1 : -1)
+            }));
+
+            // API 호출
+            await toggleCommentLike(commentId, isLike, token);
+
+            // 성공 시 콜백 실행 (댓글 새로고침)
+            onLikeToggle?.();
+        } catch (error) {
+            console.error('좋아요 토글 실패:', error);
+            alert('좋아요 처리에 실패했습니다.');
+
+            // 실패 시 UI 되돌리기
+            setLikedComments(prev => ({ ...prev, [commentId]: !isLike }));
+            setLikeCounts(prev => ({
+                ...prev,
+                [commentId]: prev[commentId] + (isLike ? -1 : 1)
+            }));
+        }
+    };
+
     return (
         <BestCommentWrapper>
             <Title>🔥 베스트 댓글</Title>
@@ -30,9 +80,15 @@ const BestCommentList = ({ bestComments }: Props) => {
                     <CommentContent>
                         <HeaderRow>
                             <UserName>{item.user.userName}</UserName>
-                            <Likes>
-                                <ThumbsUp size={16} />
-                                {item.totalLikes}
+                            <Likes onClick={() => handleLikeToggle(item.commentId)} style={{ cursor: 'pointer', color: likedComments[item.commentId] ? 'var(--contant-main)' : undefined }}>
+                                <img
+                                    src={likedComments[item.commentId] ? LikeMainIcon : LikeTertiaryIcon}
+                                    alt="좋아요"
+                                    width={14}
+                                    height={14}
+                                    style={{ verticalAlign: 'middle' }}
+                                />
+                                {likeCounts[item.commentId] ?? item.totalLikes}
                             </Likes>
                         </HeaderRow>
                         <CommentText>{item.content}</CommentText>
@@ -50,13 +106,16 @@ const BestCommentWrapper = styled.div`
     width: 100%;
     flex-direction: column;
     background-color: ${({ theme }) => theme.colors.neutral[50]};
-    padding: ${({ theme }) => theme.spacing[6]};
+    padding: ${({ theme }) => theme.spacing[5]};
     border-radius: ${({ theme }) => theme.radius[4]};
-    gap: ${({ theme }) => theme.spacing[3]};
+    gap: ${({ theme }) => theme.spacing[4]};
 `;
 
 const Title = styled.h3`
-    margin: ${({ theme }) => theme.spacing[2]} 0;
+    margin-top: ${({ theme }) => theme.spacing[3]};
+    color: ${({ theme }) => theme.colors.content.main};
+    font-weight: ${({ theme }) => theme.typography.weight.semibold};
+    font-size: ${({ theme }) => theme.typography.size.xl};
 `;
 
 const BestCommentItem = styled.div`
