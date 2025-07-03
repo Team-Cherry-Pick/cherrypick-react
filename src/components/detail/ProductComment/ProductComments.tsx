@@ -28,7 +28,8 @@ import { getRelativeTime } from '@/utils/time';
 import { AccessTokenService } from '@/services/accessTokenService';
 import { AccessTokenType } from '@/types/Api';
 import { jwtDecode } from 'jwt-decode';
-import LikeIcon from '@/assets/icons/like.svg';
+import LikeTertiaryIcon from '@/assets/icons/like-tertiary.svg';
+import LikeMainIcon from '@/assets/icons/like-main.svg';
 import TalkBubbleIcon from '@/assets/icons/talkbubble.svg';
 import DefaultProfileIcon from '@/assets/icons/profile-Icon.svg';
 
@@ -219,14 +220,11 @@ const ProductComments = ({ dealId }: ProductCommentsProps) => {
                                         <LeftSection>
                                             <Likes onClick={() => handleLikeToggle(item.commentId)} style={{ cursor: 'pointer', color: likedComments[item.commentId] ? '#1976d2' : undefined }}>
                                                 <img
-                                                    src={LikeIcon}
+                                                    src={likedComments[item.commentId] ? LikeMainIcon : LikeTertiaryIcon}
                                                     alt="좋아요"
                                                     width={14}
                                                     height={14}
-                                                    style={{
-                                                        verticalAlign: 'middle',
-                                                        ...(likedComments[item.commentId] ? { filter: 'invert(34%) sepia(98%) saturate(749%) hue-rotate(181deg) brightness(93%) contrast(92%)' } : {})
-                                                    }}
+                                                    style={{ verticalAlign: 'middle' }}
                                                 />
                                                 {likeCounts[item.commentId] ?? item.totalLikes}
                                             </Likes>
@@ -299,14 +297,11 @@ const ProductComments = ({ dealId }: ProductCommentsProps) => {
                                                 <LeftSection>
                                                     <Likes onClick={() => handleLikeToggle(reply.commentId)} style={{ cursor: 'pointer', color: likedComments[reply.commentId] ? '#1976d2' : undefined }}>
                                                         <img
-                                                            src={LikeIcon}
+                                                            src={likedComments[reply.commentId] ? LikeMainIcon : LikeTertiaryIcon}
                                                             alt="좋아요"
                                                             width={14}
                                                             height={14}
-                                                            style={{
-                                                                verticalAlign: 'middle',
-                                                                ...(likedComments[reply.commentId] ? { filter: 'invert(34%) sepia(98%) saturate(749%) hue-rotate(181deg) brightness(93%) contrast(92%)' } : {})
-                                                            }}
+                                                            style={{ verticalAlign: 'middle' }}
                                                         />
                                                         {likeCounts[reply.commentId] ?? reply.totalLikes}
                                                     </Likes>
