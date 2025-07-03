@@ -10,24 +10,19 @@ interface HeatBadgeProps {
 }
 
 export function HeatBadge({ heat, size = 'small' }: HeatBadgeProps) {
-    const { icon: Icon, iconColor, textColor } = getHeatDisplay(heat);
+    const { icon, textColor } = getHeatDisplay(heat);
 
     return (
         <div
             className={cx('badge', `size-${size}`)}
             style={
                 {
-                    color: `var(--color-${textColor.group}${textColor.key && `-${textColor.key}`}`,
+                    color: `var(--color-${textColor.group}${textColor.key && `-${textColor.key}`})`,
                 } as React.CSSProperties
             }
         >
-            <span
-                className={cx('icon')}
-                style={{
-                    color: `var(--color-${iconColor.group}${iconColor.key && `-${iconColor.key}`})`,
-                }}
-            >
-                <Icon />
+            <span className={cx('icon')}>
+                <img src={icon} alt="heat" style={{ width: size === 'large' ? 24 : 16, height: size === 'large' ? 24 : 16, verticalAlign: 'middle' }} />
             </span>
             {heat}°
         </div>

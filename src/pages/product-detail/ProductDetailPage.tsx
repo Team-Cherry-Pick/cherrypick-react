@@ -106,7 +106,7 @@ const SubContainer = styled.div`
 `;
 
 const RecommendWrapper = styled.div`
-    width: 33%;
+    width: calc(30rem + ${({ theme }) => theme.spacing[4]});
 `;
 
 const CommentContainer = styled.div`
