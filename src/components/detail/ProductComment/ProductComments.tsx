@@ -63,52 +63,43 @@ const ProductComments = ({ dealId, refreshKey: externalRefreshKey, onLikeToggle 
     // 현재 사용자 ID를 가져오는 함수
     const getCurrentUserId = () => getUserIdFromToken();
 
-    // 최신순 댓글 로드
+    // 댓글 로드 - 정렬 옵션에 따라 API 호출
     useEffect(() => {
-        // dealId가 유효한 경우에만 API 호출
-        if (dealId) {
-            setLoading(true);
-            fetchCommentsByDealId(dealId, 'LATEST')
-                .then(data => {
-                    setComments(data);
-                    // 댓글이 없으면 인기순도 빈 배열로 설정
-                    if (data.length === 0) {
-                        setPopularComments([]);
-                    }
-                })
-                .finally(() => {
-                    setLoading(false);
-                });
-        }
-    }, [dealId, externalRefreshKey, refreshKey]);
+        if (!dealId) return;
 
-    // 인기순 댓글 로드 - 댓글이 있을 때만 호출
-    useEffect(() => {
-        // 댓글이 있고, 인기순을 선택했을 때만 API 호출
-        if (sortOption === '인기순' && dealId && comments.length > 0) {
-            setLoading(true);
-            fetchCommentsByDealId(dealId, 'POPULAR')
-                .then(data => {
+        setLoading(true);
+        const sortType = sortOption === '인기순' ? 'POPULAR' : 'LATEST';
+
+        fetchCommentsByDealId(dealId, sortType)
+            .then(data => {
+                if (sortOption === '인기순') {
                     setPopularComments(data);
-                })
-                .finally(() => {
-                    setLoading(false);
-                });
-        } else if (sortOption === '인기순' && comments.length === 0) {
-            // 댓글이 없으면 인기순도 빈 배열로 설정
-            setPopularComments([]);
-        }
-    }, [sortOption, dealId, refreshKey, comments.length]);
+                } else {
+                    setComments(data);
+                }
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    }, [dealId, sortOption, externalRefreshKey, refreshKey]);
 
     useEffect(() => {
-        // 모든 댓글과 답글을 flatten해서 likeCounts 초기화
+        // 모든 댓글과 답글을 flatten해서 likeCounts와 likedComments 초기화
         const flatten = (arr: Comment[]) => arr.flatMap(c => [c, ...(c.replies ? c.replies : [])]);
         const all = flatten(comments).concat(flatten(popularComments));
+
         const counts: { [key: number]: number } = {};
+        const liked: { [key: number]: boolean } = {};
+
         all.forEach(c => {
             counts[c.commentId] = typeof c.totalLikes === 'number' && !isNaN(c.totalLikes) ? c.totalLikes : 0;
+            // API 응답에 isLiked 필드가 있으면 사용, 없으면 false
+            liked[c.commentId] = c.isLiked ?? false;
         });
+
+        console.log('좋아요 상태 초기화:', liked); // 디버깅용
         setLikeCounts(counts);
+        setLikedComments(liked);
     }, [comments, popularComments]);
 
     const handleCommentSuccess = () => {
@@ -123,18 +114,21 @@ const ProductComments = ({ dealId, refreshKey: externalRefreshKey, onLikeToggle 
             return;
         }
 
-        const isLike = !likedComments[commentId];
+        const currentLikeState = likedComments[commentId];
+        const newLikeState = !currentLikeState;
 
         try {
-            // UI 먼저 업데이트
-            setLikedComments(prev => ({ ...prev, [commentId]: isLike }));
+            console.log(`좋아요 토글: ${commentId}, 현재: ${currentLikeState}, 새로: ${newLikeState}`); // 디버깅용
+
+            // UI 먼저 업데이트 (낙관적 업데이트)
+            setLikedComments(prev => ({ ...prev, [commentId]: newLikeState }));
             setLikeCounts(prev => ({
                 ...prev,
-                [commentId]: prev[commentId] + (isLike ? 1 : -1)
+                [commentId]: prev[commentId] + (newLikeState ? 1 : -1)
             }));
 
             // API 호출
-            await toggleCommentLike(commentId, isLike, token);
+            await toggleCommentLike(commentId, newLikeState, token);
 
             // 성공 시 콜백 실행 (댓글 새로고침)
             onLikeToggle?.();
@@ -142,11 +136,11 @@ const ProductComments = ({ dealId, refreshKey: externalRefreshKey, onLikeToggle 
             console.error('좋아요 토글 실패:', error);
             alert('좋아요 처리에 실패했습니다.');
 
-            // 실패 시 UI 되돌리기
-            setLikedComments(prev => ({ ...prev, [commentId]: !isLike }));
+            // 실패 시 UI 되돌리기 (원래 상태로 복원)
+            setLikedComments(prev => ({ ...prev, [commentId]: currentLikeState }));
             setLikeCounts(prev => ({
                 ...prev,
-                [commentId]: prev[commentId] + (isLike ? -1 : 1)
+                [commentId]: prev[commentId] + (newLikeState ? -1 : 1)
             }));
         }
     };

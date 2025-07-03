@@ -8,13 +8,13 @@ import {
     FallbackIcon,
     Likes,
 } from './ProductComments.style';
-import { CircleUserRound } from 'lucide-react';
 import LikeMainIcon from '@/assets/icons/like-main.svg';
 import LikeTertiaryIcon from '@/assets/icons/like-tertiary.svg';
 import { useState } from 'react';
 import { toggleCommentLike } from '@/services/apiComment';
 import { AccessTokenService } from '@/services/accessTokenService';
 import { AccessTokenType } from '@/types/Api';
+import DefaultProfileIcon from '@/assets/icons/profile-Icon.svg';
 
 type Props = {
     bestComments: BestComment[];
@@ -24,7 +24,7 @@ type Props = {
 const BestCommentList = ({ bestComments, onLikeToggle }: Props) => {
     // 좋아요 상태 및 카운트 관리
     const [likedComments, setLikedComments] = useState<{ [key: number]: boolean }>(
-        () => Object.fromEntries(bestComments.map(item => [item.commentId, false]))
+        () => Object.fromEntries(bestComments.map(item => [item.commentId, item.isLiked ?? false]))
     );
     const [likeCounts, setLikeCounts] = useState<{ [key: number]: number }>(
         () => Object.fromEntries(bestComments.map(item => [item.commentId, item.totalLikes]))
@@ -37,18 +37,19 @@ const BestCommentList = ({ bestComments, onLikeToggle }: Props) => {
             return;
         }
 
-        const isLike = !likedComments[commentId];
+        const currentLikeState = likedComments[commentId];
+        const newLikeState = !currentLikeState;
 
         try {
-            // UI 먼저 업데이트
-            setLikedComments(prev => ({ ...prev, [commentId]: isLike }));
+            // UI 먼저 업데이트 (낙관적 업데이트)
+            setLikedComments(prev => ({ ...prev, [commentId]: newLikeState }));
             setLikeCounts(prev => ({
                 ...prev,
-                [commentId]: prev[commentId] + (isLike ? 1 : -1)
+                [commentId]: prev[commentId] + (newLikeState ? 1 : -1)
             }));
 
             // API 호출
-            await toggleCommentLike(commentId, isLike, token);
+            await toggleCommentLike(commentId, newLikeState, token);
 
             // 성공 시 콜백 실행 (댓글 새로고침)
             onLikeToggle?.();
@@ -56,11 +57,11 @@ const BestCommentList = ({ bestComments, onLikeToggle }: Props) => {
             console.error('좋아요 토글 실패:', error);
             alert('좋아요 처리에 실패했습니다.');
 
-            // 실패 시 UI 되돌리기
-            setLikedComments(prev => ({ ...prev, [commentId]: !isLike }));
+            // 실패 시 UI 되돌리기 (원래 상태로 복원)
+            setLikedComments(prev => ({ ...prev, [commentId]: currentLikeState }));
             setLikeCounts(prev => ({
                 ...prev,
-                [commentId]: prev[commentId] + (isLike ? -1 : 1)
+                [commentId]: prev[commentId] + (newLikeState ? -1 : 1)
             }));
         }
     };
@@ -74,13 +75,13 @@ const BestCommentList = ({ bestComments, onLikeToggle }: Props) => {
                         <ProfileImage src={item.user.userImageUrl} />
                     ) : (
                         <FallbackIcon>
-                            <CircleUserRound size={32} />
+                            <img src={DefaultProfileIcon} alt="기본 프로필" width={32} height={32} />
                         </FallbackIcon>
                     )}
                     <CommentContent>
                         <HeaderRow>
                             <UserName>{item.user.userName}</UserName>
-                            <Likes onClick={() => handleLikeToggle(item.commentId)} style={{ cursor: 'pointer', color: likedComments[item.commentId] ? 'var(--contant-main)' : undefined }}>
+                            <Likes onClick={() => handleLikeToggle(item.commentId)} style={{ cursor: 'pointer', color: likedComments[item.commentId] ? 'var(--content-main)' : undefined }}>
                                 <img
                                     src={likedComments[item.commentId] ? LikeMainIcon : LikeTertiaryIcon}
                                     alt="좋아요"

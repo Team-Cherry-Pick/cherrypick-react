@@ -101,8 +101,8 @@ export default ProductDetailPage;
 const SubContainer = styled.div`
     display: flex;
     flex-direction: row;
-    padding: ${({ theme }) => theme.spacing[4]} 0;
-    gap: ${({ theme }) => theme.spacing[4]};
+    padding: ${({ theme }) => theme.spacing[6]} 0;
+    gap: ${({ theme }) => theme.spacing[6]};
 `;
 
 const RecommendWrapper = styled.div`
