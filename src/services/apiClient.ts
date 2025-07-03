@@ -29,8 +29,19 @@ class GlobalErrorHandler {
     handleError(error: APIException, options: ErrorHandlingOptions = {}) {
         // 사일런트 모드가 아니면 알림 표시
         if (!options.silent) {
-            const message = options.customMessage || error.message || 'API 오류가 발생했습니다.';
-            alert(message); // 실제로는 toast 사용 권장
+            let message = options.customMessage || error.message || 'API 오류가 발생했습니다.';
+
+            if (error.statusCode === 500) {
+                if (process.env.NODE_ENV === 'development') {
+                    alert(`[500 Error] ${error.message}`);
+                } else {
+                    message = '서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
+                    alert(message);
+                    return;
+                }
+            } else {
+                alert(message);
+            }
         }
     }
 }

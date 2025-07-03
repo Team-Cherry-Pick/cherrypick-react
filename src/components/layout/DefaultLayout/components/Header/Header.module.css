@@ -25,20 +25,22 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-content-sub);
-  font-size: var(--font-size-xxxm);
-  font-weight: var(--font-weight-bold);
   cursor: pointer;
 }
 
 .logoText {
   padding-left: var(--spacing-2);
+  font-family: Paperlogy;
+  color: var(--color-content-sub);
+  font-size: var(--font-size-xxxm);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.4;
 }
 
 .logoImg {
   width: var(--spacing-7);
   height: var(--spacing-10);
-  padding-bottom: var(--spacing-3)
+  padding-bottom: var(--spacing-2)
 }
 
 .profileIcon {

@@ -1,6 +1,5 @@
-// styles/theme/index.ts
 import { DefaultTheme } from 'styled-components';
-import { typography } from '../global/typography';
+import { typography } from './typography';
 import { spacing, radius, maxWidth } from './variables';
 
 export const primaryLayer = {
@@ -19,16 +18,16 @@ export const lightTheme: DefaultTheme = {
         content: {
             main: '#333333',
             sub: '#767676',
-            tertiary: '#cccccc'
+            tertiary: '#cccccc',
         },
         background: {
             root: '#ffffff',
             board: '#fbfbfb',
-            card: '#ffffff'
+            card: '#ffffff',
         },
         border: {
             board: '#e6e6e6',
-            card: '#f2f2f2'
+            card: '#f2f2f2',
         },
         neutral: {
             0: '#ffffff',
@@ -42,7 +41,7 @@ export const lightTheme: DefaultTheme = {
             600: '#666666',
             700: '#4d4d4d',
             800: '#333333',
-            900: '#1a1a1a'
+            900: '#1a1a1a',
         },
         primaryLayer,
     },
@@ -58,16 +57,16 @@ export const darkTheme: DefaultTheme = {
         content: {
             main: '#ffffff',
             sub: '#cccccc',
-            tertiary: '#767676'
+            tertiary: '#767676',
         },
         background: {
             root: '#212121',
             board: '#212121',
-            card: '#292929'
+            card: '#292929',
         },
         border: {
             board: '#4d4d4d',
-            card: '#4d4d4d'
+            card: '#4d4d4d',
         },
         neutral: {
             0: '#1a1a1a',
@@ -81,7 +80,7 @@ export const darkTheme: DefaultTheme = {
             600: '#b3b3b3',
             700: '#cccccc',
             800: '#e6e6e6',
-            900: '#ffffff'
+            900: '#ffffff',
         },
         primaryLayer,
     },
