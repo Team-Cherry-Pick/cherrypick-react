@@ -176,14 +176,14 @@ const ProductTopSection = ({ deal }: Props) => {
 
                         <S.FinalPrice>
                             {deal.price.discountedPrice.toLocaleString()}원
-                            <S.DiscountPercent>
-                                {Math.round(
+                            {(() => {
+                                const percent = Math.round(
                                     ((deal.price.regularPrice - deal.price.discountedPrice) /
                                         deal.price.regularPrice) *
                                     100
-                                )}
-                                %
-                            </S.DiscountPercent>
+                                );
+                                return isNaN(percent) ? null : <S.DiscountPercent>{percent}%</S.DiscountPercent>;
+                            })()}
                         </S.FinalPrice>
                     </S.PriceContainer>
                     <S.Divider />
