@@ -50,14 +50,14 @@ export const ProductRecommend = () => {
                                     <S.Tags>{item.infoTags.join(' ')}</S.Tags>
                                 </S.TagRow>
                                 <S.PriceRow>
-                                    <S.Percent>
-                                        {Math.round(
+                                    {(() => {
+                                        const percent = Math.round(
                                             ((item.price.regularPrice - item.price.discountedPrice) /
                                                 item.price.regularPrice) *
-                                                100,
-                                        )}
-                                        %
-                                    </S.Percent>
+                                            100
+                                        );
+                                        return isNaN(percent) ? null : <S.Percent>{percent}%</S.Percent>;
+                                    })()}
                                     <S.Price>{item.price.discountedPrice.toLocaleString()}원</S.Price>
                                 </S.PriceRow>
                                 <S.Meta>
