@@ -76,12 +76,12 @@ export const MainImage = styled.img`
 `;
 
 export const ImagePlaceholder = styled.div`
-  width: 100%;
-  height: 100%;
-  background-color: ${({ theme }) => theme.colors.neutral[50]};
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: ${({ theme }) => theme.colors.neutral[50]};
   border: 1px solid ${({ theme }) => theme.colors.border.card};
   border-radius: 8px;
 `;
@@ -93,6 +93,9 @@ export const ThumbnailRow = styled.div`
 `;
 
 export const Thumbnail = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 60px;
   height: 60px;
   background-color: ${({ theme }) => theme.colors.border.card};
