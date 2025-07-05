@@ -75,9 +75,7 @@ export const HeatBadgeWrapper = styled.div`
   left: 50%;
   transform: translate(-50%, 30%);
   border: 1px solid ${({ theme }) => theme.colors.border.card};
-  padding: 0.375rem 0.75rem 0.375rem 0.5rem;
   border-radius: 999px;
-  background-color: ${({ theme }) => theme.colors.neutral[0]};
   z-index: 99;
 `;
 

@@ -22,7 +22,7 @@ export function HeatBadge({ heat, size = 'small' }: HeatBadgeProps) {
             }
         >
             <span className={cx('icon')}>
-                <img src={icon} alt="heat" style={{ width: size === 'large' ? 24 : 16, height: size === 'large' ? 24 : 16, verticalAlign: 'middle' }} />
+                <img src={icon} alt="heat" style={{ width: size === 'large' ? 24 : 20, height: size === 'large' ? 24 : 20, verticalAlign: 'middle' }} />
             </span>
             {heat}°
         </div>

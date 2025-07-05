@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Clock, MessageSquare } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { fetchDeals } from '@/services/apiDeal';
 import type { FetchedDeal } from '@/types/Deal';
 import * as S from './ProductRecommend.style';
 import { HeatBadge } from '@/components/common/Badge';
 import { getRelativeTime } from '@/utils/time';
+import ClockIcon from '@/assets/icons/clock.svg?url';
+import TalkBubbleIcon from '@/assets/icons/talkbubble.svg?url';
 
 export const ProductRecommend = () => {
     const [deals, setDeals] = useState<FetchedDeal[]>([]);
@@ -37,7 +38,7 @@ export const ProductRecommend = () => {
                                     <S.StyledImage src={item.imageUrl.url} />
                                 </S.StyledImageWrapper>
                                 <S.HeatBadgeWrapper>
-                                    <HeatBadge heat={item.heat} size="large" />
+                                    <HeatBadge heat={item.heat} size="small" />
                                 </S.HeatBadgeWrapper>
                             </S.Thumbnail>
                             <S.Info>
@@ -62,11 +63,50 @@ export const ProductRecommend = () => {
                                 </S.PriceRow>
                                 <S.Meta>
                                     <span>
-                                        <Clock /> {getRelativeTime(item.createdAt)}
+                                        <span style={{
+                                            fontSize: '12px',
+                                            color: 'var(--color-content-sub)'
+                                        }}>
+                                            by {item.nickname || '익명'}
+                                        </span>
+                                        <span className="divider" style={{ color: 'var(--color-content-tertiary)' }}>|</span>
+                                        <img
+                                            src={ClockIcon}
+                                            alt="clock"
+                                            style={{
+                                                width: 10,
+                                                height: 10,
+                                                verticalAlign: 'middle',
+                                                filter: 'brightness(0) saturate(100%) invert(92%) sepia(0%) saturate(107%) hue-rotate(187deg) brightness(90%) contrast(92%)'
+                                            }}
+                                        />
+                                        <span style={{
+                                            fontSize: '12px',
+                                            color: 'var(--color-content-sub)',
+                                            marginLeft: '4px'
+                                        }}>
+                                            {getRelativeTime(item.createdAt)}
+                                        </span>
                                     </span>
-                                    <span className="divider">|</span>
+                                    <span className="divider" style={{ color: 'var(--color-content-tertiary)' }}>|</span>
                                     <span>
-                                        <MessageSquare /> {item.totalComments}
+                                        <img
+                                            src={TalkBubbleIcon}
+                                            alt="message"
+                                            style={{
+                                                width: 10,
+                                                height: 10,
+                                                verticalAlign: 'middle',
+                                                filter: 'brightness(0) saturate(100%) invert(92%) sepia(0%) saturate(107%) hue-rotate(187deg) brightness(90%) contrast(92%)'
+                                            }}
+                                        />
+                                        <span style={{
+                                            fontSize: '12px',
+                                            color: 'var(--color-content-sub)',
+                                            marginLeft: '4px'
+                                        }}>
+                                            {item.totalComments}
+                                        </span>
                                     </span>
                                 </S.Meta>
                             </S.Info>

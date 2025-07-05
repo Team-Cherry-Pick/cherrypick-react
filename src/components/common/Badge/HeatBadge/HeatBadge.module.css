@@ -5,15 +5,16 @@
     align-items: center;
     gap: 0.25rem;
     font-weight: 600;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.05);
 }
 
 .size-small {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.75rem;
+    padding: 0.375rem 0.75rem 0.375rem 0.5rem;
+    font-size: 1rem;
 }
 
 .size-large {
-    gap: 0.25rem;
+    padding: 0.5rem 0.75rem 0.5rem 0.5rem;
     font-size: 1rem;
 }
 
