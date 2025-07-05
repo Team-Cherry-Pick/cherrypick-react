@@ -7,7 +7,7 @@ import { IoMdEye } from "react-icons/io";
 import { MessageSquare } from 'lucide-react';
 import HeatFeedback from '@/components/detail/HeatFeedback';
 import * as S from './ProductTopSection.style';
-import BlackLogoIcon from '@/assets/icons/black-logo-Icon.svg';
+import LogoPic from '@/assets/icons/LogoPic.svg';
 
 interface Props {
     deal: DetailedDeal;
@@ -17,6 +17,7 @@ const ProductTopSection = ({ deal }: Props) => {
     const [mainImage, setMainImage] = useState(deal.imageUrls[0]?.url || '');
     const [hoverImage, setHoverImage] = useState<string | null>(null);
     const navigate = useNavigate();
+
     const safeContent = (deal.content ?? '').replace(/<hr\s*\/?>/gi, '<div class="custom-divider"></div>');
     const [enlargedImage, setEnlargedImage] = useState<string | null>(null);
 
@@ -97,49 +98,43 @@ const ProductTopSection = ({ deal }: Props) => {
                 {/* 왼쪽: 대표 이미지 + 썸네일 리스트 */}
                 <S.ImageSection>
                     <S.MainImageWrapper>
-                        <S.MainImage
-                            src={hoverImage || mainImage || BlackLogoIcon}
-                            alt={deal.title}
-                            className={
-                                (!hoverImage && !mainImage) || (hoverImage || mainImage) === BlackLogoIcon
-                                    ? 'default-logo'
-                                    : (hoverImage ? 'hovered' : '')
-                            }
-                            onClick={() => setEnlargedImage(hoverImage || mainImage)}
-                            onError={e => {
-                                const img = e.currentTarget as HTMLImageElement;
-                                img.src = BlackLogoIcon;
-                                img.className = 'default-logo';
-                                img.style.height = '5rem';
-                                img.style.width = '5rem';
-                                img.style.objectFit = 'contain';
-                            }}
-                        />
+                        {!(hoverImage || mainImage) ? (
+                            <S.DefaultImageWrapper>
+                                <img src={LogoPic} alt="기본 이미지" />
+                            </S.DefaultImageWrapper>
+                        ) : (
+                            <S.MainImage
+                                src={hoverImage || mainImage}
+                                alt=""
+                                className={hoverImage ? 'hovered' : ''}
+                                onClick={() => setEnlargedImage(hoverImage || mainImage)}
+                                onError={e => {
+                                    e.currentTarget.src = LogoPic;
+                                }}
+                            />
+                        )}
                     </S.MainImageWrapper>
                     <S.ThumbnailRow>
                         {deal.imageUrls.map((img) => (
                             <S.Thumbnail
                                 key={img.imageId}
-                                onMouseEnter={() => setHoverImage(img.url)}
+                                onMouseEnter={() => setHoverImage(img.url || '')}
                                 onMouseLeave={() => setHoverImage(null)}
-                                onClick={() => {
-                                    setMainImage(img.url);
-                                    setHoverImage(null);
-                                }}
+                                onClick={() => setMainImage(img.url || '')}
                                 className={mainImage === img.url ? 'active' : ''}
                             >
-                                <S.ThumbnailImage
-                                    src={img.url}
-                                    alt="썸네일"
-                                    onError={(e) => {
-                                        const target = e.currentTarget as HTMLImageElement;
-                                        target.src = BlackLogoIcon;
-                                        target.className = 'default-logo';
-                                        target.style.objectFit = 'contain';
-                                        target.style.width = '50%';
-                                        target.style.height = '50%';
-                                    }}
-                                />
+                                {img.url ? (
+                                    <S.ThumbnailImage
+                                        src={img.url}
+                                        alt="썸네일"
+                                        onError={e => {
+                                            e.currentTarget.src = LogoPic;
+                                            e.currentTarget.classList.add('default-logo');
+                                        }}
+                                    />
+                                ) : (
+                                    <img src={LogoPic} alt="기본 이미지" className="default-logo" />
+                                )}
                             </S.Thumbnail>
                         ))}
                     </S.ThumbnailRow>
