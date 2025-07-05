@@ -75,6 +75,20 @@ export const MainImage = styled.img`
   }
 `;
 
+export const DefaultImageWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    width: 5rem;
+    height: 5rem;
+    object-fit: contain;
+  }
+`;
+
 export const ImagePlaceholder = styled.div`
   display: flex;
   align-items: center;
@@ -103,6 +117,12 @@ export const Thumbnail = styled.div`
   border-radius: 12px;
   overflow: hidden;
   flex-shrink: 0;
+
+  img.default-logo {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+  }
 `;
 
 export const ThumbnailImage = styled.img`
