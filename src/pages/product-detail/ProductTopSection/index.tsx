@@ -110,8 +110,8 @@ const ProductTopSection = ({ deal }: Props) => {
                                 const img = e.currentTarget as HTMLImageElement;
                                 img.src = BlackLogoIcon;
                                 img.className = 'default-logo';
-                                img.style.height = '';
-                                img.style.width = '';
+                                img.style.height = '5rem';
+                                img.style.width = '5rem';
                                 img.style.objectFit = 'contain';
                             }}
                         />
@@ -136,8 +136,8 @@ const ProductTopSection = ({ deal }: Props) => {
                                         target.src = BlackLogoIcon;
                                         target.className = 'default-logo';
                                         target.style.objectFit = 'contain';
-                                        target.style.width = '100%';
-                                        target.style.height = '100%';
+                                        target.style.width = '50%';
+                                        target.style.height = '50%';
                                     }}
                                 />
                             </S.Thumbnail>
