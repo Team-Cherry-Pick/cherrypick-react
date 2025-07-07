@@ -4,10 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import type { DetailedDeal } from '@/types/Deal';
 import { IoMdEye } from "react-icons/io";
-import { MessageSquare } from 'lucide-react';
 import HeatFeedback from '@/components/detail/HeatFeedback';
 import * as S from './ProductTopSection.style';
 import LogoPic from '@/assets/icons/LogoPic.svg';
+import TalkBubbleIcon from '@/assets/icons/talkbubble.svg';
 
 interface Props {
     deal: DetailedDeal;
@@ -188,10 +188,10 @@ const ProductTopSection = ({ deal }: Props) => {
                     <S.BottomContainer>
                         <S.MetaRow>
                             <span>by {deal.user.userName}</span>
-                            <span>|</span>
-                            <span><IoMdEye size={14} /> {deal.totalViews}</span>
-                            <span>|</span>
-                            <span><MessageSquare size={14} /> {deal.totalComments}</span>
+                            <span className="meta-divider">|</span>
+                            <span><IoMdEye size={14} className="meta-eye" /> {deal.totalViews}</span>
+                            <span className="meta-divider">|</span>
+                            <span><img src={TalkBubbleIcon} className="meta-bubble" alt="댓글" /> {deal.totalComments}</span>
                         </S.MetaRow>
                         <S.Divider />
 

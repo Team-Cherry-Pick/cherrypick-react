@@ -263,7 +263,7 @@ export const MetaRow = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: ${({ theme }) => theme.spacing[2]};
+  gap: ${({ theme }) => theme.spacing[4]};
   color: ${({ theme }) => theme.colors.content.sub};
   font-size: ${({ theme }) => theme.typography.size.sm};
   line-height: 1.2;
@@ -272,6 +272,18 @@ export const MetaRow = styled.div`
     display: inline-flex;
     align-items: center;
     gap: 4px;
+  }
+
+  .meta-divider {
+    color: ${({ theme }) => theme.colors.neutral[300]};
+  }
+  .meta-eye {
+    color: ${({ theme }) => theme.colors.content.tertiary};
+  }
+  .meta-bubble {
+    width: 12px;
+    height: 12px;
+    vertical-align: middle;
   }
 `;
 
