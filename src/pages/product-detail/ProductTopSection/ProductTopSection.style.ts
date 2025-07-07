@@ -329,3 +329,13 @@ export const BottomContainer = styled.div`
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing[2]};
 `;
+
+export const VariousPriceText = styled.div`
+  color: ${({ theme }) => theme.colors.content.sub};
+  font-size: 18px;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  word-wrap: break-word;
+  margin: 0;
+  padding: 0;
+`;

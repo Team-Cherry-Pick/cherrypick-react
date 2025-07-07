@@ -79,7 +79,7 @@ const ProductTopSection = ({ deal }: Props) => {
                         style={{
                             maxWidth: '60vw',
                             maxHeight: '60vh',
-                            transform: 'scale(1.1)',
+                            transform: 'scale(1.5)',
                             objectFit: 'contain',
                             borderRadius: '1rem',
                             boxShadow: '0 0 20px rgba(0,0,0,0.1)',
@@ -169,17 +169,21 @@ const ProductTopSection = ({ deal }: Props) => {
                             </S.ShippingType>
                         </S.PriceBox>
 
-                        <S.FinalPrice>
-                            {deal.price.discountedPrice.toLocaleString()}원
-                            {(() => {
-                                const percent = Math.round(
-                                    ((deal.price.regularPrice - deal.price.discountedPrice) /
-                                        deal.price.regularPrice) *
-                                    100
-                                );
-                                return isNaN(percent) ? null : <S.DiscountPercent>{percent}%</S.DiscountPercent>;
-                            })()}
-                        </S.FinalPrice>
+                        {deal.price.priceType === 'VARIOUS' ? (
+                            <S.VariousPriceText>다양한 가격</S.VariousPriceText>
+                        ) : (
+                            <S.FinalPrice>
+                                {deal.price.discountedPrice.toLocaleString()}원
+                                {(() => {
+                                    const percent = Math.round(
+                                        ((deal.price.regularPrice - deal.price.discountedPrice) /
+                                            deal.price.regularPrice) *
+                                        100
+                                    );
+                                    return isNaN(percent) ? null : <S.DiscountPercent>{percent}%</S.DiscountPercent>;
+                                })()}
+                            </S.FinalPrice>
+                        )}
                     </S.PriceContainer>
                     <S.Divider />
 
