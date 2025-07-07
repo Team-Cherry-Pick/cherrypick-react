@@ -188,3 +188,13 @@ export const ItemDivider = styled.div`
   border: none;
   background-color: ${({ theme }) => theme.colors.border.board};
 `;
+
+export const VariousPriceText = styled.div`
+  color: ${({ theme }) => theme.colors.content.sub};
+  font-size: 18px;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  word-wrap: break-word;
+  margin: 0;
+  padding: 0;
+`;

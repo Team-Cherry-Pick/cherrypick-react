@@ -30,36 +30,42 @@ export const ProductRecommend = () => {
             <S.Title>지금 뜨고 있는 비슷한 핫딜</S.Title>
             <S.Divider />
             <S.RecommendList>
-                {deals.map((item, index) => (
-                    <div key={item.dealId}>
-                        <S.RecommendItem onClick={() => navigate(`/product/${item.dealId}`)}>
+                {deals.map((deal, index) => (
+                    <div key={deal.dealId}>
+                        <S.RecommendItem onClick={() => navigate(`/product/${deal.dealId}`)}>
                             <S.Thumbnail>
                                 <S.StyledImageWrapper>
-                                    <S.StyledImage src={item.imageUrl.url} />
+                                    <S.StyledImage src={deal.imageUrl.url} />
                                 </S.StyledImageWrapper>
                                 <S.HeatBadgeWrapper>
-                                    <HeatBadge heat={item.heat} size="small" />
+                                    <HeatBadge heat={deal.heat} size="small" />
                                 </S.HeatBadgeWrapper>
                             </S.Thumbnail>
                             <S.Info>
                                 <S.TopRow>
-                                    <S.DealTitle title={item.title}>{item.title}</S.DealTitle>
+                                    <S.DealTitle title={deal.title}>{deal.title}</S.DealTitle>
                                 </S.TopRow>
                                 <S.TagRow>
-                                    <S.StoreName>{item.store}</S.StoreName>
+                                    <S.StoreName>{deal.store}</S.StoreName>
                                     <span>|</span>
-                                    <S.Tags>{item.infoTags.join(' ')}</S.Tags>
+                                    <S.Tags>{deal.infoTags.join(' ')}</S.Tags>
                                 </S.TagRow>
                                 <S.PriceRow>
-                                    {(() => {
-                                        const percent = Math.round(
-                                            ((item.price.regularPrice - item.price.discountedPrice) /
-                                                item.price.regularPrice) *
-                                            100
-                                        );
-                                        return isNaN(percent) ? null : <S.Percent>{percent}%</S.Percent>;
-                                    })()}
-                                    <S.Price>{item.price.discountedPrice.toLocaleString()}원</S.Price>
+                                    {deal.price.priceType === 'VARIOUS' ? (
+                                        <S.VariousPriceText>다양한 가격</S.VariousPriceText>
+                                    ) : (
+                                        <>
+                                            {(() => {
+                                                const percent = Math.round(
+                                                    ((deal.price.regularPrice - deal.price.discountedPrice) /
+                                                        deal.price.regularPrice) *
+                                                    100
+                                                );
+                                                return isNaN(percent) ? null : <S.Percent>{percent}%</S.Percent>;
+                                            })()}
+                                            <S.Price>{deal.price.discountedPrice.toLocaleString()}원</S.Price>
+                                        </>
+                                    )}
                                 </S.PriceRow>
                                 <S.Meta>
                                     <span>
@@ -67,7 +73,7 @@ export const ProductRecommend = () => {
                                             fontSize: '12px',
                                             color: 'var(--color-content-sub)'
                                         }}>
-                                            by {item.nickname || '익명'}
+                                            by {deal.nickname || '익명'}
                                         </span>
                                         <span className="divider" style={{ color: 'var(--color-content-tertiary)' }}>|</span>
                                         <img
@@ -85,7 +91,7 @@ export const ProductRecommend = () => {
                                             color: 'var(--color-content-sub)',
                                             marginLeft: '4px'
                                         }}>
-                                            {getRelativeTime(item.createdAt)}
+                                            {getRelativeTime(deal.createdAt)}
                                         </span>
                                     </span>
                                     <span className="divider" style={{ color: 'var(--color-content-tertiary)' }}>|</span>
@@ -105,7 +111,7 @@ export const ProductRecommend = () => {
                                             color: 'var(--color-content-sub)',
                                             marginLeft: '4px'
                                         }}>
-                                            {item.totalComments}
+                                            {deal.totalComments}
                                         </span>
                                     </span>
                                 </S.Meta>
