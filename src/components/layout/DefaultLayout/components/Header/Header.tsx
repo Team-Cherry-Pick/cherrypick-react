@@ -4,7 +4,7 @@ import { useAtomValue } from 'jotai';
 import PersonIcon from '@/assets/icons/person-Icon.svg';
 import Logo from '@/assets/icons/logo-Icon.svg';
 import { Moon } from 'lucide-react';
-import { useTheme } from '@/styles/_global/useTheme';
+import { useTheme } from '@/styles/global/useTheme';
 
 interface HeaderProps {
     background?: 'root' | 'board';

@@ -2,7 +2,6 @@
 import styled from 'styled-components';
 import RepikLogo from '@/assets/icons/logo-Icon.svg';
 import KakaoLogo from '@/assets/icons/kakao-Icon.svg';
-import { textStyles } from '@/styles/global/typography';
 import { getAuthKakao } from '@/services/apiAuth';
 
 const LoginPage = () => {
@@ -65,7 +64,6 @@ const RepikLogoText = styled.div`
 `;
 
 const Title = styled.p`
-    ${textStyles.body}
     font-size: 20px;
     color: ${({ theme }) => theme.colors.content.main};
 `;
@@ -82,7 +80,6 @@ const Divider = styled.div`
 `;
 
 const Message = styled.p`
-    ${textStyles.body}
     width: 100%;
     margin-top: 20px;
     text-align: start;
@@ -113,7 +110,6 @@ const KakaoLoginLogoImage = styled.img`
 `;
 
 const KakaoLoginText = styled.p`
-    ${textStyles.subtitle}
     font-size: 18px;
     color: #392020;
 `;

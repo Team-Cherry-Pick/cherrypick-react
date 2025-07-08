@@ -1,9 +1,8 @@
-import '@/styles/_global/index.css';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import styles from './DefaultLayout.module.css';
 import { useLocation } from 'react-router-dom';
-import { ThemeProvider } from '@/styles/_global/ThemeProvider';
+import { ThemeProvider } from '@/styles/global/ThemeProvider';
 
 interface DefaultLayoutProps {
     children: React.ReactNode;
