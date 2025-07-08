@@ -204,8 +204,23 @@ const ProductTopSection = ({ deal }: Props) => {
                                 heat={deal.heat}
                             />
                             <div style={{ marginLeft: 'auto', display: 'flex', gap: '0.5rem' }}>
-                                <S.ShareButton>공유하기</S.ShareButton>
-                                <S.BuyButton>구매하기</S.BuyButton>
+                                <S.ShareButton
+                                    onClick={() => {
+                                        navigator.clipboard.writeText(window.location.href);
+                                        alert('게시글 주소가 복사되었습니다.');
+                                    }}
+                                >
+                                    공유하기
+                                </S.ShareButton>
+                                <S.BuyButton
+                                    onClick={() => {
+                                        if (deal.originalUrl) {
+                                            window.open(deal.originalUrl, '_blank');
+                                        }
+                                    }}
+                                >
+                                    구매하기
+                                </S.BuyButton>
                             </div>
                         </S.BottomActions>
                     </S.BottomContainer>
