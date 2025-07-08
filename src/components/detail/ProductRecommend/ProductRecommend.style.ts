@@ -20,36 +20,38 @@ export const Title = styled.h2`
 export const RecommendList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing[3]};
 `;
 
 export const RecommendItem = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   width: 100%;
-  margin-bottom: ${({ theme }) => theme.spacing[3]};
+  height: 100%;
+  margin: 0;
   gap: ${({ theme }) => theme.spacing[4]};
   cursor: pointer;
 `;
 
 export const Thumbnail = styled.div`
+  display: flex;
+  align-items: flex-start;
   position: relative;
-  display: block;
   width: 100px;
   height: 100px;
   box-sizing: border-box;
-  border: 1px solid ${({ theme }) => theme.colors.neutral[200]};
-  border-radius: ${({ theme }) => theme.radius[2]};
   background-color: ${({ theme }) => theme.colors.background.root};
 `;
 
 export const StyledImageWrapper = styled.div`
   position: relative;
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
   width: 100%;
   height: 100%;
   overflow: hidden;
-  border-radius: inherit;
+  border: 1px solid ${({ theme }) => theme.colors.neutral[200]};
+  border-radius: ${({ theme }) => theme.radius[2]};
 `;
 
 export const StyledImage = styled.div<{ src: string }>`
@@ -62,8 +64,6 @@ export const StyledImage = styled.div<{ src: string }>`
   background-image: ${({ src }) => `url(${src})`};
   background-size: cover;
   background-position: center;
-  border-radius: inherit;
-
 `;
 
 export const HeatBadgeWrapper = styled.div`
@@ -73,7 +73,7 @@ export const HeatBadgeWrapper = styled.div`
   justify-content: center;
   bottom: 0;
   left: 50%;
-  transform: translate(-50%, 30%);
+  transform: translate(-50%, 50%);
   border: 1px solid ${({ theme }) => theme.colors.border.card};
   border-radius: 999px;
   z-index: 99;
@@ -137,8 +137,9 @@ export const Tags = styled.span`
 export const PriceRow = styled.div`
   display: flex;
   justify-content: flex-end;
-  margin-top: ${({ theme }) => theme.spacing[3]};
-  gap: ${({ theme }) => theme.spacing[2]};
+  margin-top: ${({ theme }) => theme.spacing[4]};
+  gap: ${({ theme }) => theme.spacing[4]};
+  font-size: ${({ theme }) => theme.typography.size.lg};
   font-weight: ${({ theme }) => theme.typography.weight.semibold};
 `;
 
@@ -159,6 +160,7 @@ export const Meta = styled.div`
   gap: ${({ theme }) => theme.spacing[1]};
   font-size: ${({ theme }) => theme.typography.size.xs};
   color: ${({ theme }) => theme.colors.content.sub};
+  margin-top: ${({ theme }) => theme.spacing[1]};
 
   svg {
     width: 10px;
@@ -184,7 +186,7 @@ export const Divider = styled.div`
 export const ItemDivider = styled.div`
   display: block;
   height: 1px;
-  margin: 0;
+  margin: ${({ theme }) => theme.spacing[4]} 0;
   border: none;
   background-color: ${({ theme }) => theme.colors.border.board};
 `;

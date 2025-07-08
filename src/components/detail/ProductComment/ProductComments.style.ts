@@ -4,7 +4,7 @@ import styled from 'styled-components';
 export const Wrapper = styled.section`
   border-radius: ${({ theme }) => theme.radius[5]};
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
-  background-color: ${({ theme }) => theme.colors.background.root};
+  background-color: ${({ theme }) => theme.colors.background.card};
   padding: 2rem 1.25rem;
 `;
 
