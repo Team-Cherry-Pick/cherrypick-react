@@ -1,5 +1,4 @@
 // product-detail/ProductTopSection.tsx
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import type { DetailedDeal } from '@/types/Deal';
@@ -8,6 +7,9 @@ import HeatFeedback from '@/components/detail/HeatFeedback';
 import * as S from './ProductTopSection.style';
 import LogoPic from '@/assets/icons/LogoPic.svg';
 import TalkBubbleIcon from '@/assets/icons/talkbubble.svg';
+import { endDeal, deleteDeal } from '@/services/apiDeal';
+import { AccessTokenService } from '@/services/accessTokenService';
+import { AccessTokenType } from '@/types/Api';
 
 interface Props {
     deal: DetailedDeal;
@@ -20,20 +22,15 @@ const ProductTopSection = ({ deal }: Props) => {
 
     const safeContent = (deal.content ?? '').replace(/<hr\s*\/?>/gi, '<div class="custom-divider"></div>');
     const [enlargedImage, setEnlargedImage] = useState<string | null>(null);
+    const [localDeal, setLocalDeal] = useState(deal);
 
     const handleEndDeal = async () => {
+        const confirmed = window.confirm('해당하는 핫딜이 품절/종료되었습니까?');
+        if (!confirmed) return;
         try {
-            await axios.patch(`${import.meta.env.VITE_API_URL}/deal`, {
-                dealId: deal.dealId,
-                isSoldOut: true,
-            }, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`,
-                },
-            });
-
+            await endDeal(localDeal.dealId);
             alert('핫딜이 종료되었습니다!');
-            window.location.reload(); // 또는 상태 업데이트
+            setLocalDeal({ ...localDeal, isSoldOut: true });
         } catch (err) {
             alert('종료 처리에 실패했습니다.');
             console.error(err);
@@ -43,19 +40,18 @@ const ProductTopSection = ({ deal }: Props) => {
     const handleDeleteDeal = async () => {
         const confirmed = window.confirm('정말 삭제하시겠습니까?');
         if (!confirmed) return;
-
         try {
-            await axios.delete(`${import.meta.env.VITE_API_URL}/deal/${deal.dealId}`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`,
-                },
-            });
+            await deleteDeal(localDeal.dealId);
             alert('삭제되었습니다!');
             navigate('/');
         } catch (err) {
             alert('삭제에 실패했습니다.');
             console.error(err);
         }
+    };
+
+    const handleEditDeal = () => {
+        navigate('/product-upload', { state: { deal: localDeal } });
     };
 
     return (
@@ -89,8 +85,8 @@ const ProductTopSection = ({ deal }: Props) => {
                 </div>
             )}
 
-            <S.Wrapper className={deal.soldout ? 'ended' : ''}>
-                {deal.soldout && (
+            <S.Wrapper className={localDeal.isSoldOut ? 'ended' : ''}>
+                {localDeal.isSoldOut && (
                     <S.Overlay>
                         종료된 핫딜입니다
                     </S.Overlay>
@@ -150,11 +146,13 @@ const ProductTopSection = ({ deal }: Props) => {
                                 <S.Tag key={idx}>{tag}</S.Tag>
                             ))}
                         </S.TagList>
-                        <S.ActionGroup>
-                            <S.ActionButton onClick={handleEndDeal}>종료처리</S.ActionButton>
-                            <S.ActionButton onClick={() => console.log('수정')}>수정</S.ActionButton>
-                            <S.ActionButton onClick={handleDeleteDeal}>삭제</S.ActionButton>
-                        </S.ActionGroup>
+                        {AccessTokenService.hasToken(AccessTokenType.USER) && (
+                            <S.ActionGroup>
+                                <S.ActionButton onClick={handleEndDeal}>종료처리</S.ActionButton>
+                                <S.ActionButton onClick={handleEditDeal}>수정</S.ActionButton>
+                                <S.ActionButton onClick={handleDeleteDeal}>삭제</S.ActionButton>
+                            </S.ActionGroup>
+                        )}
                     </S.StoreTagContainer>
 
                     <S.Divider />
