@@ -97,7 +97,6 @@ const ProductComments = ({ dealId, refreshKey: externalRefreshKey, onLikeToggle 
             liked[c.commentId] = c.isLiked ?? false;
         });
 
-        console.log('좋아요 상태 초기화:', liked); // 디버깅용
         setLikeCounts(counts);
         setLikedComments(liked);
     }, [comments, popularComments]);

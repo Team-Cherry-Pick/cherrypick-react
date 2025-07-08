@@ -16,12 +16,30 @@ import { imageFilesAtom, newDealAtom } from '@/store';
 import { uploadImage } from '@/services/apiImage';
 import { uploadDeal } from '@/services/apiDeal';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import type { DealImage, DetailedDeal } from '@/types/Deal';
+
+// URL을 File 객체로 변환하는 함수
+const urlToFile = async (url: string, filename: string): Promise<File> => {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    return new File([blob], filename, { type: blob.type });
+};
+
+// (예시) 딜 상세 정보 fetch 함수
+const fetchDealDetail = async (dealId: string): Promise<DetailedDeal> => {
+    // 실제 API 호출로 교체 필요
+    const res = await fetch(`/api/deal/${dealId}`);
+    if (!res.ok) throw new Error('딜 정보를 불러오지 못했습니다.');
+    return res.json();
+};
 
 export default function ProductUploadPage() {
     const navigate = useNavigate();
+    const location = useLocation();
+    const { dealId } = useParams();
     const [deal, setDeal] = useAtom(newDealAtom);
-    const [images] = useAtom(imageFilesAtom);
+    const [images, setImages] = useAtom(imageFilesAtom);
 
     const [valid, setValid] = useState<
         'Title' | 'Category' | 'Image' | 'OriginalUrl' | 'Store' | 'Shipping' | 'Content' | null
@@ -135,6 +153,95 @@ export default function ProductUploadPage() {
         isStoreValid,
         isTitleValid,
     ]);
+
+    // 등록/수정 모드 분기: dealId가 있으면 수정 모드, 없으면 등록 모드
+    useEffect(() => {
+        const init = async () => {
+            if (dealId) {
+                // 수정 모드: dealId로 데이터 fetch 후 상태 세팅
+                try {
+                    const d = await fetchDealDetail(dealId);
+                    setDeal({
+                        title: d.title,
+                        categoryId: d.categorys && d.categorys.length > 0 ? Number(d.categorys[0]) : undefined, // categorys[0]을 categoryId로 사용(실제 값에 맞게 변환 필요)
+                        imageIds: d.imageUrls ? d.imageUrls.map((img: DealImage) => img.imageId) : [],
+                        originalUrl: d.originalUrl,
+                        storeId: undefined, // DetailedDeal에는 storeId가 없음. 필요시 별도 매핑 필요
+                        storeName: d.store?.storeName || '',
+                        price: {
+                            priceType: d.price.priceType,
+                            regularPrice: d.price.regularPrice,
+                            discountedPrice: d.price.discountedPrice,
+                        },
+                        shipping: {
+                            shippingType: d.shipping.shippingType,
+                            shippingPrice: d.shipping.shippingPrice,
+                            shippingRule: d.shipping.shippingRule,
+                        },
+                        content: d.content,
+                        discountIds: [], // DetailedDeal에는 없음
+                        discountNames: [], // DetailedDeal에는 없음
+                        discountDescription: '', // DetailedDeal에는 없음
+                    });
+
+                    // 기존 이미지들을 imageFilesAtom에 설정
+                    if (d.imageUrls && d.imageUrls.length > 0) {
+                        const imageFiles = await Promise.all(
+                            d.imageUrls.map(async (img: DealImage, index: number) => {
+                                const file = await urlToFile(img.url, `image_${index}.jpg`);
+                                return file;
+                            })
+                        );
+                        setImages({
+                            images: imageFiles,
+                            indexes: d.imageUrls.map((img: DealImage) => img.indexes)
+                        });
+                    }
+                } catch (error) {
+                    alert('핫딜 정보를 불러오지 못했습니다.');
+                    console.error(error);
+                }
+            } else if (location.state?.deal) {
+                // 기존 location.state로 진입하는 경우도 지원
+                const d = location.state.deal;
+                setDeal({
+                    title: d.title,
+                    categoryId: d.categoryId,
+                    imageIds: d.imageUrls ? d.imageUrls.map((img: DealImage) => img.imageId) : [],
+                    originalUrl: d.originalUrl,
+                    storeId: d.storeId,
+                    storeName: d.store?.storeName || '',
+                    price: {
+                        priceType: d.price.priceType,
+                        regularPrice: d.price.regularPrice,
+                        discountedPrice: d.price.discountedPrice,
+                    },
+                    shipping: {
+                        shippingType: d.shipping.shippingType,
+                        shippingPrice: d.shipping.shippingPrice,
+                        shippingRule: d.shipping.shippingRule,
+                    },
+                    content: d.content,
+                    discountIds: d.discountIds || [],
+                    discountNames: d.discountNames || [],
+                    discountDescription: d.discountDescription || '',
+                });
+                if (d.imageUrls && d.imageUrls.length > 0) {
+                    const imageFiles = await Promise.all(
+                        d.imageUrls.map(async (img: DealImage, index: number) => {
+                            const file = await urlToFile(img.url, `image_${index}.jpg`);
+                            return file;
+                        })
+                    );
+                    setImages({
+                        images: imageFiles,
+                        indexes: d.imageUrls.map((img: DealImage) => img.indexes)
+                    });
+                }
+            }
+        };
+        init();
+    }, [dealId, location.state, setDeal, setImages]);
 
     return (
         <>

@@ -65,7 +65,7 @@ function ProductDetailPage() {
     }
 
     return (
-        <DefaultLayout>
+        <DefaultLayout background="board">
             <ProductTopSection deal={deal} />
             <SubContainer>
                 <RecommendWrapper>

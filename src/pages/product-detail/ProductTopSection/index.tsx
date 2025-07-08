@@ -51,7 +51,7 @@ const ProductTopSection = ({ deal }: Props) => {
     };
 
     const handleEditDeal = () => {
-        navigate('/product-upload', { state: { deal: localDeal } });
+        navigate('/upload', { state: { deal: localDeal } });
     };
 
     return (
