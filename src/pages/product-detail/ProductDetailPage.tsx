@@ -19,7 +19,7 @@ function ProductDetailPage() {
     const [bestComments, setBestComments] = useState<BestComment[]>([]);
     const [commentLoading, setCommentLoading] = useState(false);
     const [refreshKey, setRefreshKey] = useState(0);
-
+    
     const {
         data: deal,
         isLoading: isLoadingDeal,
@@ -29,6 +29,7 @@ function ProductDetailPage() {
         queryKey: ['deal', id],
         queryFn: () => fetchDetailedDeal(id!),
         enabled: !!id,
+        retry: false,
     });
 
     // 투표 변경 시 딜 데이터 다시 가져오기

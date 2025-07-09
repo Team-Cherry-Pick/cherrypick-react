@@ -16,29 +16,20 @@ export function BasicFilter() {
 
     return (
         <div className={styles.container}>
-            <label className={styles.checkBoxLabel}>
-                <div
-                    className={`${styles.checkBox} ${basicFilters.viewSoldOut && styles.checkBox_checked}`}
-                    onClick={() => toggleBasicFilter('viewSoldOut')}
-                >
+            <label className={styles.checkBoxLabel} onClick={() => toggleBasicFilter('viewSoldOut')}>
+                <div className={`${styles.checkBox} ${basicFilters.viewSoldOut && styles.checkBox_checked}`}>
                     {basicFilters.viewSoldOut && <FaCheck />}
                 </div>
                 <span>품절 포함</span>
             </label>
-            <label className={styles.checkBoxLabel}>
-                <div
-                    className={`${styles.checkBox} ${basicFilters.freeShipping && styles.checkBox_checked}`}
-                    onClick={() => toggleBasicFilter('freeShipping')}
-                >
+            <label className={styles.checkBoxLabel} onClick={() => toggleBasicFilter('freeShipping')}>
+                <div className={`${styles.checkBox} ${basicFilters.freeShipping && styles.checkBox_checked}`}>
                     {basicFilters.freeShipping && <FaCheck />}
                 </div>
                 <span>무료배송만</span>
             </label>
-            <label className={styles.checkBoxLabel}>
-                <div
-                    className={`${styles.checkBox} ${basicFilters.globalShipping && styles.checkBox_checked}`}
-                    onClick={() => toggleBasicFilter('globalShipping')}
-                >
+            <label className={styles.checkBoxLabel} onClick={() => toggleBasicFilter('globalShipping')}>
+                <div className={`${styles.checkBox} ${basicFilters.globalShipping && styles.checkBox_checked}`}>
                     {basicFilters.globalShipping && <FaCheck />}
                 </div>
                 <span>해외직구만</span>

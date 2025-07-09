@@ -1,4 +1,4 @@
-import '@/styles/_global/index.css';
+import '@/styles/global/index.css';
 import { useAtom } from 'jotai';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';

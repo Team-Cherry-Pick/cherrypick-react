@@ -115,14 +115,9 @@ export default function ProductUploadPage() {
             discountDescription: deal.discountDescription,
         };
 
-        uploadDeal(uploadDealData)
-            .then(() => {
-                navigate('/');
-            })
-            .catch(error => {
-                alert('핫딜 게시글 작성 실패');
-                console.error(error);
-            });
+        uploadDeal(uploadDealData).then(() => {
+            navigate('/');
+        });
     };
 
     // 유효성 검사
