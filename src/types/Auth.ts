@@ -21,6 +21,11 @@ export interface UpdateDTO {
     imageId?: number | null;
 }
 
+export interface DeleteUserRes {
+    id: number;
+    message: string;
+}
+
 export function generateDeviceID(): string {
     const timePart = Date.now().toString(36);
     const randomPart = Math.random().toString(36).substring(2, 8);

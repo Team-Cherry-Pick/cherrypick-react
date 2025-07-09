@@ -1,6 +1,6 @@
 import { HttpMethod } from '@/types/Api';
-import { publicRequest } from './apiClient';
-import { generateDeviceID, GetAuthReq, parseUserAgent, PostAuthRegisterCompletionReq } from '@/types/Auth';
+import { authRequest, publicRequest } from './apiClient';
+import { DeleteUserRes, generateDeviceID, GetAuthReq, parseUserAgent, PostAuthRegisterCompletionReq } from '@/types/Auth';
 
 const apiUrl = import.meta.env.VITE_API_URL || null;
 
@@ -56,6 +56,23 @@ export async function postAuthRegisterCompletion(request: PostAuthRegisterComple
 
     if (result.success) {
         return result.data.accessToken;
+    } else {
+        throw result.error;
+    }
+};
+
+/**
+ * 리픽 회원탈퇴 API
+ * 
+ * @param reason: 회원탈퇴 사유 (현재는 빈 스트링 전달)
+ * @returns DeleteUserRes: 삭제된 유저 번호 및 삭제 메세지
+ */
+export async function deleteUser(reason: string): Promise<DeleteUserRes> {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result = await authRequest<any>(HttpMethod.DELETE, `/user`, {reason: reason});
+
+    if (result.success) {
+        return result.data;
     } else {
         throw result.error;
     }

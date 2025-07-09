@@ -11,9 +11,9 @@ import NicknameEditor from './NicknameEditor';
 import PersonIcon from '@/assets/icons/person-Icon.svg';
 import { getUser, putUser } from '@/services/apiProfile';
 import DefaultLayout from '@/components/layout/DefaultLayout';
-import { postAuthRegisterCompletion } from '@/services/apiAuth';
+import { deleteUser, postAuthRegisterCompletion } from '@/services/apiAuth';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { UpdateDTO } from '@/types/Auth';
+import { DeleteUserRes, UpdateDTO } from '@/types/Auth';
 import { useRefreshProfile } from '@/hooks/useRefreshProfile';
 
 export function ProfileEditPage() {
@@ -53,6 +53,7 @@ export function ProfileEditPage() {
             }
         };
         initProfile();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     //************************************************ View Event **************************************************//
@@ -84,6 +85,20 @@ export function ProfileEditPage() {
         setNewProfile(prev => ({ ...prev, imageURL: "", imageId: -1, }));
     };
 
+    // '회원탈퇴' 버튼 클릭 시 API 요청 후 프로필 삭제
+    const onClickWithdraw = async () => {
+        if (!AccessTokenService.hasToken(AccessTokenType.USER)) {
+            return;
+        }
+
+        const deleteUserRes: DeleteUserRes = await deleteUser("");
+        if (deleteUserRes.id > -1) {
+            AccessTokenService.clear(AccessTokenType.USER);
+            navigate('/');
+            refreshProfile();
+        }
+    }
+
     // '회원가입' 또는 '수정완료' 버튼 클릭 시 호출
     const onClickBtnSubmit = () => {
         if (!isValidProfile(newProfile, currentProfile, nicknameEditStatus)) {
@@ -109,7 +124,7 @@ export function ProfileEditPage() {
 
         if (currentProfile) {
             setCurrentProfile(currentProfile);
-            setNewProfile({ userId: -1, nickname: "", email: "", birthday: "", gender: Gender.MALE, imageURL: "", imageId: -1});
+            setNewProfile({ userId: -1, nickname: "", email: "", birthday: "", gender: Gender.MALE, imageURL: "", imageId: -1 });
         }
     };
 
@@ -132,7 +147,7 @@ export function ProfileEditPage() {
         if (accessToken) {
             refreshProfile();
             AccessTokenService.save(AccessTokenType.USER, accessToken);
-            setNewProfile({ userId: -1, nickname: "", email: "", birthday: "", gender: Gender.MALE, imageURL: "", imageId: -1});
+            setNewProfile({ userId: -1, nickname: "", email: "", birthday: "", gender: Gender.MALE, imageURL: "", imageId: -1 });
             navigate(redirectPath);
         }
     }
@@ -217,6 +232,16 @@ export function ProfileEditPage() {
                     >
                         {isSignUpPage ? '회원가입 완료' : '프로필 수정완료'}
                     </button>
+
+                    {/* 회원탈퇴 버튼 */}
+                    {!isSignUpPage && (
+                        <button
+                            className={styles.withdrawButton}
+                            onClick={onClickWithdraw}
+                        >
+                            회원탈퇴
+                        </button>
+                    )}
                 </div>
             </div>
         </DefaultLayout>
