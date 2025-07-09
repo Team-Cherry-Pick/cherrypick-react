@@ -48,12 +48,10 @@ export const fetchBestCommentsByDealId = async (dealId: string): Promise<BestCom
 };
 
 export const deleteCommentById = async (commentId: number) => {
-    console.log('삭제 API 호출:', `/comment/${commentId}?version=v1`);
     const response = await authRequest(
         HttpMethod.DELETE,
         `/comment/${commentId}?version=v1`
     );
-    console.log('삭제 API 서비스 응답:', response);
     return response;
 };
 
@@ -61,10 +59,16 @@ export const toggleCommentLike = async (
     commentId: number,
     isLike: boolean
 ) => {
+    console.log('댓글 좋아요 API 호출:', {
+        commentID: commentId,
+        isLike,
+        url: '/comment/like?version=v1'
+    });
+
     return authRequest(
         HttpMethod.PUT,
         `/comment/like?version=v1`,
-        { commentID: commentId, isLike }
+        { commentId, isLike }
     );
 };
 

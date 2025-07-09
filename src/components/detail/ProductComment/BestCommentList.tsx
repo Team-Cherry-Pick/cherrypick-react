@@ -1,4 +1,10 @@
-import type { BestComment } from '@/types/Comment';
+import { useState, useEffect } from 'react';
+import { BestComment } from '@/types/Comment';
+import { toggleCommentLike } from '@/services/apiComment';
+import { AccessTokenService } from '@/services/accessTokenService';
+import { AccessTokenType } from '@/types/Api';
+import { fetchBestCommentsByDealId } from '@/services/apiComment';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import {
     ProfileImage,
@@ -10,18 +16,15 @@ import {
 } from './ProductComments.style';
 import LikeMainIcon from '@/assets/icons/like-main.svg';
 import LikeTertiaryIcon from '@/assets/icons/like-tertiary.svg';
-import { useState } from 'react';
-import { toggleCommentLike } from '@/services/apiComment';
-import { AccessTokenService } from '@/services/accessTokenService';
-import { AccessTokenType } from '@/types/Api';
 import DefaultProfileIcon from '@/assets/icons/profile-Icon.svg';
 
-type Props = {
+interface Props {
     bestComments: BestComment[];
     onLikeToggle?: () => void;
-};
+}
 
 const BestCommentList = ({ bestComments, onLikeToggle }: Props) => {
+    const { id: dealId } = useParams();
     // 좋아요 상태 및 카운트 관리
     const [likedComments, setLikedComments] = useState<{ [key: number]: boolean }>(
         () => Object.fromEntries(bestComments.map(item => [item.commentId, item.isLiked ?? false]))
@@ -29,6 +32,20 @@ const BestCommentList = ({ bestComments, onLikeToggle }: Props) => {
     const [likeCounts, setLikeCounts] = useState<{ [key: number]: number }>(
         () => Object.fromEntries(bestComments.map(item => [item.commentId, item.totalLikes]))
     );
+
+    // bestComments가 변경되면 상태 업데이트
+    useEffect(() => {
+        const newLikedComments: { [key: number]: boolean } = {};
+        const newLikeCounts: { [key: number]: number } = {};
+
+        bestComments.forEach(comment => {
+            newLikedComments[comment.commentId] = comment.isLiked ?? false;
+            newLikeCounts[comment.commentId] = comment.totalLikes;
+        });
+
+        setLikedComments(newLikedComments);
+        setLikeCounts(newLikeCounts);
+    }, [bestComments]);
 
     const handleLikeToggle = async (commentId: number) => {
         const token = AccessTokenService.get(AccessTokenType.USER);
@@ -50,6 +67,23 @@ const BestCommentList = ({ bestComments, onLikeToggle }: Props) => {
 
             // API 호출
             await toggleCommentLike(commentId, newLikeState);
+
+            // 성공 시 베스트 댓글 목록 다시 가져오기 (서버에서 최신 isLiked 상태 받아오기)
+            if (dealId) {
+                const updatedBestComments = await fetchBestCommentsByDealId(dealId);
+
+                // 서버에서 받아온 최신 상태로 업데이트
+                const newLikedComments: { [key: number]: boolean } = {};
+                const newLikeCounts: { [key: number]: number } = {};
+
+                updatedBestComments.forEach(comment => {
+                    newLikedComments[comment.commentId] = comment.isLiked ?? false;
+                    newLikeCounts[comment.commentId] = comment.totalLikes;
+                });
+
+                setLikedComments(newLikedComments);
+                setLikeCounts(newLikeCounts);
+            }
 
             // 성공 시 콜백 실행 (댓글 새로고침)
             onLikeToggle?.();

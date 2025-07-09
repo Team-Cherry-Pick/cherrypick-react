@@ -70,10 +70,6 @@ function ProductDetailPage() {
         return <div>상품을 찾을 수 없습니다.</div>;
     }
 
-    // voteType 콘솔 출력
-    console.log('상세 딜 데이터:', deal);
-    console.log('voteType:', deal.voteType);
-
     return (
         <DefaultLayout background="board">
             <ProductTopSection deal={deal} onVoteChange={handleVoteChange} />

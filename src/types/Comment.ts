@@ -14,7 +14,7 @@ export interface Comment {
     createdAt: string;
     isDelete: boolean;
     replies: Comment[];
-    isLiked?: boolean;
+    isLike: boolean;
 }
 
 export interface BestComment {

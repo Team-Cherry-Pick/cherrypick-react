@@ -57,7 +57,6 @@ const ProductComments = ({ dealId, refreshKey: externalRefreshKey, onLikeToggle 
     const [replyingCommentId, setReplyingCommentId] = useState<number | null>(null);
     const [loading, setLoading] = useState(false);
     const [refreshKey, setRefreshKey] = useState(0);
-    const [likedComments, setLikedComments] = useState<{ [key: number]: boolean }>({});
     const [likeCounts, setLikeCounts] = useState<{ [key: number]: number }>({});
 
     // 현재 사용자 ID를 가져오는 함수
@@ -84,21 +83,17 @@ const ProductComments = ({ dealId, refreshKey: externalRefreshKey, onLikeToggle 
     }, [dealId, sortOption, externalRefreshKey, refreshKey]);
 
     useEffect(() => {
-        // 모든 댓글과 답글을 flatten해서 likeCounts와 likedComments 초기화
+        // 모든 댓글과 답글을 flatten해서 likeCounts 초기화
         const flatten = (arr: Comment[]) => arr.flatMap(c => [c, ...(c.replies ? c.replies : [])]);
         const all = flatten(comments).concat(flatten(popularComments));
 
         const counts: { [key: number]: number } = {};
-        const liked: { [key: number]: boolean } = {};
 
         all.forEach(c => {
             counts[c.commentId] = typeof c.totalLikes === 'number' && !isNaN(c.totalLikes) ? c.totalLikes : 0;
-            // API 응답에 isLiked 필드가 있으면 사용, 없으면 false
-            liked[c.commentId] = c.isLiked ?? false;
         });
 
         setLikeCounts(counts);
-        setLikedComments(liked);
     }, [comments, popularComments]);
 
     const handleCommentSuccess = () => {
@@ -113,14 +108,51 @@ const ProductComments = ({ dealId, refreshKey: externalRefreshKey, onLikeToggle 
             return;
         }
 
-        const currentLikeState = likedComments[commentId];
+        // 현재 댓글의 isLiked 상태 찾기
+        const findComment = (comments: Comment[]): Comment | null => {
+            for (const comment of comments) {
+                if (comment.commentId === commentId) return comment;
+                if (comment.replies) {
+                    const found = comment.replies.find(reply => reply.commentId === commentId);
+                    if (found) return found;
+                }
+            }
+            return null;
+        };
+
+        const currentComment = findComment(sortOption === '인기순' ? popularComments : comments);
+        if (!currentComment) return;
+
+        const currentLikeState = currentComment.isLike ?? false;
         const newLikeState = !currentLikeState;
 
         try {
-            console.log(`좋아요 토글: ${commentId}, 현재: ${currentLikeState}, 새로: ${newLikeState}`); // 디버깅용
+            // 낙관적 업데이트 - 댓글 상태도 즉시 업데이트
+            const updateCommentLikeState = (comments: Comment[], commentId: number, newState: boolean): Comment[] => {
+                return comments.map(comment => {
+                    if (comment.commentId === commentId) {
+                        return { ...comment, isLiked: newState, totalLikes: comment.totalLikes + (newState ? 1 : -1) };
+                    }
+                    if (comment.replies) {
+                        return {
+                            ...comment,
+                            replies: comment.replies.map(reply =>
+                                reply.commentId === commentId
+                                    ? { ...reply, isLiked: newState, totalLikes: reply.totalLikes + (newState ? 1 : -1) }
+                                    : reply
+                            )
+                        };
+                    }
+                    return comment;
+                });
+            };
 
-            // UI 먼저 업데이트 (낙관적 업데이트)
-            setLikedComments(prev => ({ ...prev, [commentId]: newLikeState }));
+            if (sortOption === '인기순') {
+                setPopularComments(prev => updateCommentLikeState(prev, commentId, newLikeState));
+            } else {
+                setComments(prev => updateCommentLikeState(prev, commentId, newLikeState));
+            }
+
             setLikeCounts(prev => ({
                 ...prev,
                 [commentId]: prev[commentId] + (newLikeState ? 1 : -1)
@@ -129,14 +161,32 @@ const ProductComments = ({ dealId, refreshKey: externalRefreshKey, onLikeToggle 
             // API 호출
             await toggleCommentLike(commentId, newLikeState);
 
-            // 성공 시 콜백 실행 (댓글 새로고침)
+            // 성공 시 댓글 목록 다시 가져오기 (서버에서 최신 isLiked 상태 받아오기)
+            const sortType = sortOption === '인기순' ? 'POPULAR' : 'LATEST';
+            const updatedComments = await fetchCommentsByDealId(dealId, sortType);
+
+            if (sortOption === '인기순') {
+                setPopularComments(updatedComments);
+            } else {
+                setComments(updatedComments);
+            }
+
+            // 서버에서 받아온 최신 상태로 likeCounts 업데이트
+            const allComments = [...updatedComments, ...updatedComments.flatMap(c => c.replies || [])];
+            const newLikeCounts: { [key: number]: number } = {};
+
+            allComments.forEach(comment => {
+                newLikeCounts[comment.commentId] = comment.totalLikes;
+            });
+
+            setLikeCounts(newLikeCounts);
+
+            // 성공 시 콜백 실행
             onLikeToggle?.();
-        } catch (error) {
-            console.error('좋아요 토글 실패:', error);
+        } catch {
             alert('좋아요 처리에 실패했습니다.');
 
-            // 실패 시 UI 되돌리기 (원래 상태로 복원)
-            setLikedComments(prev => ({ ...prev, [commentId]: currentLikeState }));
+            // 실패 시 UI 되돌리기
             setLikeCounts(prev => ({
                 ...prev,
                 [commentId]: prev[commentId] + (newLikeState ? -1 : 1)
@@ -153,8 +203,7 @@ const ProductComments = ({ dealId, refreshKey: externalRefreshKey, onLikeToggle 
         if (!window.confirm('정말 삭제하시겠습니까?')) return;
 
         try {
-            const response = await deleteCommentById(commentId);
-            console.log('응답 데이터:', response);
+            await deleteCommentById(commentId);
             alert('삭제되었습니다.');
 
             // 로컬 상태에서 삭제된 댓글 제거
@@ -227,9 +276,9 @@ const ProductComments = ({ dealId, refreshKey: externalRefreshKey, onLikeToggle 
                                     </CommentText>
                                     <CommentFooter>
                                         <LeftSection>
-                                            <Likes onClick={() => handleLikeToggle(item.commentId)} style={{ cursor: 'pointer', color: likedComments[item.commentId] ? 'var(--content-main)' : undefined }}>
+                                            <Likes onClick={() => handleLikeToggle(item.commentId)} style={{ cursor: 'pointer', color: (item.isLike ?? false) ? 'var(--content-main)' : undefined }}>
                                                 <img
-                                                    src={likedComments[item.commentId] ? LikeMainIcon : LikeTertiaryIcon}
+                                                    src={(item.isLike ?? false) ? LikeMainIcon : LikeTertiaryIcon}
                                                     alt="좋아요"
                                                     width={14}
                                                     height={14}
@@ -304,9 +353,9 @@ const ProductComments = ({ dealId, refreshKey: externalRefreshKey, onLikeToggle 
                                             </CommentText>
                                             <CommentFooter>
                                                 <LeftSection>
-                                                    <Likes onClick={() => handleLikeToggle(reply.commentId)} style={{ cursor: 'pointer', color: likedComments[reply.commentId] ? 'var(--content-main)' : undefined }}>
+                                                    <Likes onClick={() => handleLikeToggle(reply.commentId)} style={{ cursor: 'pointer', color: (reply.isLike ?? false) ? 'var(--content-main)' : undefined }}>
                                                         <img
-                                                            src={likedComments[reply.commentId] ? LikeMainIcon : LikeTertiaryIcon}
+                                                            src={(reply.isLike ?? false) ? LikeMainIcon : LikeTertiaryIcon}
                                                             alt="좋아요"
                                                             width={14}
                                                             height={14}
