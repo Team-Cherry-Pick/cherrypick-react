@@ -1,10 +1,5 @@
-export interface Profile {
-    nickname: string;
-    gender: Gender;
-    birthDay: string;
-    imageId?: number | null;
-    imageUrl?: string | null;
-}
+import { AccessTokenService } from "@/services/accessTokenService";
+import { AccessTokenType } from "./Api";
 
 export enum NicknameEditStatus {
     NONE = "NONE",
@@ -18,16 +13,22 @@ export enum Gender {
     FEMALE = "FEMALE"
 }
 
-export const isValidProfile = (profile: Profile, nicknameEditStatus: NicknameEditStatus) => {
-    const { nickname, gender, birthDay } = profile;
-    const birthDate = new Date(birthDay ?? "");
+export const isValidProfile = (newUser: User, currentUser: User, nicknameEditStatus: NicknameEditStatus) => {
+    const isNotChangedProfile = JSON.stringify(newUser) === JSON.stringify(currentUser);
+    if(AccessTokenService.hasToken(AccessTokenType.USER) && isNotChangedProfile) {
+        return false;
+    }
+
+    const { nickname, gender, birthday, email } = newUser;
+    const birthDate = new Date(birthday ?? "");
     const now = new Date();
 
     return (
         nickname &&
         nicknameEditStatus === NicknameEditStatus.VALID &&
         gender &&
-        birthDay &&
+        birthday &&
+        email &&
         !isNaN(birthDate.getTime()) &&
         birthDate.getFullYear() >= 1900 &&
         birthDate <= now
@@ -47,7 +48,7 @@ export interface PutUserReq {
     imageId?: number | null;
 }
 
-export interface PutUserRes {
+export interface User {
     userId: number;
     nickname: string;
     email: string;
@@ -56,3 +57,6 @@ export interface PutUserRes {
     imageURL?: string | null;
     imageId?: number | null;
 }
+
+export type GetUserRes = User;
+export type PutUserRes = User;

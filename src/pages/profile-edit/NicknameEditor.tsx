@@ -1,10 +1,12 @@
 // pages/login/LoginBox.tsx
 import styled, { useTheme } from 'styled-components';
 import { TextInput } from '@/components/common/Input';
-import { newProfileAtom } from '@/store/profile';
-import { useAtom } from 'jotai';
+import { currentProfileAtom, newProfileAtom } from '@/store/profile';
+import { useAtom, useAtomValue } from 'jotai';
 import { GetNicknameValidationRes, NicknameEditStatus } from '@/types/Profile';
 import { getNicknameValidation } from '@/services/apiProfile';
+import { AccessTokenService } from '@/services/accessTokenService';
+import { AccessTokenType } from '@/types/Api';
 
 interface NicknameEditorProps {
     editStatus: NicknameEditStatus,
@@ -15,7 +17,8 @@ const NicknameEditor = ({ editStatus, setEditStatus }: NicknameEditorProps) => {
     const theme = useTheme();
 
     // 프로필 Atom
-    const [profile, setProfile] = useAtom(newProfileAtom);
+    const [newProfile, setNewProfile] = useAtom(newProfileAtom);
+    const currentProfile = useAtomValue(currentProfileAtom);
 
     // 닉네임 입력값 변경 시 호출
     const onChangeNickname = (newNickname: string) => {
@@ -24,28 +27,35 @@ const NicknameEditor = ({ editStatus, setEditStatus }: NicknameEditorProps) => {
 
         if (newNickname.length > 10) return;
 
+        // 회원 && 기존 닉네임과 동일한 경우
+        if(AccessTokenService.hasToken(AccessTokenType.USER) && newNickname === currentProfile.nickname) {
+            setEditStatus(NicknameEditStatus.VALID);
+            setNewProfile({ ...newProfile, nickname: newNickname });
+            return;
+        }
+
+        // 기존 닉네임과 동일하지 않은 경우
         if (newNickname.length < 2) {
             setEditStatus(NicknameEditStatus.NONE);
         } else if (editStatus !== NicknameEditStatus.EDITING) {
             setEditStatus(NicknameEditStatus.EDITING);
         }
 
-        setProfile({ ...profile, nickname: newNickname });
+        setNewProfile({ ...newProfile, nickname: newNickname });
     };
 
     // '중복검사' 버튼 클릭 시 호출
     const onClickBtnValidateNickname = async () => {
         const isEditing: boolean = (editStatus == NicknameEditStatus.EDITING);
-        const newNickname: string = profile.nickname;
+        const newNickname: string = newProfile.nickname;
 
         if (isEditing) {
             const response: GetNicknameValidationRes = await getNicknameValidation(newNickname)
             const isValidNickname: boolean = response.isValid;
 
             // 서버로부터 검증 받은 닉네임 반영
-            setProfile({ ...profile, nickname: response.nickname });
+            setNewProfile({ ...newProfile, nickname: response.nickname });
 
-            // 서버로부터 검증 받은 상태 결과 반영
             if (isValidNickname) {
                 setEditStatus(NicknameEditStatus.VALID);
             } else {
@@ -68,7 +78,7 @@ const NicknameEditor = ({ editStatus, setEditStatus }: NicknameEditorProps) => {
             {/* 닉네임 입력 필드 */}
             <TextInput
                 placeholder="닉네임 입력"
-                value={profile?.nickname}
+                value={newProfile?.nickname}
                 onChange={(e) => onChangeNickname(e.target.value)}
                 onPaste={(e) => e.preventDefault()}
                 style={getNicknameInputCSS(editStatus)}

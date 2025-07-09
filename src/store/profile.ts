@@ -1,5 +1,6 @@
 // store/deals.ts
-import { Gender, Profile } from '@/types/Profile';
+import { Gender, User } from '@/types/Profile';
 import { atom } from 'jotai';
 
-export const newProfileAtom = atom<Profile>({ nickname: "", imageId: -1, imageUrl: "", gender: Gender.MALE, birthDay: "" });
+export const currentProfileAtom = atom<User>({ userId: -1, nickname: "", email: "", birthday: "", gender: Gender.MALE, imageURL: "", imageId: -1});
+export const newProfileAtom = atom<User>({ userId: -1, nickname: "", email: "", birthday: "", gender: Gender.MALE, imageURL: "", imageId: -1});

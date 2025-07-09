@@ -4,12 +4,15 @@ import PersonIcon from '@/assets/icons/person-Icon.svg';
 import { AccessTokenService } from '@/services/accessTokenService';
 import { AccessTokenType } from '@/types/Api';
 import { useNavigate } from 'react-router-dom';
+import { currentProfileAtom } from '@/store/profile';
+import { useAtomValue } from 'jotai';
 
 const ProfileButton = () => {
     const [open, setOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
     const navigate = useNavigate();
     const isLoggedIn = () => AccessTokenService.hasToken(AccessTokenType.USER);
+    const currentProfile = useAtomValue(currentProfileAtom);
 
     // 전체 영역 클릭 시 호출
     useEffect(() => {
@@ -50,7 +53,7 @@ const ProfileButton = () => {
             {/* 프로필 버튼 */}
             <ProfileIcon onClick={() => onClickBtnProfile()}>
                 <IconWrapper>
-                    <img src={PersonIcon} alt="user" />
+                    <img src={currentProfile?.imageURL || PersonIcon} alt="user" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}/>
                 </IconWrapper>
             </ProfileIcon>
             {/* 드롭다운 메뉴 */}
@@ -100,9 +103,9 @@ const MenuItem = styled.button`
 `;
 
 const ProfileIcon = styled.div`
-  width: ${({ theme }) => theme.spacing[8]};
-  height: ${({ theme }) => theme.spacing[8]};
-  border-radius: ${({ theme }) => theme.radius[4]};
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
   border: 1px solid ${({ theme }) => theme.colors.content.tertiary};
   background-color: ${({ theme }) => theme.colors.background.card};
   cursor: pointer;

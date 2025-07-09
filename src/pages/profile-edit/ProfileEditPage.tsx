@@ -1,15 +1,15 @@
 import styles from './ProfileEditPage.module.css';
-import { Gender, isValidProfile, NicknameEditStatus, PutUserRes } from '@/types/Profile';
+import { Gender, GetUserRes, isValidProfile, NicknameEditStatus, User } from '@/types/Profile';
 import { AccessTokenService } from '@/services/accessTokenService';
 import { AccessTokenType } from '@/types/Api';
-import { newProfileAtom } from '@/store/profile';
-import { useAtom } from 'jotai';
-import { useRef, useState } from 'react';
+import { currentProfileAtom, newProfileAtom } from '@/store/profile';
+import { useAtom, useSetAtom } from 'jotai';
+import { useEffect, useRef, useState } from 'react';
 import { uploadImage } from '@/services/apiImage';
 import { Images, UploadImageResponse } from '@/types/Image';
 import NicknameEditor from './NicknameEditor';
 import PersonIcon from '@/assets/icons/person-Icon.svg';
-import { putUser } from '@/services/apiProfile';
+import { getUser, putUser } from '@/services/apiProfile';
 import DefaultLayout from '@/components/layout/DefaultLayout';
 import { postAuthRegisterCompletion } from '@/services/apiAuth';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -17,32 +17,46 @@ import { UpdateDTO } from '@/types/Auth';
 
 export function ProfileEditPage() {
 
-    /**
-     * @todo : registerToken도 안 넘어왔고, accessToken도 없으면 라우팅 접근 불가능하도록 설정
-     */
+    // @todo : registerToken도 안 넘어왔고, accessToken도 없으면 라우팅 접근 불가능하도록 설정
     const navigate = useNavigate();
-
-    // 신규 프로필 Atom
-    const [newProfile, setNewProfile] = useAtom(newProfileAtom);
-
-    // 회원가입 시퀀스라면 넘어오는 변수
     const location = useLocation();
+
+    //************************************************ INIT DATA **************************************************//
+
+    // 프로필 Atom (신-구)
+    const [newProfile, setNewProfile] = useAtom(newProfileAtom);
+    const [currentProfile, setCurrentProfile] = useAtom(currentProfileAtom);
+
+    // 회원가입 시퀀스일 경우 리다이렉트 페이지에서 넘어오는 변수 세팅
     const { registerTokenState = "", redirectPathState = "", emailState = "" } = location.state || {};
     const registerToken: string = registerTokenState;
     const redirectPath: string = redirectPathState;
     const email: string = emailState;
 
-    // 기존 회원 여부 (회원가입 페이지 여부 결정)
-    const isLoggedIn = AccessTokenService.hasToken(AccessTokenType.USER) && !registerToken && !redirectPath && !email;
+    // 비회원, 회원에 따라 처리
+    const isSignUpPage = !AccessTokenService.hasToken(AccessTokenType.USER) && registerToken && redirectPath && email;
+    if (email) setNewProfile(prev => ({ ...prev, email }));
+    const [nicknameEditStatus, setNicknameEditStatus] = useState<NicknameEditStatus>(isSignUpPage ? NicknameEditStatus.NONE : NicknameEditStatus.VALID);
 
-    // 닉네임 유효성 검증 상태 State
-    const [nicknameEditStatus, setNicknameEditStatus] = useState<NicknameEditStatus>(NicknameEditStatus.NONE);
+    // 정보수정 시퀀스일 경우 API 호출하여 기존 프로필 정보 세팅
+    useEffect(() => {
+        const initProfile = async () => {
+            const isProfileEditPage = AccessTokenService.hasToken(AccessTokenType.USER);
+            if (isProfileEditPage) {
+                const currentUser: GetUserRes = await getUser();
+                setNewProfile(currentUser);
+                setCurrentProfile(currentUser)
+            }
+        };
+        initProfile();
+    }, []);
+
+    //************************************************ UseRef **************************************************//
 
     // '날짜 선택' 영역 클릭 시 호출되는 Ref
     const dateInputRef = useRef<HTMLInputElement>(null);
     const onClickDateInputDiv = () => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-        dateInputRef.current?.showPicker?.() || dateInputRef.current?.focus();
+        void (dateInputRef.current?.showPicker?.() || dateInputRef.current?.focus());
     };
 
     // '프로필 사진' 영역 클릭 시 호출되는 Ref
@@ -51,44 +65,44 @@ export function ProfileEditPage() {
         fileInputRef.current?.click();
     };
 
-    // 실제 이미지 업로드 처리
+    //************************************************ API **************************************************//
+
+    // 이미지 업로드 API 요청 후 이미지 갱신
     const onChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (!file) return;
 
         const image: Images = { images: [file], indexes: [0] };
         const result: UploadImageResponse = await uploadImage(image);
-        setNewProfile({ ...newProfile, imageId: result[0].imageId, imageUrl: result[0].imageUrl });
+        setNewProfile({ ...newProfile, imageId: result[0].imageId, imageURL: result[0].imageUrl });
     };
 
     // '회원가입' 또는 '수정완료' 버튼 클릭 시 호출
     const onClickBtnSubmit = () => {
-        if (!isValidProfile(newProfile, nicknameEditStatus)) {
+        if (!isValidProfile(newProfile, currentProfile, nicknameEditStatus)) {
             alert('프로필을 업데이트할 수 없습니다.');
         }
 
-        if (isLoggedIn) {
-            editProfile();
-        } else {
+        if (isSignUpPage) {
             signUp();
+        } else {
+            editProfile();
         }
     };
 
     // 회원일 시 프로필 수정 API 요청 후 프로필 갱신
     const editProfile = async () => {
-        const response: PutUserRes = await putUser({
+        // @todo: API 오작동 확인
+        const currentProfile: User = await putUser({
             nickname: newProfile.nickname,
-            birthday: newProfile.birthDay,
+            birthday: newProfile.birthday,
             gender: newProfile.gender,
             imageId: newProfile.imageId,
         });
 
-        setNewProfile({
-            nickname: response.nickname,
-            gender: response.gender,
-            birthDay: response.birthday,
-            imageId: response.imageId,
-        });
+        if (currentProfile) {
+            setCurrentProfile(currentProfile);
+        }
     };
 
     // 비회원일 시 회원가입 완료 API 요청 후 프로필 갱신
@@ -96,7 +110,7 @@ export function ProfileEditPage() {
 
         const updateDTO: UpdateDTO = {
             nickname: newProfile.nickname,
-            birthday: newProfile.birthDay,
+            birthday: newProfile.birthday,
             gender: newProfile.gender,
             imageId: newProfile.imageId,
             email: email,
@@ -107,12 +121,14 @@ export function ProfileEditPage() {
             updateDTO: updateDTO,
         });
 
-        // 회원가입 완료
         if (accessToken) {
+            // @todo: 프로필 갱신
             AccessTokenService.save(AccessTokenType.USER, accessToken);
             navigate(redirectPath);
         }
     }
+
+    //************************************************ VIEW **************************************************//
 
     return (
         <DefaultLayout background="board">
@@ -120,7 +136,7 @@ export function ProfileEditPage() {
                 <div className={styles.profileEditBoxWrapper}>
                     {/* 이미지 선택 */}
                     <div className={styles.profileImageButton} onClick={onClickBtnProfileImage}>
-                        <img className={styles.profileImage} src={newProfile.imageUrl?.trim() ? newProfile.imageUrl : PersonIcon} alt="user" />
+                        <img className={styles.profileImage} src={newProfile.imageURL?.trim() ? newProfile.imageURL : PersonIcon} alt="user" />
                     </div>
                     <p className={styles.profileImageTitle}>프로필 사진 변경 (선택)</p>
 
@@ -134,7 +150,7 @@ export function ProfileEditPage() {
 
                     {/* 이메일 */}
                     <p className={styles.textLabel}>이메일</p>
-                    <p className={styles.emailValue}>{email}</p>
+                    <p className={styles.emailValue}>{newProfile.email}</p>
 
                     {/* 닉네임 */}
                     <p className={styles.textLabel}>닉네임</p>
@@ -173,8 +189,8 @@ export function ProfileEditPage() {
                             ref={dateInputRef}
                             className={styles.dateInput}
                             type="date"
-                            value={newProfile.birthDay ?? ''}
-                            onChange={(e) => setNewProfile({ ...newProfile, birthDay: e.target.value })}
+                            value={newProfile.birthday ?? ''}
+                            onChange={(e) => setNewProfile({ ...newProfile, birthday: e.target.value })}
                             min="1900-01-01"
                             max={new Date().toISOString().split('T')[0]}
 
@@ -185,9 +201,9 @@ export function ProfileEditPage() {
                     <button
                         className={styles.submitButton}
                         onClick={onClickBtnSubmit}
-                        disabled={!isValidProfile(newProfile, nicknameEditStatus)}
+                        disabled={!isValidProfile(newProfile, currentProfile, nicknameEditStatus)}
                     >
-                        {isLoggedIn ? '프로필 수정완료' : '회원가입 완료'}
+                        {isSignUpPage ? '회원가입 완료' : '프로필 수정완료'}
                     </button>
                 </div>
             </div>
