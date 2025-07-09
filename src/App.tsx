@@ -13,9 +13,17 @@ import ProductUploadPage from '@/pages/product-upload/ProductUploadPage';
 import ErrorPage from '@/pages/error/ErrorPage';
 import LoginRedirectPage from './pages/auth/LoginRedirectPage';
 import ProfileEditPage from './pages/profile-edit/ProfileEditPage';
+import { useEffect } from 'react';
+import { useRefreshProfile } from './hooks/useRefreshProfile';
 
 const App = () => {
     const [theme] = useAtom(themeAtom);
+
+    const { refreshProfile } = useRefreshProfile();
+    useEffect(() => { 
+        refreshProfile();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>

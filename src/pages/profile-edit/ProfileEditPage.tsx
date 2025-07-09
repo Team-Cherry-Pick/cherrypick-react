@@ -14,6 +14,7 @@ import DefaultLayout from '@/components/layout/DefaultLayout';
 import { postAuthRegisterCompletion } from '@/services/apiAuth';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { UpdateDTO } from '@/types/Auth';
+import { useRefreshProfile } from '@/hooks/useRefreshProfile';
 
 export function ProfileEditPage() {
 
@@ -26,6 +27,9 @@ export function ProfileEditPage() {
     // 프로필 Atom (신-구)
     const [newProfile, setNewProfile] = useAtom(newProfileAtom);
     const [currentProfile, setCurrentProfile] = useAtom(currentProfileAtom);
+
+    // 프로필 갱신 Hook
+    const { refreshProfile } = useRefreshProfile();
 
     // 회원가입 시퀀스일 경우 리다이렉트 페이지에서 넘어오는 변수 세팅
     const { registerTokenState = "", redirectPathState = "", emailState = "" } = location.state || {};
@@ -105,6 +109,7 @@ export function ProfileEditPage() {
 
         if (currentProfile) {
             setCurrentProfile(currentProfile);
+            setNewProfile({ userId: -1, nickname: "", email: "", birthday: "", gender: Gender.MALE, imageURL: "", imageId: -1});
         }
     };
 
@@ -125,8 +130,9 @@ export function ProfileEditPage() {
         });
 
         if (accessToken) {
-            // @todo: 프로필 갱신
+            refreshProfile();
             AccessTokenService.save(AccessTokenType.USER, accessToken);
+            setNewProfile({ userId: -1, nickname: "", email: "", birthday: "", gender: Gender.MALE, imageURL: "", imageId: -1});
             navigate(redirectPath);
         }
     }

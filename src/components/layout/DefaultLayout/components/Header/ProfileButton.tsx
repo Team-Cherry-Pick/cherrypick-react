@@ -6,6 +6,7 @@ import { AccessTokenType } from '@/types/Api';
 import { useNavigate } from 'react-router-dom';
 import { currentProfileAtom } from '@/store/profile';
 import { useAtomValue } from 'jotai';
+import { useRefreshProfile } from '@/hooks/useRefreshProfile';
 
 const ProfileButton = () => {
     const [open, setOpen] = useState(false);
@@ -13,6 +14,7 @@ const ProfileButton = () => {
     const navigate = useNavigate();
     const isLoggedIn = () => AccessTokenService.hasToken(AccessTokenType.USER);
     const currentProfile = useAtomValue(currentProfileAtom);
+    const { refreshProfile } = useRefreshProfile();
 
     // 전체 영역 클릭 시 호출
     useEffect(() => {
@@ -46,6 +48,7 @@ const ProfileButton = () => {
         AccessTokenService.clear(AccessTokenType.USER);
         navigate('/');
         setOpen(false);
+        refreshProfile();
     }
 
     return (
