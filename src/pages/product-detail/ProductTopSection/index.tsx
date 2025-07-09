@@ -95,21 +95,15 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
                 {/* 왼쪽: 대표 이미지 + 썸네일 리스트 */}
                 <S.ImageSection>
                     <S.MainImageWrapper>
-                        {!(hoverImage || mainImage) ? (
-                            <S.DefaultImageWrapper>
-                                <img src={LogoPic} alt="기본 이미지" />
-                            </S.DefaultImageWrapper>
-                        ) : (
-                            <S.MainImage
-                                src={hoverImage || mainImage}
-                                alt=""
-                                className={hoverImage ? 'hovered' : ''}
-                                onClick={() => setEnlargedImage(hoverImage || mainImage)}
-                                onError={e => {
-                                    e.currentTarget.src = LogoPic;
-                                }}
-                            />
-                        )}
+                        <S.MainImage
+                            src={hoverImage || mainImage || LogoPic}
+                            alt=""
+                            className={hoverImage ? 'hovered' : ''}
+                            onClick={() => setEnlargedImage(hoverImage || mainImage)}
+                            onError={e => {
+                                e.currentTarget.src = LogoPic;
+                            }}
+                        />
                     </S.MainImageWrapper>
                     <S.ThumbnailRow>
                         {deal.imageUrls.map((img) => (

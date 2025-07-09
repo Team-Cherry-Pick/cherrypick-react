@@ -66,26 +66,12 @@ export const MainImageWrapper = styled.div`
 export const MainImage = styled.img`
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   background-color: ${({ theme }) => theme.colors.neutral[50]};
   border: 1px solid ${({ theme }) => theme.colors.border.card};
 
   &.hovered {
     opacity: 0.6;
-  }
-`;
-
-export const DefaultImageWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  img {
-    width: 5rem;
-    height: 5rem;
-    object-fit: contain;
   }
 `;
 
