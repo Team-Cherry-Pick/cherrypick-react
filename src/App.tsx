@@ -27,6 +27,7 @@ const App = () => {
                     {/* <Route path="/user" element={<UserPage />} /> */}
                     <Route path="/product/:id" element={<ProductDetailPage />} />
                     <Route path="/upload" element={<ProductUploadPage />} />
+                    <Route path="/upload/:id" element={<ProductUploadPage />} /> {/* 수정 모드 */}
                     <Route path="/error" element={<ErrorPage />} />
                     <Route path="*" element={<Navigate to="/error?code=404" replace />} />
                 </Routes>

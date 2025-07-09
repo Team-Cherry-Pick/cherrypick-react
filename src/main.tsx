@@ -7,6 +7,16 @@ import { OverlayProvider } from './context/overlay';
 
 const queryClient = new QueryClient();
 
+if (import.meta.env.DEV) {
+    import('crypto-js').then(CryptoJS => {
+        const token = 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsIm5pY2tuYW1lIjoiY2hlcnJ5cGlja19kZXZfdGVhbSIsInJvbGUiOiJDTElFTlQiLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzUxNzI2MDY1LCJleHAiOjE5NzUxNzI2MDY1fQ.8ZQN-jaEu7yvgs3IqTfMLbQm_D7jmqLmpyzUTm8dtVA'; // 작업용 JWT 토큰
+        const secret = import.meta.env.VITE_ENCRYPTION_KEY;
+        const encrypted = CryptoJS.AES.encrypt(token, secret).toString();
+        localStorage.setItem('USER_ACCESS_TOKEN', encrypted);
+        console.log('[dev-only] 테스트용 USER 토큰 삽입 완료');
+    });
+}
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <QueryClientProvider client={queryClient}>
         <OverlayProvider>

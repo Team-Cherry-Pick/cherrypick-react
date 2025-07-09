@@ -36,15 +36,15 @@ const baseButton = css`
 export const LikeBtn = styled.button<{ $active?: boolean }>`
   ${baseButton}
   background-color: ${({ $active, theme }) =>
-        $active ? theme.colors.primaryLayer[500] : theme.colors.neutral[50]};
+    $active ? theme.colors.primaryLayer[500] : theme.colors.neutral[50]};
   color: ${({ $active, theme }) =>
-        $active ? '#ffffff' : theme.colors.primaryLayer[300]};
+    $active ? '#ffffff' : theme.colors.primaryLayer[300]};
 `;
 
 export const DislikeBtn = styled.button<{ $active?: boolean }>`
   ${baseButton}
   background-color: ${({ $active, theme }) =>
-        $active ? '#5670BB' : theme.colors.neutral[50]};
+    $active ? '#5670BB' : theme.colors.neutral[50]};
   color: ${({ $active }) => ($active ? '#ffffff' : '#98B2E8')};
 `;
 
@@ -67,7 +67,7 @@ export const DislikeModal = styled.ul`
   right: 0;
   background-color: ${({ theme }) => theme.colors.background.root};
   border-radius: ${({ theme }) => theme.radius[2]};
-    border: 1px solid ${({ theme }) => theme.colors.neutral[100]};
+  border: 1px solid ${({ theme }) => theme.colors.neutral[100]};
   box-shadow: 0 0 0.3rem rgba(0, 0, 0, 0.3);
   padding: 1px 0.5rem;
   width: 11rem;

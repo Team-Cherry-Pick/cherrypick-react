@@ -25,6 +25,7 @@ export class APIException extends Error {
 export enum HttpMethod {
     POST = "POST",
     GET = "GET",
+    PUT = "PUT",
     UPDATE = "UPDATE",
     DELETE = "DELETE",
     PATCH = "PATCH",

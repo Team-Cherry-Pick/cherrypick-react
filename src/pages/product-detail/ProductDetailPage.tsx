@@ -1,27 +1,30 @@
 import { useQuery } from '@tanstack/react-query';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
+import { useEffect, useState, useCallback } from 'react';
 
 import DefaultLayout from '@/components/layout/DefaultLayout';
-import ProductTopSection from './ProductTopSection';
-import ProductComments from '../../components/detail/ProductComment';
-import ProductRecommend from '../../components/detail/ProductRecommend';
-import BestCommentList from '@/components/detail/ProductComment/BestCommentList';
-import styled from 'styled-components';
+import ProductTopSection from "./ProductTopSection";
+import ProductComments from "../../components/detail/ProductComment";
+import ProductRecommend from "../../components/detail/ProductRecommend";
+import styled from "styled-components";
 import { LoadingSpinner } from '@/components/common/Loading/LoadingSpinner';
 
 import { fetchDetailedDeal } from '@/services/apiDeal';
-import { fetchCommentsByDealId, fetchBestCommentsByDealId } from '@/services/apiComment';
-import { Comment, BestComment } from '@/types/Comment';
-import { useEffect } from 'react';
+import { fetchBestCommentsByDealId } from '@/services/apiComment';
+import BestCommentList from '@/components/detail/ProductComment/BestCommentList';
+import type { BestComment } from '@/types/Comment';
 
 function ProductDetailPage() {
     const { id } = useParams<{ id: string }>();
-    const navigate = useNavigate();
-
+    const [bestComments, setBestComments] = useState<BestComment[]>([]);
+    const [commentLoading, setCommentLoading] = useState(false);
+    const [refreshKey, setRefreshKey] = useState(0);
+    
     const {
         data: deal,
         isLoading: isLoadingDeal,
         isError: isErrorDeal,
+        refetch: refetchDeal,
     } = useQuery({
         queryKey: ['deal', id],
         queryFn: () => fetchDetailedDeal(id!),
@@ -29,26 +32,38 @@ function ProductDetailPage() {
         retry: false,
     });
 
-    const { data: comments, isLoading: isLoadingComments } = useQuery<Comment[]>({
-        queryKey: ['comments', id],
-        queryFn: () => fetchCommentsByDealId(id!, 'LATEST'),
-        enabled: !!id,
-        retry: false,
-    });
+    // 투표 변경 시 딜 데이터 다시 가져오기
+    const handleVoteChange = useCallback(() => {
+        refetchDeal();
+    }, [refetchDeal]);
 
-    const { data: bestComments, isLoading: isLoadingBestComments } = useQuery<BestComment[]>({
-        queryKey: ['bestComments', id],
-        queryFn: () => fetchBestCommentsByDealId(id!),
-        enabled: !!id,
-    });
+    // 베스트 댓글 새로고침 함수
+    const refreshBestComments = useCallback(async () => {
+        if (!id) return;
+
+        setCommentLoading(true);
+        try {
+            const data = await fetchBestCommentsByDealId(id);
+            setBestComments(data);
+        } catch (error) {
+            console.error('베스트 댓글 새로고침 실패:', error);
+            setBestComments([]);
+        } finally {
+            setCommentLoading(false);
+        }
+    }, [id]);
+
+    // 댓글 전체 새로고침 함수
+    const refreshComments = useCallback(() => {
+        setRefreshKey(prev => prev + 1);
+        refreshBestComments();
+    }, [refreshBestComments]);
 
     useEffect(() => {
-        if (isErrorDeal) {
-            navigate('/');
-        }
-    }, [isErrorDeal, navigate]);
+        refreshBestComments();
+    }, [refreshBestComments]);
 
-    if (isLoadingDeal || isLoadingComments || isLoadingBestComments) {
+    if (isLoadingDeal) {
         return <LoadingSpinner />;
     }
 
@@ -57,16 +72,31 @@ function ProductDetailPage() {
     }
 
     return (
-        <DefaultLayout>
-            <ProductTopSection deal={deal} />
+        <DefaultLayout background="board">
+            <ProductTopSection deal={deal} onVoteChange={handleVoteChange} />
             <SubContainer>
                 <RecommendWrapper>
                     <ProductRecommend />
                 </RecommendWrapper>
 
                 <CommentContainer>
-                    {bestComments && bestComments.length > 0 && <BestCommentList bestComments={bestComments} />}
-                    <ProductComments initialComments={comments ?? []} dealId={id!} />
+                    {commentLoading ? (
+                        <LoadingSpinner />
+                    ) : (
+                        <>
+                            {bestComments && bestComments.length > 0 && (
+                                <BestCommentList
+                                    bestComments={bestComments}
+                                    onLikeToggle={refreshComments}
+                                />
+                            )}
+                            <ProductComments
+                                dealId={id!}
+                                refreshKey={refreshKey}
+                                onLikeToggle={refreshComments}
+                            />
+                        </>
+                    )}
                 </CommentContainer>
             </SubContainer>
         </DefaultLayout>
@@ -78,17 +108,17 @@ export default ProductDetailPage;
 const SubContainer = styled.div`
     display: flex;
     flex-direction: row;
-    padding: ${({ theme }) => theme.spacing[4]} 0;
-    gap: ${({ theme }) => theme.spacing[4]};
+    padding: ${({ theme }) => theme.spacing[6]} 0;
+    gap: ${({ theme }) => theme.spacing[6]};
 `;
 
 const RecommendWrapper = styled.div`
-    width: 33%;
+    width: calc(30rem + ${({ theme }) => theme.spacing[4]});
 `;
 
 const CommentContainer = styled.div`
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.spacing[4]};
+    gap: ${({ theme }) => theme.spacing[6]};
     flex: 1;
 `;

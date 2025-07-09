@@ -11,6 +11,7 @@ export interface RecommendedDeal {
     createdAt: string;
     totalLikes: number;
     totalComments: number;
+    voteType: 'TRUE' | 'FALSE' | 'NONE';
 }
 
 // 2. 상세조회용 딜 (GET /api/deal/{dealId})
@@ -36,7 +37,8 @@ export interface DetailedDeal {
     totalComments: number;
     deepLink: string | null;
     originalUrl: string;
-    soldout: boolean;
+    isSoldOut: boolean;
+    voteType: 'TRUE' | 'FALSE' | 'NONE';
 }
 
 // 3. 전체 조회용 딜 타입 (단일 이미지, 단순 구조)
@@ -53,6 +55,7 @@ export interface FetchedDeal {
     totalLikes: number;
     totalComments: number;
     soldout: boolean;
+    voteType: 'TRUE' | 'FALSE' | 'NONE';
 }
 
 export type PriceType = 'KRW' | 'USD' | 'VARIOUS';

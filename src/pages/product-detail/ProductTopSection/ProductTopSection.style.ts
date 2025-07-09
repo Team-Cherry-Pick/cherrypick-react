@@ -4,7 +4,8 @@ export const Overlay = styled.div`
   position: absolute;
   top: 0; left: 0;
   border-radius: ${({ theme }) => theme.radius[5]};
-  width: 100%; height: 100%;
+  width: 100%; 
+  height: 100%;
   background-color: rgba(0,0,0,0.6);
   color: white;
   font-size: 1.5rem;
@@ -30,14 +31,11 @@ export const EndButton = styled.button`
 export const Wrapper = styled.div`
   display: flex;
   height: 100%;
-  gap: ${({ theme }) => theme.spacing[6]};
-  @media (max-width: 768px) {
-    flex-direction: column;
-  }
+  gap: ${({ theme }) => theme.spacing[8]};
   border-radius: ${({ theme }) => theme.radius[5]};
-  box-shadow: 0px 0px 5px ${({ theme }) => theme.colors.border.card};
-  background-color: ${({ theme }) => theme.colors.background.root};
-  margin-top: 1.5%;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  background-color: ${({ theme }) => theme.colors.background.card};
+  margin-top: ${({ theme }) => theme.spacing[6]};
   padding: ${({ theme }) => theme.spacing[4]};
 
   &.ended {
@@ -47,41 +45,57 @@ export const Wrapper = styled.div`
 `;
 
 export const ImageSection = styled.div`
-  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing[2]};
 `;
 
 export const MainImageWrapper = styled.div`
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  background: var(--card-bg, white);
-  border-radius: 20px;
-  overflow: hidden;
-  border: 1px solid ${({ theme }) => theme.colors.border.card};
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 30rem;
+  height: 30rem;
+  background-color: ${({ theme }) => theme.colors.neutral[50]};
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid ${({ theme }) => theme.colors.border.card};
 `;
 
 export const MainImage = styled.img`
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   background-color: ${({ theme }) => theme.colors.neutral[50]};
   border: 1px solid ${({ theme }) => theme.colors.border.card};
 
-   &.hovered {
-    opacity: 0.6; // 연하게 보이도록
+  &.hovered {
+    opacity: 0.6;
   }
+`;
 
+export const DefaultImageWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    width: 5rem;
+    height: 5rem;
+    object-fit: contain;
+  }
 `;
 
 export const ImagePlaceholder = styled.div`
-  width: 100%;
-  height: 100%;
-  background-color: ${({ theme }) => theme.colors.neutral[50]};
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: ${({ theme }) => theme.colors.neutral[50]};
   border: 1px solid ${({ theme }) => theme.colors.border.card};
   border-radius: 8px;
 `;
@@ -93,6 +107,9 @@ export const ThumbnailRow = styled.div`
 `;
 
 export const Thumbnail = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 60px;
   height: 60px;
   background-color: ${({ theme }) => theme.colors.border.card};
@@ -100,6 +117,12 @@ export const Thumbnail = styled.div`
   border-radius: 12px;
   overflow: hidden;
   flex-shrink: 0;
+
+  img.default-logo {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+  }
 `;
 
 export const ThumbnailImage = styled.img`
@@ -109,8 +132,9 @@ export const ThumbnailImage = styled.img`
 `;
 
 export const DetailSection = styled.div`
-  width: 60%;
+  width: auto;
   display: flex;
+  flex: 1;
   position: relative;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing[2.5]};
@@ -128,7 +152,6 @@ export const Title = styled.div`
   color: ${({ theme }) => theme.colors.content.main};
   font-size: ${({ theme }) => theme.typography.size.xxxm};
   font-weight: ${({ theme }) => theme.typography.weight.semibold};
-  margin: ${({ theme }) => theme.spacing[2]} 0 0 0;
 `;
 
 export const StoreTagContainer = styled.div`
@@ -240,7 +263,7 @@ export const MetaRow = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: ${({ theme }) => theme.spacing[2]};
+  gap: ${({ theme }) => theme.spacing[4]};
   color: ${({ theme }) => theme.colors.content.sub};
   font-size: ${({ theme }) => theme.typography.size.sm};
   line-height: 1.2;
@@ -249,6 +272,18 @@ export const MetaRow = styled.div`
     display: inline-flex;
     align-items: center;
     gap: 4px;
+  }
+
+  .meta-divider {
+    color: ${({ theme }) => theme.colors.neutral[300]};
+  }
+  .meta-eye {
+    color: ${({ theme }) => theme.colors.content.tertiary};
+  }
+  .meta-bubble {
+    width: 12px;
+    height: 12px;
+    vertical-align: middle;
   }
 `;
 
@@ -259,7 +294,7 @@ export const BottomActions = styled.div`
 `;
 
 export const ShareButton = styled.button`
-  padding: ${({ theme }) => `${theme.spacing[3]} ${theme.spacing[10]}`};
+  padding: ${({ theme }) => `${theme.spacing[5]} ${theme.spacing[16]}`};
   border-radius: 8px;
   background-color: ${({ theme }) => theme.colors.neutral[900]};
   color: ${({ theme }) => theme.colors.neutral[0]};
@@ -270,7 +305,7 @@ export const ShareButton = styled.button`
 `;
 
 export const BuyButton = styled.button`
-  padding: ${({ theme }) => `${theme.spacing[3]} ${theme.spacing[10]}`};
+  padding: ${({ theme }) => `${theme.spacing[5]} ${theme.spacing[16]}`};
   border-radius: 8px;
   background: ${({ theme }) => css`
     linear-gradient(
@@ -289,8 +324,18 @@ export const BuyButton = styled.button`
 export const BottomContainer = styled.div`
   margin-top: auto;
   bottom: 0;
-  padding: ${({ theme }) => theme.spacing[4]} 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing[2]};
+`;
+
+export const VariousPriceText = styled.div`
+  color: ${({ theme }) => theme.colors.content.sub};
+  font-size: 18px;
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 600;
+  word-wrap: break-word;
+  margin: 0;
+  padding: 0;
 `;

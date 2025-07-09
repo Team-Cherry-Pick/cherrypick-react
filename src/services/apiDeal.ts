@@ -48,7 +48,8 @@ export async function fetchRecommend(): Promise<FetchRecommendResponse> {
 
 // 상세 딜
 export async function fetchDetailedDeal(id: string): Promise<DetailedDeal> {
-    const result = await publicRequest<DetailedDeal>(HttpMethod.GET, `/deal/${id}`);
+    const res = await authRequest<DetailedDeal>(HttpMethod.GET, `/deal/${id}`);
+    const deal: DetailedDeal = res;
 
     if (result.success) {
         return {
@@ -95,4 +96,19 @@ export async function fetchDiscounts(): Promise<{ discountId: number; name: stri
     } else {
         return [];
     }
+}
+
+// 핫딜 종료
+export async function endDeal(dealId: number) {
+    return authRequest(HttpMethod.PATCH, '/deal', { dealId, isSoldOut: true });
+}
+
+// 핫딜 삭제
+export async function deleteDeal(dealId: number) {
+    return authRequest(HttpMethod.DELETE, `/deal/${dealId}`);
+}
+
+// 핫딜 수정
+export async function updateDeal(deal: UploadDeal) {
+    return authRequest(HttpMethod.PATCH, '/deal', deal);
 }
