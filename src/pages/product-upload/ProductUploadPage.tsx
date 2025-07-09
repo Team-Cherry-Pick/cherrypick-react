@@ -245,7 +245,7 @@ export default function ProductUploadPage() {
 
     return (
         <>
-            <DefaultLayout>
+            <DefaultLayout background="board">
                 <div className={styles.topBackground}>
                     <h1 className={styles.title}>
                         쇼핑몰에서 찾은 <b className={styles.semibold}>저렴한 할인상품</b>을 공유하세요!

@@ -13,9 +13,10 @@ import { AccessTokenType } from '@/types/Api';
 
 interface Props {
     deal: DetailedDeal;
+    onVoteChange?: () => void; // 투표 변경 시 부모 컴포넌트에서 데이터를 다시 가져오기 위한 콜백
 }
 
-const ProductTopSection = ({ deal }: Props) => {
+const ProductTopSection = ({ deal, onVoteChange }: Props) => {
     const [mainImage, setMainImage] = useState(deal.imageUrls[0]?.url || '');
     const [hoverImage, setHoverImage] = useState<string | null>(null);
     const navigate = useNavigate();
@@ -200,7 +201,9 @@ const ProductTopSection = ({ deal }: Props) => {
                         <S.BottomActions>
                             <HeatFeedback
                                 heat={deal.heat}
-                            />
+                                dealId={deal.dealId}
+                                initialVoteType={deal.voteType}
+                                onVoteChange={onVoteChange} />
                             <div style={{ marginLeft: 'auto', display: 'flex', gap: '0.5rem' }}>
                                 <S.ShareButton
                                     onClick={() => {

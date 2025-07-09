@@ -49,7 +49,7 @@ const BestCommentList = ({ bestComments, onLikeToggle }: Props) => {
             }));
 
             // API 호출
-            await toggleCommentLike(commentId, newLikeState, token);
+            await toggleCommentLike(commentId, newLikeState);
 
             // 성공 시 콜백 실행 (댓글 새로고침)
             onLikeToggle?.();

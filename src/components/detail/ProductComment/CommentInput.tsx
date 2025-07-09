@@ -14,7 +14,8 @@ import { useRequireLogin } from '@/hooks/useRequireLogin';
 import { useParams } from 'react-router-dom';
 import { AccessTokenService } from '@/services/accessTokenService';
 import { AccessTokenType } from '@/types/Api';
-import axios from 'axios';
+import { authRequest } from '@/services/apiClient';
+import { HttpMethod } from '@/types/Api';
 import DefaultProfileIcon from '@/assets/icons/profile-Icon.svg';
 
 type CommentInputProps = {
@@ -43,16 +44,12 @@ const CommentInput = ({ userImageUrl, isReply = false, parentId = null, onCancel
         if (!guard()) return;
 
         try {
-            await axios.post(
-                `${import.meta.env.VITE_API_URL}/comment/${id}`,
+            await authRequest(
+                HttpMethod.POST,
+                `/comment/${id}`,
                 {
                     content: comment,
                     ...(isReply && parentId !== null && { parentId }),
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
                 }
             );
             alert(isReply ? '답글이 작성되었습니다.' : '댓글이 작성되었습니다.');

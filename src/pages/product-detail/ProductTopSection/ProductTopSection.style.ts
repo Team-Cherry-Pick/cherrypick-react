@@ -34,7 +34,7 @@ export const Wrapper = styled.div`
   gap: ${({ theme }) => theme.spacing[8]};
   border-radius: ${({ theme }) => theme.radius[5]};
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
-  background-color: ${({ theme }) => theme.colors.background.root};
+  background-color: ${({ theme }) => theme.colors.background.card};
   margin-top: ${({ theme }) => theme.spacing[6]};
   padding: ${({ theme }) => theme.spacing[4]};
 

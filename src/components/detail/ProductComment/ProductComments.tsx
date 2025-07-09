@@ -127,7 +127,7 @@ const ProductComments = ({ dealId, refreshKey: externalRefreshKey, onLikeToggle 
             }));
 
             // API 호출
-            await toggleCommentLike(commentId, newLikeState, token);
+            await toggleCommentLike(commentId, newLikeState);
 
             // 성공 시 콜백 실행 (댓글 새로고침)
             onLikeToggle?.();
@@ -153,8 +153,8 @@ const ProductComments = ({ dealId, refreshKey: externalRefreshKey, onLikeToggle 
         if (!window.confirm('정말 삭제하시겠습니까?')) return;
 
         try {
-            const response = await deleteCommentById(commentId, token);
-            console.log('응답 데이터:', response.data);
+            const response = await deleteCommentById(commentId);
+            console.log('응답 데이터:', response);
             alert('삭제되었습니다.');
 
             // 로컬 상태에서 삭제된 댓글 제거

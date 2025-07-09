@@ -24,11 +24,17 @@ function ProductDetailPage() {
         data: deal,
         isLoading: isLoadingDeal,
         isError: isErrorDeal,
+        refetch: refetchDeal,
     } = useQuery({
         queryKey: ['deal', id],
         queryFn: () => fetchDetailedDeal(id!),
         enabled: !!id,
     });
+
+    // 투표 변경 시 딜 데이터 다시 가져오기
+    const handleVoteChange = useCallback(() => {
+        refetchDeal();
+    }, [refetchDeal]);
 
     // 베스트 댓글 새로고침 함수
     const refreshBestComments = useCallback(async () => {
@@ -64,9 +70,13 @@ function ProductDetailPage() {
         return <div>상품을 찾을 수 없습니다.</div>;
     }
 
+    // voteType 콘솔 출력
+    console.log('상세 딜 데이터:', deal);
+    console.log('voteType:', deal.voteType);
+
     return (
         <DefaultLayout background="board">
-            <ProductTopSection deal={deal} />
+            <ProductTopSection deal={deal} onVoteChange={handleVoteChange} />
             <SubContainer>
                 <RecommendWrapper>
                     <ProductRecommend />

@@ -44,7 +44,7 @@ export async function fetchRecommend(): Promise<FetchRecommendResponse> {
 
 // 상세 딜
 export async function fetchDetailedDeal(id: string): Promise<DetailedDeal> {
-    const res = await publicRequest<DetailedDeal>(HttpMethod.GET, `/deal/${id}`);
+    const res = await authRequest<DetailedDeal>(HttpMethod.GET, `/deal/${id}`);
     const deal: DetailedDeal = res;
 
     return {
