@@ -28,7 +28,7 @@ const NicknameEditor = ({ editStatus, setEditStatus }: NicknameEditorProps) => {
         if (newNickname.length > 10) return;
 
         // 회원 && 기존 닉네임과 동일한 경우
-        if(AccessTokenService.hasToken(AccessTokenType.USER) && newNickname === currentProfile.nickname) {
+        if (AccessTokenService.hasToken(AccessTokenType.USER) && newNickname === currentProfile.nickname) {
             setEditStatus(NicknameEditStatus.VALID);
             setNewProfile({ ...newProfile, nickname: newNickname });
             return;
@@ -114,7 +114,10 @@ const NicknameCheckButton = styled.button<{ editStatus: NicknameEditStatus }>`
   display: flex;
   align-items: center;
   justify-content: center;
-
+  &:disabled {
+    cursor: not-allowed;
+  }
+  
   color: ${({ theme, editStatus }) => {
         if (editStatus == NicknameEditStatus.EDITING) return theme.colors.neutral[0];
         return 'white';

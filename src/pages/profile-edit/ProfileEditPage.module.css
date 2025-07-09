@@ -51,6 +51,19 @@
   font-size: 16px;
   color: var(--color-content-sub);
   margin-top: 8px;
+  opacity: 0;
+  animation: fadeIn 0.4s ease forwards;
+}
+
+.profileImageDelete {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
 }
 
 .emailValue {

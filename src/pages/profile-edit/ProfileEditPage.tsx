@@ -3,7 +3,7 @@ import { Gender, GetUserRes, isValidProfile, NicknameEditStatus, User } from '@/
 import { AccessTokenService } from '@/services/accessTokenService';
 import { AccessTokenType } from '@/types/Api';
 import { currentProfileAtom, newProfileAtom } from '@/store/profile';
-import { useAtom, useSetAtom } from 'jotai';
+import { useAtom } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
 import { uploadImage } from '@/services/apiImage';
 import { Images, UploadImageResponse } from '@/types/Image';
@@ -51,7 +51,7 @@ export function ProfileEditPage() {
         initProfile();
     }, []);
 
-    //************************************************ UseRef **************************************************//
+    //************************************************ View Event **************************************************//
 
     // '날짜 선택' 영역 클릭 시 호출되는 Ref
     const dateInputRef = useRef<HTMLInputElement>(null);
@@ -65,8 +65,6 @@ export function ProfileEditPage() {
         fileInputRef.current?.click();
     };
 
-    //************************************************ API **************************************************//
-
     // 이미지 업로드 API 요청 후 이미지 갱신
     const onChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -75,6 +73,11 @@ export function ProfileEditPage() {
         const image: Images = { images: [file], indexes: [0] };
         const result: UploadImageResponse = await uploadImage(image);
         setNewProfile({ ...newProfile, imageId: result[0].imageId, imageURL: result[0].imageUrl });
+    };
+
+    // 이미지 삭제
+    const onClickBtnDeleteImage = () => {
+        setNewProfile(prev => ({ ...prev, imageURL: "", imageId: -1, }));
     };
 
     // '회원가입' 또는 '수정완료' 버튼 클릭 시 호출
@@ -138,7 +141,10 @@ export function ProfileEditPage() {
                     <div className={styles.profileImageButton} onClick={onClickBtnProfileImage}>
                         <img className={styles.profileImage} src={newProfile.imageURL?.trim() ? newProfile.imageURL : PersonIcon} alt="user" />
                     </div>
-                    <p className={styles.profileImageTitle}>프로필 사진 변경 (선택)</p>
+                    <p className={`${styles.profileImageTitle} ${newProfile.imageURL?.trim() && newProfile.imageId !== -1 ? styles.profileImageDelete : ""}`}
+                        onClick={newProfile.imageURL?.trim() ? onClickBtnDeleteImage : undefined} >
+                        {newProfile.imageURL?.trim() && newProfile.imageId !== -1 ? "프로필 사진 삭제" : "프로필 사진 변경 (선택)"}
+                    </p>
 
                     <input
                         type="file"
