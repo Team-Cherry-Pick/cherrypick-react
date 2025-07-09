@@ -192,9 +192,8 @@ export default function ProductUploadPage() {
                             indexes: d.imageUrls.map((img: DealImage) => img.indexes)
                         });
                     }
-                } catch (error) {
+                } catch {
                     alert('핫딜 정보를 불러오지 못했습니다.');
-                    console.error(error);
                 }
             } else if (location.state?.deal) {
                 // 기존 location.state로 진입하는 경우도 지원

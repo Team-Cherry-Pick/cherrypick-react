@@ -19,7 +19,7 @@ function ProductDetailPage() {
     const [bestComments, setBestComments] = useState<BestComment[]>([]);
     const [commentLoading, setCommentLoading] = useState(false);
     const [refreshKey, setRefreshKey] = useState(0);
-    
+
     const {
         data: deal,
         isLoading: isLoadingDeal,
@@ -45,8 +45,7 @@ function ProductDetailPage() {
         try {
             const data = await fetchBestCommentsByDealId(id);
             setBestComments(data);
-        } catch (error) {
-            console.error('베스트 댓글 새로고침 실패:', error);
+        } catch {
             setBestComments([]);
         } finally {
             setCommentLoading(false);

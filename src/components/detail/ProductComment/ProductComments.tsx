@@ -220,8 +220,7 @@ const ProductComments = ({ dealId, refreshKey: externalRefreshKey, onLikeToggle 
                 replies: comment.replies?.filter(reply => reply.commentId !== commentId) || []
             })));
             handleCommentSuccess();
-        } catch (error) {
-            console.error('삭제 실패:', error);
+        } catch {
             alert('삭제에 실패했습니다.');
         }
     };

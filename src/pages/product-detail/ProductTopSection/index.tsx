@@ -32,9 +32,8 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
             await endDeal(localDeal.dealId);
             alert('핫딜이 종료되었습니다!');
             setLocalDeal({ ...localDeal, isSoldOut: true });
-        } catch (err) {
+        } catch {
             alert('종료 처리에 실패했습니다.');
-            console.error(err);
         }
     };
 
@@ -45,9 +44,8 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
             await deleteDeal(localDeal.dealId);
             alert('삭제되었습니다!');
             navigate('/');
-        } catch (err) {
+        } catch {
             alert('삭제에 실패했습니다.');
-            console.error(err);
         }
     };
 

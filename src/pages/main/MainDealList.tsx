@@ -77,8 +77,8 @@ const MainDealList = ({ aiActive }: MainDealListProps) => {
             setItems(prev => [...prev, ...deals]);
             pageRef.current += 1;
             setHasNext(next);
-        } catch (error) {
-            console.error(error);
+        } catch {
+            // 에러 무시
         } finally {
             setIsLoading(false);
         }

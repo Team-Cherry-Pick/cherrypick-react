@@ -27,14 +27,5 @@ export async function voteDeal({ dealId, voteType, dislikeReason }: VoteDealPara
         if (!dislikeReason) throw new Error('비추천 사유를 작성해야 합니다.');
         body.dislikeReason = dislikeReason;
     }
-
-    console.log('투표 API 호출:', {
-        url: `/deal/${dealId}/vote`,
-        method: 'PUT',
-        body,
-        dealId,
-        voteType
-    });
-
     return authRequest(HttpMethod.PUT, `/deal/${dealId}/vote`, body);
 } 

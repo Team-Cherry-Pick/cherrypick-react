@@ -24,8 +24,7 @@ export class AccessTokenService {
         try {
             const bytes = CryptoJS.AES.decrypt(encryptedData, this.SECRET_KEY);
             return bytes.toString(CryptoJS.enc.Utf8);
-        } catch (error) {
-            console.error(error);
+        } catch {
             return null;
         }
     }

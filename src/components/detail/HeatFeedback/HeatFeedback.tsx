@@ -47,7 +47,6 @@ function HeatFeedback({ heat, dealId, initialVoteType, onVoteChange }: HeatFeedb
             // 이미 추천 상태면 취소
             try {
                 await voteDeal({ dealId, voteType: 'NONE' });
-                console.log('투표 취소 완료');
                 setVoteType('NONE');
                 alert('투표가 취소되었습니다!');
                 onVoteChange?.(); // 부모 컴포넌트에서 데이터 다시 가져오기
@@ -58,7 +57,6 @@ function HeatFeedback({ heat, dealId, initialVoteType, onVoteChange }: HeatFeedb
         }
         try {
             await voteDeal({ dealId, voteType: 'TRUE' });
-            console.log('추천 투표 완료');
             setVoteType('TRUE');
             setShowModal(false);
             alert('투표가 완료되었습니다!');
@@ -73,7 +71,6 @@ function HeatFeedback({ heat, dealId, initialVoteType, onVoteChange }: HeatFeedb
             // 이미 비추천 상태면 취소
             voteDeal({ dealId, voteType: 'NONE' })
                 .then(async () => {
-                    console.log('투표 취소 완료');
                     setVoteType('NONE');
                     setShowModal(false);
                     alert('투표가 취소되었습니다!');
@@ -88,7 +85,6 @@ function HeatFeedback({ heat, dealId, initialVoteType, onVoteChange }: HeatFeedb
     const handleDislikeReason = async (reason: DislikeReason) => {
         try {
             await voteDeal({ dealId, voteType: 'FALSE', dislikeReason: reason });
-            console.log('비추천 투표 완료');
             setVoteType('FALSE');
             setShowModal(false);
             alert('투표가 완료되었습니다!');

@@ -87,8 +87,7 @@ const BestCommentList = ({ bestComments, onLikeToggle }: Props) => {
 
             // 성공 시 콜백 실행 (댓글 새로고침)
             onLikeToggle?.();
-        } catch (error) {
-            console.error('좋아요 토글 실패:', error);
+        } catch {
             alert('좋아요 처리에 실패했습니다.');
 
             // 실패 시 UI 되돌리기 (원래 상태로 복원)

@@ -96,18 +96,11 @@ function handleError(error: AxiosError): APIException {
         if (status === 404) {
             return new APIException(status, 'Not found');
         }
-
-        console.error('[API Error]', status, responseData?.message);
         return new APIException(status, responseData?.message || 'API Error');
+
     } else if (error.request) {
-        if (process.env.NODE_ENV === 'development') {
-            console.error('[Network Error]', error.message);
-        }
         return new APIException(0, 'Network error');
     } else {
-        if (process.env.NODE_ENV === 'development') {
-            console.error('[Unknown Error]', error.message);
-        }
         return new APIException(-1, 'Unknown error');
     }
 }

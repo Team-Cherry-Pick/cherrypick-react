@@ -18,8 +18,8 @@ export const ProductRecommend = () => {
                 const response = await fetchDeals(0);
                 const filteredDeals = response.deals.filter(deal => deal.imageUrl?.url);
                 setDeals(filteredDeals.slice(0, 5));
-            } catch (e) {
-                console.error('딜 목록 로딩 실패', e);
+            } catch {
+                // 에러 무시
             }
         };
         loadDeals();

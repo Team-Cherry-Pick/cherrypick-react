@@ -55,8 +55,8 @@ const CommentInput = ({ userImageUrl, isReply = false, parentId = null, onCancel
             alert(isReply ? '답글이 작성되었습니다.' : '댓글이 작성되었습니다.');
             setComment('');
             onSuccess?.();
-        } catch (error) {
-            console.error(isReply ? '답글 작성 실패:' : '댓글 작성 실패:', error);
+        } catch {
+
             alert(isReply ? '답글 작성에 실패했습니다.' : '댓글 작성에 실패했습니다.');
         }
     };
