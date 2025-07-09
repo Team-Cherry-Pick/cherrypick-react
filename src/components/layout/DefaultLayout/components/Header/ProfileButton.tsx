@@ -49,6 +49,7 @@ const ProfileButton = () => {
         navigate('/');
         setOpen(false);
         refreshProfile();
+        alert('정상적으로 로그아웃되었습니다.');
     }
 
     return (

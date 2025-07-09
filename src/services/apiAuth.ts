@@ -17,12 +17,12 @@ export const getAuthKakao = async (request: GetAuthReq) => {
     }
 
     // deviceID(UUID) 설정
-    let savedDeviceID: string | null = localStorage.getItem('deviceID');
+    const savedDeviceID: string | null = localStorage.getItem('deviceID');
     if (!savedDeviceID) {
-        savedDeviceID = generateDeviceID();
-        localStorage.setItem('deviceID', savedDeviceID);
+        const newDeviceID = generateDeviceID();
+        localStorage.setItem('deviceID', newDeviceID);
     }
-    request.deviceId = savedDeviceID;
+    request.deviceId = savedDeviceID!;
 
     // os, browser, version 설정
     const { os, browser, version } = parseUserAgent(navigator.userAgent);
@@ -69,7 +69,7 @@ export async function postAuthRegisterCompletion(request: PostAuthRegisterComple
  */
 export async function deleteUser(reason: string): Promise<DeleteUserRes> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const result = await authRequest<any>(HttpMethod.DELETE, `/user`, {reason: reason});
+    const result = await authRequest<any>(HttpMethod.DELETE, `/user`, { reason: reason });
 
     if (result.success) {
         return result.data;
@@ -78,10 +78,15 @@ export async function deleteUser(reason: string): Promise<DeleteUserRes> {
     }
 };
 
-
-export const getAuthRefresh = async (): Promise<string> => {
+/**
+ * 리픽 토큰 재발급 API
+ * 
+ * @param deviceId: 기기 UUID
+ * @returns 액세스 토큰
+ */
+export const getAuthRefresh = async (deviceId: string): Promise<string> => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const result = await publicRequest<any>(HttpMethod.GET, `/auth/refresh`);
+    const result = await publicRequest<any>(HttpMethod.POST, `/auth/refresh`, { deviceId: deviceId });
 
     if (result.success) {
         return result.data.accessToken;

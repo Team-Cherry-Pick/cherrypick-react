@@ -1,6 +1,7 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 import { AccessTokenType, APIException, HttpMethod, ResponseData } from '@/types/Api';
 import { AccessTokenService } from './accessTokenService';
+import { getAuthRefresh } from './apiAuth';
 
 const apiUrl = import.meta.env.VITE_API_URL || null;
 
@@ -70,11 +71,37 @@ const authApiClient = axios.create({
  * - 요청 시 Authorization 헤더 자동 추가
  */
 authApiClient.interceptors.request.use(
-    (config: InternalAxiosRequestConfig) => {
-        const token = AccessTokenService.get(AccessTokenType.USER);
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
+    async (config: InternalAxiosRequestConfig) => {
+
+        const handleAuthFailure = () => {
+            AccessTokenService.clear(AccessTokenType.USER);
+            window.location.href = '/login';
+            alert('로그인 재시도 부탁 드립니다.');
+        };
+
+        // 기기 UUID 없을 시, API 호출 중단 및 즉시 로그인 페이지 이동
+        const savedDeviceID: string | null = localStorage.getItem('deviceID')
+        if (!savedDeviceID) {
+            handleAuthFailure();
+            return new Promise(() => { });
         }
+
+        // 액세스 토큰 없을 시 리프레쉬 토큰 갱신 시도 후 실패 후, API 호출 중단 및 로그인 페이지 이동
+        if (!AccessTokenService.hasToken(AccessTokenType.USER)) {
+            try {
+                const accessToken: string = await getAuthRefresh(savedDeviceID!);
+                AccessTokenService.save(AccessTokenType.USER, accessToken);
+            } catch (err) {
+                console.error('리프레시 토큰 발급 실패', err);
+                handleAuthFailure();
+                return new Promise(() => { });
+            }
+        }
+
+        // 비정상 상황 없을 경우 API 호출 시퀀스 유지
+        const accessToken = AccessTokenService.get(AccessTokenType.USER);
+        config.headers.Authorization = `Bearer ${accessToken}`;
+
         return config;
     },
     error => {
