@@ -19,7 +19,7 @@ const NicknameEditor = ({ editStatus, setEditStatus }: NicknameEditorProps) => {
 
     // 닉네임 입력값 변경 시 호출
     const onChangeNickname = (newNickname: string) => {
-        const nicknameRegex = /^[ㄱ-ㅎ가-힣a-zA-Z0-9\s]*$/;
+        const nicknameRegex = /^[ㄱ-ㅎ가-힣a-zA-Z0-9]*$/;
         if (!nicknameRegex.test(newNickname)) return;
 
         if (newNickname.length > 10) return;

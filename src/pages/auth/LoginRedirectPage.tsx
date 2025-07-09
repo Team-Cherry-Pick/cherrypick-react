@@ -11,26 +11,32 @@ const LoginSuccessPage = () => {
     useEffect(() => {
         const handleLoginRedirect = async () => {
             const token: string | null = searchParams.get('token');
-            const redirect: string | null = searchParams.get('redirect');
+            const redirectPath: string | null = searchParams.get('redirect');
+            const email: string | null = searchParams.get('email');
             const isNewUser: boolean = searchParams.get('isNewUser') === 'true';
 
-            if (!token || !redirect) {
-                const loginFailMessage = '로그인에 실패했습니다.';
+            // 로그인에 실패한 경우 에러 메세지 표출
+            if (!token || !redirectPath || !email) {
+                const loginFailMessage: string = '로그인에 실패했습니다.';
                 alert(loginFailMessage);
                 navigate('/');
                 return;
             }
 
-            // 기존 유저일 시 기존 페이지로 이동
+            // 기존 유저인 경우 기존 페이지로 이동
             if (!isNewUser) {
                 AccessTokenService.save(AccessTokenType.USER, token);
-                navigate(`/${redirect.replace(/^\/?/, '')}`);
+                navigate(redirectPath);
                 return;
             }
 
-            // 신규 유저일 시 회원정보수정 페이지로 이동 (회원가입 진행)
-            // @todo : redirect, redirectToken, email 등 넣어서 진행
-            navigate('/profile-edit');
+            // 신규 유저인 경우 token, redirect, email 정보를 동반하여 회원가입 진행 시퀀스 진행 (회원정보수정 페이지로 이동)
+            const registerTokenState: string = token;
+            const redirectPathState: string = redirectPath;
+            const emailState: string = email;
+            navigate('/profile-edit', {
+                state: { registerTokenState, redirectPathState, emailState }
+            });
         };
 
         handleLoginRedirect();
