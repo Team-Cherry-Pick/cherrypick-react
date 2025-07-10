@@ -1,5 +1,5 @@
 import { HttpMethod } from "@/types/Api";
-import { GetNicknameValidationRes, GetUserRes, PutUserReq, PutUserRes } from "@/types/Profile";
+import { GetNicknameValidationRes, GetUserRes, PatchUserReq, PatchUserRes } from "@/types/Profile";
 import { authRequest, publicRequest } from "./apiClient";
 
 /**
@@ -36,10 +36,10 @@ export async function getUser(): Promise<GetUserRes> {
  * 유저 정보 수정 API
  * 
  * @param request: 변경하고 싶은 프로필
- * @returns PutUserRes: 새롭게 변경된 프로필
+ * @returns PatchUserRes: 새롭게 변경된 프로필
  */
-export async function putUser(request: PutUserReq): Promise<PutUserRes> {
-    const result = await authRequest<PutUserRes>(HttpMethod.PUT, `/user`, request);
+export async function patchUser(request: PatchUserReq): Promise<PatchUserRes> {
+    const result = await authRequest<PatchUserRes>(HttpMethod.PATCH, `/user`, request);
     if (result.success) {
         return result.data;
     } else {

@@ -9,7 +9,7 @@ import { uploadImage } from '@/services/apiImage';
 import { Images, UploadImageResponse } from '@/types/Image';
 import NicknameEditor from './NicknameEditor';
 import PersonIcon from '@/assets/icons/person-Icon.svg';
-import { getUser, putUser } from '@/services/apiProfile';
+import { getUser, patchUser } from '@/services/apiProfile';
 import DefaultLayout from '@/components/layout/DefaultLayout';
 import { deleteUser, postAuthRegisterCompletion } from '@/services/apiAuth';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -115,7 +115,7 @@ export function ProfileEditPage() {
     // 회원일 시 프로필 수정 API 요청 후 프로필 갱신
     const editProfile = async () => {
         // @todo: API 오작동 확인
-        const currentProfile: User = await putUser({
+        const currentProfile: User = await patchUser({
             nickname: newProfile.nickname,
             birthday: newProfile.birthday,
             gender: newProfile.gender,

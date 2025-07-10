@@ -41,7 +41,7 @@ export interface GetNicknameValidationRes {
     details: string;
 }
 
-export interface PutUserReq {
+export interface PatchUserReq {
     nickname: string;
     birthday: string;
     gender: Gender;
@@ -59,4 +59,4 @@ export interface User {
 }
 
 export type GetUserRes = User;
-export type PutUserRes = User;
+export type PatchUserRes = User;
