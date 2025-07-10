@@ -2,6 +2,7 @@ import '@/styles/global/index.css';
 import { useAtom } from 'jotai';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
+import { HelmetProvider } from 'react-helmet-async';
 
 import { themeAtom } from '@/store/theme';
 import { lightTheme, darkTheme } from '@/styles/theme';
@@ -37,4 +38,10 @@ const App = () => {
     );
 };
 
-export default App;
+export default function AppWithHelmetProvider() {
+    return (
+        <HelmetProvider>
+            <App />
+        </HelmetProvider>
+    );
+}
