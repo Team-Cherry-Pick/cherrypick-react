@@ -8,55 +8,59 @@
 .profileEditBoxWrapper {
   display: flex;
   flex-direction: column;
-  width: 500px;
-  margin-top: 80px;
   align-items: center;
-  border-radius: 20px 20px 0 0;
-  padding: 60px 32px 32px 32px;
-  border: 1px solid var(--color-border-card);
+  width: 31.25rem;
+  margin-top: 5rem;
+  padding: 3.75rem 2rem 2rem 2rem;
+  border: 0.0625rem solid var(--color-border-card);
   border-bottom: none;
+  border-radius: 1.25rem 1.25rem 0 0;
   background-color: var(--color-background-card);
+  box-shadow: var(--card-shadow);
 }
 
 .textLabel {
-  font-size: 18px;
-  font-weight: 600;
   width: 100%;
-  padding-left: 4px;
-  margin-top: 32px;
-  margin-bottom: 0px;
+  padding-left: 0.25rem;
+  margin-top: 2rem;
+  margin-bottom: 0;
+  font-size: 1.125rem;
+  line-height: 1rem;
+  font-weight: var(--font-weight-semibold);
   color: var(--color-content-main);
 }
 
 .profileImageButton {
-  width: 120px;
-  height: 120px;
-  border-radius: 60px;
-  border: 1px solid var(--color-neutral-200);
-  background-color: var(--color-neutral-100);
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 7.5rem;
+  height: 7.5rem;
+  border: 0.0625rem solid var(--color-neutral-200);
+  border-radius: 50%;
+  background-color: var(--color-neutral-100);
+  cursor: pointer;
 }
 
 .profileImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 60px;
+  border-radius: 50%;
 }
 
 .profileImageTitle {
-  font-size: 16px;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
   color: var(--color-content-sub);
-  margin-top: 8px;
   opacity: 0;
   animation: fadeIn 0.4s ease forwards;
 }
 
 .profileImageDelete {
   text-decoration: underline;
+  text-underline-offset: 0.2em;
   cursor: pointer;
 }
 
@@ -67,51 +71,52 @@
 }
 
 .emailValue {
-  width: 100%;
-  height: 48px;
-  border: 1px solid var(--color-border-card);
-  border-radius: 8px;
-  padding: 0 16px;
-  font-size: 16px;
-  margin-top: 16px;
   display: flex;
   align-items: center;
-  color: var(--color-content-sub);
+  width: 100%;
+  height: 2.5rem;
+  margin-top: 1rem;
+  padding: 0 1rem;
+  border: 0.0625rem solid var(--color-border-card);
+  border-radius: 0.5rem;
   background-color: var(--color-neutral-100);
+  font-size: 1rem;
+  color: var(--color-content-sub);
 }
 
 .invalidNicknameHelper {
-  font-size: 14px;
   width: 100%;
+  margin-top: 0.5rem;
+  padding: 0 0.5rem;
   text-align: start;
-  margin-top: 8px;
-  padding: 0 8px;
+  font-size: 0.875rem;
   color: var(--color-primary);
 }
 
 .genderToggleWrapper {
   display: flex;
   width: 100%;
-  margin-top: 16px;
-  border-radius: 10px;
-  border: 1px solid var(--color-neutral-200);
+  height: 2.5rem;
+  margin-top: 1rem;
+  border: 0.0625rem solid var(--color-neutral-200);
+  border-radius: 0.625rem;
 }
 
 .genderButton {
   width: 50%;
-  height: 48px;
-  font-size: 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 400;
   border: none;
-  transition: background-color 0.2s ease;
+  border-radius: 0.5rem;
+  background: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 400;
   color: var(--color-content-sub);
+  transition: background-color 0.2s ease;
 }
 
 .genderButton[data-selected='true'] {
-  font-weight: 600;
-  border: 2px solid var(--color-neutral-500);
+  font-weight: var(--font-weight-semibold);
+  border: 0.125rem solid var(--color-neutral-700);
   color: var(--color-content-main);
 }
 
@@ -125,38 +130,38 @@
 
 .dateInput {
   width: 100%;
-  height: 48px;
-  padding: 0 16px;
-  font-size: 16px;
-  border-radius: 8px;
-  margin-top: 16px;
-  border: 1px solid var(--color-neutral-100);
+  height: 2.5rem;
+  margin-top: 1rem;
+  padding: 0 1rem;
+  border: 0.0625rem solid var(--color-neutral-200);
+  border-radius: 0.5rem;
+  font-size: 1rem;
   color: var(--color-content-main);
 }
 
 .dateInput:focus {
   outline: none;
-  border: 1px solid var(--color-neutral-500);
+  border: 0.125rem solid var(--color-neutral-500);
 }
 
-input[type="date"]::-webkit-calendar-picker-indicator {
+input[type='date']::-webkit-calendar-picker-indicator {
   display: none;
 }
 
 .submitButton {
   width: 100%;
-  height: 48px;
-  margin: 48px 0 80px 0;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 600;
+  height: 3rem;
+  margin: 3rem 0 5rem 0;
+  border-radius: 0.5rem;
+  background: linear-gradient(135deg, #FF8067 0%, #FF4635 100%);
+  font-size: 1rem;
+  font-weight: var(--font-weight-semibold);
   color: white;
   cursor: pointer;
-  background-color: var(--color-primary);
 }
 
 .submitButton:disabled {
-  background-color: var(--color-neutral-300);
+  background: var(--color-neutral-300);
   cursor: not-allowed;
 }
 
@@ -166,9 +171,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .withdrawButton {
   align-self: flex-end;
-  font-size: 16px;
+  margin-top: 0.5rem;
+  font-size: 1rem;
   color: var(--color-content-tertiary);
-  margin-top: 8px;
   text-decoration: underline;
+  text-underline-offset: 0.2em;
   cursor: pointer;
 }

@@ -114,7 +114,6 @@ export function ProfileEditPage() {
 
     // 회원일 시 프로필 수정 API 요청 후 프로필 갱신
     const editProfile = async () => {
-        // @todo: API 오작동 확인
         const currentProfile: User = await patchUser({
             nickname: newProfile.nickname,
             birthday: newProfile.birthday,

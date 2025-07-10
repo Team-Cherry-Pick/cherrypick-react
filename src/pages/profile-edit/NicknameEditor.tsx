@@ -1,6 +1,5 @@
 // pages/login/LoginBox.tsx
 import styled, { useTheme } from 'styled-components';
-import { TextInput } from '@/components/common/Input';
 import { currentProfileAtom, newProfileAtom } from '@/store/profile';
 import { useAtom, useAtomValue } from 'jotai';
 import { GetNicknameValidationRes, NicknameEditStatus } from '@/types/Profile';
@@ -55,12 +54,12 @@ const NicknameEditor = ({ editStatus, setEditStatus }: NicknameEditorProps) => {
 
             // 서버로부터 검증 받은 닉네임 반영
             setNewProfile({ ...newProfile, nickname: response.nickname });
+            alert(response.details);
 
             if (isValidNickname) {
                 setEditStatus(NicknameEditStatus.VALID);
             } else {
                 setEditStatus(NicknameEditStatus.INVALID);
-                alert(response.details);
             }
         }
     }
@@ -68,8 +67,8 @@ const NicknameEditor = ({ editStatus, setEditStatus }: NicknameEditorProps) => {
     // 닉네임 유효성 검증 색상 변경 CSS
     const getNicknameInputCSS = (editStatus: NicknameEditStatus): React.CSSProperties => {
         return {
-            color: (editStatus == NicknameEditStatus.INVALID) ? theme.colors.primary : theme.colors.content.main,
-            border: (editStatus == NicknameEditStatus.INVALID) ? `1px solid ${theme.colors.primary}` : `1px solid ${theme.colors.neutral[100]}`,
+            color: (editStatus == NicknameEditStatus.INVALID) ? theme.colors.content.sub : theme.colors.content.main,
+            border: (editStatus == NicknameEditStatus.INVALID) ? `1px solid ${theme.colors.primary}` : `1px solid ${theme.colors.neutral[200]}`,
         };
     };
 
@@ -97,33 +96,45 @@ const NicknameEditor = ({ editStatus, setEditStatus }: NicknameEditorProps) => {
 
 export default NicknameEditor;
 
-const NicknameEditorWrapper = styled.div`
+export const NicknameEditorWrapper = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: auto;
-  margin-top: 16px;
-  gap: 8px;
+  height: 2.5rem;
+  margin-top: 1rem;
+  gap: 0.5rem;
 `;
 
-// '중복검사' 버튼
-const NicknameCheckButton = styled.button<{ editStatus: NicknameEditStatus }>`
-  width: 108px;
-  height: 48px;
-  border-radius: 8px;
+export const TextInput = styled.input`
+  flex: 1;
+  height: 100%;
+  padding: 0 1rem;
+  border-radius: 0.5rem;
+  background-color: ${({ theme }) => theme.colors.neutral[0]};
+  font-size: 1rem;
+  outline: none;
+`;
+
+export const NicknameCheckButton = styled.button<{ editStatus: NicknameEditStatus }>`
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 6.75rem;
+  height: 100%;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+
+  color: ${({ theme, editStatus }) =>
+        editStatus === NicknameEditStatus.EDITING
+            ? theme.colors.neutral[0]
+            : 'white'};
+
+  background-color: ${({ theme, editStatus }) =>
+        editStatus === NicknameEditStatus.EDITING
+            ? theme.colors.content.main
+            : theme.colors.neutral[300]};
+
   &:disabled {
     cursor: not-allowed;
   }
-  
-  color: ${({ theme, editStatus }) => {
-        if (editStatus == NicknameEditStatus.EDITING) return theme.colors.neutral[0];
-        return 'white';
-    }};
-  background-color: ${({ theme, editStatus }) => {
-        if (editStatus == NicknameEditStatus.EDITING) return theme.colors.content.main;
-        return theme.colors.neutral[300];
-    }};
 `;
