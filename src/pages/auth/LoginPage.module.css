@@ -1,0 +1,88 @@
+.container {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+}
+
+.loginBoxWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 24rem;
+  padding: 3.5rem 2rem 2rem 2rem;
+  border: 0.0625rem solid var(--color-border-board);
+  border-radius: 1.25rem;
+  background-color: var(--color-background-card);
+  box-shadow: var(--card-shadow);
+}
+
+.logoWrapper {
+  display: flex;
+  justify-content: center;
+  color: var(--color-content-main);
+  font-size: 2.5rem;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.6;
+  font-family: Paperlogy;
+}
+
+.repikLogoImg {
+  width: 3rem;
+  height: 3rem;
+}
+
+.repikLogoText {
+  padding-left: 0.56rem;
+}
+
+.title {
+  margin-top: 0.2rem;
+  color: var(--color-content-main);
+  font-size: 1.25rem;
+}
+
+.highlightBold {
+  font-weight: var(--font-weight-semibold);
+}
+
+.divider {
+  width: 100%;
+  height: 0.03rem;
+  margin-top: 3rem;
+  background-color: var(--color-border-board);
+}
+
+.message {
+  width: 100%;
+  margin-top: 1.5rem;
+  text-align: start;
+  color: var(--color-content-sub);
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.kakaoLoginButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  height: 3rem;
+  margin-top: 1.5rem;
+  border-radius: 0.5rem;
+  background-color: #fee502;
+  color: var(--color-neutral-500);
+  cursor: pointer;
+}
+
+.kakaoLoginLogoImage {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.kakaoLoginText {
+  color: #392020;
+  font-size: 1.125rem;
+  font-weight: var(--font-weight-semibold);
+}
