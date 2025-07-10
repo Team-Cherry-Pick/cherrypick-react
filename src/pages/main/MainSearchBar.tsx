@@ -154,7 +154,7 @@ const RecentSearchWrapper = styled.div`
     flex-direction: row;
     gap: ${({ theme }) => theme.spacing[3]};
     height: 1rem;
-    padding-bottom: ${({ theme }) => theme.spacing[2]}
+    padding-bottom: ${({ theme }) => theme.spacing[2]};
     font-size: ${({ theme }) => theme.typography.size.sm};
     color: ${({ theme }) => theme.colors.content.sub};
 `;

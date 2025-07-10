@@ -10,7 +10,6 @@ import UploadBtn from '@/components/common/Floating/UploadBtn';
 import ScrollTopBtn from '@/components/common/Floating/ScrollTopBtn';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { keywordAtom, triggerFetchAtom } from '@/store/search';
-import { Helmet } from 'react-helmet-async';
 
 const MainPage = () => {
     const [aiActive, setAiActive] = useState(false);
@@ -23,13 +22,6 @@ const MainPage = () => {
 
     return (
         <>
-            <Helmet>
-                <title>Repik - 핫딜 모음</title>
-                <meta name="description" content="최신 핫딜, 할인 정보를 한눈에!" />
-                <meta property="og:title" content="리픽 - 핫딜 모음" />
-                <meta property="og:description" content="최신 핫딜, 할인 정보를 한눈에!" />
-                <meta property="og:image" content="https://repik.kr/repik-og.jpg" />
-            </Helmet>
             <DefaultLayout>
                 <div className={styles.container}>
                     <MainFilter aiActive={aiActive} />
