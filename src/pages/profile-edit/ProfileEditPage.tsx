@@ -40,10 +40,9 @@ export function ProfileEditPage() {
 
     // 비회원, 회원에 따라 처리
     const isSignUpPage = !AccessTokenService.hasToken(AccessTokenType.USER) && registerToken && redirectPath && email;
-    if (email) setNewProfile(prev => ({ ...prev, email }));
     const [nicknameEditStatus, setNicknameEditStatus] = useState<NicknameEditStatus>(isSignUpPage ? NicknameEditStatus.NONE : NicknameEditStatus.VALID);
 
-    // 정보수정 시퀀스일 경우 API 호출하여 기존 프로필 정보 세팅
+    // (기회원) API 호출하여 기존 프로필 정보 세팅 (비회원) email을 profile에 세팅
     useEffect(() => {
         const initProfile = async () => {
             const isProfileEditPage = AccessTokenService.hasToken(AccessTokenType.USER);
@@ -51,6 +50,9 @@ export function ProfileEditPage() {
                 const currentUser: GetUserRes = await getUser();
                 setNewProfile(currentUser);
                 setCurrentProfile(currentUser)
+            }
+            if (email) {
+                setNewProfile(prev => ({ ...prev, email }));
             }
         };
         initProfile();
