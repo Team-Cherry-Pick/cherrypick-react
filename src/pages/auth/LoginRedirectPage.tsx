@@ -5,6 +5,9 @@ import { useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 
 const LoginRedirectPage = () => {
+
+    // @todo : 회원이라면 라우팅 접근 불가능하도록 설정
+
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
 

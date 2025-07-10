@@ -69,17 +69,18 @@ export function ProfileEditPage() {
     // 신규 프로필 데이터 유효성, 닉네임 유효성, 이용약관 전원 동의 여부 체크 메서드
     const isValidProfileWithAgreements = () => {
 
+        // 회원/비회원 상관 없이 프로필 데이터 유효성 검증
+        if (!isValidProfile(newProfile, currentProfile, nicknameEditStatus)) {
+            return false;
+        }
+
         // 회원정보 수정(회원)일 시, 프로필 데이터 유효성만 검증 
-        if (AccessTokenService.hasToken(AccessTokenType.USER) && isValidProfile(newProfile, currentProfile, nicknameEditStatus)) {
+        if (AccessTokenService.hasToken(AccessTokenType.USER)) {
             return true;
         }
 
         // 회원가입(비회원)일 시, 이용동의까지 검증
-        if (agreements.isAgreedTerm && agreements.isAgreedPrivacy && agreements.isAgreedAgeVerified) {
-            return true;
-        }
-
-        return false;
+        return agreements.isAgreedTerm && agreements.isAgreedPrivacy && agreements.isAgreedAgeVerified;
     };
 
     //************************************************ View Event **************************************************//
