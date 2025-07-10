@@ -77,19 +77,12 @@ const authApiClient = axios.create({
 authApiClient.interceptors.request.use(
     async (config: InternalAxiosRequestConfig) => {
 
-        // 기기 UUID 및 토큰 없을 시, API 호출 중단 및 즉시 로그인 페이지 이동
-        const deviceID: string | null = localStorage.getItem('deviceID');
         const accessToken: string | null = AccessTokenService.get(AccessTokenType.USER);
-        if (!deviceID || !accessToken) {
-            localStorage.removeItem("deviceID");
-            AccessTokenService.clear(AccessTokenType.USER);
-            window.location.href = '/login';
-            alert('로그인이 만료되었습니다. 다시 로그인해주세요.');
-            return new Promise(() => { });
+        
+        if (accessToken) {
+            config.headers.Authorization = `Bearer ${accessToken}`;
         }
 
-        // 비정상 상황 없을 경우 API 호출 시퀀스 유지
-        config.headers.Authorization = `Bearer ${accessToken}`;
         return config;
     },
     error => {
