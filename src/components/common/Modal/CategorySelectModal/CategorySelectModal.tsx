@@ -4,8 +4,8 @@ import { currentCategoriesAtom, useCategoryNavigation, selectedCategoryPathAtom 
 import { Suspense } from 'react';
 import { Category } from '@/types/Category';
 import CloseIcon from '@/assets/icons/close-Icon.svg';
-import LeftArrowIcon from '@/assets/icons/left-arrow-icon.svg';
-import RightArrowIcon from '@/assets/icons/right-arrow-icon.svg?react';
+import LeftArrowIcon from '@/assets/icons/left-arrow-Icon.svg';
+import RightArrowIcon from '@/assets/icons/right-arrow-Icon.svg';
 import ModalLayout from '../components/ModalLayout';
 import { useDealUpload } from '@/hooks/useDealUpload';
 
