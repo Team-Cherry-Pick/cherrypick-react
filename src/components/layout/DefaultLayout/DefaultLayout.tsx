@@ -19,7 +19,11 @@ export default function DefaultLayout({ children, background = 'root' }: Default
                 className={`${styles.wrapper} ${background === 'root' ? styles.rootBackground : styles.boardBackground}`}
             >
                 <Header background={background} />
-                <main className={styles.main}>
+                <main className={styles.main} style={{
+                    backgroundColor: background === 'board'
+                        ? 'var(--color-background-board)'
+                        : 'var(--color-background-root)'
+                }}>
                     <div className={`${styles.inner} ${isFullWidth && styles.innerFullWidth}`}>{children}</div>
                 </main>
                 <Footer background={'board'} />

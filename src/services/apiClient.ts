@@ -149,23 +149,18 @@ authApiClient.interceptors.response.use(
  */
 function handleError(error: AxiosError): APIException {
     if (error.response) {
+        const status = error.response.status;
         const responseData = error.response.data as ResponseData<null>;
 
-        // 개발 모드에서만 콘솔 로깅
-        if (process.env.NODE_ENV === 'development') {
-            console.error('[API Error]', error.response.status, responseData?.message);
+        // 404 에러는 조용히 처리 (댓글이 없는 정상적인 상황)
+        if (status === 404) {
+            return new APIException(status, 'Not found');
         }
+        return new APIException(status, responseData?.message || 'API Error');
 
-        return new APIException(error.response.status, responseData?.message || 'API Error');
     } else if (error.request) {
-        if (process.env.NODE_ENV === 'development') {
-            console.error('[Network Error]', error.message);
-        }
         return new APIException(0, 'Network error');
     } else {
-        if (process.env.NODE_ENV === 'development') {
-            console.error('[Unknown Error]', error.message);
-        }
         return new APIException(-1, 'Unknown error');
     }
 }

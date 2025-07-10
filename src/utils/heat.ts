@@ -1,32 +1,29 @@
-import { HiFire } from 'react-icons/hi2';
+import RedFireIcon from '@/assets/icons/red-fire.svg?url';
+import GrayFireIcon from '@/assets/icons/gray-fire.svg?url';
 
 export type ThemeColorGroup = 'primary' | 'content' | 'neutral';
 export type ThemeColorKey = string | number;
 
 interface HeatDisplay {
-    icon: typeof HiFire;
-    iconColor: { group: ThemeColorGroup; key: ThemeColorKey };
+    icon: string;
     textColor: { group: ThemeColorGroup; key: ThemeColorKey };
 }
 
 export function getHeatDisplay(heat: number): HeatDisplay {
     if (heat >= 200) {
         return {
-            icon: HiFire,
-            iconColor: { group: 'primary', key: '' },
+            icon: RedFireIcon,
             textColor: { group: 'primary', key: '' },
         } as const;
     }
     if (heat > 0) {
         return {
-            icon: HiFire,
-            iconColor: { group: 'primary', key: '' },
+            icon: RedFireIcon,
             textColor: { group: 'content', key: 'main' },
         } as const;
     }
     return {
-        icon: HiFire,
-        iconColor: { group: 'neutral', key: 300 },
+        icon: GrayFireIcon,
         textColor: { group: 'content', key: 'sub' },
     } as const;
 }
