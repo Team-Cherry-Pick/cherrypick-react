@@ -26,7 +26,7 @@ const App = () => {
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/login-success" element={<LoginRedirectPage />} />
                     {/* <Route path="/user" element={<UserPage />} /> */}
-                    <Route path="/product/:id" element={<PrivateRoute><ProductDetailPage /></PrivateRoute>} />
+                    <Route path="/product/:id" element={<ProductDetailPage />} />
                     <Route path="/upload" element={<PrivateRoute><ProductUploadPage /></PrivateRoute>} />
                     <Route path="/upload/:id" element={<PrivateRoute><ProductUploadPage /></PrivateRoute>} />
                     <Route path="/error" element={<ErrorPage />} />
