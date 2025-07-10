@@ -1,11 +1,11 @@
 import styles from './DiscountSelectModal.module.css';
-import CloseIcon from '@/assets/icons/close-Icon.svg';
+import CloseIcon from '@/assets/icons/close-Icon.svg?react';
 import { useDealUpload } from '@/hooks/useDealUpload';
 import { Suspense, useState } from 'react';
 import TextGuideStore from '../components/TextGuideStore';
 import ModalSearchInput from '../components/ModalSearchInput';
-import CheckIcon from '@/assets/icons/check-Icon.svg';
-import UnCheckIcon from '@/assets/icons/un-check-Icon.svg';
+import CheckIcon from '@/assets/icons/check-Icon.svg?react';
+import UnCheckIcon from '@/assets/icons/un-check-Icon.svg?react';
 import ModalLayout from '../components/ModalLayout';
 import { useAtom, useAtomValue } from 'jotai';
 import { discountsAtom } from '@/store';
@@ -43,7 +43,7 @@ function DiscountList({
                         >
                             {discount.name}
                         </span>
-                        <img src={selected.some(d => d.name === discount.name) ? CheckIcon : UnCheckIcon} alt="체크" />
+                        {selected.some(d => d.name === discount.name) ? <CheckIcon /> : <UnCheckIcon />}
                     </li>
                 ))
             ) : (
@@ -106,7 +106,7 @@ export function DiscountSelectModal({ isOpen, close, unmount }: DiscountSelectMo
                 <div className={styles.header}>
                     <h2 className={styles.title}>할인방식 선택</h2>
                     <button className={styles.closeButton} onClick={close}>
-                        <img src={CloseIcon} alt="닫기" />
+                        <CloseIcon />
                     </button>
                 </div>
                 <div className={styles.containerDiscountSelected}>

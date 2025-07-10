@@ -4,7 +4,7 @@ import { StoreSelectModal } from '@/components/common/Modal';
 import { PlusIcon } from 'lucide-react';
 import { useAtom, useSetAtom } from 'jotai';
 import { selectedStoresAtom, triggerFetchAtom } from '@/store/search';
-import CloseIcon from '@/assets/icons/close-Icon.svg';
+import CloseIcon from '@/assets/icons/close-Icon.svg?react';
 import { useEffect } from 'react';
 
 export function StoreFilter() {
@@ -49,7 +49,7 @@ export function StoreFilter() {
                     <div key={store.storeId} className={styles.storeBadge}>
                         {store.name}
                         <button className={styles.closeButton} onClick={() => handleRemoveStore(store.storeId)}>
-                            <img src={CloseIcon} alt="삭제" width={12} />
+                            <CloseIcon width={12} />
                         </button>
                     </div>
                 ))}

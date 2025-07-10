@@ -30,7 +30,7 @@ const ProfileButton = () => {
     // 프로필 버튼 클릭 시 호출
     const onClickBtnProfile = () => {
         if (isLoggedIn()) {
-            setOpen((prev) => !prev);
+            setOpen(prev => !prev);
         } else {
             navigate('/login');
         }
@@ -40,7 +40,7 @@ const ProfileButton = () => {
     const onClickBtnProfileEdit = () => {
         if (!isLoggedIn) return;
         navigate('/profile-edit');
-    }
+    };
 
     // '로그아웃' 버튼 클릭 시 호출
     const onClickLogout = () => {
@@ -50,14 +50,18 @@ const ProfileButton = () => {
         setOpen(false);
         refreshProfile();
         alert('정상적으로 로그아웃되었습니다.');
-    }
+    };
 
     return (
         <Wrapper ref={menuRef}>
             {/* 프로필 버튼 */}
             <ProfileIcon onClick={() => onClickBtnProfile()}>
                 <IconWrapper>
-                    <img src={currentProfile?.imageURL || PersonIcon} alt="user" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}/>
+                    <img
+                        src={currentProfile?.imageURL || PersonIcon}
+                        alt="user"
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
+                    />
                 </IconWrapper>
             </ProfileIcon>
             {/* 드롭다운 메뉴 */}
@@ -107,19 +111,19 @@ const MenuItem = styled.button`
 `;
 
 const ProfileIcon = styled.div`
-  width: 32px;
-  height: 32px;
-  border-radius: 16px;
-  border: 1px solid ${({ theme }) => theme.colors.content.tertiary};
-  background-color: ${({ theme }) => theme.colors.background.card};
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 16px;
+    border: 1px solid ${({ theme }) => theme.colors.content.tertiary};
+    background-color: ${({ theme }) => theme.colors.background.card};
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;
 
 const IconWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;

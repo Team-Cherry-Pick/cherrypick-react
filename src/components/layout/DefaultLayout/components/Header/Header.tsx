@@ -1,5 +1,5 @@
 import styles from './Header.module.css';
-import Logo from '@/assets/icons/logo-Icon.svg';
+import Logo from '@/assets/icons/logo-Icon.svg?react';
 import { Moon } from 'lucide-react';
 import { useTheme } from '@/styles/global/useTheme';
 import ProfileButton from './ProfileButton';
@@ -17,12 +17,12 @@ export default function Header({ background = 'root' }: HeaderProps) {
         >
             <header className={styles.headerContainer}>
                 <div className={styles.logoWrapper} onClick={() => (window.location.href = '/')}>
-                    <img className={styles.logoImg} src={Logo} alt="logo" />
+                    <Logo className={styles.logoImg} />
                     <div className={styles.logoText}>Repik</div>
                 </div>
                 <div className={styles.personalContainer}>
                     <Moon className={styles.themeToggleIcon} onClick={toggleTheme} />
-                    <ProfileButton/>
+                    <ProfileButton />
                 </div>
             </header>
         </div>
