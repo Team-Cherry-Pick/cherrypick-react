@@ -15,6 +15,7 @@ import { deleteUser, postAuthRegisterCompletion } from '@/services/apiAuth';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { DeleteUserRes, UpdateDTO } from '@/types/Auth';
 import { useRefreshProfile } from '@/hooks/useRefreshProfile';
+import { FaRegSquare, FaCheckSquare } from "react-icons/fa";
 
 export function ProfileEditPage() {
 
@@ -56,6 +57,29 @@ export function ProfileEditPage() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    // 이용약관, 개인정보처리방침, 14세 이상 동의 항목 State 세팅
+    const [agreements, setAgreements] = useState({
+        isAgreedTerm: false,
+        isAgreedPrivacy: false,
+        isAgreedAgeVerified: false,
+    });
+
+    // 신규 프로필 데이터 유효성, 닉네임 유효성, 이용약관 전원 동의 여부 체크 메서드
+    const isValidProfileWithAgreements = () => {
+
+        // 회원정보 수정(회원)일 시, 프로필 데이터 유효성만 검증 
+        if (AccessTokenService.hasToken(AccessTokenType.USER) && isValidProfile(newProfile, currentProfile, nicknameEditStatus)) {
+            return true;
+        }
+
+        // 회원가입(비회원)일 시, 이용동의까지 검증
+        if (agreements.isAgreedTerm && agreements.isAgreedPrivacy && agreements.isAgreedAgeVerified) {
+            return true;
+        }
+
+        return false;
+    };
+
     //************************************************ View Event **************************************************//
 
     // '날짜 선택' 영역 클릭 시 호출되는 Ref
@@ -85,10 +109,33 @@ export function ProfileEditPage() {
         setNewProfile(prev => ({ ...prev, imageURL: "", imageId: -1, }));
     };
 
+    // '이용약관' 동의 항목 클릭 시 호출
+    const onClickBoxAgreedTerm = () => {
+        setAgreements((prev) => ({ ...prev, isAgreedTerm: !agreements.isAgreedTerm }));
+    }
+
+    // '개인정보처리방침' 동의 항목 클릭 시 호출
+    const onClickBoxAgreedPrivacy = () => {
+        setAgreements((prev) => ({ ...prev, isAgreedPrivacy: !agreements.isAgreedPrivacy }));
+    }
+
+    // '14세 이상' 동의 항목 클릭 시 호출
+    const onClickBoxAgreedAgeVerified = () => {
+        setAgreements((prev) => ({ ...prev, isAgreedAgeVerified: !agreements.isAgreedAgeVerified }));
+    }
+
     // '회원탈퇴' 버튼 클릭 시 API 요청 후 프로필 삭제
     const onClickWithdraw = async () => {
         if (!AccessTokenService.hasToken(AccessTokenType.USER)) {
             return;
+        }
+
+        const confirmed = window.confirm(
+            '정말 회원탈퇴를 진행하시겠습니까?\n탈퇴 시 계정 정보는 복구할 수 없습니다.'
+        );
+
+        if (!confirmed) {
+            return; // 취소하면 아무것도 안 함
         }
 
         const deleteUserRes: DeleteUserRes = await deleteUser("");
@@ -101,7 +148,7 @@ export function ProfileEditPage() {
 
     // '회원가입' 또는 '수정완료' 버튼 클릭 시 호출
     const onClickBtnSubmit = () => {
-        if (!isValidProfile(newProfile, currentProfile, nicknameEditStatus)) {
+        if (!isValidProfileWithAgreements()) {
             alert('프로필을 업데이트할 수 없습니다.');
         }
 
@@ -223,16 +270,55 @@ export function ProfileEditPage() {
                         />
                     </div>
 
+                    {/** 서비스 이용동의 - 회원가입 시퀀스에서만 노출 */}
+                    {isSignUpPage && (<p className={styles.textLabel}>서비스 이용동의</p>)}
+                    {isSignUpPage && (<p className={styles.agreementMessage}>리픽은 관련 법령과 개인정보 처리방침에 따라,{'\n'}서비스 제공 범위를 넘어선 목적으로 개인정보를 사용하지 않습니다.</p>)}
+                    {isSignUpPage && (<div className={styles.agreementsWrapper}>
+                        {/** 서비스 이용약관 */}
+                        <div className={styles.agreementCheckbox}>
+                            {agreements.isAgreedTerm ? (
+                                <FaCheckSquare className={`${styles.checkboxIcon} ${styles.checked}`} onClick={onClickBoxAgreedTerm} />
+                            ) : (
+                                <FaRegSquare className={`${styles.checkboxIcon} ${styles.unchecked}`} onClick={onClickBoxAgreedTerm} />
+                            )}
+                            <span className={styles.checkboxLabel}> [필수] 리픽의 <a href="https://repik-help.notion.site/terms-of-services"
+                                className="btn-go-to-docs" target="_blank" rel="noopener noreferrer">
+                                <span className={styles.checkboxLabelStrong}> 서비스 이용약관</span>
+                            </a>에 동의합니다.</span>
+                        </div>
+                        {/** 개인정보 취급방침 */}
+                        <div className={styles.agreementCheckbox}>
+                            {agreements.isAgreedPrivacy ? (
+                                <FaCheckSquare className={`${styles.checkboxIcon} ${styles.checked}`} onClick={onClickBoxAgreedPrivacy} />
+                            ) : (
+                                <FaRegSquare className={`${styles.checkboxIcon} ${styles.unchecked}`} onClick={onClickBoxAgreedPrivacy} />
+                            )}
+                            <span className={styles.checkboxLabel}> [필수] 리픽의 <a href="https://repik-help.notion.site/privacy-policy"
+                                className="btn-go-to-docs" target="_blank" rel="noopener noreferrer">
+                                <span className={styles.checkboxLabelStrong}> 개인정보 처리방침</span>
+                            </a>에 동의합니다.</span>
+                        </div>
+                        {/** 14세 이상 이용동의 */}
+                        <div className={styles.agreementCheckbox}>
+                            {agreements.isAgreedAgeVerified ? (
+                                <FaCheckSquare className={`${styles.checkboxIcon} ${styles.checked}`} onClick={onClickBoxAgreedAgeVerified} />
+                            ) : (
+                                <FaRegSquare className={`${styles.checkboxIcon} ${styles.unchecked}`} onClick={onClickBoxAgreedAgeVerified} />
+                            )}
+                            <span className={styles.checkboxLabel}><a>[필수] 14세 이상 본인입니다.</a></span>
+                        </div>
+                    </div>)}
+
                     {/* 회원가입/프로필수정 버튼 */}
                     <button
                         className={styles.submitButton}
                         onClick={onClickBtnSubmit}
-                        disabled={!isValidProfile(newProfile, currentProfile, nicknameEditStatus)}
+                        disabled={!isValidProfileWithAgreements()}
                     >
                         {isSignUpPage ? '회원가입 완료' : '프로필 수정완료'}
                     </button>
 
-                    {/* 회원탈퇴 버튼 */}
+                    {/* 회원탈퇴 버튼 - 회원정보 수정 시퀀스에서만 노출 */}
                     {!isSignUpPage && (
                         <button
                             className={styles.withdrawButton}

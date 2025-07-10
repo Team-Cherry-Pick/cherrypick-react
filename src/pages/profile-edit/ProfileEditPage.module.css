@@ -148,6 +148,63 @@ input[type='date']::-webkit-calendar-picker-indicator {
   display: none;
 }
 
+.agreementMessage {
+  width: 100%;
+  text-align: start;
+  font-size: 0.75rem;
+  margin-top: 0.75rem;
+  margin-left: 0.25rem;
+  color: var(--color-content-sub);
+  line-height: 1rem;
+  white-space: pre-line;
+}
+
+.agreementsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  align-items: start;
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  border: 0.0625rem solid var(--color-neutral-100);
+  border-radius: 0.5rem;
+}
+
+.agreementCheckbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  user-select: none;
+}
+
+.checkboxIcon {
+  width: 1.125rem;
+  height: 1.125rem;
+  cursor: pointer;
+}
+
+.checkboxIcon.checked {
+  color: var(--color-primary);
+}
+
+.checkboxIcon.unchecked {
+  color: var(--color-content-tertiary);
+}
+
+.checkboxLabel {
+  font-size: 0.875rem;
+  line-height: 1rem;
+  color: var(--color-content-main);
+}
+
+.checkboxLabelStrong {
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+
 .submitButton {
   width: 100%;
   height: 3rem;
