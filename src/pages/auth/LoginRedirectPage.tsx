@@ -4,7 +4,7 @@ import { AccessTokenType } from '@/types/Api';
 import { useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 
-const LoginSuccessPage = () => {
+const LoginRedirectPage = () => {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
 
@@ -44,4 +44,4 @@ const LoginSuccessPage = () => {
 
     return <div>로그인 처리 중입니다...</div>;
 };
-export default LoginSuccessPage;
+export default LoginRedirectPage;
