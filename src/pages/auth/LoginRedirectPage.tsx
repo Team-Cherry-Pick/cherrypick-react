@@ -5,13 +5,16 @@ import { useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 
 const LoginRedirectPage = () => {
-
-    // @todo : 회원이라면 라우팅 접근 불가능하도록 설정
-
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
 
     useEffect(() => {
+        // 로그인된 사용자는 메인 페이지로 리다이렉트
+        if (AccessTokenService.hasToken(AccessTokenType.USER)) {
+            navigate('/', { replace: true });
+            return;
+        }
+
         const handleLoginRedirect = async () => {
             const token: string | null = searchParams.get('token');
             const redirectPath: string | null = searchParams.get('redirect');
@@ -44,6 +47,11 @@ const LoginRedirectPage = () => {
 
         handleLoginRedirect();
     }, [searchParams, navigate]);
+
+    // 로그인된 사용자는 페이지를 렌더링하지 않음
+    if (AccessTokenService.hasToken(AccessTokenType.USER)) {
+        return null;
+    }
 
     return <div>로그인 처리 중입니다...</div>;
 };

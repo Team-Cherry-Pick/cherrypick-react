@@ -18,10 +18,20 @@ import { useRefreshProfile } from '@/hooks/useRefreshProfile';
 import { FaRegSquare, FaCheckSquare } from "react-icons/fa";
 
 export function ProfileEditPage() {
-
-    // @todo : registerToken도 안 넘어왔고, accessToken도 없으면 라우팅 접근 불가능하도록 설정
     const navigate = useNavigate();
     const location = useLocation();
+
+    // registerToken도 안 넘어왔고, accessToken도 없으면 라우팅 접근 불가능하도록 설정
+    useEffect(() => {
+        const hasAccessToken = AccessTokenService.hasToken(AccessTokenType.USER);
+        const hasRegisterToken = location.state?.registerTokenState;
+
+        // 둘 다 없으면 접근 차단
+        if (!hasAccessToken && !hasRegisterToken) {
+            alert('잘못된 접근입니다.');
+            navigate('/login', { replace: true });
+        }
+    }, [navigate, location.state]);
 
     //************************************************ INIT DATA **************************************************//
 
