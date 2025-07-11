@@ -21,24 +21,26 @@ const MainPage = () => {
     }, [keyword, triggerFetch]);
 
     return (
-        <DefaultLayout>
-            <div className={styles.container}>
-                <MainFilter aiActive={aiActive} />
-                <div style={{ width: '100%' }}>
-                    <MainSearchBar aiActive={aiActive} setAiActive={setAiActive} />
-                    <SortRow>
-                        <MainKeywords aiActive={aiActive} keyword={keyword} />
-                        <SortButtons aiActive={aiActive} setAiActive={setAiActive} />
-                    </SortRow>
-                    <MainDealList aiActive={aiActive} />
+        <>
+            <DefaultLayout>
+                <div className={styles.container}>
+                    <MainFilter aiActive={aiActive} />
+                    <div style={{ width: '100%' }}>
+                        <MainSearchBar aiActive={aiActive} setAiActive={setAiActive} />
+                        <SortRow>
+                            <MainKeywords aiActive={aiActive} keyword={keyword} />
+                            <SortButtons aiActive={aiActive} setAiActive={setAiActive} />
+                        </SortRow>
+                        <MainDealList aiActive={aiActive} />
+                    </div>
                 </div>
-            </div>
 
-            <FloatingWrapper>
-                <UploadBtn />
-                <ScrollTopBtn />
-            </FloatingWrapper>
-        </DefaultLayout>
+                <FloatingWrapper>
+                    <UploadBtn />
+                    <ScrollTopBtn />
+                </FloatingWrapper>
+            </DefaultLayout>
+        </>
     );
 };
 

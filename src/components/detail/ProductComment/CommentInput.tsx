@@ -16,7 +16,7 @@ import { AccessTokenService } from '@/services/accessTokenService';
 import { AccessTokenType } from '@/types/Api';
 import { authRequest } from '@/services/apiClient';
 import { HttpMethod } from '@/types/Api';
-import DefaultProfileIcon from '@/assets/icons/profile-Icon.svg';
+import DefaultProfileIcon from '@/assets/icons/profile-Icon.svg?react';
 
 type CommentInputProps = {
     userImageUrl?: string | null;
@@ -75,7 +75,7 @@ const CommentInput = ({ userImageUrl, isReply = false, parentId = null, onCancel
                             <ProfileImage src={userImageUrl} alt="profile" />
                         ) : (
                             <FallbackIcon>
-                                <img src={DefaultProfileIcon} alt="기본 프로필" width={32} height={32} />
+                                <DefaultProfileIcon width={32} height={32} />
                             </FallbackIcon>
                         )}
                     </>

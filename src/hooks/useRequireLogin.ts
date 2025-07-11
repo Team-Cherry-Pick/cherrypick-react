@@ -10,9 +10,16 @@ export const useRequireLogin = () => {
 
     const guard = () => {
         if (!isLoggedIn) {
-            alert('로그인 후 이용해주세요.');
+            // location.state?.from이 없으면 직접 접근(새로고침, url 입력 등)
+            const isDirect = !location.state?.from;
+            if (isDirect) {
+                alert('인증되지 않은 접근 방법입니다.');
+            } else {
+                alert('로그인 후 이용해주세요.');
+            }
             navigate('/login', {
                 state: { from: location.pathname },
+                replace: true,
             });
             return false;
         }

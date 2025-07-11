@@ -28,10 +28,9 @@ import { getRelativeTime } from '@/utils/time';
 import { AccessTokenService } from '@/services/accessTokenService';
 import { AccessTokenType } from '@/types/Api';
 import { jwtDecode } from 'jwt-decode';
-import LikeTertiaryIcon from '@/assets/icons/like-tertiary.svg';
-import LikeMainIcon from '@/assets/icons/like-main.svg';
-import TalkBubbleIcon from '@/assets/icons/talkbubble.svg';
-import DefaultProfileIcon from '@/assets/icons/profile-Icon.svg';
+import LikeIcon from '@/assets/icons/like.svg?react';
+import TalkBubbleIcon from '@/assets/icons/talkbubble.svg?react';
+import DefaultProfileIcon from '@/assets/icons/profile-Icon.svg?react';
 
 type ProductCommentsProps = {
     dealId: string;
@@ -256,7 +255,7 @@ const ProductComments = ({ dealId, refreshKey: externalRefreshKey, onLikeToggle 
                                     <ProfileImage src={item.user.userImageUrl} />
                                 ) : (
                                     <FallbackIcon>
-                                        <img src={DefaultProfileIcon} alt="기본 프로필" width={32} height={32} />
+                                        <DefaultProfileIcon width={32} height={32} />
                                     </FallbackIcon>
                                 )}
                                 <CommentContent>
@@ -276,9 +275,8 @@ const ProductComments = ({ dealId, refreshKey: externalRefreshKey, onLikeToggle 
                                     <CommentFooter>
                                         <LeftSection>
                                             <Likes onClick={() => handleLikeToggle(item.commentId)} style={{ cursor: 'pointer', color: (item.isLike ?? false) ? 'var(--content-main)' : undefined }}>
-                                                <img
-                                                    src={(item.isLike ?? false) ? LikeMainIcon : LikeTertiaryIcon}
-                                                    alt="좋아요"
+                                                <LikeIcon
+                                                    className={(item.isLike ?? false) ? 'like-icon-main' : 'like-icon-tertiary'}
                                                     width={14}
                                                     height={14}
                                                     style={{ verticalAlign: 'middle' }}
@@ -286,9 +284,7 @@ const ProductComments = ({ dealId, refreshKey: externalRefreshKey, onLikeToggle 
                                                 {likeCounts[item.commentId] ?? item.totalLikes}
                                             </Likes>
                                             <ItemDivider>|</ItemDivider>
-                                            <img
-                                                src={TalkBubbleIcon}
-                                                alt="댓글 수"
+                                            <TalkBubbleIcon
                                                 width={14}
                                                 height={14}
                                                 style={{ verticalAlign: 'middle' }}
@@ -333,7 +329,7 @@ const ProductComments = ({ dealId, refreshKey: externalRefreshKey, onLikeToggle 
                                             <ProfileImage src={reply.user.userImageUrl} />
                                         ) : (
                                             <FallbackIcon>
-                                                <img src={DefaultProfileIcon} alt="기본 프로필" width={32} height={32} />
+                                                <DefaultProfileIcon width={32} height={32} />
                                             </FallbackIcon>
                                         )}
                                         <CommentContent>
@@ -353,9 +349,8 @@ const ProductComments = ({ dealId, refreshKey: externalRefreshKey, onLikeToggle 
                                             <CommentFooter>
                                                 <LeftSection>
                                                     <Likes onClick={() => handleLikeToggle(reply.commentId)} style={{ cursor: 'pointer', color: (reply.isLike ?? false) ? 'var(--content-main)' : undefined }}>
-                                                        <img
-                                                            src={(reply.isLike ?? false) ? LikeMainIcon : LikeTertiaryIcon}
-                                                            alt="좋아요"
+                                                        <LikeIcon
+                                                            className={(reply.isLike ?? false) ? 'like-icon-main' : 'like-icon-tertiary'}
                                                             width={14}
                                                             height={14}
                                                             style={{ verticalAlign: 'middle' }}

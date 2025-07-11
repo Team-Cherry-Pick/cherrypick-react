@@ -14,9 +14,8 @@ import {
     FallbackIcon,
     Likes,
 } from './ProductComments.style';
-import LikeMainIcon from '@/assets/icons/like-main.svg';
-import LikeTertiaryIcon from '@/assets/icons/like-tertiary.svg';
-import DefaultProfileIcon from '@/assets/icons/profile-Icon.svg';
+import LikeIcon from '@/assets/icons/like.svg?react';
+import DefaultProfileIcon from '@/assets/icons/profile-Icon.svg?react';
 
 interface Props {
     bestComments: BestComment[];
@@ -108,16 +107,15 @@ const BestCommentList = ({ bestComments, onLikeToggle }: Props) => {
                         <ProfileImage src={item.user.userImageUrl} />
                     ) : (
                         <FallbackIcon>
-                            <img src={DefaultProfileIcon} alt="기본 프로필" width={32} height={32} />
+                            <DefaultProfileIcon width={32} height={32} />
                         </FallbackIcon>
                     )}
                     <CommentContent>
                         <HeaderRow>
                             <UserName>{item.user.userName}</UserName>
                             <Likes onClick={() => handleLikeToggle(item.commentId)} style={{ cursor: 'pointer', color: likedComments[item.commentId] ? 'var(--content-main)' : undefined }}>
-                                <img
-                                    src={likedComments[item.commentId] ? LikeMainIcon : LikeTertiaryIcon}
-                                    alt="좋아요"
+                                <LikeIcon
+                                    className={likedComments[item.commentId] ? 'like-icon-main' : 'like-icon-tertiary'}
                                     width={14}
                                     height={14}
                                     style={{ verticalAlign: 'middle' }}

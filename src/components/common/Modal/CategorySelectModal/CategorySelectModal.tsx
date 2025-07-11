@@ -1,6 +1,6 @@
 import styles from './CategorySelectModal.module.css';
 import { useAtomValue } from 'jotai';
-import { currentCategoriesAtom, useCategoryNavigation, selectedCategoryPathAtom } from '@/store/category';
+import { useCategoriesQuery, useRefreshCategories, currentCategoriesAtom, useCategoryNavigation, selectedCategoryPathAtom } from '@/store/category';
 import { Suspense } from 'react';
 import { Category } from '@/types/Category';
 import CloseIcon from '@/assets/icons/close-Icon.svg?react';
@@ -8,6 +8,7 @@ import LeftArrowIcon from '@/assets/icons/left-arrow-Icon.svg?react';
 import RightArrowIcon from '@/assets/icons/right-arrow-Icon.svg?react';
 import ModalLayout from '../components/ModalLayout';
 import { useDealUpload } from '@/hooks/useDealUpload';
+import { LoadingSpinner } from '@/components/common/Loading/LoadingSpinner';
 
 interface CategorySelectModalProps {
     isOpen: boolean;
@@ -46,27 +47,65 @@ function CategoryList({ close }: { close: () => void }) {
     );
 }
 
-function CategoryHeader() {
-    const { goToParent } = useCategoryNavigation();
-    const selectedPath = useAtomValue(selectedCategoryPathAtom);
-
-    const breadcrumbText = selectedPath.length === 0 ? '전체 카테고리' : selectedPath.join(' > ');
-
-    return (
-        <div className={styles.textSubheaderCategory} onClick={goToParent}>
-            <LeftArrowIcon className={styles.leftArrowIcon} />
-            {breadcrumbText}
-        </div>
-    );
-}
-
 export function CategorySelectModal({ isOpen, close, unmount }: CategorySelectModalProps) {
-    const { reset } = useCategoryNavigation();
+    // React Query로 캐시된 부모 카테고리 데이터 사용
+    const { isLoading, error } = useCategoriesQuery();
+    const { refreshCategories, isManualRefreshEnabled } = useRefreshCategories();
+    const selectedCategoryPath = useAtomValue(selectedCategoryPathAtom);
 
-    const handleClose = () => {
-        reset();
-        close();
-    };
+    // 로딩 상태 처리
+    if (isLoading) {
+        return (
+            <ModalLayout isOpen={isOpen} onExit={unmount}>
+                <div className={styles.container}>
+                    <div className={styles.header}>
+                        <h2>카테고리 선택</h2>
+                        <button onClick={close}>
+                            <img src={CloseIcon} alt="닫기" />
+                        </button>
+                    </div>
+                    <LoadingSpinner />
+                </div>
+            </ModalLayout>
+        );
+    }
+
+    // 에러 상태 처리
+    if (error) {
+        return (
+            <ModalLayout isOpen={isOpen} onExit={unmount}>
+                <div className={styles.container}>
+                    <div className={styles.header}>
+                        <h2>카테고리 선택</h2>
+                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                            {isManualRefreshEnabled && (
+                                <button
+                                    onClick={refreshCategories}
+                                    style={{
+                                        fontSize: '12px',
+                                        padding: '4px 8px',
+                                        backgroundColor: 'var(--color-primary)',
+                                        color: 'white',
+                                        border: 'none',
+                                        borderRadius: '4px',
+                                        cursor: 'pointer'
+                                    }}
+                                >
+                                    새로고침
+                                </button>
+                            )}
+                            <button onClick={close}>
+                                <img src={CloseIcon} alt="닫기" />
+                            </button>
+                        </div>
+                    </div>
+                    <div style={{ color: 'var(--color-error)', padding: '1rem', textAlign: 'center' }}>
+                        카테고리를 불러오는데 실패했습니다.
+                    </div>
+                </div>
+            </ModalLayout>
+        );
+    }
 
     return (
         <ModalLayout isOpen={isOpen} onExit={unmount}>
@@ -77,14 +116,20 @@ export function CategorySelectModal({ isOpen, close, unmount }: CategorySelectMo
                         <CloseIcon />
                     </button>
                 </div>
-                <div className={styles.categoryContainer}>
-                    <Suspense fallback={<div>...</div>}>
-                        <CategoryHeader />
-                        <ul className={styles.listCategorySelect}>
-                            <CategoryList close={handleClose} />
-                        </ul>
-                    </Suspense>
+                <div className={styles.breadcrumb}>
+                    <button className={styles.breadcrumbItem}>전체</button>
+                    {selectedCategoryPath.map((category, index) => (
+                        <div key={index} className={styles.breadcrumbItem}>
+                            <img src={LeftArrowIcon} alt=">" />
+                            <span>{category}</span>
+                        </div>
+                    ))}
                 </div>
+                <ul className={styles.categoryList}>
+                    <Suspense>
+                        <CategoryList close={close} />
+                    </Suspense>
+                </ul>
             </div>
         </ModalLayout>
     );
