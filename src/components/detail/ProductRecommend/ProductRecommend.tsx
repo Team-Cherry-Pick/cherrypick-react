@@ -5,8 +5,8 @@ import type { FetchedDeal } from '@/types/Deal';
 import * as S from './ProductRecommend.style';
 import { HeatBadge } from '@/components/common/Badge';
 import { getRelativeTime } from '@/utils/time';
-import ClockIcon from '@/assets/icons/clock.svg?url';
-import TalkBubbleIcon from '@/assets/icons/talkbubble.svg?url';
+import ClockIcon from '@/assets/icons/clock.svg?react';
+import TalkBubbleIcon from '@/assets/icons/talkbubble.svg?react';
 
 export const ProductRecommend = () => {
     const [deals, setDeals] = useState<FetchedDeal[]>([]);
@@ -76,9 +76,7 @@ export const ProductRecommend = () => {
                                             by {deal.nickname || '익명'}
                                         </span>
                                         <span className="divider" style={{ color: 'var(--color-content-tertiary)' }}>|</span>
-                                        <img
-                                            src={ClockIcon}
-                                            alt="clock"
+                                        <ClockIcon
                                             style={{
                                                 width: 10,
                                                 height: 10,
@@ -96,9 +94,7 @@ export const ProductRecommend = () => {
                                     </span>
                                     <span className="divider" style={{ color: 'var(--color-content-tertiary)' }}>|</span>
                                     <span>
-                                        <img
-                                            src={TalkBubbleIcon}
-                                            alt="message"
+                                        <TalkBubbleIcon
                                             style={{
                                                 width: 10,
                                                 height: 10,

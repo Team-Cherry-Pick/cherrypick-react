@@ -10,7 +10,7 @@ interface HeatBadgeProps {
 }
 
 export function HeatBadge({ heat, size = 'small' }: HeatBadgeProps) {
-    const { icon, textColor } = getHeatDisplay(heat);
+    const { icon: Icon, textColor } = getHeatDisplay(heat);
 
     return (
         <div
@@ -22,7 +22,7 @@ export function HeatBadge({ heat, size = 'small' }: HeatBadgeProps) {
             }
         >
             <span className={cx('icon')}>
-                <img src={icon} alt="heat" style={{ width: size === 'large' ? 24 : 20, height: size === 'large' ? 24 : 20, verticalAlign: 'middle' }} />
+                <Icon style={{ width: size === 'large' ? 24 : 20, height: size === 'large' ? 24 : 20, verticalAlign: 'middle' }} />
             </span>
             <span className={cx('heat-value')}>{heat}°</span>
         </div>

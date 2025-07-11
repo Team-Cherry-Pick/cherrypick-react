@@ -5,8 +5,8 @@ import type { DetailedDeal } from '@/types/Deal';
 import { IoMdEye } from "react-icons/io";
 import HeatFeedback from '@/components/detail/HeatFeedback';
 import * as S from './ProductTopSection.style';
-import LogoPic from '@/assets/icons/LogoPic.svg';
-import TalkBubbleIcon from '@/assets/icons/talkbubble.svg';
+import LogoPic from '@/assets/icons/LogoPic.svg?react';
+import TalkBubbleIcon from '@/assets/icons/talkbubble.svg?react';
 import { endDeal, deleteDeal } from '@/services/apiDeal';
 import { AccessTokenService } from '@/services/accessTokenService';
 import { AccessTokenType } from '@/types/Api';
@@ -94,12 +94,12 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
                 <S.ImageSection>
                     <S.MainImageWrapper>
                         <S.MainImage
-                            src={hoverImage || mainImage || LogoPic}
+                            src={hoverImage || mainImage || ''}
                             alt=""
                             className={hoverImage ? 'hovered' : ''}
                             onClick={() => setEnlargedImage(hoverImage || mainImage)}
                             onError={e => {
-                                e.currentTarget.src = LogoPic;
+                                e.currentTarget.src = '';
                             }}
                         />
                     </S.MainImageWrapper>
@@ -117,12 +117,12 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
                                         src={img.url}
                                         alt="썸네일"
                                         onError={e => {
-                                            e.currentTarget.src = LogoPic;
+                                            e.currentTarget.src = '';
                                             e.currentTarget.classList.add('default-logo');
                                         }}
                                     />
                                 ) : (
-                                    <img src={LogoPic} alt="기본 이미지" className="default-logo" />
+                                    <LogoPic className="default-logo" />
                                 )}
                             </S.Thumbnail>
                         ))}
@@ -147,7 +147,6 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
                             </S.ActionGroup>
                         )}
                     </S.StoreTagContainer>
-
                     <S.Divider />
                     <S.PriceContainer>
                         <S.PriceBox>
@@ -186,7 +185,7 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
                             <span className="meta-divider">|</span>
                             <span><IoMdEye size={14} className="meta-eye" /> {deal.totalViews}</span>
                             <span className="meta-divider">|</span>
-                            <span><img src={TalkBubbleIcon} className="meta-bubble" alt="댓글" /> {deal.totalComments}</span>
+                            <span><TalkBubbleIcon className="meta-bubble" /> {deal.totalComments}</span>
                         </S.MetaRow>
                         <S.Divider />
 

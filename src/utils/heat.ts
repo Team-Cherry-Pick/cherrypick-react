@@ -1,11 +1,11 @@
-import RedFireIcon from '@/assets/icons/red-fire.svg?url';
-import GrayFireIcon from '@/assets/icons/gray-fire.svg?url';
+import RedFireIcon from '@/assets/icons/red-fire.svg?react';
+import GrayFireIcon from '@/assets/icons/gray-fire.svg?react';
 
 export type ThemeColorGroup = 'primary' | 'content' | 'neutral';
 export type ThemeColorKey = string | number;
 
 interface HeatDisplay {
-    icon: string;
+    icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
     textColor: { group: ThemeColorGroup; key: ThemeColorKey };
 }
 
