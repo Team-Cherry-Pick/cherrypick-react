@@ -20,9 +20,11 @@ export function ProductImageUpload() {
         <div className={styles.productImageUploadWrapper}>
             <div className={styles.previewWrapper} ref={containerRef}>
                 {images.map((file, index) => (
-                    <div key={`${file.name}-${file.lastModified}`} className={styles.thumbnailWrapper}>
-                        {index === 0 && <div className={styles.representativeBadge}>대표사진</div>}
-                        <img className={styles.thumbnail} src={URL.createObjectURL(file)} alt={`img-${index}`} />
+                    <div key={`${file.name}-${file.lastModified}`} className={styles.thumbnailOuter}>
+                        <div className={styles.thumbnailWrapper}>
+                            {index === 0 && <div className={styles.representativeBadge}>대표사진</div>}
+                            <img className={styles.thumbnail} src={URL.createObjectURL(file)} alt={`img-${index}`} />
+                        </div>
                         <button
                             className={styles.deleteButton}
                             onClick={e => {

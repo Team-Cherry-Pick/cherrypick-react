@@ -8,16 +8,25 @@ import { themeAtom } from '@/store/theme';
 import { lightTheme, darkTheme } from '@/styles/theme';
 
 import MainPage from '@/pages/main/MainPage';
-import LoginPage from '@/pages/login/LoginPage';
 import PrivateRoute from '@/components/routing/PrivateRoute';
-// import UserPage from '@/pages/user/UserPage';
+import LoginPage from '@/pages/auth/LoginPage';
+
 import ProductDetailPage from '@/pages/product-detail/ProductDetailPage';
 import ProductUploadPage from '@/pages/product-upload/ProductUploadPage';
 import ErrorPage from '@/pages/error/ErrorPage';
-import LoginRedirectPage from './pages/login/LoginRedirectPage';
+import LoginRedirectPage from './pages/auth/LoginRedirectPage';
+import ProfileEditPage from './pages/profile-edit/ProfileEditPage';
+import { useEffect } from 'react';
+import { useRefreshProfile } from './hooks/useRefreshProfile';
 
 const App = () => {
     const [theme] = useAtom(themeAtom);
+
+    const { refreshProfile } = useRefreshProfile();
+    useEffect(() => { 
+        refreshProfile();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
@@ -26,7 +35,7 @@ const App = () => {
                     <Route path="/" element={<MainPage />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/login-success" element={<LoginRedirectPage />} />
-                    {/* <Route path="/user" element={<UserPage />} /> */}
+                    <Route path="/profile-edit" element={<ProfileEditPage />} />
                     <Route path="/product/:id" element={<ProductDetailPage />} />
                     <Route path="/upload" element={<PrivateRoute><ProductUploadPage /></PrivateRoute>} />
                     <Route path="/upload/:id" element={<PrivateRoute><ProductUploadPage /></PrivateRoute>} />

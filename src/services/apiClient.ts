@@ -1,6 +1,7 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 import { AccessTokenType, APIException, HttpMethod, ResponseData } from '@/types/Api';
 import { AccessTokenService } from './accessTokenService';
+import { getAuthRefresh } from './apiAuth';
 
 const apiUrl = import.meta.env.VITE_API_URL || null;
 
@@ -12,6 +13,10 @@ if (!apiUrl) {
 interface ErrorHandlingOptions {
     silent?: boolean;
     customMessage?: string;
+}
+
+interface InternalAxiosRequestConfigWithRetry extends InternalAxiosRequestConfig {
+    _retry?: boolean;
 }
 
 type Result<T, E = APIException> = { success: true; data: T } | { success: false; error: E };
@@ -70,16 +75,64 @@ const authApiClient = axios.create({
  * - 요청 시 Authorization 헤더 자동 추가
  */
 authApiClient.interceptors.request.use(
-    (config: InternalAxiosRequestConfig) => {
-        const token = AccessTokenService.get(AccessTokenType.USER);
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
+    async (config: InternalAxiosRequestConfig) => {
+
+        const accessToken: string | null = AccessTokenService.get(AccessTokenType.USER);
+        
+        if (accessToken) {
+            config.headers.Authorization = `Bearer ${accessToken}`;
         }
+
         return config;
     },
     error => {
         return Promise.reject(error);
     },
+);
+
+/**
+ * 인증이 필요한 요청에 대한 응답 인터셉터 설정
+ * - 토큰 만료 시 리프레쉬 토큰 발급하여 API 요청 재개
+ */
+authApiClient.interceptors.response.use(
+    response => response,
+    async (error: AxiosError) => {
+
+        // 현재 요청의 config에 재시도 여부 플래그를 반영하기 위해 캐스팅
+        const originalRequest = error.config as InternalAxiosRequestConfigWithRetry;
+
+        // 토큰 만료로 API 서버가 401을 반환한 경우
+        if (error.response?.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true;
+
+            try {
+                // 기기 UUID 없을 시, API 호출 중단 및 즉시 로그인 페이지 이동
+                const deviceID: string | null = localStorage.getItem('deviceID');
+                if (!deviceID) {
+                    throw new Error('Failed to load DeviceID');
+                }
+
+                // 정상적으로 토큰이 갱신된 경우 헤더 설정하여 API 호출 시퀀스 재개
+                const newAccessToken = await getAuthRefresh(deviceID);
+                if (newAccessToken && originalRequest.headers) {
+                    AccessTokenService.save(AccessTokenType.USER, newAccessToken);
+                    originalRequest.headers.set('Authorization', `Bearer ${newAccessToken}`);
+                }
+
+                return authApiClient(originalRequest);
+            } catch (refreshError) {
+                console.error('Fail to refresh token', refreshError);
+                localStorage.removeItem("deviceID");
+                AccessTokenService.clear(AccessTokenType.USER);
+                window.location.href = '/login';
+                alert('로그인이 만료되었습니다. 다시 로그인해주세요.');
+                return Promise.reject(refreshError);
+            }
+        }
+
+        // 그 외 에러는 그대로
+        return Promise.reject(error);
+    }
 );
 
 /**

@@ -10,6 +10,23 @@
 }
 
 .textInputContainer {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: var(--spacing-4);
+}
+
+.textInputWithUnit {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.unitInside {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-neutral-500);
+  font-size: 1em;
+  pointer-events: none;
 }

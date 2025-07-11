@@ -3,9 +3,9 @@ import { useAtomValue } from 'jotai';
 import { useCategoriesQuery, useRefreshCategories, currentCategoriesAtom, useCategoryNavigation, selectedCategoryPathAtom } from '@/store/category';
 import { Suspense } from 'react';
 import { Category } from '@/types/Category';
-import CloseIcon from '@/assets/icons/close-Icon.svg';
-import LeftArrowIcon from '@/assets/icons/left-arrow-icon.svg';
-import RightArrowIcon from '@/assets/icons/right-arrow-icon.svg?react';
+import CloseIcon from '@/assets/icons/close-Icon.svg?react';
+import LeftArrowIcon from '@/assets/icons/left-arrow-Icon.svg?react';
+import RightArrowIcon from '@/assets/icons/right-arrow-Icon.svg?react';
 import ModalLayout from '../components/ModalLayout';
 import { useDealUpload } from '@/hooks/useDealUpload';
 import { LoadingSpinner } from '@/components/common/Loading/LoadingSpinner';
@@ -111,29 +111,10 @@ export function CategorySelectModal({ isOpen, close, unmount }: CategorySelectMo
         <ModalLayout isOpen={isOpen} onExit={unmount}>
             <div className={styles.container}>
                 <div className={styles.header}>
-                    <h2>카테고리 선택</h2>
-                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                        {isManualRefreshEnabled && (
-                            <button
-                                onClick={refreshCategories}
-                                style={{
-                                    fontSize: '12px',
-                                    padding: '4px 8px',
-                                    backgroundColor: 'var(--color-neutral-100)',
-                                    color: 'var(--color-content-main)',
-                                    border: '1px solid var(--color-neutral-200)',
-                                    borderRadius: '4px',
-                                    cursor: 'pointer'
-                                }}
-                                title="카테고리 데이터 새로고침"
-                            >
-                                🔄
-                            </button>
-                        )}
-                        <button onClick={close}>
-                            <img src={CloseIcon} alt="닫기" />
-                        </button>
-                    </div>
+                    <h2 className={styles.title}>카테고리 선택</h2>
+                    <button className={styles.closeButton} onClick={handleClose}>
+                        <CloseIcon />
+                    </button>
                 </div>
                 <div className={styles.breadcrumb}>
                     <button className={styles.breadcrumbItem}>전체</button>

@@ -1,5 +1,5 @@
 import styles from './StoreSelectModal.module.css';
-import CloseIcon from '@/assets/icons/close-Icon.svg';
+import CloseIcon from '@/assets/icons/close-Icon.svg?react';
 import { Suspense, useState } from 'react';
 import { useDealUpload } from '@/hooks/useDealUpload';
 import TextGuideStore from '../components/TextGuideStore';
@@ -130,7 +130,7 @@ export function StoreSelectModal({ isOpen, close, unmount, context }: StoreSelec
                     <div className={styles.header}>
                         <h2 className={styles.title}>스토어 선택</h2>
                         <button className={styles.closeButton} onClick={close}>
-                            <img src={CloseIcon} alt="닫기" />
+                            <CloseIcon />
                         </button>
                     </div>
                     <div className={styles.selectedStoreContainer}>
@@ -142,7 +142,7 @@ export function StoreSelectModal({ isOpen, close, unmount, context }: StoreSelec
                                         className={styles.removeButton}
                                         onClick={() => handleRemoveStore(store.storeId)}
                                     >
-                                        <img src={CloseIcon} alt="삭제" width={10} height={10} />
+                                        <CloseIcon width={10} height={10} />
                                     </button>
                                 </div>
                             ))
@@ -188,7 +188,7 @@ export function StoreSelectModal({ isOpen, close, unmount, context }: StoreSelec
                 <div className={styles.header}>
                     <h2 className={styles.title}>스토어 선택</h2>
                     <button className={styles.closeButton} onClick={close}>
-                        <img src={CloseIcon} alt="닫기" />
+                        <CloseIcon />
                     </button>
                 </div>
                 <ul className={styles.storeContainer}>

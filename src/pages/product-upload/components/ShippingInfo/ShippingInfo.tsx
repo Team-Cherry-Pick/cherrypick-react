@@ -64,28 +64,30 @@ export function ShippingInfo() {
                     }
                     disabled={selectedType !== '조건 무료배송'}
                 />
-                <TextInput
-                    placeholder="배송비"
-                    value={
-                        deal.shipping.shippingPrice === 0
-                            ? ''
-                            : deal.shipping.shippingType === 'KRW'
-                              ? `${formatNumber(deal.shipping.shippingPrice)} 원`
-                              : `$ ${formatNumber(deal.shipping.shippingPrice)}`
-                    }
-                    onChange={e => {
-                        const raw = e.target.value.replace(/[^0-9]/g, '');
-                        if (raw.length > 8) return;
-                        setDeal({
-                            ...deal,
-                            shipping: {
-                                ...deal.shipping,
-                                shippingPrice: Number(raw) || 0,
-                            },
-                        });
-                    }}
-                    disabled={selectedType === '무료배송' || selectedType === '조건 무료배송'}
-                />
+                <div className={styles.textInputWithUnit}>
+                    <TextInput
+                        placeholder="배송비"
+                        value={deal.shipping.shippingPrice === 0 ? '' : formatNumber(deal.shipping.shippingPrice)}
+                        onChange={e => {
+                            const raw = e.target.value.replace(/[^0-9]/g, '');
+                            if (raw.length > 8) return;
+                            setDeal({
+                                ...deal,
+                                shipping: {
+                                    ...deal.shipping,
+                                    shippingPrice: Number(raw) || 0,
+                                },
+                            });
+                        }}
+                        disabled={selectedType === '무료배송' || selectedType === '조건 무료배송'}
+                    />
+                    {deal.shipping.shippingPrice !== 0 &&
+                        (deal.shipping.shippingType === 'KRW' ? (
+                            <span className={styles.unitInside}>원</span>
+                        ) : deal.shipping.shippingType === 'USD' ? (
+                            <span className={styles.unitInside}>$</span>
+                        ) : null)}
+                </div>
             </div>
         </div>
     );
