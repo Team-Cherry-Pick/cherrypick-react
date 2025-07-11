@@ -33,8 +33,7 @@
   align-items: center;
   margin-left: var(--spacing-3);
 
-  svg,
-  img {
+  svg {
     width: 1rem;
     height: 1rem;
     fill: var(--color-content-sub);

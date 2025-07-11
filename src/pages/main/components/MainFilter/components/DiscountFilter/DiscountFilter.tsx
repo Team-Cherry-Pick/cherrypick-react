@@ -4,7 +4,7 @@ import { DiscountSelectModal } from '@/components/common/Modal';
 import { PlusIcon } from 'lucide-react';
 import { useAtom, useSetAtom } from 'jotai';
 import { selectedDiscountAtom, triggerFetchAtom } from '@/store/search';
-import CloseIcon from '@/assets/icons/close-Icon.svg';
+import CloseIcon from '@/assets/icons/close-Icon.svg?react';
 import { useEffect } from 'react';
 
 export function DiscountFilter() {
@@ -52,7 +52,7 @@ export function DiscountFilter() {
                             className={styles.closeButton}
                             onClick={() => handleRemoveDiscount(discount.discountId)}
                         >
-                            <img src={CloseIcon} alt="삭제" width={12} />
+                            <CloseIcon width={12} />
                         </button>
                     </div>
                 ))}

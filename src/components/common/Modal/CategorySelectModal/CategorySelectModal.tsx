@@ -3,9 +3,9 @@ import { useAtomValue } from 'jotai';
 import { currentCategoriesAtom, useCategoryNavigation, selectedCategoryPathAtom } from '@/store/category';
 import { Suspense } from 'react';
 import { Category } from '@/types/Category';
-import CloseIcon from '@/assets/icons/close-Icon.svg';
-import LeftArrowIcon from '@/assets/icons/left-arrow-icon.svg';
-import RightArrowIcon from '@/assets/icons/right-arrow-icon.svg?react';
+import CloseIcon from '@/assets/icons/close-Icon.svg?react';
+import LeftArrowIcon from '@/assets/icons/left-arrow-Icon.svg?react';
+import RightArrowIcon from '@/assets/icons/right-arrow-Icon.svg?react';
 import ModalLayout from '../components/ModalLayout';
 import { useDealUpload } from '@/hooks/useDealUpload';
 
@@ -54,7 +54,7 @@ function CategoryHeader() {
 
     return (
         <div className={styles.textSubheaderCategory} onClick={goToParent}>
-            <img className={styles.leftArrowIcon} src={LeftArrowIcon} alt="이전" />
+            <LeftArrowIcon className={styles.leftArrowIcon} />
             {breadcrumbText}
         </div>
     );
@@ -74,7 +74,7 @@ export function CategorySelectModal({ isOpen, close, unmount }: CategorySelectMo
                 <div className={styles.header}>
                     <h2 className={styles.title}>카테고리 선택</h2>
                     <button className={styles.closeButton} onClick={handleClose}>
-                        <img src={CloseIcon} alt="닫기" />
+                        <CloseIcon />
                     </button>
                 </div>
                 <div className={styles.categoryContainer}>

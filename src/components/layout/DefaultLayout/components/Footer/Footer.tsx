@@ -1,5 +1,5 @@
 import styles from './Footer.module.css';
-import Logo from '@/assets/icons/black-logo-Icon.svg';
+import Logo from '@/assets/icons/black-logo-Icon.svg?react';
 
 interface FooterProps {
     background?: 'root' | 'board';
@@ -13,17 +13,29 @@ export default function Footer({ background = 'root' }: FooterProps) {
             <footer className={styles.footerContainer}>
                 <div className={styles.footerContent}>
                     <div className={styles.logoSection}>
-                        <img className={styles.logoImg} src={Logo} alt="logo" />
+                        <Logo className={styles.logoImg} />
                         <div className={styles.serviceName}>Repik</div>
                     </div>
                     <div className={styles.linkList}>
-                        <span>서비스소개</span>
+                        <a href="https://repik-help.notion.site/" target="_blank" rel="noopener noreferrer">
+                            공지사항
+                        </a>
                         <span className={styles.divider}>|</span>
-                        <span>공지사항</span>
+                        <a
+                            href="https://repik-help.notion.site/terms-of-services"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            이용약관
+                        </a>
                         <span className={styles.divider}>|</span>
-                        <span>이용약관</span>
-                        <span className={styles.divider}>|</span>
-                        <span>개인정보처리방침</span>
+                        <a
+                            href="https://repik-help.notion.site/privacy-policy"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            개인정보처리방침
+                        </a>
                     </div>
                     <div className={styles.copyNotice}>©Copyright 2025. Repik. All Right Reserved</div>
                 </div>
