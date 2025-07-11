@@ -31,7 +31,7 @@ export const CardDeal = ({ deal }: Props) => {
                     alt=""
                     onError={e => {
                         const img = e.currentTarget as HTMLImageElement;
-                        img.src = 'src/assets/icons/black-logo-Icon.svg';
+                        img.src = '/assets/icons/black-logo-Icon.svg';
                         img.style.height = '5rem';
                         img.style.width = '5rem';
                     }}

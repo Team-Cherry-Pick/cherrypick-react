@@ -55,8 +55,8 @@ export function SortButtons({ aiActive, setAiActive }: SortButtonsProps) {
             >
                 <div className={styles.aiSortButton__gradient} />
                 <div className={`${styles.iconWrapper} ${aiActive && styles.iconWrapper_active}`}>
-                    <img src={'src/assets/icons/ai-Icon.png'} />
-                    <img className={styles.aiIcon_active} src={'src/assets/icons/ai-active-Icon.png'} />
+                    <img src={'/assets/icons/ai-Icon.png'} />
+                    <img className={styles.aiIcon_active} src={'/assets/icons/ai-active-Icon.png'} />
                 </div>
                 <div
                     className={
@@ -64,8 +64,8 @@ export function SortButtons({ aiActive, setAiActive }: SortButtonsProps) {
                         (isFirstRender.current
                             ? ''
                             : aiActive
-                              ? ' ' + styles.aiSortButtonContentFadeIn
-                              : ' ' + styles.aiSortButtonContentFadeOut)
+                                ? ' ' + styles.aiSortButtonContentFadeIn
+                                : ' ' + styles.aiSortButtonContentFadeOut)
                     }
                 >
                     AI 추천
