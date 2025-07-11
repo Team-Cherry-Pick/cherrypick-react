@@ -1,6 +1,6 @@
 import styles from './CategorySelectModal.module.css';
 import { useAtomValue } from 'jotai';
-import { useCategoriesQuery, useRefreshCategories, currentCategoriesAtom, useCategoryNavigation, selectedCategoryPathAtom } from '@/store/category';
+import { useCategoriesQuery, currentCategoriesAtom, useCategoryNavigation, selectedCategoryPathAtom } from '@/store/category';
 import { Suspense } from 'react';
 import { Category } from '@/types/Category';
 import CloseIcon from '@/assets/icons/close-Icon.svg?react';
@@ -50,7 +50,6 @@ function CategoryList({ close }: { close: () => void }) {
 export function CategorySelectModal({ isOpen, close, unmount }: CategorySelectModalProps) {
     // React Query로 캐시된 부모 카테고리 데이터 사용
     const { isLoading, error } = useCategoriesQuery();
-    const { refreshCategories, isManualRefreshEnabled } = useRefreshCategories();
     const selectedCategoryPath = useAtomValue(selectedCategoryPathAtom);
 
     // 로딩 상태 처리
@@ -60,8 +59,8 @@ export function CategorySelectModal({ isOpen, close, unmount }: CategorySelectMo
                 <div className={styles.container}>
                     <div className={styles.header}>
                         <h2>카테고리 선택</h2>
-                        <button onClick={close}>
-                            <img src={CloseIcon} alt="닫기" />
+                        <button className={styles.closeButton} onClick={close}>
+                            <CloseIcon />
                         </button>
                     </div>
                     <LoadingSpinner />
@@ -77,27 +76,9 @@ export function CategorySelectModal({ isOpen, close, unmount }: CategorySelectMo
                 <div className={styles.container}>
                     <div className={styles.header}>
                         <h2>카테고리 선택</h2>
-                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                            {isManualRefreshEnabled && (
-                                <button
-                                    onClick={refreshCategories}
-                                    style={{
-                                        fontSize: '12px',
-                                        padding: '4px 8px',
-                                        backgroundColor: 'var(--color-primary)',
-                                        color: 'white',
-                                        border: 'none',
-                                        borderRadius: '4px',
-                                        cursor: 'pointer'
-                                    }}
-                                >
-                                    새로고침
-                                </button>
-                            )}
-                            <button onClick={close}>
-                                <img src={CloseIcon} alt="닫기" />
-                            </button>
-                        </div>
+                        <button className={styles.closeButton} onClick={close}>
+                            <CloseIcon />
+                        </button>
                     </div>
                     <div style={{ color: 'var(--color-error)', padding: '1rem', textAlign: 'center' }}>
                         카테고리를 불러오는데 실패했습니다.
@@ -112,7 +93,7 @@ export function CategorySelectModal({ isOpen, close, unmount }: CategorySelectMo
             <div className={styles.container}>
                 <div className={styles.header}>
                     <h2 className={styles.title}>카테고리 선택</h2>
-                    <button className={styles.closeButton} onClick={handleClose}>
+                    <button className={styles.closeButton} onClick={close}>
                         <CloseIcon />
                     </button>
                 </div>
@@ -120,7 +101,7 @@ export function CategorySelectModal({ isOpen, close, unmount }: CategorySelectMo
                     <button className={styles.breadcrumbItem}>전체</button>
                     {selectedCategoryPath.map((category, index) => (
                         <div key={index} className={styles.breadcrumbItem}>
-                            <img src={LeftArrowIcon} alt=">" />
+                            <LeftArrowIcon />
                             <span>{category}</span>
                         </div>
                     ))}

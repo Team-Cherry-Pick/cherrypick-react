@@ -9,10 +9,14 @@ export interface Category {
     subCategories: Category[];
 }
 
-// 관리자 전용 수동 새로고침 활성화 플래그
+// ===== 관리자 전용 수동 새로고침 기능 =====
+// ⚠️ 주의: 이 기능은 관리자만 사용해야 하며, 일반 사용자에게는 노출되지 않아야 합니다.
+// 관리자 패널에서만 이 기능을 활성화하고 사용하세요.
+
+// 관리자 전용 수동 새로고침 활성화 플래그 (기본값: false)
 export const enableManualRefreshAtom = atom<boolean>(false);
 
-// 관리자가 수동 새로고침을 활성화/비활성화하는 유틸리티
+// 관리자가 수동 새로고침을 활성화/비활성화하는 유틸리티 (관리자 패널에서만 사용)
 export const useManualRefreshControl = () => {
     const [enableManualRefresh, setEnableManualRefresh] = useAtom(enableManualRefreshAtom);
 
@@ -28,19 +32,7 @@ export const useManualRefreshControl = () => {
     };
 };
 
-// React Query로 캐시할 부모 카테고리 데이터 (시간 제한 없음)
-export const useCategoriesQuery = () => {
-    return useQuery({
-        queryKey: ['categories'],
-        queryFn: fetchCategories,
-        staleTime: Infinity, // 시간 제한 없음 - 수동으로만 무효화
-        gcTime: Infinity, // 가비지 컬렉션 시간도 무제한
-        retry: 3, // 에러 시 3번 재시도
-        retryDelay: 1000, // 재시도 간격 1초
-    });
-};
-
-// 수동 새로고침을 위한 훅 (관리자 전용)
+// 수동 새로고침을 위한 훅 (관리자 전용 - 일반 사용자 컴포넌트에서는 사용하지 마세요)
 export const useRefreshCategories = () => {
     const queryClient = useQueryClient();
     const [enableManualRefresh] = useAtom(enableManualRefreshAtom);
@@ -55,6 +47,20 @@ export const useRefreshCategories = () => {
         refreshCategories,
         isManualRefreshEnabled: enableManualRefresh
     };
+};
+
+// ===== 일반 사용자용 카테고리 기능 =====
+
+// React Query로 캐시할 부모 카테고리 데이터 (시간 제한 없음)
+export const useCategoriesQuery = () => {
+    return useQuery({
+        queryKey: ['categories'],
+        queryFn: fetchCategories,
+        staleTime: Infinity, // 시간 제한 없음 - 수동으로만 무효화
+        gcTime: Infinity, // 가비지 컬렉션 시간도 무제한
+        retry: 3, // 에러 시 3번 재시도
+        retryDelay: 1000, // 재시도 간격 1초
+    });
 };
 
 // 기존 Jotai atom은 자식 컴포넌트용으로 유지
