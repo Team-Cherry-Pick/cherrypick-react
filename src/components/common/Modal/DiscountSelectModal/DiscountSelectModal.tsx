@@ -7,9 +7,10 @@ import ModalSearchInput from '../components/ModalSearchInput';
 import CheckIcon from '@/assets/icons/check-Icon.svg';
 import UnCheckIcon from '@/assets/icons/un-check-Icon.svg';
 import ModalLayout from '../components/ModalLayout';
-import { useAtom, useAtomValue } from 'jotai';
-import { discountsAtom } from '@/store';
+import { useAtom } from 'jotai';
+import { useDiscountsQuery } from '@/store/discount';
 import { selectedDiscountAtom } from '@/store/search';
+import { LoadingSpinner } from '@/components/common/Loading/LoadingSpinner';
 
 interface DiscountSelectModalProps {
     isOpen: boolean;
@@ -26,7 +27,20 @@ function DiscountList({
     selected: { id: number; name: string }[];
     toggleDiscount: (discount: { id: number; name: string }) => void;
 }) {
-    const discounts = useAtomValue(discountsAtom);
+    const { data: discounts = [], isLoading, error } = useDiscountsQuery();
+
+    if (isLoading) {
+        return <LoadingSpinner />;
+    }
+
+    if (error) {
+        return (
+            <div style={{ color: 'var(--color-error)', padding: '1rem', textAlign: 'center' }}>
+                할인방식 목록을 불러오는데 실패했습니다.
+            </div>
+        );
+    }
+
     const filtered = discounts.filter(discount => discount.name.toLowerCase().includes(query.toLowerCase()));
 
     return (

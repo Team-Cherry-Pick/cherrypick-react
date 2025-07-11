@@ -5,11 +5,12 @@ import { useDealUpload } from '@/hooks/useDealUpload';
 import TextGuideStore from '../components/TextGuideStore';
 import ModalSearchInput from '../components/ModalSearchInput';
 import ModalLayout from '../components/ModalLayout';
-import { useAtom, useAtomValue } from 'jotai';
+import { useAtom } from 'jotai';
 import { FaCheck } from 'react-icons/fa';
 import { Button } from '../../Button';
 import { selectedStoresAtom } from '@/store/search';
-import { storesAtom } from '@/store';
+import { useStoresQuery } from '@/store/store';
+import { LoadingSpinner } from '@/components/common/Loading/LoadingSpinner';
 
 interface StoreSelectModalProps {
     isOpen: boolean;
@@ -29,7 +30,19 @@ function StoreList({
     context: 'main' | 'upload';
     selectedStores?: { name: string; storeId: number }[];
 }) {
-    const stores = useAtomValue(storesAtom);
+    const { data: stores = [], isLoading, error } = useStoresQuery();
+
+    if (isLoading) {
+        return <LoadingSpinner />;
+    }
+
+    if (error) {
+        return (
+            <div style={{ color: 'var(--color-error)', padding: '1rem', textAlign: 'center' }}>
+                스토어 목록을 불러오는데 실패했습니다.
+            </div>
+        );
+    }
 
     const filteredStores = stores.filter(store => store.name.toLowerCase().includes(query.toLowerCase()));
 
