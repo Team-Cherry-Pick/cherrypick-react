@@ -5,7 +5,7 @@ import type { DetailedDeal } from '@/types/Deal';
 import { IoMdEye } from "react-icons/io";
 import HeatFeedback from '@/components/detail/HeatFeedback';
 import * as S from './ProductTopSection.style';
-import LogoPic from '@/assets/icons/LogoPic.svg?react';
+import LogoPic from '@/assets/icons/LogoPic.svg';
 import TalkBubbleIcon from '@/assets/icons/talkbubble.svg?react';
 import { endDeal, deleteDeal } from '@/services/apiDeal';
 import { AccessTokenService } from '@/services/accessTokenService';
@@ -94,12 +94,12 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
                 <S.ImageSection>
                     <S.MainImageWrapper>
                         <S.MainImage
-                            src={hoverImage || mainImage || ''}
+                            src={hoverImage || mainImage || LogoPic}
                             alt=""
                             className={hoverImage ? 'hovered' : ''}
                             onClick={() => setEnlargedImage(hoverImage || mainImage)}
                             onError={e => {
-                                e.currentTarget.src = '';
+                                e.currentTarget.src = LogoPic;
                             }}
                         />
                     </S.MainImageWrapper>
@@ -117,12 +117,12 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
                                         src={img.url}
                                         alt="썸네일"
                                         onError={e => {
-                                            e.currentTarget.src = '';
+                                            e.currentTarget.src = LogoPic;
                                             e.currentTarget.classList.add('default-logo');
                                         }}
                                     />
                                 ) : (
-                                    <LogoPic className="default-logo" />
+                                    <img src={LogoPic} alt="기본 이미지" className="default-logo" />
                                 )}
                             </S.Thumbnail>
                         ))}
