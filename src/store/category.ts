@@ -1,6 +1,7 @@
 // atoms/categoryAtoms.ts
 import { fetchCategories } from '@/services/apiCategory';
 import { atom, useAtom } from 'jotai';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 export interface Category {
     categoryId: number;
@@ -8,6 +9,55 @@ export interface Category {
     subCategories: Category[];
 }
 
+// 관리자 전용 수동 새로고침 활성화 플래그
+export const enableManualRefreshAtom = atom<boolean>(false);
+
+// 관리자가 수동 새로고침을 활성화/비활성화하는 유틸리티
+export const useManualRefreshControl = () => {
+    const [enableManualRefresh, setEnableManualRefresh] = useAtom(enableManualRefreshAtom);
+
+    const enableRefresh = () => setEnableManualRefresh(true);
+    const disableRefresh = () => setEnableManualRefresh(false);
+    const toggleRefresh = () => setEnableManualRefresh(!enableManualRefresh);
+
+    return {
+        isEnabled: enableManualRefresh,
+        enableRefresh,
+        disableRefresh,
+        toggleRefresh,
+    };
+};
+
+// React Query로 캐시할 부모 카테고리 데이터 (시간 제한 없음)
+export const useCategoriesQuery = () => {
+    return useQuery({
+        queryKey: ['categories'],
+        queryFn: fetchCategories,
+        staleTime: Infinity, // 시간 제한 없음 - 수동으로만 무효화
+        gcTime: Infinity, // 가비지 컬렉션 시간도 무제한
+        retry: 3, // 에러 시 3번 재시도
+        retryDelay: 1000, // 재시도 간격 1초
+    });
+};
+
+// 수동 새로고침을 위한 훅 (관리자 전용)
+export const useRefreshCategories = () => {
+    const queryClient = useQueryClient();
+    const [enableManualRefresh] = useAtom(enableManualRefreshAtom);
+
+    const refreshCategories = () => {
+        if (enableManualRefresh) {
+            queryClient.invalidateQueries({ queryKey: ['categories'] });
+        }
+    };
+
+    return {
+        refreshCategories,
+        isManualRefreshEnabled: enableManualRefresh
+    };
+};
+
+// 기존 Jotai atom은 자식 컴포넌트용으로 유지
 export const categoriesAtom = atom(async () => {
     const response = await fetchCategories();
     return response;
