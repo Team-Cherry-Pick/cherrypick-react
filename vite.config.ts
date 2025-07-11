@@ -8,16 +8,13 @@ export default defineConfig({
     plugins: [react(), vitePluginErrorOverlay(), svgr()],
     server: {
         port: 3000,
-        proxy: {
-            '/api': {
-                target: 'https://api.repik.kr',
-                changeOrigin: true,
-            },
-        },
     },
     resolve: {
         alias: {
             '@': path.resolve(__dirname, 'src'),
         },
+    },
+    define: {
+        __APP_VERSION__: JSON.stringify(process.env.npm_package_version),
     },
 });

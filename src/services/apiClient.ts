@@ -2,8 +2,9 @@ import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 import { AccessTokenType, APIException, HttpMethod, ResponseData } from '@/types/Api';
 import { AccessTokenService } from './accessTokenService';
 import { getAuthRefresh } from './apiAuth';
+import { ENV } from '@/utils/environment';
 
-const apiUrl = import.meta.env.VITE_API_URL || null;
+const apiUrl = ENV.API_URL;
 
 if (!apiUrl) {
     alert('서비스 환경이 올바르게 설정되지 않았습니다. 잠시 후 다시 시도해주세요.');
@@ -78,7 +79,7 @@ authApiClient.interceptors.request.use(
     async (config: InternalAxiosRequestConfig) => {
 
         const accessToken: string | null = AccessTokenService.get(AccessTokenType.USER);
-        
+
         if (accessToken) {
             config.headers.Authorization = `Bearer ${accessToken}`;
         }

@@ -13,7 +13,7 @@ export const useRequireLogin = () => {
             // location.state?.from이 없으면 직접 접근(새로고침, url 입력 등)
             const isDirect = !location.state?.from;
             if (isDirect) {
-                alert('인증되지 않은 접근 방법입니다.');
+                alert('로그인 후 이용해주세요');
             } else {
                 alert('로그인 후 이용해주세요.');
             }

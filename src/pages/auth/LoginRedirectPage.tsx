@@ -9,17 +9,18 @@ const LoginRedirectPage = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        // 로그인된 사용자는 메인 페이지로 리다이렉트
-        if (AccessTokenService.hasToken(AccessTokenType.USER)) {
-            navigate('/', { replace: true });
-            return;
-        }
-
         const handleLoginRedirect = async () => {
             const token: string | null = searchParams.get('token');
             const redirectPath: string | null = searchParams.get('redirect');
             const email: string | null = searchParams.get('email');
             const isNewUser: boolean = searchParams.get('isNewUser') === 'true';
+
+            // URL로 직접 접근한 경우 차단
+            if (!token && !redirectPath && !email) {
+                alert('잘못된 접근입니다.');
+                navigate('/', { replace: true });
+                return;
+            }
 
             // 로그인에 실패한 경우 에러 메세지 표출
             if (!token || !redirectPath || !email) {
@@ -48,10 +49,7 @@ const LoginRedirectPage = () => {
         handleLoginRedirect();
     }, [searchParams, navigate]);
 
-    // 로그인된 사용자는 페이지를 렌더링하지 않음
-    if (AccessTokenService.hasToken(AccessTokenType.USER)) {
-        return null;
-    }
+
 
     return <div>로그인 처리 중입니다...</div>;
 };

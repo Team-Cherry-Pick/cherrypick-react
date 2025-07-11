@@ -8,7 +8,7 @@ const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
     const isLoggedIn = AccessTokenService.hasToken(AccessTokenType.USER);
 
     if (!isLoggedIn) {
-        // 로그인 안 되어 있으면 로그인 페이지로 리다이렉트 + 원래 경로 저장
+        alert('로그인 후 이용해주세요.');
         return <Navigate to="/login" state={{ from: location.pathname }} replace />;
     }
     return <>{children}</>;

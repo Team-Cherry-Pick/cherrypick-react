@@ -24,6 +24,7 @@ export const uploadImage = async ({ images, indexes }: Images): Promise<UploadIm
     if (result.success) {
         return result.data;
     } else {
-        return [];
+        // 에러 발생 시 빈 배열 반환 대신 에러를 throw
+        throw new Error(result.error?.message || '이미지 업로드에 실패했습니다.');
     }
 };
