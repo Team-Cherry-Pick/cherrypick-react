@@ -2,6 +2,7 @@ import { Gender } from "./Profile";
 
 export interface GetAuthReq {
     redirect: string;
+    origin: string;
     deviceId?: string;
     os?: string;
     browser?: string;

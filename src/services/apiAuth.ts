@@ -2,8 +2,6 @@ import { HttpMethod } from '@/types/Api';
 import { authRequest, publicRequest } from './apiClient';
 import { DeleteUserRes, generateDeviceID, GetAuthReq, parseUserAgent, PostAuthRegisterCompletionReq } from '@/types/Auth';
 
-const apiUrl = import.meta.env.VITE_API_URL || null;
-
 /**
  * 카카오 로그인/회원가입 API
  * 
@@ -11,6 +9,9 @@ const apiUrl = import.meta.env.VITE_API_URL || null;
  * @returns 리턴 값 없으며 카카오 로그인 성공 시 'login-success'로 라우팅
  */
 export const getAuthKakao = async (request: GetAuthReq) => {
+
+    const apiUrl = import.meta.env.VITE_API_URL || null;
+
     if (!apiUrl) {
         alert('서비스 환경이 올바르게 설정되지 않았습니다. 잠시 후 다시 시도해주세요.');
         return;
@@ -25,10 +26,12 @@ export const getAuthKakao = async (request: GetAuthReq) => {
     request.deviceId = savedDeviceID!;
 
     // os, browser, version 설정
+    console.log(navigator.userAgent);
     const { os, browser, version } = parseUserAgent(navigator.userAgent);
     request.os = request.os ?? os;
     request.browser = request.browser ?? browser;
     request.version = request.version ?? version;
+    request.origin = window.location.origin;
 
     // query 파라미터 설정
     const query = new URLSearchParams();
@@ -39,8 +42,7 @@ export const getAuthKakao = async (request: GetAuthReq) => {
     }
 
     // 카카오 로그인으로 이동
-    const baseUrl = apiUrl.replace(/\/api$/, '');
-    const url = `${baseUrl}/oauth2/authorization/kakao?${query.toString()}`;
+    const url = `${apiUrl.replace(/\/api$/, '')}/oauth2/authorization/kakao?${query.toString()}`;
     window.location.href = url;
 };
 
