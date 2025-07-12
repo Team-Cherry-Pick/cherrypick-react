@@ -5,11 +5,12 @@ import { DeleteUserRes, generateDeviceID, GetAuthReq, getDeviceInfo, PostAuthReg
 /**
  * 카카오 로그인/회원가입 API
  * 
- * @param request: 유저 사용 환경 정보
+ * @param redirectPath: 로그인 후 이동할 라우터 패스
  * @returns 리턴 값 없으며 카카오 로그인 성공 시 'login-success'로 라우팅
  */
-export const getAuthKakao = async (request: GetAuthReq) => {
+export const getAuthKakao = async (redirectPath: string) => {
 
+    const request: GetAuthReq = {redirect: redirectPath, origin: window.location.origin};
     const apiUrl = import.meta.env.VITE_API_URL || null;
 
     if (!apiUrl) {
@@ -25,12 +26,11 @@ export const getAuthKakao = async (request: GetAuthReq) => {
     }
     request.deviceId = savedDeviceID!;
 
-    // os, browser, version, origin 설정
+    // os, browser, version 등 기기 정보 설정
     const { os, browser, version } = getDeviceInfo();
     request.os = request.os ?? os;
     request.browser = request.browser ?? browser;
     request.version = request.version ?? version;
-    request.origin = window.location.origin;
 
     // query 파라미터 설정
     const query = new URLSearchParams();

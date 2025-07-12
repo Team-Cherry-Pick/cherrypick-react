@@ -40,7 +40,7 @@ const LoginPage = () => {
                         <br />
                         중복계정에 따른 업자 문제를 방지합니다.
                     </p>
-                    <button className={styles.kakaoLoginButton} onClick={() => getAuthKakao({ redirect: '/' })}>
+                    <button className={styles.kakaoLoginButton} onClick={() => getAuthKakao('/')}>
                         <KakaoLogo className={styles.kakaoLoginLogoImage} />
                         <p className={styles.kakaoLoginText}>카카오 로그인/회원가입</p>
                     </button>
