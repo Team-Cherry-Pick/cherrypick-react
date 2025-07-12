@@ -1,4 +1,5 @@
 import { Gender } from "./Profile";
+import { isAndroid, isIOS, isWindows, isMacOs } from 'react-device-detect';
 
 export interface GetAuthReq {
     redirect: string;
@@ -33,29 +34,31 @@ export function generateDeviceID(): string {
     return (timePart + randomPart).padEnd(16, '0');
 }
 
-export function parseUserAgent(ua: string): { os: string; browser: string; version: string } {
-    let os = 'Unknown';
-    if (/Windows NT/.test(ua)) os = 'Windows';
-    else if (/Mac OS X/.test(ua)) os = 'macOS';
-    else if (/Android/.test(ua)) os = 'Android';
-    else if (/iPhone|iPad/.test(ua)) os = 'iOS';
-    else if (/Linux/.test(ua)) os = 'Linux';
+export function getDeviceInfo(): { os: string; browser: string; version: string } {
+
+    const userAgent = navigator.userAgent;
 
     let browser = 'Unknown';
     let version = 'Unknown';
+    let os = 'Unknown';
 
-    if (/Chrome\/([\d.]+)/.test(ua)) {
+    if (isAndroid) os = 'android';
+    else if (isIOS) os = 'ios';
+    else if (isWindows) os = 'windows';
+    else if (isMacOs) os = 'macos';
+
+    if (/Chrome\/([\d.]+)/.test(userAgent)) {
         browser = 'Chrome';
-        version = ua.match(/Chrome\/([\d.]+)/)?.[1] || 'Unknown';
-    } else if (/Safari\/([\d.]+)/.test(ua) && /Version\/([\d.]+)/.test(ua)) {
+        version = userAgent.match(/Chrome\/([\d.]+)/)?.[1] || 'Unknown';
+    } else if (/Safari\/([\d.]+)/.test(userAgent) && /Version\/([\d.]+)/.test(userAgent)) {
         browser = 'Safari';
-        version = ua.match(/Version\/([\d.]+)/)?.[1] || 'Unknown';
-    } else if (/Firefox\/([\d.]+)/.test(ua)) {
+        version = userAgent.match(/Version\/([\d.]+)/)?.[1] || 'Unknown';
+    } else if (/Firefox\/([\d.]+)/.test(userAgent)) {
         browser = 'Firefox';
-        version = ua.match(/Firefox\/([\d.]+)/)?.[1] || 'Unknown';
-    } else if (/Edg\/([\d.]+)/.test(ua)) {
+        version = userAgent.match(/Firefox\/([\d.]+)/)?.[1] || 'Unknown';
+    } else if (/Edg\/([\d.]+)/.test(userAgent)) {
         browser = 'Edge';
-        version = ua.match(/Edg\/([\d.]+)/)?.[1] || 'Unknown';
+        version = userAgent.match(/Edg\/([\d.]+)/)?.[1] || 'Unknown';
     }
 
     return { os, browser, version };

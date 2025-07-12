@@ -1,6 +1,6 @@
 import { HttpMethod } from '@/types/Api';
 import { authRequest, publicRequest } from './apiClient';
-import { DeleteUserRes, generateDeviceID, GetAuthReq, parseUserAgent, PostAuthRegisterCompletionReq } from '@/types/Auth';
+import { DeleteUserRes, generateDeviceID, GetAuthReq, getDeviceInfo, PostAuthRegisterCompletionReq } from '@/types/Auth';
 
 /**
  * 카카오 로그인/회원가입 API
@@ -25,9 +25,8 @@ export const getAuthKakao = async (request: GetAuthReq) => {
     }
     request.deviceId = savedDeviceID!;
 
-    // os, browser, version 설정
-    console.log(navigator.userAgent);
-    const { os, browser, version } = parseUserAgent(navigator.userAgent);
+    // os, browser, version, origin 설정
+    const { os, browser, version } = getDeviceInfo();
     request.os = request.os ?? os;
     request.browser = request.browser ?? browser;
     request.version = request.version ?? version;

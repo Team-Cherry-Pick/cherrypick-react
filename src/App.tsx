@@ -15,12 +15,20 @@ import LoginRedirectPage from './pages/auth/LoginRedirectPage';
 import ProfileEditPage from './pages/profile-edit/ProfileEditPage';
 import { useEffect } from 'react';
 import { useRefreshProfile } from './hooks/useRefreshProfile';
+import { generateDeviceID } from './types/Auth';
 
 const App = () => {
     const [theme] = useAtom(themeAtom);
-
     const { refreshProfile } = useRefreshProfile();
+
     useEffect(() => {
+        // 디바이스 ID 없다면 생성 후 저장
+        if (!localStorage.getItem('deviceID')) {
+            const newDeviceID = generateDeviceID();
+            localStorage.setItem('deviceID', newDeviceID);
+        }
+
+        // 유저 프로필 데이터 갱신
         refreshProfile();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
