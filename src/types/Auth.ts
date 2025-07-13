@@ -12,10 +12,6 @@ export interface GetAuthReq {
 
 export interface PostAuthRegisterCompletionReq {
     registerToken: string;
-    updateDTO: UpdateDTO;
-}
-
-export interface UpdateDTO {
     nickname: string;
     email: string;
     birthday: string;

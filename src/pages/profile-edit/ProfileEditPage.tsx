@@ -13,7 +13,7 @@ import { getUser, patchUser } from '@/services/apiProfile';
 import DefaultLayout from '@/components/layout/DefaultLayout';
 import { deleteUser, postAuthRegisterCompletion } from '@/services/apiAuth';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { DeleteUserRes, UpdateDTO } from '@/types/Auth';
+import { DeleteUserRes, PostAuthRegisterCompletionReq } from '@/types/Auth';
 import { useRefreshProfile } from '@/hooks/useRefreshProfile';
 import { FaRegSquare, FaCheckSquare } from "react-icons/fa";
 
@@ -190,7 +190,8 @@ export function ProfileEditPage() {
     // 비회원일 시 회원가입 완료 API 요청 후 프로필 갱신
     const signUp = async () => {
 
-        const updateDTO: UpdateDTO = {
+        const request: PostAuthRegisterCompletionReq = {
+            registerToken: registerToken,
             nickname: newProfile.nickname,
             birthday: newProfile.birthday,
             gender: newProfile.gender,
@@ -198,10 +199,7 @@ export function ProfileEditPage() {
             email: email,
         };
 
-        const accessToken: string = await postAuthRegisterCompletion({
-            registerToken: registerToken,
-            updateDTO: updateDTO,
-        });
+        const accessToken: string = await postAuthRegisterCompletion(request);
 
         if (accessToken) {
             refreshProfile();
