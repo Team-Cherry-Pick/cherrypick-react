@@ -5,7 +5,7 @@ import { AccessTokenService } from '@/services/accessTokenService';
 import { AccessTokenType } from '@/types/Api';
 import { fetchBestCommentsByDealId } from '@/services/apiComment';
 import { useParams } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 import {
     ProfileImage,
     CommentText,
@@ -98,6 +98,8 @@ const BestCommentList = ({ bestComments, onLikeToggle }: Props) => {
         }
     };
 
+    const theme = useTheme();
+
     return (
         <BestCommentWrapper>
             <Title>🔥 베스트 댓글</Title>
@@ -113,14 +115,25 @@ const BestCommentList = ({ bestComments, onLikeToggle }: Props) => {
                     <CommentContent>
                         <HeaderRow>
                             <UserName>{item.user.userName}</UserName>
-                            <Likes onClick={() => handleLikeToggle(item.commentId)} style={{ cursor: 'pointer', color: likedComments[item.commentId] ? 'var(--content-main)' : undefined }}>
+                            <Likes
+                                onClick={() => handleLikeToggle(item.commentId)}
+                                style={{
+                                    cursor: 'pointer',
+                                    color: likedComments[item.commentId]
+                                        ? theme.colors.content.main
+                                        : theme.colors.content.tertiary,
+                                }}
+                            >
                                 <LikeIcon
-                                    className={likedComments[item.commentId] ? 'like-icon-main' : 'like-icon-tertiary'}
                                     width={14}
                                     height={14}
-                                    style={{ verticalAlign: 'middle' }}
+                                    style={{
+                                        verticalAlign: 'middle',
+                                    }}
                                 />
-                                {likeCounts[item.commentId] ?? item.totalLikes}
+                                <span style={{ color: theme.colors.content.sub }}>
+                                    {likeCounts[item.commentId] ?? item.totalLikes}
+                                </span>
                             </Likes>
                         </HeaderRow>
                         <CommentText>{item.content}</CommentText>

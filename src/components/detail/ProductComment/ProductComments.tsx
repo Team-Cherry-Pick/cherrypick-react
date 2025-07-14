@@ -31,6 +31,7 @@ import { jwtDecode } from 'jwt-decode';
 import LikeIcon from '@/assets/icons/like.svg?react';
 import TalkBubbleIcon from '@/assets/icons/talkbubble.svg?react';
 import DefaultProfileIcon from '@/assets/icons/profile-Icon.svg?react';
+import { useTheme } from 'styled-components';
 
 type ProductCommentsProps = {
     dealId: string;
@@ -226,7 +227,7 @@ const ProductComments = ({ dealId, refreshKey: externalRefreshKey, onLikeToggle 
 
     const activeComments = sortOption === '인기순' ? popularComments : comments;
     const rootComments = activeComments.filter(c => c.parentId === null);
-
+    const theme = useTheme();
     const repliesMap = new Map<number, Comment[]>();
     rootComments.forEach(comment => {
         if (comment.replies && comment.replies.length > 0) {
@@ -274,14 +275,25 @@ const ProductComments = ({ dealId, refreshKey: externalRefreshKey, onLikeToggle 
                                     </CommentText>
                                     <CommentFooter>
                                         <LeftSection>
-                                            <Likes onClick={() => handleLikeToggle(item.commentId)} style={{ cursor: 'pointer', color: (item.isLike ?? false) ? 'var(--content-main)' : undefined }}>
+                                            <Likes
+                                                onClick={() => handleLikeToggle(item.commentId)}
+                                                style={{
+                                                    cursor: 'pointer',
+                                                    color: (item.isLike ?? false)
+                                                        ? theme.colors.content.main
+                                                        : theme.colors.content.tertiary,
+                                                }}
+                                            >
                                                 <LikeIcon
-                                                    className={(item.isLike ?? false) ? 'like-icon-main' : 'like-icon-tertiary'}
                                                     width={14}
                                                     height={14}
-                                                    style={{ verticalAlign: 'middle' }}
+                                                    style={{
+                                                        verticalAlign: 'middle',
+                                                    }}
                                                 />
-                                                {likeCounts[item.commentId] ?? item.totalLikes}
+                                                <span style={{ color: theme.colors.content.sub }}>
+                                                    {likeCounts[item.commentId] ?? item.totalLikes}
+                                                </span>
                                             </Likes>
                                             <ItemDivider>|</ItemDivider>
                                             <TalkBubbleIcon
@@ -291,7 +303,14 @@ const ProductComments = ({ dealId, refreshKey: externalRefreshKey, onLikeToggle 
                                             />
                                             {item.totalReplys}
                                             <ItemDivider>|</ItemDivider>
-                                            <Reply onClick={() => setReplyingCommentId(item.commentId)}>답글달기</Reply>
+                                            <Reply onClick={() => {
+                                                const token = AccessTokenService.get(AccessTokenType.USER);
+                                                if (!token) {
+                                                    alert('로그인 후 이용해주세요');
+                                                    return;
+                                                }
+                                                setReplyingCommentId(item.commentId);
+                                            }}>답글달기</Reply>
                                         </LeftSection>
                                         <div style={{ display: 'flex', alignItems: 'center' }}>
                                             <CommentTime>{getRelativeTime(item.createdAt)}</CommentTime>
@@ -348,14 +367,23 @@ const ProductComments = ({ dealId, refreshKey: externalRefreshKey, onLikeToggle 
                                             </CommentText>
                                             <CommentFooter>
                                                 <LeftSection>
-                                                    <Likes onClick={() => handleLikeToggle(reply.commentId)} style={{ cursor: 'pointer', color: (reply.isLike ?? false) ? 'var(--content-main)' : undefined }}>
+                                                    <Likes
+                                                        onClick={() => handleLikeToggle(reply.commentId)}
+                                                        style={{
+                                                            cursor: 'pointer',
+                                                            color: (reply.isLike ?? false)
+                                                                ? theme.colors.content.main
+                                                                : theme.colors.content.tertiary
+                                                        }}
+                                                    >
                                                         <LikeIcon
-                                                            className={(reply.isLike ?? false) ? 'like-icon-main' : 'like-icon-tertiary'}
                                                             width={14}
                                                             height={14}
                                                             style={{ verticalAlign: 'middle' }}
                                                         />
-                                                        {likeCounts[reply.commentId] ?? reply.totalLikes}
+                                                        <span style={{ color: theme.colors.content.sub }}>
+                                                            {likeCounts[reply.commentId] ?? reply.totalLikes}
+                                                        </span>
                                                     </Likes>
                                                 </LeftSection>
                                                 <div style={{ display: 'flex', alignItems: 'center' }}>
