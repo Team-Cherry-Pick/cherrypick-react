@@ -16,6 +16,7 @@ import ProfileEditPage from './pages/profile-edit/ProfileEditPage';
 import { useEffect } from 'react';
 import { useRefreshProfile } from './hooks/useRefreshProfile';
 import { generateDeviceID } from './types/Auth';
+import { OverlayProvider } from './context/overlay';
 
 const App = () => {
     const [theme] = useAtom(themeAtom);
@@ -35,19 +36,35 @@ const App = () => {
 
     return (
         <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
-            <Router>
-                <Routes>
-                    <Route path="/" element={<MainPage />} />
-                    <Route path="/login" element={<LoginPage />} />
-                    <Route path="/login-success" element={<LoginRedirectPage />} />
-                    <Route path="/profile-edit" element={<ProfileEditPage />} />
-                    <Route path="/product/:id" element={<ProductDetailPage />} />
-                    <Route path="/upload" element={<PrivateRoute><ProductUploadPage /></PrivateRoute>} />
-                    <Route path="/upload/:id" element={<PrivateRoute><ProductUploadPage /></PrivateRoute>} />
-                    <Route path="/error" element={<ErrorPage />} />
-                    <Route path="*" element={<Navigate to="/error?code=404" replace />} />
-                </Routes>
-            </Router>
+            <OverlayProvider>
+                <Router>
+                    <Routes>
+                        <Route path="/" element={<MainPage />} />
+                        <Route path="/login" element={<LoginPage />} />
+                        <Route path="/login-success" element={<LoginRedirectPage />} />
+                        <Route path="/profile-edit" element={<ProfileEditPage />} />
+                        <Route path="/product/:id" element={<ProductDetailPage />} />
+                        <Route
+                            path="/upload"
+                            element={
+                                <PrivateRoute>
+                                    <ProductUploadPage />
+                                </PrivateRoute>
+                            }
+                        />
+                        <Route
+                            path="/upload/:id"
+                            element={
+                                <PrivateRoute>
+                                    <ProductUploadPage />
+                                </PrivateRoute>
+                            }
+                        />
+                        <Route path="/error" element={<ErrorPage />} />
+                        <Route path="*" element={<Navigate to="/error?code=404" replace />} />
+                    </Routes>
+                </Router>
+            </OverlayProvider>
         </ThemeProvider>
     );
 };

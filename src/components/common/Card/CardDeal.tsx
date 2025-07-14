@@ -5,6 +5,7 @@ import type { FetchedDeal } from '@/types/Deal';
 import { HeatBadge } from '../Badge';
 import { getRelativeTime } from '@/utils/time';
 import { formatNumber } from '@/utils/number';
+import blackLogoIcon from '@/assets/icons/black-logo-Icon.svg';
 
 interface Props {
     deal: FetchedDeal;
@@ -31,7 +32,7 @@ export const CardDeal = ({ deal }: Props) => {
                     alt=""
                     onError={e => {
                         const img = e.currentTarget as HTMLImageElement;
-                        img.src = '/assets/icons/black-logo-Icon.svg';
+                        img.src = blackLogoIcon;
                         img.style.height = '5rem';
                         img.style.width = '5rem';
                     }}

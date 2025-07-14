@@ -9,6 +9,7 @@ export const CardWrapper = styled.div`
     border: 1px solid ${({ theme }) => theme.colors.border.card};
     display: flex;
     flex-direction: column;
+    cursor: pointer;
 `;
 
 export const Overlay = styled.div`

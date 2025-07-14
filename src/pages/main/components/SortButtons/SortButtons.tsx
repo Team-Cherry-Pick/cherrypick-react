@@ -4,6 +4,8 @@ import { useAtom, useSetAtom } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
 import UnderArrowIcon from '@/assets/icons/under-arrow-Icon.svg?react';
 import Dropdown from '@/components/common/Dropdown';
+import aiIcon from '@/assets/icons/ai-Icon.png';
+import aiActiveIcon from '@/assets/icons/ai-active-Icon.png';
 
 const timeRangeOptions = [
     { label: '최근 3시간', value: 'LAST3HOURS' },
@@ -30,6 +32,7 @@ interface SortButtonsProps {
 
 export function SortButtons({ aiActive, setAiActive }: SortButtonsProps) {
     const [openDropdown, setOpenDropdown] = useState<'timeRange' | 'sortType' | null>(null);
+    const [animationClass, setAnimationClass] = useState('');
 
     const [timeRange, setTimeRange] = useAtom(timeRangeAtom);
     const [sortType, setSortType] = useAtom(sortTypeAtom);
@@ -37,15 +40,21 @@ export function SortButtons({ aiActive, setAiActive }: SortButtonsProps) {
 
     const timeRef = useRef<HTMLButtonElement>(null);
     const sortRef = useRef<HTMLButtonElement>(null);
-    const isFirstRender = useRef(true);
+    const prevAiActive = useRef(aiActive);
 
     useEffect(() => {
         triggerFetch();
     }, [timeRange, sortType, triggerFetch]);
 
     useEffect(() => {
-        isFirstRender.current = false;
-    }, []);
+        if (prevAiActive.current === aiActive) return; // 값이 실제로 바뀔 때만
+        if (aiActive) {
+            setAnimationClass(styles.aiSortButtonContentFadeIn);
+        } else {
+            setAnimationClass(styles.aiSortButtonContentFadeOut);
+        }
+        prevAiActive.current = aiActive;
+    }, [aiActive]);
 
     return (
         <div className={styles.container}>
@@ -55,21 +64,10 @@ export function SortButtons({ aiActive, setAiActive }: SortButtonsProps) {
             >
                 <div className={styles.aiSortButton__gradient} />
                 <div className={`${styles.iconWrapper} ${aiActive && styles.iconWrapper_active}`}>
-                    <img src={'/assets/icons/ai-Icon.png'} />
-                    <img className={styles.aiIcon_active} src={'/assets/icons/ai-active-Icon.png'} />
+                    <img src={aiIcon} />
+                    <img className={styles.aiIcon_active} src={aiActiveIcon} />
                 </div>
-                <div
-                    className={
-                        styles.aiSortButtonContent +
-                        (isFirstRender.current
-                            ? ''
-                            : aiActive
-                                ? ' ' + styles.aiSortButtonContentFadeIn
-                                : ' ' + styles.aiSortButtonContentFadeOut)
-                    }
-                >
-                    AI 추천
-                </div>
+                <div className={`${styles.aiSortButtonContent} ${animationClass}`}>AI 추천</div>
             </button>
 
             <button
