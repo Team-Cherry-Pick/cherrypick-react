@@ -183,7 +183,7 @@ export function ProfileEditPage() {
 
         if (currentProfile) {
             setCurrentProfile(currentProfile);
-            setNewProfile({ userId: -1, nickname: "", email: "", birthday: "", gender: Gender.MALE, imageURL: "", imageId: -1 });
+            setNewProfile(currentProfile);
         }
     };
 
