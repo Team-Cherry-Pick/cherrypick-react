@@ -1,0 +1,43 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    height: 100vh;
+    background-color: var(--color-background-card);
+}
+
+.logoSection {
+    display: flex;
+    justify-content: center;
+}
+
+.logoImg {
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.serviceName {
+    padding-left: 0.5rem;
+    font-family: Paperlogy;
+    color: var(--color-content-tertiary);
+    font-size: 2rem;
+    font-weight: var(--font-weight-bold);
+    line-height: 1.7;
+}
+
+.title {
+    font-size: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+.message {
+    font-size: 1rem;
+    color: var(--color-content-sub);
+    margin-top: 0.25rem;
+}
+
+.highlight {
+    font-weight: var(--font-weight-semibold);
+}
