@@ -1,6 +1,8 @@
 import { HttpMethod } from '@/types/Api';
 import { authRequest, publicRequest } from './apiClient';
 import { DeleteUserRes, generateDeviceID, GetAuthReq, getDeviceInfo, PostAuthRegisterCompletionReq } from '@/types/Auth';
+import axios from 'axios';
+import { ENV } from '@/utils/environment';
 
 /**
  * 카카오 로그인/회원가입 API
@@ -86,12 +88,19 @@ export async function deleteUser(reason: string): Promise<DeleteUserRes> {
  * @returns 액세스 토큰
  */
 export const getAuthRefresh = async (deviceId: string): Promise<string> => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const result = await publicRequest<any>(HttpMethod.POST, `/auth/refresh`, { deviceId: deviceId });
+    try {
+        const response = await axios.post(
+            `${ENV.API_URL}/auth/refresh`,
+            { deviceId },
+            {
+                withCredentials: true, // 쿠키 필요 시
+                headers: { 'Content-Type': 'application/json' },
+                timeout: 5000,
+            }
+        );
 
-    if (result.success) {
-        return result.data.accessToken;
-    } else {
-        throw new Error('Failed to get Auth refresh');
+        return response.data.accessToken;
+    } catch (error) {
+        throw new Error(`Failed to get Auth refresh: ${(error as Error).message}`);
     }
 };
