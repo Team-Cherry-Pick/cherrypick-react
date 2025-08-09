@@ -1,11 +1,24 @@
 import { X } from 'lucide-react';
 import styles from './ProductImageUpload.module.css';
-import { MAX_IMAGES, useImageUpload } from '@/hooks/useImageUpload';
+import { MAX_IMAGES } from '@/hooks/useImageUpload';
 import UploadIcon from '@/assets/icons/upload-image-Icon.svg?react';
+import { Image } from '@/types/Image';
 
-export function ProductImageUpload() {
-    const { images, inputRef, containerRef, handleFileSelect, handleDropFiles, handleRemove } = useImageUpload();
-
+export function ProductImageUpload({
+    images,
+    inputRef,
+    containerRef,
+    handleFileSelect,
+    handleDropFiles,
+    handleRemove,
+}: {
+    images: Image[];
+    inputRef: React.RefObject<HTMLInputElement | null>;
+    containerRef: React.RefObject<HTMLDivElement | null>;
+    handleFileSelect: (files: FileList | null) => void;
+    handleDropFiles: (files: FileList) => void;
+    handleRemove: (index: number) => void;
+}) {
     const handleClick = () => {
         if (images.length >= MAX_IMAGES) {
             alert(`이미지는 최대 ${MAX_IMAGES}장까지 등록할 수 있어요.`);
@@ -19,11 +32,11 @@ export function ProductImageUpload() {
     return (
         <div className={styles.productImageUploadWrapper}>
             <div className={styles.previewWrapper} ref={containerRef}>
-                {images.map((file, index) => (
-                    <div key={`${file.name}-${file.lastModified}`} className={styles.thumbnailOuter}>
+                {images.map((img, index) => (
+                    <div key={img.imageId} className={styles.thumbnailOuter}>
                         <div className={styles.thumbnailWrapper}>
                             {index === 0 && <div className={styles.representativeBadge}>대표사진</div>}
-                            <img className={styles.thumbnail} src={URL.createObjectURL(file)} alt={`img-${index}`} />
+                            <img className={styles.thumbnail} src={img.imageUrl} alt={`img-${index}`} />
                         </div>
                         <button
                             className={styles.deleteButton}

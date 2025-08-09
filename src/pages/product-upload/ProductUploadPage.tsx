@@ -12,21 +12,13 @@ import {
     ShippingInfo,
 } from './components';
 import { useAtom } from 'jotai';
-import { imageFilesAtom, newDealAtom } from '@/store';
-import { uploadImage } from '@/services/apiImage';
+import { newDealAtom } from '@/store';
 import { uploadDeal } from '@/services/apiDeal';
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import type { DealImage, DetailedDeal } from '@/types/Deal';
+import { useImageUpload } from '@/hooks/useImageUpload';
 
-// URL을 File 객체로 변환하는 함수
-const urlToFile = async (url: string, filename: string): Promise<File> => {
-    const response = await fetch(url);
-    const blob = await response.blob();
-    return new File([blob], filename, { type: blob.type });
-};
-
-// (예시) 딜 상세 정보 fetch 함수
 const fetchDealDetail = async (dealId: string): Promise<DetailedDeal> => {
     // 실제 API 호출로 교체 필요
     const res = await fetch(`/api/deal/${dealId}`);
@@ -39,7 +31,7 @@ export default function ProductUploadPage() {
     const location = useLocation();
     const { dealId } = useParams();
     const [deal, setDeal] = useAtom(newDealAtom);
-    const [images, setImages] = useAtom(imageFilesAtom);
+    const imageUpload = useImageUpload();
 
     const [valid, setValid] = useState<
         'Title' | 'Category' | 'Image' | 'OriginalUrl' | 'Store' | 'Shipping' | 'Content' | null
@@ -47,7 +39,7 @@ export default function ProductUploadPage() {
 
     const isTitleValid = deal.title.length > 0;
     const isCategoryValid = deal.categoryId !== undefined;
-    const isImageValid = images.images.length > 0;
+    const isImageValid = imageUpload.images.length > 0;
     const isOriginalUrlValid = deal.originalUrl.length > 0;
     const isStoreValid = deal.storeId !== undefined || deal.storeName.length > 0;
     const isShippingValid =
@@ -85,17 +77,17 @@ export default function ProductUploadPage() {
             return;
         }
 
-        if (images.images.length > 0) {
-            setDeal({
-                ...deal,
-                imageIds: (await uploadImage(images)).map(image => image.imageId),
-            });
-        }
+        const imageIds = imageUpload.images.map(image => image.imageId);
+        
+        setDeal({
+            ...deal,
+            imageIds,
+        });
 
         const uploadDealData = {
             title: deal.title,
             categoryId: deal.categoryId,
-            imageIds: deal.imageIds,
+            imageIds,
             originalUrl: deal.originalUrl,
             storeId: deal.storeId,
             storeName: deal.storeName,
@@ -149,11 +141,10 @@ export default function ProductUploadPage() {
         isTitleValid,
     ]);
 
-    // 등록/수정 모드 분기: dealId가 있으면 수정 모드, 없으면 등록 모드
     useEffect(() => {
         const init = async () => {
+            // 수정 모드
             if (dealId) {
-                // 수정 모드: dealId로 데이터 fetch 후 상태 세팅
                 try {
                     const d = await fetchDealDetail(dealId);
                     setDeal({
@@ -161,7 +152,7 @@ export default function ProductUploadPage() {
                         categoryId: d.categorys && d.categorys.length > 0 ? Number(d.categorys[0]) : undefined, // categorys[0]을 categoryId로 사용(실제 값에 맞게 변환 필요)
                         imageIds: d.imageUrls ? d.imageUrls.map((img: DealImage) => img.imageId) : [],
                         originalUrl: d.originalUrl,
-                        storeId: undefined, // DetailedDeal에는 storeId가 없음. 필요시 별도 매핑 필요
+                        storeId: d.storeId ? d.storeId : undefined,
                         storeName: d.store?.storeName || '',
                         price: {
                             priceType: d.price.priceType,
@@ -173,37 +164,34 @@ export default function ProductUploadPage() {
                             shippingPrice: d.shipping.shippingPrice,
                             shippingRule: d.shipping.shippingRule,
                         },
-                        content: d.content,
-                        discountIds: [], // DetailedDeal에는 없음
-                        discountNames: [], // DetailedDeal에는 없음
-                        discountDescription: '', // DetailedDeal에는 없음
+                        content: d.content || '',
+                        discountIds: d.discountIds || [],
+                        discountNames: d.discountName.split(',').map(name => name.trim()),
+                        discountDescription: d.discountDescription || '',
                     });
 
-                    // 기존 이미지들을 imageFilesAtom에 설정
                     if (d.imageUrls && d.imageUrls.length > 0) {
-                        const imageFiles = await Promise.all(
-                            d.imageUrls.map(async (img: DealImage, index: number) => {
-                                const file = await urlToFile(img.url, `image_${index}.jpg`);
-                                return file;
-                            })
+                        imageUpload.setImages(
+                            d.imageUrls.map((img: DealImage) => ({
+                                imageId: img.imageId,
+                                imageUrl: img.url,
+                                indexes: img.indexes,
+                            }))
                         );
-                        setImages({
-                            images: imageFiles,
-                            indexes: d.imageUrls.map((img: DealImage) => img.indexes)
-                        });
                     }
                 } catch {
                     alert('핫딜 정보를 불러오지 못했습니다.');
                 }
             } else if (location.state?.deal) {
-                // 기존 location.state로 진입하는 경우도 지원
+                // location.state로 진입하는 경우도 지원
                 const d = location.state.deal;
+                console.log('Fetched deal:', d);
                 setDeal({
                     title: d.title,
                     categoryId: d.categoryId,
                     imageIds: d.imageUrls ? d.imageUrls.map((img: DealImage) => img.imageId) : [],
                     originalUrl: d.originalUrl,
-                    storeId: d.storeId,
+                    storeId: d.storeId ? d.storeId : undefined,
                     storeName: d.store?.storeName || '',
                     price: {
                         priceType: d.price.priceType,
@@ -220,22 +208,20 @@ export default function ProductUploadPage() {
                     discountNames: d.discountNames || [],
                     discountDescription: d.discountDescription || '',
                 });
+                
                 if (d.imageUrls && d.imageUrls.length > 0) {
-                    const imageFiles = await Promise.all(
-                        d.imageUrls.map(async (img: DealImage, index: number) => {
-                            const file = await urlToFile(img.url, `image_${index}.jpg`);
-                            return file;
-                        })
+                    imageUpload.setImages(
+                        d.imageUrls.map((img: DealImage) => ({
+                            imageId: img.imageId,
+                            imageUrl: img.url,
+                            indexes: img.indexes,
+                        }))
                     );
-                    setImages({
-                        images: imageFiles,
-                        indexes: d.imageUrls.map((img: DealImage) => img.indexes)
-                    });
                 }
             }
         };
         init();
-    }, [dealId, location.state, setDeal, setImages]);
+    }, [dealId, location.state, setDeal]);
 
     return (
         <>
@@ -266,7 +252,14 @@ export default function ProductUploadPage() {
                         <div className={styles.sectionWrapper}>
                             <div className={styles.section}>
                                 <div className={styles.sectionTitle}>이미지</div>
-                                <ProductImageUpload />
+                                <ProductImageUpload
+                                    images={imageUpload.images}
+                                    inputRef={imageUpload.inputRef}
+                                    containerRef={imageUpload.containerRef}
+                                    handleFileSelect={imageUpload.handleFileSelect}
+                                    handleDropFiles={imageUpload.handleDropFiles}
+                                    handleRemove={imageUpload.handleRemove}
+                                />
                             </div>
                         </div>
                         <div className={styles.sectionDivider} />

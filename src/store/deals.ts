@@ -1,11 +1,8 @@
 // store/deals.ts
 import { atom } from 'jotai';
 import type { RecommendedDeal, DetailedDeal, UploadDeal } from '@/types/Deal';
-import { Images } from '@/types/Image';
 
 export const selectedDealAtom = atom<RecommendedDeal | DetailedDeal | null>(null);
-
-export const imageFilesAtom = atom<Images>({ images: [], indexes: [] });
 
 // 핫딜 등록 초기값
 export const newDealAtom = atom<UploadDeal>({
@@ -29,4 +26,4 @@ export const newDealAtom = atom<UploadDeal>({
     discountIds: [],
     discountNames: [],
     discountDescription: '',
-});
+})

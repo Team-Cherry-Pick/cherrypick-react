@@ -44,6 +44,8 @@ export async function fetchRecommend(): Promise<FetchRecommendResponse> {
 
 export async function fetchDetailedDeal(id: string): Promise<DetailedDeal> {
     const result = await authRequest<DetailedDeal>(HttpMethod.GET, `/deal/${id}`);
+
+    console.log(result);
     if (result.success) {
         return {
             ...result.data,
