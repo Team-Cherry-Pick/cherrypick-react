@@ -50,7 +50,7 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
     };
 
     const handleEditDeal = () => {
-        navigate('/upload', { state: { deal: localDeal } });
+        navigate(`/upload/${localDeal.dealId}`);
     };
 
     return (

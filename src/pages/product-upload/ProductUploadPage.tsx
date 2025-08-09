@@ -13,25 +13,20 @@ import {
 } from './components';
 import { useAtom } from 'jotai';
 import { newDealAtom } from '@/store';
-import { uploadDeal } from '@/services/apiDeal';
+import { fetchDetailedDeal, uploadDeal } from '@/services/apiDeal';
 import { useEffect, useState } from 'react';
-import { useNavigate, useLocation, useParams } from 'react-router-dom';
-import type { DealImage, DetailedDeal } from '@/types/Deal';
+import { useNavigate, useParams } from 'react-router-dom';
+import type { DealImage } from '@/types/Deal';
 import { useImageUpload } from '@/hooks/useImageUpload';
-
-const fetchDealDetail = async (dealId: string): Promise<DetailedDeal> => {
-    // 실제 API 호출로 교체 필요
-    const res = await fetch(`/api/deal/${dealId}`);
-    if (!res.ok) throw new Error('딜 정보를 불러오지 못했습니다.');
-    return res.json();
-};
+import { selectedDiscountAtom } from '@/store/search';
 
 export default function ProductUploadPage() {
     const navigate = useNavigate();
-    const location = useLocation();
     const { dealId } = useParams();
+
     const [deal, setDeal] = useAtom(newDealAtom);
     const imageUpload = useImageUpload();
+    const [_, setSelectedDiscount] = useAtom(selectedDiscountAtom);
 
     const [valid, setValid] = useState<
         'Title' | 'Category' | 'Image' | 'OriginalUrl' | 'Store' | 'Shipping' | 'Content' | null
@@ -83,6 +78,8 @@ export default function ProductUploadPage() {
             ...deal,
             imageIds,
         });
+
+        console.log(deal);
 
         const uploadDealData = {
             title: deal.title,
@@ -146,7 +143,7 @@ export default function ProductUploadPage() {
             // 수정 모드
             if (dealId) {
                 try {
-                    const d = await fetchDealDetail(dealId);
+                    const d = await fetchDetailedDeal(dealId);
                     setDeal({
                         title: d.title,
                         categoryId: d.categorys && d.categorys.length > 0 ? Number(d.categorys[0]) : undefined, // categorys[0]을 categoryId로 사용(실제 값에 맞게 변환 필요)
@@ -169,6 +166,15 @@ export default function ProductUploadPage() {
                         discountNames: d.discountName.split(',').map(name => name.trim()),
                         discountDescription: d.discountDescription || '',
                     });
+                    // discountIds/discountName을 selectedDiscountAtom에도 반영
+                    setSelectedDiscount(
+                        (d.discountIds || []).map((id: number, idx: number) => ({
+                            discountId: id,
+                            name: d.discountName
+                                ? d.discountName.split(',').map((n: string) => n.trim())[idx] || ''
+                                : '',
+                        }))
+                    );
 
                     if (d.imageUrls && d.imageUrls.length > 0) {
                         imageUpload.setImages(
@@ -182,46 +188,10 @@ export default function ProductUploadPage() {
                 } catch {
                     alert('핫딜 정보를 불러오지 못했습니다.');
                 }
-            } else if (location.state?.deal) {
-                // location.state로 진입하는 경우도 지원
-                const d = location.state.deal;
-                console.log('Fetched deal:', d);
-                setDeal({
-                    title: d.title,
-                    categoryId: d.categoryId,
-                    imageIds: d.imageUrls ? d.imageUrls.map((img: DealImage) => img.imageId) : [],
-                    originalUrl: d.originalUrl,
-                    storeId: d.storeId ? d.storeId : undefined,
-                    storeName: d.store?.storeName || '',
-                    price: {
-                        priceType: d.price.priceType,
-                        regularPrice: d.price.regularPrice,
-                        discountedPrice: d.price.discountedPrice,
-                    },
-                    shipping: {
-                        shippingType: d.shipping.shippingType,
-                        shippingPrice: d.shipping.shippingPrice,
-                        shippingRule: d.shipping.shippingRule,
-                    },
-                    content: d.content,
-                    discountIds: d.discountIds || [],
-                    discountNames: d.discountNames || [],
-                    discountDescription: d.discountDescription || '',
-                });
-                
-                if (d.imageUrls && d.imageUrls.length > 0) {
-                    imageUpload.setImages(
-                        d.imageUrls.map((img: DealImage) => ({
-                            imageId: img.imageId,
-                            imageUrl: img.url,
-                            indexes: img.indexes,
-                        }))
-                    );
-                }
-            }
+            } 
         };
         init();
-    }, [dealId, location.state, setDeal]);
+    }, [dealId, setDeal, setSelectedDiscount]);
 
     return (
         <>

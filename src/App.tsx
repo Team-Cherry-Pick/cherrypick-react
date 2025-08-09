@@ -61,7 +61,7 @@ const App = () => {
                             }
                         />
                         <Route
-                            path="/upload/:id"
+                            path="/upload/:dealId"
                             element={
                                 <PrivateRoute>
                                     <ProductUploadPage />
