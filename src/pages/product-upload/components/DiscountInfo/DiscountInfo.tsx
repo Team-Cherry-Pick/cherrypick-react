@@ -23,6 +23,7 @@ export function DiscountInfo() {
             <div className={styles.textAreaWrapper}>
                 <TextArea
                     placeholder="최저가로 구매하기 위한 방법을 작성해주세요."
+                    value={deal.discountDescription}
                     onChange={e => setDeal({ ...deal, discountDescription: e.target.value })}
                 />
                 <div className={styles.contentLength}>{deal.discountDescription.length} / 800</div>

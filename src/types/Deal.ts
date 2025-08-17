@@ -25,7 +25,12 @@ export interface DetailedDeal {
         textColor: string;
         backgroundColor: string;
     };
+    storeId: number;
+    categoryId: number;
     categorys: string[];
+    discountIds: number[];
+    discountName: string;
+    discountDescription: string;
     title: string;
     infoTags: string[];
     shipping: DealShipping;
