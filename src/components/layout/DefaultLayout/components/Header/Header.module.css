@@ -77,11 +77,23 @@
 
 .searchIcon {
   display: none;
-  width: var(--spacing-6);
-  height: var(--spacing-6);
-  padding: var(--spacing-0-5);
+  align-items: center;
+  justify-content: center;
+  width: var(--spacing-8);
+  height: var(--spacing-8);
+  padding: var(--spacing-1);
+  border-radius: var(--radius-4);
   color: var(--color-content-tertiary);
   cursor: pointer;
+}
+
+.searchIcon svg {
+  width: var(--spacing-5);
+  height: var(--spacing-5);
+}
+
+.searchIconActive {
+  color: var(--color-primary);
 }
 
 .navigationWrapper {

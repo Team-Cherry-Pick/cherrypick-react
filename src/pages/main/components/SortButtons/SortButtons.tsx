@@ -3,9 +3,11 @@ import { sortTypeAtom, timeRangeAtom, triggerFetchAtom } from '@/store/search';
 import { useAtom, useSetAtom } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
 import UnderArrowIcon from '@/assets/icons/under-arrow-Icon.svg?react';
+import FilterIcon from '@/assets/icons/filter-Icon.svg?react';
 import Dropdown from '@/components/common/Dropdown';
 import aiIcon from '@/assets/icons/ai-Icon.png';
 import aiActiveIcon from '@/assets/icons/ai-active-Icon.png';
+import useIsMobileViewport from '@/hooks/useIsMobileViewport';
 
 const timeRangeOptions = [
     { label: '최근 3시간', value: 'LAST3HOURS' },
@@ -28,11 +30,13 @@ const sortOptions = [
 interface SortButtonsProps {
     aiActive: boolean;
     setAiActive: React.Dispatch<React.SetStateAction<boolean>>;
+    onFilterClick?: () => void;
 }
 
-export function SortButtons({ aiActive, setAiActive }: SortButtonsProps) {
+export function SortButtons({ aiActive, setAiActive, onFilterClick }: SortButtonsProps) {
     const [openDropdown, setOpenDropdown] = useState<'timeRange' | 'sortType' | null>(null);
     const [animationClass, setAnimationClass] = useState('');
+    const isMobile = useIsMobileViewport();
 
     const [timeRange, setTimeRange] = useAtom(timeRangeAtom);
     const [sortType, setSortType] = useAtom(sortTypeAtom);
@@ -47,7 +51,7 @@ export function SortButtons({ aiActive, setAiActive }: SortButtonsProps) {
     }, [timeRange, sortType, triggerFetch]);
 
     useEffect(() => {
-        if (prevAiActive.current === aiActive) return; // 값이 실제로 바뀔 때만
+        if (prevAiActive.current === aiActive) return;
         if (aiActive) {
             setAnimationClass(styles.aiSortButtonContentFadeIn);
         } else {
@@ -110,6 +114,16 @@ export function SortButtons({ aiActive, setAiActive }: SortButtonsProps) {
                     }}
                     onClose={() => setOpenDropdown(null)}
                 />
+            )}
+
+            {isMobile && (
+                <button
+                    className={styles.sortButton}
+                    onClick={onFilterClick}
+                >
+                    <FilterIcon width={10} height={10} style={{ fill: 'var(--color-content-sub)' }} />
+                    <span>필터</span>
+                </button>
             )}
         </div>
     );
