@@ -77,3 +77,9 @@
   color: white;
   cursor: pointer;
 }
+
+@media (max-width: 48rem) {
+  .sortRow {
+    margin: 0;
+  }
+}

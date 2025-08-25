@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import DefaultLayout from '@/components/layout/DefaultLayout';
 import { MainFilter, SortButtons } from './components';
 import MainDealList from './MainDealList';
-import MainKeywords from './MainKeywords';
 import UploadBtn from '@/components/common/Floating/UploadBtn';
 import ScrollTopBtn from '@/components/common/Floating/ScrollTopBtn';
 import CloseIcon from '@/assets/icons/close-Icon.svg?react';
@@ -11,6 +10,7 @@ import { useAtomValue, useSetAtom } from 'jotai';
 import { keywordAtom, triggerFetchAtom } from '@/store/search';
 import useIsMobileViewport from '@/hooks/useIsMobileViewport';
 import MainSearchBar from './components/MainSearchBar';
+import MainKeywords from './components/MainKeywords';
 
 const MainPage = () => {
     const [aiActive, setAiActive] = useState(false);

@@ -1,5 +1,5 @@
 import styles from './SortButtons.module.css';
-import { sortTypeAtom, timeRangeAtom, triggerFetchAtom } from '@/store/search';
+import { sortTypeAtom, timeRangeAtom, triggerFetchAtom, basicFiltersAtom, priceFilterAtom, variousPriceAtom, selectedStoresAtom, selectedDiscountAtom, categoryIdAtom } from '@/store/search';
 import { useAtom, useSetAtom } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
 import UnderArrowIcon from '@/assets/icons/under-arrow-Icon.svg?react';
@@ -40,11 +40,28 @@ export function SortButtons({ aiActive, setAiActive, onFilterClick }: SortButton
 
     const [timeRange, setTimeRange] = useAtom(timeRangeAtom);
     const [sortType, setSortType] = useAtom(sortTypeAtom);
+    const [basicFilters] = useAtom(basicFiltersAtom);
+    const [priceFilter] = useAtom(priceFilterAtom);
+    const [variousPrice] = useAtom(variousPriceAtom);
+    const [selectedStores] = useAtom(selectedStoresAtom);
+    const [selectedDiscounts] = useAtom(selectedDiscountAtom);
+    const [categoryId] = useAtom(categoryIdAtom);
     const triggerFetch = useSetAtom(triggerFetchAtom);
 
     const timeRef = useRef<HTMLButtonElement>(null);
     const sortRef = useRef<HTMLButtonElement>(null);
     const prevAiActive = useRef(aiActive);
+
+    // 필터 적용 여부 확인 (카테고리 포함)
+    const isFilterApplied = 
+        basicFilters.viewSoldOut || 
+        basicFilters.globalShipping || 
+        (priceFilter.minPrice !== undefined && priceFilter.minPrice > 0) ||
+        (priceFilter.maxPrice !== undefined && priceFilter.maxPrice > 0) ||
+        !variousPrice ||
+        selectedStores.length > 0 ||
+        selectedDiscounts.length > 0 ||
+        categoryId !== undefined;
 
     useEffect(() => {
         triggerFetch();
@@ -62,26 +79,39 @@ export function SortButtons({ aiActive, setAiActive, onFilterClick }: SortButton
 
     return (
         <div className={styles.container}>
-            <button
-                className={`${styles.sortButton} ${styles.aiSortButton} ${aiActive && styles.aiSortButton_active}`}
-                onClick={() => setAiActive(prev => !prev)}
-            >
-                <div className={styles.aiSortButton__gradient} />
-                <div className={`${styles.iconWrapper} ${aiActive && styles.iconWrapper_active}`}>
-                    <img src={aiIcon} />
-                    <img className={styles.aiIcon_active} src={aiActiveIcon} />
-                </div>
-                <div className={`${styles.aiSortButtonContent} ${animationClass}`}>AI 추천</div>
-            </button>
+            <div className={styles.leftButtons}>
+                {/* AI 추천 버튼 */}
+                <button
+                    className={`${styles.sortButton} ${styles.aiSortButton} ${aiActive && styles.aiSortButton_active}`}
+                    onClick={() => setAiActive(prev => !prev)}
+                >
+                    <div className={styles.aiSortButton__gradient} />
+                    <div className={`${styles.iconWrapper} ${aiActive && styles.iconWrapper_active}`}>
+                        <img src={aiIcon} />
+                        <img className={styles.aiIcon_active} src={aiActiveIcon} />
+                    </div>
+                    <div className={`${styles.aiSortButtonContent} ${animationClass}`}>AI 추천</div>
+                </button>
 
-            <button
-                className={styles.sortButton}
-                ref={timeRef}
-                onClick={() => setOpenDropdown(prev => (prev === 'timeRange' ? null : 'timeRange'))}
-            >
-                <span>{timeRangeOptions.find(opt => opt.value === timeRange)?.label}</span>
-                <UnderArrowIcon width={9} height={5} style={{ fill: 'var(--color-content-sub)' }} />
-            </button>
+                <button
+                    className={styles.sortButton}
+                    ref={timeRef}
+                    onClick={() => setOpenDropdown(prev => (prev === 'timeRange' ? null : 'timeRange'))}
+                >
+                    <span>{timeRangeOptions.find(opt => opt.value === timeRange)?.label}</span>
+                    <UnderArrowIcon width={9} height={5} style={{ fill: 'var(--color-content-sub)' }} />
+                </button>
+
+                <button
+                    className={styles.sortButton}
+                    ref={sortRef}
+                    onClick={() => setOpenDropdown(prev => (prev === 'sortType' ? null : 'sortType'))}
+                >
+                    <span>{sortOptions.find(opt => opt.value === sortType)?.label}</span>
+                    <UnderArrowIcon width={9} height={5} style={{ fill: 'var(--color-content-sub)' }} />
+                </button>
+            </div>
+
             {openDropdown === 'timeRange' && (
                 <Dropdown
                     anchorRef={timeRef}
@@ -95,14 +125,6 @@ export function SortButtons({ aiActive, setAiActive, onFilterClick }: SortButton
                 />
             )}
 
-            <button
-                className={styles.sortButton}
-                ref={sortRef}
-                onClick={() => setOpenDropdown(prev => (prev === 'sortType' ? null : 'sortType'))}
-            >
-                <span>{sortOptions.find(opt => opt.value === sortType)?.label}</span>
-                <UnderArrowIcon width={9} height={5} style={{ fill: 'var(--color-content-sub)' }} />
-            </button>
             {openDropdown === 'sortType' && (
                 <Dropdown
                     anchorRef={sortRef}
@@ -118,10 +140,17 @@ export function SortButtons({ aiActive, setAiActive, onFilterClick }: SortButton
 
             {isMobile && (
                 <button
-                    className={styles.sortButton}
+                    className={`${styles.filterButton} ${isFilterApplied ? styles.filterButton_active : ''}`}
                     onClick={onFilterClick}
                 >
-                    <FilterIcon width={10} height={10} style={{ fill: 'var(--color-content-sub)' }} />
+                    <div className={styles.filterIconWrapper}>
+                        <FilterIcon 
+                            width={10} 
+                            height={10} 
+                            style={{ fill: isFilterApplied ? 'var(--color-neutral-0)' : 'var(--color-content-sub)' }} 
+                        />
+                        {isFilterApplied && <div className={styles.filterIndicator} />}
+                    </div>
                     <span>필터</span>
                 </button>
             )}
