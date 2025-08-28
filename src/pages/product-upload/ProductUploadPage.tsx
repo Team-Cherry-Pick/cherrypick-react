@@ -214,11 +214,6 @@ export default function ProductUploadPage() {
                         </button>
                     </div>
                     <div className={styles.contentWrapper}>
-                        <div className={styles.uploadButtonWrapper}>
-                            <UploadButton disabled={valid !== null} onClick={handleSubmit}>
-                                업로드
-                            </UploadButton>
-                        </div>
                         <div className={styles.sectionWrapper}>
                             <div className={styles.section}>
                                 <div className={styles.sectionTitle}>이미지</div>
@@ -264,6 +259,11 @@ export default function ProductUploadPage() {
                                 <div className={styles.sectionTitle}>할인 정보(선택)</div>
                                 <DiscountInfo />
                             </div>
+                        </div>
+                        <div className={styles.uploadButtonWrapper}>
+                            <UploadButton disabled={valid !== null} onClick={handleSubmit}>
+                                업로드
+                            </UploadButton>
                         </div>
                     </div>
                 </div>

@@ -10,3 +10,10 @@
   background-color: var(--color-neutral-300);
   cursor: not-allowed;
 }
+
+@media (max-width: 48rem) {
+  .styledButton {
+    width: 100%;
+    font-size: var(--font-size-sm);
+  }
+}
