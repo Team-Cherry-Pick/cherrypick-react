@@ -1,7 +1,7 @@
 import { useEffect, useRef, useCallback, useState } from 'react';
 import { CardDeal } from '@/components/common/Card';
 import { fetchDeals, fetchRecommend } from '@/services/apiDeal';
-import styled from 'styled-components';
+import styles from './MainDealList.module.css';
 import type { FetchedDeal } from '@/types/Deal';
 import { LoadingSpinner } from '@/components/common/Loading/LoadingSpinner';
 import { useAtomValue } from 'jotai';
@@ -110,55 +110,19 @@ const MainDealList = ({ aiActive }: MainDealListProps) => {
     }, [handleObserver, aiActive]);
 
     return (
-        <DealGrid>
+        <div className={styles.dealGrid}>
             {isLoading ? (
-                <SpinnerWrapper>
+                <div className={styles.spinnerWrapper}>
                     <LoadingSpinner />
-                </SpinnerWrapper>
+                </div>
             ) : items.length ? (
                 items.map((deal, i) => <CardDeal key={`${deal.dealId}-${i}`} deal={deal} />)
             ) : (
-                <NoSearchResult>검색 결과가 없습니다.</NoSearchResult>
+                <div className={styles.noSearchResult}>검색 결과가 없습니다.</div>
             )}
-            {!aiActive && <ObserverTarget ref={observerRef} />}
-        </DealGrid>
+            {!aiActive && <div ref={observerRef} className={styles.observerTarget} />}
+        </div>
     );
 };
 
 export default MainDealList;
-
-const DealGrid = styled.div`
-    flex: 1;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    position: relative;
-    gap: ${({ theme }) => theme.spacing[4]};
-
-    @media (max-width: 1024px) {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    @media (max-width: 600px) {
-        grid-template-columns: 1fr;
-    }
-`;
-
-const ObserverTarget = styled.div`
-    height: 1px;
-`;
-
-const SpinnerWrapper = styled.div`
-    grid-column: 1 / -1;
-    display: flex;
-    justify-content: center;
-    padding: ${({ theme }) => theme.spacing[4]};
-`;
-
-const NoSearchResult = styled.div`
-    position: absolute;
-    left: 50%;
-    top: 30vh;
-    transform: translateX(-50%);
-    color: ${({ theme }) => theme.colors.content.sub};
-    font-size: ${({ theme }) => theme.typography.size.sm};
-`;
