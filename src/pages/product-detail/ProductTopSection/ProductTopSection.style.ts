@@ -86,41 +86,6 @@ export const ImagePlaceholder = styled.div`
   border-radius: 8px;
 `;
 
-export const ThumbnailRow = styled.div`
-  margin-top: ${({ theme }) => theme.spacing[2]};
-  display: flex;
-  gap: ${({ theme }) => theme.spacing[2]};
-  justify-content: center;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  padding-bottom: 0.25rem;
-`;
-
-export const Thumbnail = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 60px;
-  height: 60px;
-  background-color: ${({ theme }) => theme.colors.border.card};
-  border: 1px solid ${({ theme }) => theme.colors.border.card};
-  border-radius: 12px;
-  overflow: hidden;
-  flex-shrink: 0;
-
-  img.default-logo {
-    width: 80px;
-    height: 80px;
-    object-fit: contain;
-  }
-`;
-
-export const ThumbnailImage = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`;
-
 export const DetailSection = styled.div`
   width: auto;
   display: flex;

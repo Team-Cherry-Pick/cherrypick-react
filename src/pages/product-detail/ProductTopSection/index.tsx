@@ -17,8 +17,7 @@ interface Props {
 }
 
 const ProductTopSection = ({ deal, onVoteChange }: Props) => {
-    const [mainImage, setMainImage] = useState(deal.imageUrls[0]?.url || '');
-    const [hoverImage, setHoverImage] = useState<string | null>(null);
+    const [mainImage] = useState(deal.imageUrls[0]?.url || '');
     const navigate = useNavigate();
 
     const safeContent = (deal.content ?? '').replace(/<hr\s*\/?>/gi, '<div class="custom-divider"></div>');
@@ -94,39 +93,14 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
                 <S.ImageSection>
                     <S.MainImageWrapper>
                         <S.MainImage
-                            src={hoverImage || mainImage || LogoPic}
+                            src={mainImage || LogoPic}
                             alt=""
-                            className={hoverImage ? 'hovered' : ''}
-                            onClick={() => setEnlargedImage(hoverImage || mainImage)}
+                            onClick={() => setEnlargedImage(mainImage)}
                             onError={e => {
                                 e.currentTarget.src = LogoPic;
                             }}
                         />
                     </S.MainImageWrapper>
-                    <S.ThumbnailRow>
-                        {deal.imageUrls.map((img) => (
-                            <S.Thumbnail
-                                key={img.imageId}
-                                onMouseEnter={() => setHoverImage(img.url || '')}
-                                onMouseLeave={() => setHoverImage(null)}
-                                onClick={() => setMainImage(img.url || '')}
-                                className={mainImage === img.url ? 'active' : ''}
-                            >
-                                {img.url ? (
-                                    <S.ThumbnailImage
-                                        src={img.url}
-                                        alt="썸네일"
-                                        onError={e => {
-                                            e.currentTarget.src = LogoPic;
-                                            e.currentTarget.classList.add('default-logo');
-                                        }}
-                                    />
-                                ) : (
-                                    <img src={LogoPic} alt="기본 이미지" className="default-logo" />
-                                )}
-                            </S.Thumbnail>
-                        ))}
-                    </S.ThumbnailRow>
                 </S.ImageSection>
 
                 {/* 오른쪽: 딜 상세 */}
