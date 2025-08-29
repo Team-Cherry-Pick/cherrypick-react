@@ -89,7 +89,7 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
                         종료된 핫딜입니다
                     </S.Overlay>
                 )}
-                {/* 왼쪽: 대표 이미지 + 썸네일 리스트 */}
+                {/* 위: 대표 이미지 + 썸네일 리스트 */}
                 <S.ImageSection>
                     <S.MainImageWrapper>
                         <S.MainImage
@@ -103,14 +103,15 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
                     </S.MainImageWrapper>
                 </S.ImageSection>
 
-                {/* 오른쪽: 딜 상세 */}
+                {/* 아래: 딜 상세 */}
                 <S.DetailSection>
                     <S.Title>{deal.title}</S.Title>
                     <S.StoreTagContainer>
                         <S.StoreBadge>{deal?.store?.storeName ?? '알 수 없음'}</S.StoreBadge>
                         <S.TagList>
+                            <S.Tag key={0}>{deal.shipping.shippingType === 'FREE' ? '무료배송' : '배송비 있음'}</S.Tag>
                             {deal.infoTags.map((tag, idx) => (
-                                <S.Tag key={idx}>{tag}</S.Tag>
+                                <S.Tag key={idx + 1}>{tag}</S.Tag>
                             ))}
                         </S.TagList>
                         {AccessTokenService.hasToken(AccessTokenType.USER) && (
@@ -121,16 +122,19 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
                             </S.ActionGroup>
                         )}
                     </S.StoreTagContainer>
-                    <S.Divider />
                     <S.PriceContainer>
                         <S.PriceBox>
+                            {(() => {
+                                const percent = Math.round(
+                                    ((deal.price.regularPrice - deal.price.discountedPrice) /
+                                        deal.price.regularPrice) *
+                                    100
+                                );
+                                return isNaN(percent) ? null : <S.DiscountPercent>{percent}%</S.DiscountPercent>;
+                            })()}
                             <S.OriginalPrice>
                                 {deal.price.regularPrice.toLocaleString()}원
                             </S.OriginalPrice>
-                            <span>|</span>
-                            <S.ShippingType>
-                                {deal.shipping.shippingType === 'FREE' ? '무료배송' : '배송비 있음'}
-                            </S.ShippingType>
                         </S.PriceBox>
 
                         {deal.price.priceType === 'VARIOUS' ? (
@@ -138,30 +142,20 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
                         ) : (
                             <S.FinalPrice>
                                 {deal.price.discountedPrice.toLocaleString()}원
-                                {(() => {
-                                    const percent = Math.round(
-                                        ((deal.price.regularPrice - deal.price.discountedPrice) /
-                                            deal.price.regularPrice) *
-                                        100
-                                    );
-                                    return isNaN(percent) ? null : <S.DiscountPercent>{percent}%</S.DiscountPercent>;
-                                })()}
                             </S.FinalPrice>
                         )}
                     </S.PriceContainer>
-                    <S.Divider />
 
                     <S.Content dangerouslySetInnerHTML={{ __html: safeContent }} />
 
                     <S.BottomContainer>
                         <S.MetaRow>
-                            <span>by {deal.user.userName}</span>
+                            <span>{deal.user.userName}</span>
                             <span className="meta-divider">|</span>
-                            <span><IoMdEye size={14} className="meta-eye" /> {deal.totalViews}</span>
+                            <span>조회 {deal.totalViews}</span>
                             <span className="meta-divider">|</span>
-                            <span><TalkBubbleIcon className="meta-bubble" /> {deal.totalComments}</span>
+                            <span>댓글 {deal.totalComments}</span>
                         </S.MetaRow>
-                        <S.Divider />
 
                         <S.BottomActions>
                             <HeatFeedback

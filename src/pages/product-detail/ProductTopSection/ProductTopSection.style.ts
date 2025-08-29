@@ -32,7 +32,6 @@ export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
-  gap: ${({ theme }) => theme.spacing[6]};
   border-radius: 0;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
   background-color: transparent;
@@ -50,6 +49,7 @@ export const ImageSection = styled.div`
   flex-direction: column;
   align-items: center;
   gap: ${({ theme }) => theme.spacing[2]};
+  padding-top: 1.25rem;
 `;
 
 export const MainImageWrapper = styled.div`
@@ -57,10 +57,10 @@ export const MainImageWrapper = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 32rem;
   height: auto;
   background-color: ${({ theme }) => theme.colors.neutral[50]};
   overflow: hidden;
+  border-radius: 0.5rem;
 `;
 
 export const MainImage = styled.img`
@@ -92,8 +92,7 @@ export const DetailSection = styled.div`
   flex: 1;
   position: relative;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing[2.5]};
-  padding-left: 0;
+  padding: 2rem 0;
 `;
 
 export const Divider = styled.div`
@@ -105,35 +104,39 @@ export const Divider = styled.div`
 
 export const Title = styled.div`
   color: ${({ theme }) => theme.colors.content.main};
-  font-size: ${({ theme }) => theme.typography.size.xxxm};
+  font-size: 1.25rem;
   font-weight: ${({ theme }) => theme.typography.weight.semibold};
 `;
 
 export const StoreTagContainer = styled.div`
     display: flex;
     flex-direction: row;
-    gap: ${({ theme }) => theme.spacing[3]};
+    gap: 0.5rem;
     align-items: center;
+    margin-top: 0.5rem;
 `;
 
 export const StoreBadge = styled.div`
-  padding: 4px 12px;
-  background: #1fba1f;
+  padding: 0.25rem 0.5rem;
+  background: ${({ theme }) => theme.colors.neutral[400]};
   color: white;
-  font-size: ${({ theme }) => theme.typography.size.sm};
+  font-size: 0.875rem;
   font-weight: 600;
-  border-radius: 8px;
+  border-radius: 0.25rem;
   width: fit-content;
 `;
 
 export const TagList = styled.div`
   display: flex;
-  gap: ${({ theme }) => theme.spacing[2]};
+  gap: 0.5rem;
 `;
 
 export const Tag = styled.span`
-  color: ${({ theme }) => theme.colors.content.sub};
-  font-size: ${({ theme }) => theme.typography.size.base};
+  padding: 0.25rem 0.5rem;
+  background: ${({ theme }) => theme.colors.neutral[300]};
+  color: white;
+  font-size: 0.875rem;
+  border-radius: 0.25rem;
   font-weight: 400;
 `;
 
@@ -162,6 +165,7 @@ export const PriceContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 0;
+  margin-top: 1.5rem;
 `;
 
 export const PriceBox = styled.div`
@@ -172,9 +176,10 @@ export const PriceBox = styled.div`
 `;
 
 export const OriginalPrice = styled.div`
+  margin-left: 0.25rem;
   text-decoration: line-through;
   color: ${({ theme }) => theme.colors.content.sub};
-  font-size: ${({ theme }) => theme.typography.size.base};
+  font-size: 1.125rem;
 `;
 
 export const ShippingType = styled.div`
@@ -184,33 +189,28 @@ export const ShippingType = styled.div`
 
 export const FinalPrice = styled.div`
   display: flex;
-  margin: 0;
+  margin-top: 0.5rem;
   align-items: flex-end;
-  font-size: ${({ theme }) => theme.typography.size.xxxm};
-  font-weight: ${({ theme }) => theme.typography.weight.bold};
+  font-size: 1.75rem;
+  font-weight: 600;
   color: ${({ theme }) => theme.colors.content.main};
+  line-height: 1;
 `;
 
 export const DiscountPercent = styled.span`
-  margin-left: ${({ theme }) => theme.spacing[2]};
   color: ${({ theme }) => theme.colors.primary};
-  font-size: ${({ theme }) => theme.typography.size.xxxm};
+  font-size: 1.125rem;
   font-weight: ${({ theme }) => theme.typography.weight.semibold};
 `;
 
 export const Content = styled.div`
-    margin: ${({ theme }) => theme.spacing[3]} 0;
-    font-size: ${({ theme }) => theme.typography.size.lg};
+    font-size: 1.125rem;
     color: ${({ theme }) => theme.colors.content.main};
     line-height: 1.5;
     word-break: break-word;
     overflow-wrap: anywhere;
     white-space: pre-wrap;
-    .custom-divider {
-        height: 1px;
-        background-color: ${({ theme }) => theme.colors.border.board};
-        margin: ${({ theme }) => theme.spacing[6]} 0;
-    }
+    margin-top: 2rem;
 `;
 
 export const MetaRow = styled.div`
@@ -218,20 +218,22 @@ export const MetaRow = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: ${({ theme }) => theme.spacing[4]};
+  gap: 0.5rem;
   color: ${({ theme }) => theme.colors.content.sub};
-  font-size: ${({ theme }) => theme.typography.size.sm};
+  font-size: 1rem;
   line-height: 1.2;
+  margin-top: 2.5rem;
 
   span {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
+    gap: 0.5rem;
   }
 
   .meta-divider {
     color: ${({ theme }) => theme.colors.neutral[300]};
   }
+    
   .meta-eye {
     color: ${({ theme }) => theme.colors.content.tertiary};
   }
@@ -246,6 +248,7 @@ export const BottomActions = styled.div`
   display: flex;
   gap: ${({ theme }) => theme.spacing[2]};
   justify-content: flex-end;
+  margin-top: 1rem;
 `;
 
 export const ShareButton = styled.button`
