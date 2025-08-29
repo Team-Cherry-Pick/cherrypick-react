@@ -36,8 +36,7 @@ export const Wrapper = styled.div`
   border-radius: 0;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
   background-color: transparent;
-  margin-top: ${({ theme }) => theme.spacing[6]};
-  padding: ${({ theme }) => theme.spacing[4]};
+  padding: 0 1.25rem;
 
   &.ended {
     filter: grayscale(100%);
@@ -49,6 +48,7 @@ export const ImageSection = styled.div`
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
+  align-items: center;
   gap: ${({ theme }) => theme.spacing[2]};
 `;
 
@@ -57,12 +57,10 @@ export const MainImageWrapper = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 48rem;
+  max-width: 32rem;
   height: auto;
   background-color: ${({ theme }) => theme.colors.neutral[50]};
-  border-radius: 12px;
   overflow: hidden;
-  border: 1px solid ${({ theme }) => theme.colors.border.card};
 `;
 
 export const MainImage = styled.img`
