@@ -72,32 +72,34 @@ function ProductDetailPage() {
 
     return (
         <DefaultLayout background="board">
-            <ProductTopSection deal={deal} onVoteChange={handleVoteChange} />
-            <SubContainer>
-                <RecommendWrapper>
-                    <ProductRecommend />
-                </RecommendWrapper>
+            <ContentWrapper>
+                <ProductTopSection deal={deal} onVoteChange={handleVoteChange} />
+                <SubContainer>
+                    <RecommendWrapper>
+                        <ProductRecommend />
+                    </RecommendWrapper>
 
-                <CommentContainer>
-                    {commentLoading ? (
-                        <LoadingSpinner />
-                    ) : (
-                        <>
-                            {bestComments && bestComments.length > 0 && (
-                                <BestCommentList
-                                    bestComments={bestComments}
+                    <CommentContainer>
+                        {commentLoading ? (
+                            <LoadingSpinner />
+                        ) : (
+                            <>
+                                {bestComments && bestComments.length > 0 && (
+                                    <BestCommentList
+                                        bestComments={bestComments}
+                                        onLikeToggle={refreshComments}
+                                    />
+                                )}
+                                <ProductComments
+                                    dealId={id!}
+                                    refreshKey={refreshKey}
                                     onLikeToggle={refreshComments}
                                 />
-                            )}
-                            <ProductComments
-                                dealId={id!}
-                                refreshKey={refreshKey}
-                                onLikeToggle={refreshComments}
-                            />
-                        </>
-                    )}
-                </CommentContainer>
-            </SubContainer>
+                            </>
+                        )}
+                    </CommentContainer>
+                </SubContainer>
+            </ContentWrapper>
         </DefaultLayout>
     );
 }
@@ -113,8 +115,6 @@ const SubContainer = styled.div`
 
 const RecommendWrapper = styled.div`
     width: 100%;
-    background-color: transparent;
-    border-radius: 0;
     box-shadow: none;
 `;
 
@@ -124,7 +124,12 @@ const CommentContainer = styled.div`
     gap: ${({ theme }) => theme.spacing[6]};
     flex: 1;
     width: 100%;
-    background-color: transparent;
-    border-radius: 0;
     box-shadow: none;
+`;
+
+const ContentWrapper = styled.div`
+    margin: 0 auto;
+    width: 100%;
+    max-width: 37.5rem;
+    background-color: ${({ theme }) => theme.colors.background.card};
 `;
