@@ -6,6 +6,8 @@ import UnderArrowIcon from '@/assets/icons/under-arrow-Icon.svg?react';
 import Dropdown from '@/components/common/Dropdown';
 import aiIcon from '@/assets/icons/ai-Icon.png';
 import aiActiveIcon from '@/assets/icons/ai-active-Icon.png';
+import { AccessTokenService } from '@/services/accessTokenService';
+import { AccessTokenType } from '@/types/Api';
 
 const timeRangeOptions = [
     { label: '최근 3시간', value: 'LAST3HOURS' },
@@ -56,11 +58,20 @@ export function SortButtons({ aiActive, setAiActive }: SortButtonsProps) {
         prevAiActive.current = aiActive;
     }, [aiActive]);
 
+    const onClickBtnAIRecommendation = () => {
+        const token = AccessTokenService.get(AccessTokenType.USER);
+        if (!token) {
+            alert('로그인 후 이용해주세요');
+            return;
+        }
+        setAiActive(prev => !prev)
+    }
+
     return (
         <div className={styles.container}>
             <button
                 className={`${styles.sortButton} ${styles.aiSortButton} ${aiActive && styles.aiSortButton_active}`}
-                onClick={() => setAiActive(prev => !prev)}
+                onClick={() => onClickBtnAIRecommendation()}
             >
                 <div className={styles.aiSortButton__gradient} />
                 <div className={`${styles.iconWrapper} ${aiActive && styles.iconWrapper_active}`}>
