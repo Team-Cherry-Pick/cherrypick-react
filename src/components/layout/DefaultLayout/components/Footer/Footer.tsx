@@ -36,6 +36,8 @@ export default function Footer({ background = 'root' }: FooterProps) {
                         >
                             개인정보처리방침
                         </a>
+                        <span className={styles.divider}>|</span>
+                        문의(cherrypick.help@gmail.com)
                     </div>
                     <div className={styles.copyNotice}>©Copyright 2025. Repik. All Right Reserved</div>
                 </div>
