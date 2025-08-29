@@ -106,13 +106,16 @@ export default ProductDetailPage;
 
 const SubContainer = styled.div`
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     padding: ${({ theme }) => theme.spacing[6]} 0;
     gap: ${({ theme }) => theme.spacing[6]};
 `;
 
 const RecommendWrapper = styled.div`
-    width: calc(30rem + ${({ theme }) => theme.spacing[4]});
+    width: 100%;
+    background-color: transparent;
+    border-radius: 0;
+    box-shadow: none;
 `;
 
 const CommentContainer = styled.div`
@@ -120,4 +123,8 @@ const CommentContainer = styled.div`
     flex-direction: column;
     gap: ${({ theme }) => theme.spacing[6]};
     flex: 1;
+    width: 100%;
+    background-color: transparent;
+    border-radius: 0;
+    box-shadow: none;
 `;

@@ -30,11 +30,12 @@ export const EndButton = styled.button`
 
 export const Wrapper = styled.div`
   display: flex;
+  flex-direction: column;
   height: 100%;
-  gap: ${({ theme }) => theme.spacing[8]};
-  border-radius: ${({ theme }) => theme.radius[5]};
+  gap: ${({ theme }) => theme.spacing[6]};
+  border-radius: 0;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
-  background-color: ${({ theme }) => theme.colors.background.card};
+  background-color: transparent;
   margin-top: ${({ theme }) => theme.spacing[6]};
   padding: ${({ theme }) => theme.spacing[4]};
 
@@ -55,10 +56,11 @@ export const MainImageWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 30rem;
-  height: 30rem;
+  width: 100%;
+  max-width: 48rem;
+  height: auto;
   background-color: ${({ theme }) => theme.colors.neutral[50]};
-  border-radius: 20px;
+  border-radius: 12px;
   overflow: hidden;
   border: 1px solid ${({ theme }) => theme.colors.border.card};
 `;
@@ -90,6 +92,10 @@ export const ThumbnailRow = styled.div`
   margin-top: ${({ theme }) => theme.spacing[2]};
   display: flex;
   gap: ${({ theme }) => theme.spacing[2]};
+  justify-content: center;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
 `;
 
 export const Thumbnail = styled.div`
@@ -124,7 +130,7 @@ export const DetailSection = styled.div`
   position: relative;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing[2.5]};
-  padding-left:  ${({ theme }) => theme.spacing[2]};
+  padding-left: 0;
 `;
 
 export const Divider = styled.div`
