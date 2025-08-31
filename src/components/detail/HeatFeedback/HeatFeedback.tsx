@@ -96,15 +96,15 @@ function HeatFeedback({ heat, dealId, initialVoteType, onVoteChange }: HeatFeedb
 
     return (
         <Container>
+            <HeatWrapper>
+                <Heat>{heat}°</Heat>
+            </HeatWrapper>
+
             <ThumbWrapper>
                 <LikeBtn $active={voteType === 'TRUE'} onClick={handleLike}>
                     <LikeIcon />
                 </LikeBtn>
             </ThumbWrapper>
-
-            <HeatWrapper>
-                <Heat>{heat}°</Heat>
-            </HeatWrapper>
 
             <ThumbWrapper>
                 <DislikeBtn $active={voteType === 'FALSE'} onClick={handleDislike}>

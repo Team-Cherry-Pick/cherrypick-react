@@ -2,15 +2,10 @@
 import styled, { css } from 'styled-components';
 
 export const Container = styled.div`
+  flex: 1;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  background-color: ${({ theme }) => theme.colors.neutral[0]};
-  border-radius: 999rem;
-  padding: 0.5rem;
-  position: relative;
-  gap: 1rem;
-    border: 1px solid ${({ theme }) => theme.colors.neutral[100]};
+  gap: 0.5rem;
 `;
 
 export const ThumbWrapper = styled.div`
@@ -20,9 +15,9 @@ export const ThumbWrapper = styled.div`
 `;
 
 const baseButton = css`
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -38,27 +33,30 @@ export const LikeBtn = styled.button<{ $active?: boolean }>`
   background-color: ${({ $active, theme }) =>
     $active ? theme.colors.primaryLayer[500] : theme.colors.neutral[50]};
   color: ${({ $active, theme }) =>
-    $active ? '#ffffff' : theme.colors.primaryLayer[300]};
+    $active ? '#ffffff' : theme.colors.content.sub};
 `;
 
 export const DislikeBtn = styled.button<{ $active?: boolean }>`
   ${baseButton}
   background-color: ${({ $active, theme }) =>
     $active ? '#5670BB' : theme.colors.neutral[50]};
-  color: ${({ $active }) => ($active ? '#ffffff' : '#98B2E8')};
+  color: ${({ $active, theme }) =>
+    $active ? '#ffffff' : theme.colors.content.sub};
 `;
 
 export const HeatWrapper = styled.div`
+  flex: 1;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   position: relative;
+  justify-content: center;
 `;
 
 export const Heat = styled.span`
-  font-size: ${({ theme }) => theme.typography.size.base};
+  font-size: 1.25rem;
   font-weight: 600;
-  color: ${({ theme }) => theme.colors.content.main};
+  color: ${({ theme }) => theme.colors.content.sub};
 `;
 
 export const DislikeModal = styled.ul`

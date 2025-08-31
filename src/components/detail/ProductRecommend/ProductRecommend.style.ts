@@ -4,13 +4,12 @@ export const Wrapper = styled.section`
   display: block;
   flex: 1;
   margin: 0;
-  padding: ${({ theme }) => theme.spacing[5]};
+  padding: 2rem 1.125rem;
 `;
 
 export const Title = styled.h2`
   display: block;
-  margin-top: ${({ theme }) => theme.spacing[3]};
-  font-size: ${({ theme }) => theme.typography.size.lg};
+  font-size: 1.125rem;
   font-weight: ${({ theme }) => theme.typography.weight.bold};
 `;
 

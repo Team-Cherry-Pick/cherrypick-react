@@ -33,9 +33,7 @@ export const Wrapper = styled.div`
   flex-direction: column;
   height: 100%;
   border-radius: 0;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
-  background-color: transparent;
-  padding: 0 1.25rem;
+  padding: 0 1.25rem 1.5rem 1.25rem;
 
   &.ended {
     filter: grayscale(100%);
@@ -69,10 +67,6 @@ export const MainImage = styled.img`
   object-fit: cover;
   background-color: ${({ theme }) => theme.colors.neutral[50]};
   border: 1px solid ${({ theme }) => theme.colors.border.card};
-
-  &.hovered {
-    opacity: 0.6;
-  }
 `;
 
 export const ImagePlaceholder = styled.div`
@@ -92,7 +86,7 @@ export const DetailSection = styled.div`
   flex: 1;
   position: relative;
   flex-direction: column;
-  padding: 2rem 0;
+  padding-top: 2rem;
 `;
 
 export const Divider = styled.div`
@@ -244,26 +238,32 @@ export const MetaRow = styled.div`
 `;
 
 export const BottomActions = styled.div`
+  width: calc(100% + 1rem);
+  height: 4rem;
   display: flex;
-  gap: ${({ theme }) => theme.spacing[2]};
+  gap: 0.5rem;
+  padding: 0.5rem;
   justify-content: flex-end;
-  margin-top: 1rem;
+  margin: 1rem 0 0  -0.5rem;
+  margin-right: -0.5rem;
+  background-color: ${({ theme }) => theme.colors.neutral[0]};
+  border-radius: 0.75rem;
+  border: 1px solid ${({ theme }) => theme.colors.neutral[50]};
 `;
 
 export const ShareButton = styled.button`
-  padding: ${({ theme }) => `${theme.spacing[5]} ${theme.spacing[16]}`};
-  border-radius: 8px;
-  background-color: ${({ theme }) => theme.colors.neutral[900]};
-  color: ${({ theme }) => theme.colors.neutral[0]};
-  font-size: ${({ theme }) => theme.typography.size.base};
+  width: 25%;
+  border-radius: 0.5rem;
+  color: ${({ theme }) => theme.colors.content.sub};
+  font-size: 1rem;
   font-weight: ${({ theme }) => theme.typography.weight.semibold};
-  border: none;
+  border: 1px solid ${({ theme }) => theme.colors.neutral[100]};
   cursor: pointer;
 `;
 
 export const BuyButton = styled.button`
-  padding: ${({ theme }) => `${theme.spacing[5]} ${theme.spacing[16]}`};
-  border-radius: 8px;
+  width: 25%;
+  border-radius: 0.5rem;
   background: ${({ theme }) => css`
     linear-gradient(
       90deg,
@@ -272,7 +272,7 @@ export const BuyButton = styled.button`
     )
   `};
   color: #ffffff;
-  font-size: ${({ theme }) => theme.typography.size.base};
+  font-size: 1rem;
   font-weight: ${({ theme }) => theme.typography.weight.semibold};
   border: none;
   cursor: pointer;
@@ -284,7 +284,6 @@ export const BottomContainer = styled.div`
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing[2]};
 `;
 
 export const VariousPriceText = styled.div`
