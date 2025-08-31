@@ -165,7 +165,7 @@ export const PriceContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 0;
-  margin-top: 1.5rem;
+  margin-top: 1rem;
 `;
 
 export const PriceBox = styled.div`
@@ -176,7 +176,6 @@ export const PriceBox = styled.div`
 `;
 
 export const OriginalPrice = styled.div`
-  margin-left: 0.25rem;
   text-decoration: line-through;
   color: ${({ theme }) => theme.colors.content.sub};
   font-size: 1.125rem;
@@ -189,7 +188,7 @@ export const ShippingType = styled.div`
 
 export const FinalPrice = styled.div`
   display: flex;
-  margin-top: 0.5rem;
+  margin-top: 0.25rem;
   align-items: flex-end;
   font-size: 1.75rem;
   font-weight: 600;
