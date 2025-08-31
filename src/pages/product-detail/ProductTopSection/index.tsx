@@ -109,7 +109,6 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
                     <S.StoreTagContainer>
                         <S.StoreBadge>{deal?.store?.storeName ?? '알 수 없음'}</S.StoreBadge>
                         <S.TagList>
-                            <S.Tag key={0}>{deal.shipping.shippingType === 'FREE' ? '무료배송' : '배송비 있음'}</S.Tag>
                             {deal.infoTags.map((tag, idx) => (
                                 <S.Tag key={idx + 1}>{tag}</S.Tag>
                             ))}
