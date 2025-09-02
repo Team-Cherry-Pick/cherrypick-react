@@ -19,6 +19,18 @@
     top: 0;
     z-index: 20;
   }
+  
+  /* 모바일에서 헤더 위쪽 영역을 같은 색으로 채우기 (overscroll bounce 대응) */
+  .headerWrapper::before {
+    content: '';
+    position: absolute;
+    top: -100vh; /* 화면 높이만큼 위로 확장 */
+    left: 0;
+    right: 0;
+    height: 100vh;
+    background-color: inherit; /* 부모의 배경색 상속 */
+    z-index: -1;
+  }
 }
 
 .headerContainer {
