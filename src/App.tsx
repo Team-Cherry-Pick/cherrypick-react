@@ -17,14 +17,10 @@ import { useEffect } from 'react';
 import { useRefreshProfile } from './hooks/useRefreshProfile';
 import { generateDeviceID } from './types/Auth';
 import { OverlayProvider } from './context/overlay';
-import useIsMobileViewport from '@/hooks/useIsMobileViewport';
-
-// import MobileComingSoonPage from './pages/mobile-coming-soon/MobileComingSoonPage';
 
 const App = () => {
     const [theme] = useAtom(themeAtom);
     const { refreshProfile } = useRefreshProfile();
-    // const isMobile =useIsMobileViewport();
 
     useEffect(() => {
         // 디바이스 ID 없다면 생성 후 저장
@@ -37,11 +33,6 @@ const App = () => {
         refreshProfile();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-    
-    // if (isMobile) {
-    //     return <MobileComingSoonPage />;
-    // }
 
     return (
         <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
