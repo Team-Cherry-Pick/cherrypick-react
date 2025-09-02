@@ -7,9 +7,11 @@ import { AccessTokenService } from '@/services/accessTokenService';
 import { AccessTokenType } from '@/types/Api';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import useIsMobileViewport from '@/hooks/useIsMobileViewport';
 
 const LoginPage = () => {
     const navigate = useNavigate();
+    const isMobile = useIsMobileViewport();
 
     // 로그인된 사용자는 메인 페이지로 리다이렉트
     useEffect(() => {
@@ -26,7 +28,7 @@ const LoginPage = () => {
     return (
         <DefaultLayout background="board">
             <div className={styles.container}>
-                <div className={styles.loginBoxWrapper}>
+                <div className={`${isMobile ? styles.loginBoxMobile : styles.loginBoxWrapper}`}>
                     <div className={styles.logoWrapper}>
                         <RepikLogo className={styles.repikLogoImg} />
                         <div className={styles.repikLogoText}>Repik</div>

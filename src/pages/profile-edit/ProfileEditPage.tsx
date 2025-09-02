@@ -16,10 +16,12 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { DeleteUserRes, PostAuthRegisterCompletionReq } from '@/types/Auth';
 import { useRefreshProfile } from '@/hooks/useRefreshProfile';
 import { FaRegSquare, FaCheckSquare } from "react-icons/fa";
+import useIsMobileViewport from '@/hooks/useIsMobileViewport';
 
 export function ProfileEditPage() {
     const navigate = useNavigate();
     const location = useLocation();
+    const isMobile = useIsMobileViewport();
 
     // registerToken도 안 넘어왔고, accessToken도 없으면 라우팅 접근 불가능하도록 설정
     useEffect(() => {
@@ -214,7 +216,7 @@ export function ProfileEditPage() {
     return (
         <DefaultLayout background="board">
             <div className={styles.container}>
-                <div className={styles.profileEditBoxWrapper}>
+                <div className={`${isMobile ? styles.profileEditBoxMobile : styles.profileEditBoxWrapper}`}>
                     {/* 이미지 선택 */}
                     <div className={styles.profileImageButton} onClick={onClickBtnProfileImage}>
                         <img className={styles.profileImage} src={newProfile.imageURL?.trim() ? newProfile.imageURL : PersonIcon} alt="user" />

@@ -72,12 +72,27 @@ const authApiClient = axios.create({
 });
 
 /**
+ * 인증이 필요 없는 요청에 대한 인터셉터 설정
+ * - 요청 시 DeviceID 헤더 자동 추가
+ */
+publicApiClient.interceptors.request.use(
+    async (config: InternalAxiosRequestConfig) => {
+        config.headers.DeviceId = localStorage.getItem('deviceID');
+        return config;
+    },
+    error => {
+        return Promise.reject(error);
+    },
+);
+
+/**
  * 인증이 필요한 요청에 대한 인터셉터 설정
- * - 요청 시 Authorization 헤더 자동 추가
+ * - 요청 시 DeviceID, Authorization 헤더 자동 추가
  */
 authApiClient.interceptors.request.use(
     async (config: InternalAxiosRequestConfig) => {
 
+        config.headers.DeviceId = localStorage.getItem('deviceID');
         const accessToken: string | null = AccessTokenService.get(AccessTokenType.USER);
 
         if (accessToken) {
