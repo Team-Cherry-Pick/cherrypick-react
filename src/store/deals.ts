@@ -25,5 +25,4 @@ export const newDealAtom = atom<UploadDeal>({
     content: '',
     discountIds: [],
     discountNames: [],
-    discountDescription: '',
 })

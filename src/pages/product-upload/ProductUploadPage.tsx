@@ -101,7 +101,6 @@ export default function ProductUploadPage() {
             content: deal.content,
             discountIds: deal.discountIds,
             discountNames: deal.discountNames,
-            discountDescription: deal.discountDescription,
         };
 
         uploadDeal(uploadDealData).then(() => {
@@ -164,7 +163,6 @@ export default function ProductUploadPage() {
                         content: d.content || '',
                         discountIds: d.discountIds || [],
                         discountNames: d.discountName.split(',').map(name => name.trim()),
-                        discountDescription: d.discountDescription || '',
                     });
                     // discountIds/discountName을 selectedDiscountAtom에도 반영
                     setSelectedDiscount(
