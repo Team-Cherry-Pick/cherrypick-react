@@ -6,14 +6,12 @@ import { keywordAtom } from '@/store/search';
 import useIsMobileViewport from '@/hooks/useIsMobileViewport';
 
 interface MainSearchBarProps {
-    aiActive: boolean;
-    setAiActive: React.Dispatch<React.SetStateAction<boolean>>;
     onClose?: () => void;
 }
 
 const RECENT_KEYWORDS_KEY = 'recentKeywords';
 
-const MainSearchBar = ({ aiActive, setAiActive, onClose }: MainSearchBarProps) => {
+const MainSearchBar = ({ onClose }: MainSearchBarProps) => {
     const [query, setQuery] = useState('');
     const [recentKeywords, setRecentKeywords] = useState<string[]>([]);
     const setKeyword = useSetAtom(keywordAtom);
@@ -56,10 +54,6 @@ const MainSearchBar = ({ aiActive, setAiActive, onClose }: MainSearchBarProps) =
     const handleSearch = (keyword?: string) => {
         const trimmed = (keyword ?? query).trim();
 
-        if (aiActive) {
-            setAiActive(false);
-        }
-
         const filtered = recentKeywords.filter(item => item !== trimmed);
         if (trimmed) {
             const updated = [trimmed, ...filtered].slice(0, 10); // 최대 10개 저장
@@ -86,12 +80,7 @@ const MainSearchBar = ({ aiActive, setAiActive, onClose }: MainSearchBarProps) =
                     placeholder="검색어를 입력해주세요"
                     value={query}
                     className={styles.searchInput}
-                    onChange={e => {
-                        if (e.target.value.length > 0) {
-                            setAiActive(false);
-                        }
-                        setQuery(e.target.value);
-                    }}
+                    onChange={e => setQuery(e.target.value)}
                     onKeyDown={e => e.key === 'Enter' && handleSearch()}
                 />
                 <button

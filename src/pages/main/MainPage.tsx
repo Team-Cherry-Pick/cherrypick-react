@@ -13,7 +13,6 @@ import MainKeywords from './components/MainKeywords';
 import MainDealList from './components/MainDealList';
 
 const MainPage = () => {
-    const [aiActive, setAiActive] = useState(false);
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [isSearchOverlayOpen, setIsSearchOverlayOpen] = useState(false);
     const keyword = useAtomValue(keywordAtom);
@@ -53,7 +52,6 @@ const MainPage = () => {
             <DefaultLayout onSearchClick={handleSearchClick}>
                 <div className={styles.container}>
                     <MainFilter 
-                      aiActive={aiActive}
                       isOpen={isFilterOpen}
                       onClose={() => setIsFilterOpen(false)}
                     />
@@ -61,8 +59,6 @@ const MainPage = () => {
                         <div className={getSearchBarWrapperClass()} onClick={isMobile ? handleSearchOverlayClose : undefined}>
                             <div className={styles.searchOverlayContent} onClick={(e) => e.stopPropagation()}>
                                 <MainSearchBar 
-                                    aiActive={aiActive} 
-                                    setAiActive={setAiActive}
                                     onClose={handleSearchOverlayClose}
                                 />
                                 {isMobile && isSearchOverlayOpen && (
@@ -71,14 +67,12 @@ const MainPage = () => {
                             </div>
                         </div>
                         <div className={styles.sortRow}>
-                            <MainKeywords aiActive={aiActive} keyword={keyword} />
+                            <MainKeywords keyword={keyword} />
                             <SortButtons 
-                              aiActive={aiActive} 
-                              setAiActive={setAiActive}
                               onFilterClick={() => setIsFilterOpen(true)}
                             />
                         </div>
-                        <MainDealList aiActive={aiActive} />
+                        <MainDealList />
                     </div>
                 </div>
 

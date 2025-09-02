@@ -5,7 +5,6 @@ import type {
     UploadDeal,
     UploadDealResponse,
     Store,
-    FetchRecommendResponse,
 } from '@/types/Deal';
 import { cleanTitle, cleanStore } from '@/utils/stringCleaner';
 import { HttpMethod } from '@/types/Api';
@@ -28,17 +27,6 @@ export async function fetchDeals(page: number, searchRequest?: SearchRequest): P
         };
     } else {
         return { deals: [], hasNext: false };
-    }
-}
-
-export async function fetchRecommend(): Promise<FetchRecommendResponse> {
-    const result = await authRequest<FetchRecommendResponse>(HttpMethod.GET, `/deal/recommend`);
-    if (result.success) {
-        return result.data;
-    } else {
-        return {
-            deals: [],
-        };
     }
 }
 
