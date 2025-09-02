@@ -295,3 +295,111 @@ export const VariousPriceText = styled.div`
   margin: 0;
   padding: 0;
 `;
+
+// Carousel styles
+export const CarouselContainer = styled.div`
+  position: relative;
+  width: 100%;
+  background-color: ${({ theme }) => theme.colors.neutral[50]};
+  border-radius: 0.5rem;
+  overflow: hidden;
+`;
+
+export const CarouselWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+`;
+
+export const CarouselSlides = styled.div<{ translateX: number }>`
+  display: flex;
+  width: 400%;
+  transform: translateX(${props => props.translateX}%);
+  transition: transform 0.3s ease-in-out;
+`;
+
+export const CarouselSlide = styled.div`
+  flex: 0 0 25%;
+  width: 25%;
+  height: auto;
+`;
+
+export const CarouselImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  background-color: ${({ theme }) => theme.colors.neutral[50]};
+  border: 1px solid ${({ theme }) => theme.colors.border.card};
+`;
+
+export const CarouselNavButton = styled.button<{ direction: 'left' | 'right' }>`
+  position: absolute;
+  top: 50%;
+  ${props => props.direction === 'left' ? 'left: 8px;' : 'right: 8px;'}
+  transform: translateY(-50%);
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  
+  svg {
+    color: white !important;
+    fill: white !important;
+    width: 1rem;
+    height: 1rem;
+    
+    path {
+      fill: white !important;
+    }
+  }
+  
+  &:hover:not(:disabled) {
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+  
+  &:disabled {
+    background-color: rgba(0, 0, 0, 0.3);
+    cursor: not-allowed;
+    
+    svg {
+      color: rgba(255, 255, 255, 0.5);
+      fill: rgba(255, 255, 255, 0.5);
+    }
+  }
+`;
+
+export const CarouselIndicators = styled.div`
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.4rem;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 0.4rem 0.75rem;
+  border-radius: 1rem;
+`;
+
+export const CarouselIndicator = styled.button<{ active: boolean }>`
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  background-color: ${props => props.active ? 'rgba(255, 255, 255, 0.9)' : 'rgba(255, 255, 255, 0.4)'};
+  transition: background-color 0.2s ease;
+  
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+`;

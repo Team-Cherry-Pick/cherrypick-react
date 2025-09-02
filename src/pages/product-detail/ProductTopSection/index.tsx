@@ -2,14 +2,13 @@
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import type { DetailedDeal } from '@/types/Deal';
-import { IoMdEye } from "react-icons/io";
 import HeatFeedback from '@/components/detail/HeatFeedback';
 import * as S from './ProductTopSection.style';
-import LogoPic from '@/assets/icons/LogoPic.svg';
-import TalkBubbleIcon from '@/assets/icons/talkbubble.svg?react';
 import { endDeal, deleteDeal } from '@/services/apiDeal';
 import { AccessTokenService } from '@/services/accessTokenService';
 import { AccessTokenType } from '@/types/Api';
+import { useCarouselImages } from '@/hooks/useCarouselImages';
+import { ImageCarousel } from './components/ImageCarousel';
 
 interface Props {
     deal: DetailedDeal;
@@ -17,12 +16,15 @@ interface Props {
 }
 
 const ProductTopSection = ({ deal, onVoteChange }: Props) => {
-    const [mainImage] = useState(deal.imageUrls[0]?.url || '');
     const navigate = useNavigate();
+    const carouselImages = useCarouselImages(deal.imageUrls);
 
     const safeContent = (deal.content ?? '').replace(/<hr\s*\/?>/gi, '<div class="custom-divider"></div>');
     const [enlargedImage, setEnlargedImage] = useState<string | null>(null);
     const [localDeal, setLocalDeal] = useState(deal);
+
+    // TODO: Implement image modal when enlargedImage is set
+    // console.log('Enlarged image:', enlargedImage);
 
     const handleEndDeal = async () => {
         const confirmed = window.confirm('해당하는 핫딜이 품절/종료되었습니까?');
@@ -53,137 +55,100 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
     };
 
     return (
-        <>
-            {enlargedImage && (
-                <div
-                    onClick={() => setEnlargedImage(null)}
-                    style={{
-                        position: 'fixed',
-                        inset: 0,
-                        backgroundColor: 'rgba(0, 0, 0, 0.4)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        zIndex: 1000,
-                    }}
-                >
-                    <img
-                        src={enlargedImage}
-                        alt="확대 이미지"
-                        style={{
-                            maxWidth: '60vw',
-                            maxHeight: '60vh',
-                            transform: 'scale(1.5)',
-                            objectFit: 'contain',
-                            borderRadius: '1rem',
-                            boxShadow: '0 0 20px rgba(0,0,0,0.1)',
-                            transition: 'transform 0.2s ease-in-out',
-                        }}
-                    />
-                </div>
+        <S.Wrapper className={localDeal.isSoldOut ? 'ended' : ''}>
+            {localDeal.isSoldOut && (
+                <S.Overlay>
+                    종료된 핫딜입니다
+                </S.Overlay>
             )}
+            {/* 위: 이미지 캐러셀 */}
+            <S.ImageSection>
+                <ImageCarousel
+                    images={carouselImages}
+                    onImageClick={setEnlargedImage}
+                />
+            </S.ImageSection>
 
-            <S.Wrapper className={localDeal.isSoldOut ? 'ended' : ''}>
-                {localDeal.isSoldOut && (
-                    <S.Overlay>
-                        종료된 핫딜입니다
-                    </S.Overlay>
-                )}
-                {/* 위: 대표 이미지 + 썸네일 리스트 */}
-                <S.ImageSection>
-                    <S.MainImageWrapper>
-                        <S.MainImage
-                            src={mainImage || LogoPic}
-                            alt=""
-                            onClick={() => setEnlargedImage(mainImage)}
-                            onError={e => {
-                                e.currentTarget.src = LogoPic;
+            {/* 아래: 딜 상세 */}
+            <S.DetailSection>
+                <S.Title>{deal.title}</S.Title>
+                <S.StoreTagContainer>
+                    <S.StoreBadge>{deal?.store?.storeName ?? '알 수 없음'}</S.StoreBadge>
+                    <S.TagList>
+                        {deal.infoTags.map((tag, idx) => (
+                            <S.Tag key={idx + 1}>{tag}</S.Tag>
+                        ))}
+                    </S.TagList>
+                    {AccessTokenService.hasToken(AccessTokenType.USER) && (
+                        <S.ActionGroup>
+                            <S.ActionButton onClick={handleEndDeal}>종료처리</S.ActionButton>
+                            <S.ActionButton onClick={handleEditDeal}>수정</S.ActionButton>
+                            <S.ActionButton onClick={handleDeleteDeal}>삭제</S.ActionButton>
+                        </S.ActionGroup>
+                    )}
+                </S.StoreTagContainer>
+                <S.PriceContainer>
+                    <S.PriceBox>
+                        {(() => {
+                            const percent = Math.round(
+                                ((deal.price.regularPrice - deal.price.discountedPrice) /
+                                    deal.price.regularPrice) *
+                                100
+                            );
+                            return isNaN(percent) ? null : <S.DiscountPercent>{percent}%</S.DiscountPercent>;
+                        })()}
+                        <S.OriginalPrice>
+                            {deal.price.regularPrice.toLocaleString()}원
+                        </S.OriginalPrice>
+                    </S.PriceBox>
+
+                    {deal.price.priceType === 'VARIOUS' ? (
+                        <S.VariousPriceText>다양한 가격</S.VariousPriceText>
+                    ) : (
+                        <S.FinalPrice>
+                            {deal.price.discountedPrice.toLocaleString()}원
+                        </S.FinalPrice>
+                    )}
+                </S.PriceContainer>
+
+                <S.Content dangerouslySetInnerHTML={{ __html: safeContent }} />
+
+                <S.BottomContainer>
+                    <S.MetaRow>
+                        <span>{deal.user.userName}</span>
+                        <span className="meta-divider">|</span>
+                        <span>조회 {deal.totalViews}</span>
+                        <span className="meta-divider">|</span>
+                        <span>댓글 {deal.totalComments}</span>
+                    </S.MetaRow>
+
+                    <S.BottomActions>
+                        <HeatFeedback
+                            heat={deal.heat}
+                            dealId={deal.dealId}
+                            initialVoteType={deal.voteType}
+                            onVoteChange={onVoteChange} />
+                        <S.ShareButton
+                            onClick={() => {
+                                navigator.clipboard.writeText(window.location.href);
+                                alert('게시글 주소가 복사되었습니다.');
                             }}
-                        />
-                    </S.MainImageWrapper>
-                </S.ImageSection>
-
-                {/* 아래: 딜 상세 */}
-                <S.DetailSection>
-                    <S.Title>{deal.title}</S.Title>
-                    <S.StoreTagContainer>
-                        <S.StoreBadge>{deal?.store?.storeName ?? '알 수 없음'}</S.StoreBadge>
-                        <S.TagList>
-                            {deal.infoTags.map((tag, idx) => (
-                                <S.Tag key={idx + 1}>{tag}</S.Tag>
-                            ))}
-                        </S.TagList>
-                        {AccessTokenService.hasToken(AccessTokenType.USER) && (
-                            <S.ActionGroup>
-                                <S.ActionButton onClick={handleEndDeal}>종료처리</S.ActionButton>
-                                <S.ActionButton onClick={handleEditDeal}>수정</S.ActionButton>
-                                <S.ActionButton onClick={handleDeleteDeal}>삭제</S.ActionButton>
-                            </S.ActionGroup>
-                        )}
-                    </S.StoreTagContainer>
-                    <S.PriceContainer>
-                        <S.PriceBox>
-                            {(() => {
-                                const percent = Math.round(
-                                    ((deal.price.regularPrice - deal.price.discountedPrice) /
-                                        deal.price.regularPrice) *
-                                    100
-                                );
-                                return isNaN(percent) ? null : <S.DiscountPercent>{percent}%</S.DiscountPercent>;
-                            })()}
-                            <S.OriginalPrice>
-                                {deal.price.regularPrice.toLocaleString()}원
-                            </S.OriginalPrice>
-                        </S.PriceBox>
-
-                        {deal.price.priceType === 'VARIOUS' ? (
-                            <S.VariousPriceText>다양한 가격</S.VariousPriceText>
-                        ) : (
-                            <S.FinalPrice>
-                                {deal.price.discountedPrice.toLocaleString()}원
-                            </S.FinalPrice>
-                        )}
-                    </S.PriceContainer>
-
-                    <S.Content dangerouslySetInnerHTML={{ __html: safeContent }} />
-
-                    <S.BottomContainer>
-                        <S.MetaRow>
-                            <span>{deal.user.userName}</span>
-                            <span className="meta-divider">|</span>
-                            <span>조회 {deal.totalViews}</span>
-                            <span className="meta-divider">|</span>
-                            <span>댓글 {deal.totalComments}</span>
-                        </S.MetaRow>
-
-                        <S.BottomActions>
-                            <HeatFeedback
-                                heat={deal.heat}
-                                dealId={deal.dealId}
-                                initialVoteType={deal.voteType}
-                                onVoteChange={onVoteChange} />
-                            <S.ShareButton
-                                onClick={() => {
-                                    navigator.clipboard.writeText(window.location.href);
-                                    alert('게시글 주소가 복사되었습니다.');
-                                }}
-                            >
-                                공유하기
-                            </S.ShareButton>
-                            <S.BuyButton
-                                onClick={() => {
-                                    if (deal.originalUrl) {
-                                        window.open(deal.originalUrl, '_blank');
-                                    }
-                                }}
-                            >
-                                구매하기
-                            </S.BuyButton>
-                        </S.BottomActions>
-                    </S.BottomContainer>
-                </S.DetailSection>
-            </S.Wrapper>
-        </>
+                        >
+                            공유하기
+                        </S.ShareButton>
+                        <S.BuyButton
+                            onClick={() => {
+                                if (deal.originalUrl) {
+                                    window.open(deal.originalUrl, '_blank');
+                                }
+                            }}
+                        >
+                            구매하기
+                        </S.BuyButton>
+                    </S.BottomActions>
+                </S.BottomContainer>
+            </S.DetailSection>
+        </S.Wrapper>
     )
 };
 
