@@ -39,7 +39,7 @@ export const basicFiltersAtom = atom<BasicFilters>({
     globalShipping: false,
 });
 
-export const timeRangeAtom = atom<TimeRange | undefined>('LAST24HOURS');
+export const timeRangeAtom = atom<TimeRange | undefined>('LAST3DAYS');
 
 export const sortTypeAtom = atom<SortType>('LATEST');
 
