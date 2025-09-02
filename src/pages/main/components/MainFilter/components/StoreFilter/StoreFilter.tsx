@@ -6,10 +6,12 @@ import { useAtom, useSetAtom } from 'jotai';
 import { selectedStoresAtom, triggerFetchAtom } from '@/store/search';
 import CloseIcon from '@/assets/icons/close-Icon.svg?react';
 import { useEffect } from 'react';
+import useIsMobileViewport from '@/hooks/useIsMobileViewport';
 
 export function StoreFilter() {
     const [selectedStores, setSelectedStores] = useAtom(selectedStoresAtom);
     const triggerFetch = useSetAtom(triggerFetchAtom);
+    const isMobile = useIsMobileViewport();
 
     const handleResetStore = () => {
         setSelectedStores([]);
@@ -17,6 +19,18 @@ export function StoreFilter() {
 
     const handleRemoveStore = (storeId: number) => {
         setSelectedStores(prev => prev.filter(store => store.storeId !== storeId));
+    };
+
+    // TODO: 수정 후 제거 필요
+    const handleStoreAdd = () => {
+        if (isMobile) {
+            alert('준비 중입니다');
+            return;
+        }
+        
+        overlay.open(props => {
+            return <StoreSelectModal {...props} context="main" />;
+        });
     };
 
     useEffect(() => {
@@ -36,11 +50,7 @@ export function StoreFilter() {
             <div className={styles.storeContainer}>
                 <button
                     className={styles.addButton}
-                    onClick={() => {
-                        overlay.open(props => {
-                            return <StoreSelectModal {...props} context="main" />;
-                        });
-                    }}
+                    onClick={handleStoreAdd}
                 >
                     <span>추가</span>
                     <PlusIcon width={14} />

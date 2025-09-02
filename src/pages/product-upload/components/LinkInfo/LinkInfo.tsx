@@ -4,9 +4,23 @@ import { useAtom } from 'jotai';
 import { overlay } from '@/context/overlay';
 import { StoreSelectModal } from '@/components/common/Modal';
 import { SelectTrigger, TextInput } from '@/components/common/Input';
+import useIsMobileViewport from '@/hooks/useIsMobileViewport';
 
 export function LinkInfo() {
     const [deal, setDeal] = useAtom(newDealAtom);
+    const isMobile = useIsMobileViewport();
+
+    // TODO: 수정 후 제거 필요
+    const handleStoreSelect = () => {
+        if (isMobile) {
+            alert('준비 중입니다');
+            return;
+        }
+        
+        overlay.open(props => {
+            return <StoreSelectModal {...props} context="upload" />;
+        });
+    };
 
     return (
         <div className={styles.linkInfoWrapper}>
@@ -21,11 +35,7 @@ export function LinkInfo() {
             />
             <SelectTrigger
                 label={deal.storeName || '스토어 선택'}
-                onClick={() => {
-                    overlay.open(props => {
-                        return <StoreSelectModal {...props} context="upload" />;
-                    });
-                }}
+                onClick={handleStoreSelect}
             />
         </div>
     );
