@@ -25,6 +25,27 @@ export function MainFilter({ isOpen = false, onClose }: MainFilterProps) {
         }
     }, [isMobile, isOpen, onClose]);
 
+    // 모바일 필터가 열렸을 때 body 스크롤 막기
+    useEffect(() => {
+        if (isMobile && isOpen) {
+            // 현재 스크롤 위치 저장
+            const scrollY = window.scrollY;
+            document.body.style.position = 'fixed';
+            document.body.style.top = `-${scrollY}px`;
+            document.body.style.width = '100%';
+            document.body.style.overflow = 'hidden';
+
+            return () => {
+                // 필터가 닫힐 때 원래 상태로 복원
+                document.body.style.position = '';
+                document.body.style.top = '';
+                document.body.style.width = '';
+                document.body.style.overflow = '';
+                window.scrollTo(0, scrollY);
+            };
+        }
+    }, [isMobile, isOpen]);
+
     // 모바일 환경
     if (isMobile) {
         // 열리지 않았으면 아무것도 렌더링하지 않음
