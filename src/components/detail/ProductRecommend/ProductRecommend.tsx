@@ -17,7 +17,7 @@ export const ProductRecommend = () => {
             try {
                 const response = await fetchDeals(0);
                 const filteredDeals = response.deals.filter(deal => deal.imageUrl?.url);
-                setDeals(filteredDeals.slice(0, 5));
+                setDeals(filteredDeals.slice(0, 3));
             } catch {
                 // 에러 무시
             }

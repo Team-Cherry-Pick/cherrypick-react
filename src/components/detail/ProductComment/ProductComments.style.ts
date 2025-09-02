@@ -2,20 +2,19 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.section`
-  padding: 1rem 1.125rem 4rem 1.125rem;
+  padding: 2rem 1.125rem 4rem 1.125rem;
 `;
 
 export const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: ${({ theme }) => theme.spacing[4]};
+  margin-bottom: 1.25rem;
 `;
 
 export const Title = styled.h3`
   font-size: ${({ theme }) => theme.typography.size.lg};
   font-weight: ${({ theme }) => theme.typography.weight.bold};
-  margin-top: 1rem;
 `;
 
 export const CommentCount = styled.span`
