@@ -14,7 +14,7 @@ const MobileComingSoonPage = () => {
             <p className={styles.message}>
                 리픽은 현재 PC 버전만 지원합니다.
                 <br />
-                모바일 버전은 <span className={styles.highlight}>8월말 출시 예정</span>입니다.
+                모바일 버전은 <span className={styles.highlight}>9월초 출시 예정</span>입니다.
             </p>
         </div>
     );

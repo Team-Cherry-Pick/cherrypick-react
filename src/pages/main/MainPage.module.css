@@ -3,7 +3,88 @@
   gap: var(--spacing-8);
 }
 
-.searchContainer {
-  height: 6.5rem;
+@media (max-width: 48rem) {
+  .container {
+    flex-direction: column;
+  }
+}
+
+.sortRow {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-top: var(--spacing-6);
   margin-bottom: var(--spacing-4);
+}
+
+.floatingWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  position: fixed;
+  right: var(--spacing-4);
+  bottom: var(--spacing-6);
+  gap: var(--spacing-3);
+  padding-inline: var(--spacing-20);
+  z-index: 100;
+}
+
+/* 데스크탑: 일반 위치 */
+.searchBarWrapper {
+  width: 100%;
+}
+
+/* 모바일: 숨김 */
+.searchBarWrapperMobileHidden {
+  display: none;
+}
+
+/* 모바일 오버레이: 전체 화면 오버레이 */
+.searchBarWrapperMobileOverlay {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.80) 0%, rgba(0, 0, 0, 0.60) 100%);
+  backdrop-filter: blur(1px);
+  z-index: 1000;
+}
+
+.searchOverlayContent {
+  width: 100%;
+}
+
+.searchBarWrapperMobileOverlay .searchOverlayContent {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-4);
+  padding: var(--spacing-3) var(--spacing-5);
+  background: var(--color-background);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.closeButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--spacing-4);
+  height: var(--spacing-4);
+  margin-top: 1rem; /* 검색바(3rem) 중앙에 맞춤 */
+  color: white;
+  cursor: pointer;
+}
+
+@media (max-width: 48rem) {
+  .sortRow {
+    position: sticky;
+    top: 3.75rem; /* 모바일 헤더 높이만큼 아래에 고정 */
+    margin: 0;
+    background-color: var(--color-background-root);
+    z-index: 10;
+  }
 }

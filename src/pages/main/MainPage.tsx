@@ -2,67 +2,87 @@ import styles from './MainPage.module.css';
 import { useEffect, useState } from 'react';
 import DefaultLayout from '@/components/layout/DefaultLayout';
 import { MainFilter, SortButtons } from './components';
-import MainDealList from './MainDealList';
-import MainSearchBar from './MainSearchBar';
-import styled from 'styled-components';
-import MainKeywords from './MainKeywords';
 import UploadBtn from '@/components/common/Floating/UploadBtn';
 import ScrollTopBtn from '@/components/common/Floating/ScrollTopBtn';
+import CloseIcon from '@/assets/icons/close-Icon.svg?react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { keywordAtom, triggerFetchAtom } from '@/store/search';
+import useIsMobileViewport from '@/hooks/useIsMobileViewport';
+import MainSearchBar from './components/MainSearchBar';
+import MainKeywords from './components/MainKeywords';
+import MainDealList from './components/MainDealList';
 
 const MainPage = () => {
-    const [aiActive, setAiActive] = useState(false);
+    const [isFilterOpen, setIsFilterOpen] = useState(false);
+    const [isSearchOverlayOpen, setIsSearchOverlayOpen] = useState(false);
     const keyword = useAtomValue(keywordAtom);
     const triggerFetch = useSetAtom(triggerFetchAtom);
+    const isMobile = useIsMobileViewport();
 
     useEffect(() => {
         triggerFetch();
     }, [keyword, triggerFetch]);
 
+    // 모바일에서 데스크탑으로 전환될 때 검색 오버레이 닫기
+    useEffect(() => {
+        if (!isMobile && isSearchOverlayOpen) {
+            setIsSearchOverlayOpen(false);
+        }
+    }, [isMobile, isSearchOverlayOpen]);
+
+    const handleSearchClick = () => {
+        setIsSearchOverlayOpen(true);
+    };
+
+    const handleSearchOverlayClose = () => {
+        setIsSearchOverlayOpen(false);
+    };
+
+    const getSearchBarWrapperClass = () => {
+        if (isMobile) {
+            return isSearchOverlayOpen 
+                ? styles.searchBarWrapperMobileOverlay 
+                : styles.searchBarWrapperMobileHidden;
+        }
+        return styles.searchBarWrapper;
+    };
+
     return (
         <>
-            <DefaultLayout>
+            <DefaultLayout onSearchClick={handleSearchClick}>
                 <div className={styles.container}>
-                    <MainFilter aiActive={aiActive} />
+                    <MainFilter 
+                      isOpen={isFilterOpen}
+                      onClose={() => setIsFilterOpen(false)}
+                    />
                     <div style={{ width: '100%' }}>
-                        <MainSearchBar aiActive={aiActive} setAiActive={setAiActive} />
-                        <SortRow>
-                            <MainKeywords aiActive={aiActive} keyword={keyword} />
-                            <SortButtons aiActive={aiActive} setAiActive={setAiActive} />
-                        </SortRow>
-                        <MainDealList aiActive={aiActive} />
+                        <div className={getSearchBarWrapperClass()} onClick={isMobile ? handleSearchOverlayClose : undefined}>
+                            <div className={styles.searchOverlayContent} onClick={(e) => e.stopPropagation()}>
+                                <MainSearchBar 
+                                    onClose={handleSearchOverlayClose}
+                                />
+                                {isMobile && isSearchOverlayOpen && (
+                                    <CloseIcon className={styles.closeButton} onClick={handleSearchOverlayClose}/>
+                                )}
+                            </div>
+                        </div>
+                        <div className={styles.sortRow}>
+                            <MainKeywords keyword={keyword} />
+                            <SortButtons 
+                              onFilterClick={() => setIsFilterOpen(true)}
+                            />
+                        </div>
+                        <MainDealList />
                     </div>
                 </div>
 
-                <FloatingWrapper>
+                <div className={styles.floatingWrapper}>
                     <UploadBtn />
                     <ScrollTopBtn />
-                </FloatingWrapper>
+                </div>
             </DefaultLayout>
         </>
     );
 };
 
 export default MainPage;
-
-const SortRow = styled.div`
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    flex-wrap: wrap;
-    margin-top: ${({ theme }) => theme.spacing[6]};
-    margin-bottom: ${({ theme }) => theme.spacing[4]};
-`;
-
-const FloatingWrapper = styled.div`
-    position: fixed;
-    right: ${({ theme }) => theme.spacing[4]};
-    bottom: ${({ theme }) => theme.spacing[6]};
-    padding-inline: ${({ theme }) => theme.spacing[20]};
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-    gap: ${({ theme }) => theme.spacing[3]};
-    z-index: 100;
-`;

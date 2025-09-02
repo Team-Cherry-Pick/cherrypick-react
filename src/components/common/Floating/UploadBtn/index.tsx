@@ -2,20 +2,21 @@
 import styled, { css } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useRequireLogin } from '@/hooks/useRequireLogin';
-import { HiFire } from 'react-icons/hi2';
+import useIsMobileViewport from '@/hooks/useIsMobileViewport';
 
 const UploadBtn = () => {
     const navigate = useNavigate();
     const { guard } = useRequireLogin();
+    const isMobile = useIsMobileViewport();
 
     const handleClick = () => {
         if (!guard()) return;
         navigate('/upload');
     };
+
     return (
         <Wrapper onClick={handleClick}>
-            <HiFire size={20} />
-            <span>내가 찾은 핫딜 업로드</span>
+            <span>{isMobile ? '특가할인 업로드' : '내가 찾은 특가할인 업로드'}</span>
         </Wrapper>
     );
 };

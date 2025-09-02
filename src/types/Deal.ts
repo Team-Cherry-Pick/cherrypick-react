@@ -95,10 +95,6 @@ export interface FetchDealsResponse {
     hasNext: boolean;
 }
 
-export interface FetchRecommendResponse {
-    deals: FetchedDeal[];
-}
-
 export interface DealStore {
     storeName: string;
     textColor: string;

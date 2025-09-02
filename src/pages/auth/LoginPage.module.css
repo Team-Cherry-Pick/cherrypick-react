@@ -17,6 +17,14 @@
   box-shadow: var(--card-shadow);
 }
 
+.loginBoxMobile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 0 1.25rem;
+}
+
 .logoWrapper {
   display: flex;
   justify-content: center;
