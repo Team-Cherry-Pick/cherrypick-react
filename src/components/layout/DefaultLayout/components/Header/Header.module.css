@@ -12,6 +12,15 @@
   background-color: var(--color-background-board);
 }
 
+/* 모바일에서만 헤더 고정 */
+@media (max-width: 48rem) {
+  .headerWrapper {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+}
+
 .headerContainer {
   display: flex;
   justify-content: space-between;
