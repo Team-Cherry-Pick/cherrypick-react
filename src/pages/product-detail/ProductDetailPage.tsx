@@ -13,12 +13,14 @@ import { fetchDetailedDeal } from '@/services/apiDeal';
 import { fetchBestCommentsByDealId } from '@/services/apiComment';
 import BestCommentList from '@/components/detail/ProductComment/BestCommentList';
 import type { BestComment } from '@/types/Comment';
+// viewport handled by CSS media queries in this file
 
 function ProductDetailPage() {
     const { id } = useParams<{ id: string }>();
     const [bestComments, setBestComments] = useState<BestComment[]>([]);
     const [commentLoading, setCommentLoading] = useState(false);
     const [refreshKey, setRefreshKey] = useState(0);
+    // viewport width handled via CSS media query in ContentWrapper
 
     const {
         data: deal,
@@ -72,32 +74,36 @@ function ProductDetailPage() {
 
     return (
         <DefaultLayout background="board">
-            <ProductTopSection deal={deal} onVoteChange={handleVoteChange} />
-            <SubContainer>
-                <RecommendWrapper>
-                    <ProductRecommend />
-                </RecommendWrapper>
-
-                <CommentContainer>
-                    {commentLoading ? (
-                        <LoadingSpinner />
-                    ) : (
-                        <>
-                            {bestComments && bestComments.length > 0 && (
-                                <BestCommentList
-                                    bestComments={bestComments}
+            <ContentWrapper>
+                <ProductTopSection deal={deal} onVoteChange={handleVoteChange} />
+                <Divider />
+                <SubContainer>
+                    <RecommendWrapper>
+                        <ProductRecommend />
+                    </RecommendWrapper>
+                    <Divider />
+                    <CommentContainer>
+                        {commentLoading ? (
+                            <LoadingSpinner />
+                        ) : (
+                            <>
+                                {bestComments && bestComments.length > 0 && (
+                                    <BestCommentList
+                                        bestComments={bestComments}
+                                        onLikeToggle={refreshComments}
+                                    />
+                                )}
+                                <Divider />
+                                <ProductComments
+                                    dealId={id!}
+                                    refreshKey={refreshKey}
                                     onLikeToggle={refreshComments}
                                 />
-                            )}
-                            <ProductComments
-                                dealId={id!}
-                                refreshKey={refreshKey}
-                                onLikeToggle={refreshComments}
-                            />
-                        </>
-                    )}
-                </CommentContainer>
-            </SubContainer>
+                            </>
+                        )}
+                    </CommentContainer>
+                </SubContainer>
+            </ContentWrapper>
         </DefaultLayout>
     );
 }
@@ -106,18 +112,38 @@ export default ProductDetailPage;
 
 const SubContainer = styled.div`
     display: flex;
-    flex-direction: row;
-    padding: ${({ theme }) => theme.spacing[6]} 0;
-    gap: ${({ theme }) => theme.spacing[6]};
+    flex-direction: column;
 `;
 
 const RecommendWrapper = styled.div`
-    width: calc(30rem + ${({ theme }) => theme.spacing[4]});
+    width: 100%;
+    box-shadow: none;
 `;
 
 const CommentContainer = styled.div`
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.spacing[6]};
     flex: 1;
+    width: 100%;
+    box-shadow: none;
+`;
+
+const ContentWrapper = styled.div`
+    margin: 0 auto;
+    width: 100%;
+    max-width: 37.5rem;
+    background-color: ${({ theme }) => theme.colors.background.board};
+    @media (min-width: 37.5rem) {
+        border: 0.5px solid ${({ theme }) => theme.colors.border.board};
+        border-bottom: none;
+        border-top-left-radius: 1rem;
+        border-top-right-radius: 1rem;
+        margin-top: 2rem;
+    }
+`;
+
+const Divider = styled.div`
+    width: 100%;
+    height: 0.5rem;
+    background-color: ${({ theme }) => theme.colors.neutral[50]};
 `;

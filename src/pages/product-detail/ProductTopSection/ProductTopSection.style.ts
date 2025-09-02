@@ -30,13 +30,10 @@ export const EndButton = styled.button`
 
 export const Wrapper = styled.div`
   display: flex;
+  flex-direction: column;
   height: 100%;
-  gap: ${({ theme }) => theme.spacing[8]};
-  border-radius: ${({ theme }) => theme.radius[5]};
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
-  background-color: ${({ theme }) => theme.colors.background.card};
-  margin-top: ${({ theme }) => theme.spacing[6]};
-  padding: ${({ theme }) => theme.spacing[4]};
+  border-radius: 0;
+  padding: 0 1.25rem 1.5rem 1.25rem;
 
   &.ended {
     filter: grayscale(100%);
@@ -48,19 +45,20 @@ export const ImageSection = styled.div`
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
+  align-items: center;
   gap: ${({ theme }) => theme.spacing[2]};
+  padding-top: 1.25rem;
 `;
 
 export const MainImageWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 30rem;
-  height: 30rem;
+  width: 100%;
+  height: auto;
   background-color: ${({ theme }) => theme.colors.neutral[50]};
-  border-radius: 20px;
   overflow: hidden;
-  border: 1px solid ${({ theme }) => theme.colors.border.card};
+  border-radius: 0.5rem;
 `;
 
 export const MainImage = styled.img`
@@ -69,10 +67,6 @@ export const MainImage = styled.img`
   object-fit: cover;
   background-color: ${({ theme }) => theme.colors.neutral[50]};
   border: 1px solid ${({ theme }) => theme.colors.border.card};
-
-  &.hovered {
-    opacity: 0.6;
-  }
 `;
 
 export const ImagePlaceholder = styled.div`
@@ -86,45 +80,13 @@ export const ImagePlaceholder = styled.div`
   border-radius: 8px;
 `;
 
-export const ThumbnailRow = styled.div`
-  margin-top: ${({ theme }) => theme.spacing[2]};
-  display: flex;
-  gap: ${({ theme }) => theme.spacing[2]};
-`;
-
-export const Thumbnail = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 60px;
-  height: 60px;
-  background-color: ${({ theme }) => theme.colors.border.card};
-  border: 1px solid ${({ theme }) => theme.colors.border.card};
-  border-radius: 12px;
-  overflow: hidden;
-  flex-shrink: 0;
-
-  img.default-logo {
-    width: 80px;
-    height: 80px;
-    object-fit: contain;
-  }
-`;
-
-export const ThumbnailImage = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`;
-
 export const DetailSection = styled.div`
   width: auto;
   display: flex;
   flex: 1;
   position: relative;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing[2.5]};
-  padding-left:  ${({ theme }) => theme.spacing[2]};
+  padding-top: 2rem;
 `;
 
 export const Divider = styled.div`
@@ -136,35 +98,39 @@ export const Divider = styled.div`
 
 export const Title = styled.div`
   color: ${({ theme }) => theme.colors.content.main};
-  font-size: ${({ theme }) => theme.typography.size.xxxm};
+  font-size: 1.25rem;
   font-weight: ${({ theme }) => theme.typography.weight.semibold};
 `;
 
 export const StoreTagContainer = styled.div`
     display: flex;
     flex-direction: row;
-    gap: ${({ theme }) => theme.spacing[3]};
+    gap: 0.5rem;
     align-items: center;
+    margin-top: 0.5rem;
 `;
 
 export const StoreBadge = styled.div`
-  padding: 4px 12px;
-  background: #1fba1f;
+  padding: 0.25rem 0.5rem;
+  background: ${({ theme }) => theme.colors.neutral[400]};
   color: white;
-  font-size: ${({ theme }) => theme.typography.size.sm};
+  font-size: 0.875rem;
   font-weight: 600;
-  border-radius: 8px;
+  border-radius: 0.25rem;
   width: fit-content;
 `;
 
 export const TagList = styled.div`
   display: flex;
-  gap: ${({ theme }) => theme.spacing[2]};
+  gap: 0.5rem;
 `;
 
 export const Tag = styled.span`
-  color: ${({ theme }) => theme.colors.content.sub};
-  font-size: ${({ theme }) => theme.typography.size.base};
+  padding: 0.25rem 0.5rem;
+  background: ${({ theme }) => theme.colors.neutral[300]};
+  color: white;
+  font-size: 0.875rem;
+  border-radius: 0.25rem;
   font-weight: 400;
 `;
 
@@ -193,6 +159,7 @@ export const PriceContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 0;
+  margin-top: 1rem;
 `;
 
 export const PriceBox = styled.div`
@@ -205,7 +172,7 @@ export const PriceBox = styled.div`
 export const OriginalPrice = styled.div`
   text-decoration: line-through;
   color: ${({ theme }) => theme.colors.content.sub};
-  font-size: ${({ theme }) => theme.typography.size.base};
+  font-size: 1.125rem;
 `;
 
 export const ShippingType = styled.div`
@@ -215,33 +182,28 @@ export const ShippingType = styled.div`
 
 export const FinalPrice = styled.div`
   display: flex;
-  margin: 0;
+  margin-top: 0.25rem;
   align-items: flex-end;
-  font-size: ${({ theme }) => theme.typography.size.xxxm};
-  font-weight: ${({ theme }) => theme.typography.weight.bold};
+  font-size: 1.75rem;
+  font-weight: 600;
   color: ${({ theme }) => theme.colors.content.main};
+  line-height: 1;
 `;
 
 export const DiscountPercent = styled.span`
-  margin-left: ${({ theme }) => theme.spacing[2]};
   color: ${({ theme }) => theme.colors.primary};
-  font-size: ${({ theme }) => theme.typography.size.xxxm};
+  font-size: 1.125rem;
   font-weight: ${({ theme }) => theme.typography.weight.semibold};
 `;
 
 export const Content = styled.div`
-    margin: ${({ theme }) => theme.spacing[3]} 0;
-    font-size: ${({ theme }) => theme.typography.size.lg};
+    font-size: 1.125rem;
     color: ${({ theme }) => theme.colors.content.main};
     line-height: 1.5;
     word-break: break-word;
     overflow-wrap: anywhere;
     white-space: pre-wrap;
-    .custom-divider {
-        height: 1px;
-        background-color: ${({ theme }) => theme.colors.border.board};
-        margin: ${({ theme }) => theme.spacing[6]} 0;
-    }
+    margin-top: 2rem;
 `;
 
 export const MetaRow = styled.div`
@@ -249,20 +211,22 @@ export const MetaRow = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: ${({ theme }) => theme.spacing[4]};
+  gap: 0.5rem;
   color: ${({ theme }) => theme.colors.content.sub};
-  font-size: ${({ theme }) => theme.typography.size.sm};
+  font-size: 1rem;
   line-height: 1.2;
+  margin-top: 2.5rem;
 
   span {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
+    gap: 0.5rem;
   }
 
   .meta-divider {
     color: ${({ theme }) => theme.colors.neutral[300]};
   }
+    
   .meta-eye {
     color: ${({ theme }) => theme.colors.content.tertiary};
   }
@@ -274,25 +238,32 @@ export const MetaRow = styled.div`
 `;
 
 export const BottomActions = styled.div`
+  width: calc(100% + 1rem);
+  height: 4rem;
   display: flex;
-  gap: ${({ theme }) => theme.spacing[2]};
+  gap: 0.5rem;
+  padding: 0.5rem;
   justify-content: flex-end;
+  margin: 1rem 0 0  -0.5rem;
+  margin-right: -0.5rem;
+  background-color: ${({ theme }) => theme.colors.neutral[0]};
+  border-radius: 0.75rem;
+  border: 1px solid ${({ theme }) => theme.colors.neutral[50]};
 `;
 
 export const ShareButton = styled.button`
-  padding: ${({ theme }) => `${theme.spacing[5]} ${theme.spacing[16]}`};
-  border-radius: 8px;
-  background-color: ${({ theme }) => theme.colors.neutral[900]};
-  color: ${({ theme }) => theme.colors.neutral[0]};
-  font-size: ${({ theme }) => theme.typography.size.base};
+  width: 25%;
+  border-radius: 0.5rem;
+  color: ${({ theme }) => theme.colors.content.sub};
+  font-size: 1rem;
   font-weight: ${({ theme }) => theme.typography.weight.semibold};
-  border: none;
+  border: 1px solid ${({ theme }) => theme.colors.neutral[100]};
   cursor: pointer;
 `;
 
 export const BuyButton = styled.button`
-  padding: ${({ theme }) => `${theme.spacing[5]} ${theme.spacing[16]}`};
-  border-radius: 8px;
+  width: 25%;
+  border-radius: 0.5rem;
   background: ${({ theme }) => css`
     linear-gradient(
       90deg,
@@ -301,7 +272,7 @@ export const BuyButton = styled.button`
     )
   `};
   color: #ffffff;
-  font-size: ${({ theme }) => theme.typography.size.base};
+  font-size: 1rem;
   font-weight: ${({ theme }) => theme.typography.weight.semibold};
   border: none;
   cursor: pointer;
@@ -313,7 +284,6 @@ export const BottomContainer = styled.div`
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing[2]};
 `;
 
 export const VariousPriceText = styled.div`
@@ -324,4 +294,112 @@ export const VariousPriceText = styled.div`
   word-wrap: break-word;
   margin: 0;
   padding: 0;
+`;
+
+// Carousel styles
+export const CarouselContainer = styled.div`
+  position: relative;
+  width: 100%;
+  background-color: ${({ theme }) => theme.colors.neutral[50]};
+  border-radius: 0.5rem;
+  overflow: hidden;
+`;
+
+export const CarouselWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+`;
+
+export const CarouselSlides = styled.div<{ translateX: number }>`
+  display: flex;
+  width: 400%;
+  transform: translateX(${props => props.translateX}%);
+  transition: transform 0.3s ease-in-out;
+`;
+
+export const CarouselSlide = styled.div`
+  flex: 0 0 25%;
+  width: 25%;
+  height: auto;
+`;
+
+export const CarouselImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  background-color: ${({ theme }) => theme.colors.neutral[50]};
+  border: 1px solid ${({ theme }) => theme.colors.border.card};
+`;
+
+export const CarouselNavButton = styled.button<{ direction: 'left' | 'right' }>`
+  position: absolute;
+  top: 50%;
+  ${props => props.direction === 'left' ? 'left: 8px;' : 'right: 8px;'}
+  transform: translateY(-50%);
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  
+  svg {
+    color: white !important;
+    fill: white !important;
+    width: 1rem;
+    height: 1rem;
+    
+    path {
+      fill: white !important;
+    }
+  }
+  
+  &:hover:not(:disabled) {
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+  
+  &:disabled {
+    background-color: rgba(0, 0, 0, 0.3);
+    cursor: not-allowed;
+    
+    svg {
+      color: rgba(255, 255, 255, 0.5);
+      fill: rgba(255, 255, 255, 0.5);
+    }
+  }
+`;
+
+export const CarouselIndicators = styled.div`
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.4rem;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 0.4rem 0.75rem;
+  border-radius: 1rem;
+`;
+
+export const CarouselIndicator = styled.button<{ active: boolean }>`
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  background-color: ${props => props.active ? 'rgba(255, 255, 255, 0.9)' : 'rgba(255, 255, 255, 0.4)'};
+  transition: background-color 0.2s ease;
+  
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+  }
 `;

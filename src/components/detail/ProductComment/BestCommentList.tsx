@@ -137,29 +137,26 @@ const BestCommentWrapper = styled.div`
     display: flex;
     width: 100%;
     flex-direction: column;
-    background-color: ${({ theme }) => theme.colors.neutral[50]};
-    padding: ${({ theme }) => theme.spacing[5]};
-    border-radius: ${({ theme }) => theme.radius[4]};
-    gap: ${({ theme }) => theme.spacing[4]};
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
-    border: 1px solid ${({ theme }) => theme.colors.neutral[100]};
+    padding: 2rem 1.125rem;
+    gap: 1rem;
 `;
 
 const Title = styled.h3`
-    margin-top: ${({ theme }) => theme.spacing[3]};
     color: ${({ theme }) => theme.colors.content.main};
     font-weight: ${({ theme }) => theme.typography.weight.semibold};
-    font-size: ${({ theme }) => theme.typography.size.xl};
+    font-size: 1.125rem;
 `;
 
 const BestCommentItem = styled.div`
     display: flex;
     width: 100%;
     flex-direction: row;
-    background-color: ${({ theme }) => theme.colors.neutral[20]};
-    border-radius: ${({ theme }) => theme.radius[4]};
-    padding: ${({ theme }) => theme.spacing[4]};
+    background-color: ${({ theme }) => theme.colors.background.card};
+    border-radius: 1rem;
+    padding: 1rem;
     box-sizing: border-box;
+    box-shadow: var(--box-shadow);
+    border: 0.5px solid ${({ theme }) => theme.colors.border.card};
 `;
 
 const HeaderRow = styled.div`

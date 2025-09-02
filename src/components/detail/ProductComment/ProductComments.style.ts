@@ -2,17 +2,14 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.section`
-  border-radius: ${({ theme }) => theme.radius[5]};
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
-  background-color: ${({ theme }) => theme.colors.background.card};
-  padding: 2rem 1.25rem;
+  padding: 2rem 1.125rem 4rem 1.125rem;
 `;
 
 export const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: ${({ theme }) => theme.spacing[4]};
+  margin-bottom: 1.25rem;
 `;
 
 export const Title = styled.h3`
@@ -50,11 +47,11 @@ export const NoComment = styled.div`
 export const CommentInputWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing[2]};
 `;
 
 export const InputRow = styled.div`
   display: flex;
+  margin-top: 1.25rem;
 `;
 
 export const SubmitButtonRow = styled.div`
@@ -73,15 +70,15 @@ export const ProfileImage = styled.img`
 
 export const InputArea = styled.textarea`
   width: 100%;
-  padding: ${({ theme }) => theme.spacing[3]};
-  border-radius: ${({ theme }) => theme.radius[2]};
+  padding: 1rem;
+  border-radius: 0.5rem;
   border: 1px solid ${({ theme }) => theme.colors.border.card};
   background-color: ${({ theme }) => theme.colors.neutral[20]};
   color: ${({ theme }) => theme.colors.content.main};
   resize: none;
   min-height: 60px;
   line-height: 1.5;
-  font-size: ${({ theme }) => theme.typography.size.base};
+  font-size: 1rem;
 
   &::placeholder {
     color: ${({ theme }) => theme.colors.content.sub};
@@ -89,15 +86,16 @@ export const InputArea = styled.textarea`
 `;
 
 export const SubmitButton = styled.button<{ disabled?: boolean }>`
-  padding: ${({ theme }) => theme.spacing[2]} ${({ theme }) => theme.spacing[4]};
-  font-size: ${({ theme }) => theme.typography.size.sm};
+  padding: 0.5rem 1.25rem;
+  font-size: 1rem;
   font-weight: ${({ theme }) => theme.typography.weight.bold};
-  border-radius: ${({ theme }) => theme.radius[2]};
+  border-radius: 0.5rem;
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
   background: ${({ theme, disabled }) =>
     disabled ? theme.colors.neutral[300] : theme.colors.neutral[800]};
   color: ${({ theme }) => theme.colors.neutral[20]};
   transition: background 0.2s;
+  margin-top: 0.75rem;
 
   &:hover {
     background: ${({ theme, disabled }) =>
@@ -124,6 +122,7 @@ export const Divider = styled.hr`
   border: none;
   height: 1px;
   background-color: ${({ theme }) => theme.colors.border.card};
+  opacity: 0.5;
   margin: 1rem 0;
   width: 100%;
   margin-left: 0;
@@ -137,7 +136,7 @@ export const ItemDivider = styled.span`
 export const CommentList = styled.div`
     display: flex;
     flex-direction: column;
-    gap: ${({ theme }) => theme.spacing[2]};
+    gap: 1rem;
 `;
 
 export const CommentItem = styled.div`
@@ -171,7 +170,7 @@ export const FallbackIcon = styled.div`
 `;
 
 export const CommentText = styled.p`
-    margin: ${({ theme }) => theme.spacing[1]} 0;
+    margin: 1rem 0 0.5rem 0;
 `;
 
 export const CommentFooter = styled.div`
@@ -235,7 +234,8 @@ export const ReplyDivider = styled.hr`
   height: 1px;
   background-color: ${({ theme }) => theme.colors.border.card};
   margin: 1rem 0;
-  width: calc(100% - 3rem);
-  margin-left: 3rem;
+  width: calc(100% - 2.5rem);
+  margin-left: 2.5rem;
   padding: 0;
+  opacity: 0.5;
 `;
