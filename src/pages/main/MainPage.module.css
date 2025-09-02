@@ -30,6 +30,15 @@
   z-index: 100;
 }
 
+/* 모바일에서 floating 버튼들의 right 위치 조정 */
+@media (max-width: 48rem) {
+  .floatingWrapper {
+    right: 1.25rem;
+    bottom: var(--spacing-6);
+    padding-inline: 0; /* 모바일에서 좌우 패딩 제거 */
+  }
+}
+
 /* 데스크탑: 일반 위치 */
 .searchBarWrapper {
   width: 100%;
