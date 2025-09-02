@@ -17,7 +17,7 @@
 
 /* 메인 화면에서 사용할 때 더 큰 높이 */
 .container_main {
-  height: 35rem;
+  height: 38rem;
 }
 
 .container_upload {
@@ -111,7 +111,7 @@
 
 /* 메인 컨텍스트에서 스토어 컨테이너 높이 조정 */
 .storeContainer_main {
-  height: 18rem;
+  height: 20rem;
 }
 
 .storeItem {
