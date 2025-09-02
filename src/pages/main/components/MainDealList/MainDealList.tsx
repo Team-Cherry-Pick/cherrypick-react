@@ -84,12 +84,19 @@ const MainDealList = () => {
 
     return (
         <div className={styles.dealGrid}>
-            {isLoading ? (
+            {items.length ? (
+                <>
+                    {items.map((deal, i) => <CardDeal key={`${deal.dealId}-${i}`} deal={deal} />)}
+                    {isLoading && (
+                        <div className={styles.spinnerWrapper}>
+                            <LoadingSpinner />
+                        </div>
+                    )}
+                </>
+            ) : isLoading ? (
                 <div className={styles.spinnerWrapper}>
                     <LoadingSpinner />
                 </div>
-            ) : items.length ? (
-                items.map((deal, i) => <CardDeal key={`${deal.dealId}-${i}`} deal={deal} />)
             ) : (
                 <div className={styles.noSearchResult}>검색 결과가 없습니다.</div>
             )}
