@@ -36,8 +36,18 @@ export default function Dropdown({ anchorRef, options, selected, onSelect, onClo
     useEffect(() => {
         if (anchorRef.current && ref.current) {
             const rect = anchorRef.current.getBoundingClientRect();
-            ref.current.style.top = `${rect.bottom + window.scrollY + 8}px`;
-            ref.current.style.left = `${rect.left + window.scrollX}px`;
+            const isMobile = window.innerWidth <= 768; // 48rem = 768px
+            
+            if (isMobile) {
+                // 모바일에서는 viewport 기준으로 위치 계산 (sticky 고려)
+                ref.current.style.top = `${rect.bottom + 8}px`;
+                ref.current.style.left = `${rect.left}px`;
+                ref.current.style.position = 'fixed';
+            } else {
+                // PC에서는 원래 잘 작동했던 방식 사용
+                ref.current.style.top = `${rect.bottom + window.scrollY + 8}px`;
+                ref.current.style.left = `${rect.left + window.scrollX}px`;
+            }
         }
     }, [anchorRef]);
 
