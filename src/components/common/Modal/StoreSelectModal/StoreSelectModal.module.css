@@ -1,8 +1,23 @@
 .container {
   width: 24.375rem;
-  height: 37.5rem;
+  height: 28.125rem;
   background-color: var(--color-neutral-0);
   border-radius: var(--radius-5);
+  border: 1px solid var(--color-neutral-100);
+  box-shadow: var(--card-shadow);
+}
+
+/* 모바일에서 width 제한 해제 */
+@media (max-width: 48rem) {
+  .container {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+/* 메인 화면에서 사용할 때 더 큰 높이 */
+.container_main {
+  height: 35rem;
 }
 
 .container_upload {
@@ -92,6 +107,11 @@
 
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE / Edge */
+}
+
+/* 메인 컨텍스트에서 스토어 컨테이너 높이 조정 */
+.storeContainer_main {
+  height: 18rem;
 }
 
 .storeItem {

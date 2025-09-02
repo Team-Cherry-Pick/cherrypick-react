@@ -30,7 +30,6 @@ export interface DetailedDeal {
     categorys: string[];
     discountIds: number[];
     discountName: string;
-    discountDescription: string;
     title: string;
     infoTags: string[];
     shipping: DealShipping;
@@ -113,7 +112,6 @@ export interface UploadDeal {
     content: string;
     discountIds: number[];
     discountNames: string[];
-    discountDescription: string;
 }
 
 export interface UploadDealResponse {

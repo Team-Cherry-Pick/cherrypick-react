@@ -9,4 +9,59 @@
   left: 0;
   z-index: 100;
   background-color: rgba(0, 0, 0, 0.4);
+  /* 배경 페이드인 애니메이션 */
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* 모달 컨테이너 애니메이션 */
+.overlay > * {
+  animation: modalSlideIn 0.25s ease-out;
+}
+
+/* 배경 페이드인 애니메이션 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* 모달 슬라이드인 애니메이션 - 아래에서 올라오기 */
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* 모바일에서 모달 컨테이너 width 90%로 설정하고 중앙 정렬 */
+@media (max-width: 48rem) {
+  .overlay {
+    padding: 0 5vw; /* 좌우 5%씩 여백 */
+  }
+  
+  .overlay > * {
+    width: 100% !important;
+    max-width: 100% !important;
+    /* 모바일에서는 더 빠른 애니메이션 */
+    animation: modalSlideInMobile 0.2s ease-out !important;
+  }
+  
+  /* 모바일 전용 애니메이션 - 아래에서 부드럽게 올라오기 */
+  @keyframes modalSlideInMobile {
+    from {
+      opacity: 0;
+      transform: scale(0.98) translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
 }

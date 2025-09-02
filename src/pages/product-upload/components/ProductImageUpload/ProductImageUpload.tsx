@@ -31,55 +31,61 @@ export function ProductImageUpload({
 
     return (
         <div className={styles.productImageUploadWrapper}>
-            <div className={styles.previewWrapper} ref={containerRef}>
-                {images.map((img, index) => (
-                    <div key={img.imageId} className={styles.thumbnailOuter}>
-                        <div className={styles.thumbnailWrapper}>
-                            {index === 0 && <div className={styles.representativeBadge}>대표사진</div>}
-                            <img className={styles.thumbnail} src={img.imageUrl} alt={`img-${index}`} />
+            {
+                images.length > 0 &&
+                <div className={styles.previewWrapper} ref={containerRef}>
+                    {images.map((img, index) => (
+                        <div key={img.imageId} className={styles.thumbnailOuter}>
+                            <div className={styles.thumbnailWrapper}>
+                                {index === 0 && <div className={styles.representativeBadge}>대표사진</div>}
+                                <img className={styles.thumbnail} src={img.imageUrl} alt={`img-${index}`} />
+                            </div>
+                            <button
+                                className={styles.deleteButton}
+                                onClick={e => {
+                                    e.stopPropagation();
+                                    handleRemove(index);
+                                }}
+                            >
+                                <X size={12} />
+                            </button>
                         </div>
-                        <button
-                            className={styles.deleteButton}
-                            onClick={e => {
-                                e.stopPropagation();
-                                handleRemove(index);
-                            }}
-                        >
-                            <X size={12} />
-                        </button>
+                    ))}
+                </div>
+            }
+            <div className={styles.uploadBoxContainer}>
+                <div
+                    className={styles.uploadBox}
+                    onClick={handleClick}
+                    onDrop={e => {
+                        e.preventDefault();
+                        handleDropFiles(e.dataTransfer.files);
+                    }}
+                    onDragOver={handleDragOver}
+                >
+                    <input
+                        className={styles.hiddenInput}
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        onChange={e => handleFileSelect(e.target.files)}
+                        ref={inputRef}
+                    />
+                    <div className={styles.content}>
+                        <UploadIcon width={20} height={20} />
+                        <div className={styles.guideText}>
+                            {images.length === 0 ? '클릭 또는 파일을 드래그해주세요.' : '추가 업로드'}
+                        </div>
                     </div>
-                ))}
-            </div>
-            <div
-                className={styles.uploadBox}
-                onClick={handleClick}
-                onDrop={e => {
-                    e.preventDefault();
-                    handleDropFiles(e.dataTransfer.files);
-                }}
-                onDragOver={handleDragOver}
-            >
-                <input
-                    className={styles.hiddenInput}
-                    type="file"
-                    accept="image/*"
-                    multiple
-                    onChange={e => handleFileSelect(e.target.files)}
-                    ref={inputRef}
-                />
-                <div className={styles.content}>
-                    <UploadIcon width={20} height={20} />
-                    <div className={styles.guideText}>
-                        {images.length === 0 ? '클릭 또는 파일을 드래그해주세요.' : '추가 업로드'}
+                    <div className={styles.description}>
+                        <div className={styles.fileSizeInfo}>* 파일 하나당 최대 10MB</div>
+                        <span className={styles.divider}>|</span>
+                        <div className={styles.imageCount}>
+                            {images.length} / {MAX_IMAGES}
+                        </div>
                     </div>
                 </div>
-                <div className={styles.description}>
-                    <div>* 파일 하나당 최대 10MB</div>
-                    <span>|</span>
-                    <div className={styles.imageCount}>
-                        {images.length} / {MAX_IMAGES}
-                    </div>
-                </div>
+                <div className={styles.mobileFileSizeInfo}>* 장당 10MB 제한</div>
             </div>
         </div>
     );
