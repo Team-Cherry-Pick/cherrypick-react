@@ -17,7 +17,7 @@
   .headerWrapper {
     position: sticky;
     top: 0;
-    z-index: 20;
+    z-index: 900; /* 모달(1100), 검색 오버레이(1000) 다음으로 높은 우선순위 */
   }
   
   /* 모바일에서 헤더 위쪽 영역을 같은 색으로 채우기 (overscroll bounce 대응) */

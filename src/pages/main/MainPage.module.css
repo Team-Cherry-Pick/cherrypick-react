@@ -94,6 +94,6 @@
     top: 3.75rem; /* 모바일 헤더 높이만큼 아래에 고정 */
     margin: 0;
     background-color: var(--color-background-root);
-    z-index: 10;
+    z-index: 800; /* 헤더(900)보다 낮게 설정 */
   }
 }
