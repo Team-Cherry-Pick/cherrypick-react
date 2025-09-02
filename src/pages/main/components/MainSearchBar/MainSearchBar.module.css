@@ -110,16 +110,16 @@
 
 @media (max-width: 768px) {
   .searchBarWrapper {
-    border: 1px solid var(--color-neutral-700);
-    background-color: var(--color-neutral-800);
-  }
+    border: 0.5px solid var(--color-achromatic-700);
+    background-color: var(--color-achromatic-900);
+  } 
 
   .searchInput {
     color: white;
   }
 
   .searchInput::placeholder {
-    color: var(--color-content-sub);
+    color: var(--color-achromatic-400);
   }
 
   .searchButton {
@@ -128,5 +128,30 @@
 
   .searchButton svg {
     fill: white;
+  }
+
+  /* 최근검색어 모바일 폰트 색상 대응 */
+  .recentSearchWrapper {
+    color: var(--color-achromatic-400);
+  }
+
+  .recentHeader {
+    color: var(--color-achromatic-400);
+  }
+
+  .clearAllBtn {
+    color: var(--color-achromatic-400);
+  }
+
+  .keywordItem {
+    color: white;
+  }
+
+  .keywordText {
+    color: white;
+  }
+
+  .removeBtn {
+    color: white;
   }
 }
