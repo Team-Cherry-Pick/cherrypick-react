@@ -3,6 +3,16 @@
   height: 28.125rem;
   background-color: var(--color-neutral-0);
   border-radius: var(--radius-5);
+  border: 1px solid var(--color-neutral-100);
+  box-shadow: var(--card-shadow);
+}
+
+/* 모바일에서 width 제한 해제 */
+@media (max-width: 48rem) {
+  .container {
+    width: 100%;
+    max-width: 100%;
+  }
 }
 
 .header {

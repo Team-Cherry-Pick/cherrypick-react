@@ -126,7 +126,7 @@ export function StoreSelectModal({ isOpen, close, unmount, context }: StoreSelec
     if (context === 'main') {
         return (
             <ModalLayout isOpen={isOpen} onExit={unmount}>
-                <div className={styles.container}>
+                <div className={`${styles.container} ${styles.container_main}`}>
                     <div className={styles.header}>
                         <h2 className={styles.title}>스토어 선택</h2>
                         <button className={styles.closeButton} onClick={close}>
@@ -160,7 +160,7 @@ export function StoreSelectModal({ isOpen, close, unmount, context }: StoreSelec
                         />
                     </div>
                     <Suspense>
-                        <ul className={styles.storeContainer}>
+                        <ul className={`${styles.storeContainer} ${styles.storeContainer_main}`}>
                             <StoreList
                                 query={query}
                                 onSelectStore={handleSelectStore}
