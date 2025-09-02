@@ -12,13 +12,23 @@
   background-color: var(--color-background-board);
 }
 
+/* 모바일에서만 헤더 고정 */
+@media (max-width: 48rem) {
+  .headerWrapper {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+}
+
 .headerContainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 90rem;
+  max-width: 91.25rem;
   height: var(--spacing-24);
   margin: 0 auto;
+  padding: 0 var(--spacing-5);
 }
 
 .logoWrapper {
@@ -72,4 +82,71 @@
   height: var(--spacing-6);
   color: var(--color-content-tertiary);
   cursor: pointer;
+}
+
+.searchIcon {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--spacing-8);
+  height: var(--spacing-8);
+  padding: var(--spacing-1);
+  border-radius: var(--radius-4);
+  color: var(--color-content-tertiary);
+  cursor: pointer;
+}
+
+.searchIcon svg {
+  width: var(--spacing-5);
+  height: var(--spacing-5);
+}
+
+.searchIconActive {
+  color: var(--color-primary);
+}
+
+.navigationWrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
+.backButton {
+  width: var(--spacing-2);
+  height: var(--spacing-4);
+  cursor: pointer;
+}
+
+.pageTitle {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+}
+
+@media (max-width: 48rem) {
+  .headerContainer {
+    height: 3.75rem;
+    padding: 1rem 1.25rem;
+  }
+
+  .logoImg {
+    display: none;
+    width: 0;
+    height: 0;
+    padding: 0;
+  }
+
+  .logoText {
+    padding: 0.125rem 0;
+    font-size: var(--font-size-xxl);
+    color: var(--color-content-tertiary);
+  }
+
+  .profileIcon {
+    width: var(--spacing-7);
+    height: var(--spacing-7);
+  }
+
+  .searchIcon {
+    display: inline-flex;
+  }
 }

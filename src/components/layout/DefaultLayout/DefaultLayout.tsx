@@ -8,9 +8,10 @@ import useIsMobileViewport from '@/hooks/useIsMobileViewport';
 interface DefaultLayoutProps {
     children: React.ReactNode;
     background?: 'root' | 'board';
+    onSearchClick?: () => void;
 }
 
-export default function DefaultLayout({ children, background = 'root' }: DefaultLayoutProps) {
+export default function DefaultLayout({ children, background = 'root', onSearchClick }: DefaultLayoutProps) {
     const location = useLocation();
     const isFullWidth = location.pathname === '/upload';
     const isMobile = useIsMobileViewport();
@@ -20,7 +21,7 @@ export default function DefaultLayout({ children, background = 'root' }: Default
             <div
                 className={`${styles.wrapper} ${background === 'root' ? styles.rootBackground : styles.boardBackground}`}
             >
-                <Header background={background} />
+                <Header background={background} onSearchClick={onSearchClick} />
                 <main className={styles.main} style={{
                     backgroundColor: background === 'board'
                         ? 'var(--color-background-board)'

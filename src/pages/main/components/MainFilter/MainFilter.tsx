@@ -3,23 +3,77 @@ import styles from './MainFilter.module.css';
 import { resetFiltersAtom } from '@/store/search';
 import { BasicFilter, CategoryFilter, DiscountFilter, PriceFilter, StoreFilter } from './components';
 import { useEffect } from 'react';
-import { useCategoryNavigation } from '@/store/category';
+import useIsMobileViewport from '@/hooks/useIsMobileViewport';
+import { Moon, ArrowLeft } from 'lucide-react';
+import { useTheme } from '@/styles/global/useTheme';
+import ProfileButton from '@/components/layout/DefaultLayout/components/Header/components/ProfileButton';
 
 interface MainFilterProps {
-    aiActive: boolean;
+    isOpen?: boolean;
+    onClose?: () => void;
 }
 
-export function MainFilter({ aiActive }: MainFilterProps) {
+export function MainFilter({ isOpen = false, onClose }: MainFilterProps) {
     const resetFilters = useSetAtom(resetFiltersAtom);
-    const { reset } = useCategoryNavigation();
+    const isMobile = useIsMobileViewport();
+    const { toggleTheme } = useTheme();
 
+    // 모바일에서 데스크톱으로 전환될 때 필터 닫기
     useEffect(() => {
-        if (aiActive) {
-            resetFilters();
-            reset();
+        if (!isMobile && isOpen && onClose) {
+            onClose();
         }
-    }, [aiActive, reset, resetFilters]);
+    }, [isMobile, isOpen, onClose]);
 
+    // 모바일 환경
+    if (isMobile) {
+        // 열리지 않았으면 아무것도 렌더링하지 않음
+        if (!isOpen) return null;
+        
+        // 모바일 전체화면 모달
+        return (
+            <div className={styles.mobileOverlay}>
+                <div className={styles.mobileContainer}>
+                    {/* 모바일 헤더 */}
+                    <div className={styles.mobileHeader}>
+                        <div className={styles.mobileHeaderLeft}>
+                            <ArrowLeft 
+                                className={styles.backButton} 
+                                onClick={onClose}
+                            />
+                            <span className={styles.mobileTitle}>필터</span>
+                        </div>
+                        <div className={styles.mobileHeaderRight}>
+                            <Moon className={styles.themeToggleIcon} onClick={toggleTheme} />
+                            <ProfileButton />
+                        </div>
+                    </div>
+
+                    {/* 필터 내용 */}
+                    <div className={styles.mobileContent}>
+                        <div className={styles.flexBox}>
+                            <div className={styles.title}>필터</div>
+                            <button className={styles.resetButton} onClick={resetFilters}>
+                                전체 초기화
+                            </button>
+                        </div>
+
+                        <BasicFilter />
+                        <div className={styles.divider} />
+                        <CategoryFilter />
+                        <div className={styles.divider} />
+                        <PriceFilter />
+                        <div className={styles.divider} />
+                        <StoreFilter />
+                        <div className={styles.divider} />
+                        <DiscountFilter />
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // 데스크톱 환경 - 기본 사이드바
     return (
         <aside className={styles.container}>
             <div className={styles.flexBox}>
@@ -29,24 +83,15 @@ export function MainFilter({ aiActive }: MainFilterProps) {
                 </button>
             </div>
 
-            {/* 기본 검색 필터 */}
             <BasicFilter />
-            {!aiActive && (
-                <>
-                    <div className={styles.divider} />
-                    {/* 카테고리 필터 */}
-                    <CategoryFilter />
-                    <div className={styles.divider} />
-                    {/* 가격 필터 */}
-                    <PriceFilter />
-                    <div className={styles.divider} />
-                    {/* 스토어 필터 */}
-                    <StoreFilter />
-                    <div className={styles.divider} />
-                    {/* 할인방식 필터 */}
-                    <DiscountFilter />
-                </>
-            )}
+            <div className={styles.divider} />
+            <CategoryFilter />
+            <div className={styles.divider} />
+            <PriceFilter />
+            <div className={styles.divider} />
+            <StoreFilter />
+            <div className={styles.divider} />
+            <DiscountFilter />
         </aside>
     );
 }

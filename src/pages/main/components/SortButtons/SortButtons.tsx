@@ -1,13 +1,11 @@
 import styles from './SortButtons.module.css';
-import { sortTypeAtom, timeRangeAtom, triggerFetchAtom } from '@/store/search';
+import { sortTypeAtom, timeRangeAtom, triggerFetchAtom, basicFiltersAtom, priceFilterAtom, variousPriceAtom, selectedStoresAtom, selectedDiscountAtom, categoryIdAtom } from '@/store/search';
 import { useAtom, useSetAtom } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
 import UnderArrowIcon from '@/assets/icons/under-arrow-Icon.svg?react';
+import FilterIcon from '@/assets/icons/filter-Icon.svg?react';
 import Dropdown from '@/components/common/Dropdown';
-import aiIcon from '@/assets/icons/ai-Icon.png';
-import aiActiveIcon from '@/assets/icons/ai-active-Icon.png';
-import { AccessTokenService } from '@/services/accessTokenService';
-import { AccessTokenType } from '@/types/Api';
+import useIsMobileViewport from '@/hooks/useIsMobileViewport';
 
 const timeRangeOptions = [
     { label: '최근 3시간', value: 'LAST3HOURS' },
@@ -28,67 +26,63 @@ const sortOptions = [
 ];
 
 interface SortButtonsProps {
-    aiActive: boolean;
-    setAiActive: React.Dispatch<React.SetStateAction<boolean>>;
+    onFilterClick?: () => void;
 }
 
-export function SortButtons({ aiActive, setAiActive }: SortButtonsProps) {
+export function SortButtons({ onFilterClick }: SortButtonsProps) {
     const [openDropdown, setOpenDropdown] = useState<'timeRange' | 'sortType' | null>(null);
-    const [animationClass, setAnimationClass] = useState('');
+    const isMobile = useIsMobileViewport();
 
     const [timeRange, setTimeRange] = useAtom(timeRangeAtom);
     const [sortType, setSortType] = useAtom(sortTypeAtom);
+    const [basicFilters] = useAtom(basicFiltersAtom);
+    const [priceFilter] = useAtom(priceFilterAtom);
+    const [variousPrice] = useAtom(variousPriceAtom);
+    const [selectedStores] = useAtom(selectedStoresAtom);
+    const [selectedDiscounts] = useAtom(selectedDiscountAtom);
+    const [categoryId] = useAtom(categoryIdAtom);
     const triggerFetch = useSetAtom(triggerFetchAtom);
 
     const timeRef = useRef<HTMLButtonElement>(null);
     const sortRef = useRef<HTMLButtonElement>(null);
-    const prevAiActive = useRef(aiActive);
+
+    // 필터 적용 여부 확인 (카테고리 포함)
+    const isFilterApplied = 
+        basicFilters.viewSoldOut || 
+        basicFilters.globalShipping || 
+        (priceFilter.minPrice !== undefined && priceFilter.minPrice > 0) ||
+        (priceFilter.maxPrice !== undefined && priceFilter.maxPrice > 0) ||
+        !variousPrice ||
+        selectedStores.length > 0 ||
+        selectedDiscounts.length > 0 ||
+        categoryId !== undefined;
 
     useEffect(() => {
         triggerFetch();
     }, [timeRange, sortType, triggerFetch]);
 
-    useEffect(() => {
-        if (prevAiActive.current === aiActive) return; // 값이 실제로 바뀔 때만
-        if (aiActive) {
-            setAnimationClass(styles.aiSortButtonContentFadeIn);
-        } else {
-            setAnimationClass(styles.aiSortButtonContentFadeOut);
-        }
-        prevAiActive.current = aiActive;
-    }, [aiActive]);
-
-    const onClickBtnAIRecommendation = () => {
-        const token = AccessTokenService.get(AccessTokenType.USER);
-        if (!token) {
-            alert('로그인 후 이용해주세요');
-            return;
-        }
-        setAiActive(prev => !prev)
-    }
-
     return (
         <div className={styles.container}>
-            <button
-                className={`${styles.sortButton} ${styles.aiSortButton} ${aiActive && styles.aiSortButton_active}`}
-                onClick={() => onClickBtnAIRecommendation()}
-            >
-                <div className={styles.aiSortButton__gradient} />
-                <div className={`${styles.iconWrapper} ${aiActive && styles.iconWrapper_active}`}>
-                    <img src={aiIcon} />
-                    <img className={styles.aiIcon_active} src={aiActiveIcon} />
-                </div>
-                <div className={`${styles.aiSortButtonContent} ${animationClass}`}>AI 추천</div>
-            </button>
+            <div className={styles.leftButtons}>
+                <button
+                    className={styles.sortButton}
+                    ref={timeRef}
+                    onClick={() => setOpenDropdown(prev => (prev === 'timeRange' ? null : 'timeRange'))}
+                >
+                    <span>{timeRangeOptions.find(opt => opt.value === timeRange)?.label}</span>
+                    <UnderArrowIcon width={9} height={5} style={{ fill: 'var(--color-content-sub)' }} />
+                </button>
 
-            <button
-                className={styles.sortButton}
-                ref={timeRef}
-                onClick={() => setOpenDropdown(prev => (prev === 'timeRange' ? null : 'timeRange'))}
-            >
-                <span>{timeRangeOptions.find(opt => opt.value === timeRange)?.label}</span>
-                <UnderArrowIcon width={9} height={5} style={{ fill: 'var(--color-content-sub)' }} />
-            </button>
+                <button
+                    className={styles.sortButton}
+                    ref={sortRef}
+                    onClick={() => setOpenDropdown(prev => (prev === 'sortType' ? null : 'sortType'))}
+                >
+                    <span>{sortOptions.find(opt => opt.value === sortType)?.label}</span>
+                    <UnderArrowIcon width={9} height={5} style={{ fill: 'var(--color-content-sub)' }} />
+                </button>
+            </div>
+
             {openDropdown === 'timeRange' && (
                 <Dropdown
                     anchorRef={timeRef}
@@ -102,14 +96,6 @@ export function SortButtons({ aiActive, setAiActive }: SortButtonsProps) {
                 />
             )}
 
-            <button
-                className={styles.sortButton}
-                ref={sortRef}
-                onClick={() => setOpenDropdown(prev => (prev === 'sortType' ? null : 'sortType'))}
-            >
-                <span>{sortOptions.find(opt => opt.value === sortType)?.label}</span>
-                <UnderArrowIcon width={9} height={5} style={{ fill: 'var(--color-content-sub)' }} />
-            </button>
             {openDropdown === 'sortType' && (
                 <Dropdown
                     anchorRef={sortRef}
@@ -121,6 +107,23 @@ export function SortButtons({ aiActive, setAiActive }: SortButtonsProps) {
                     }}
                     onClose={() => setOpenDropdown(null)}
                 />
+            )}
+
+            {isMobile && (
+                <button
+                    className={`${styles.filterButton} ${isFilterApplied ? styles.filterButton_active : ''}`}
+                    onClick={onFilterClick}
+                >
+                    <div className={styles.filterIconWrapper}>
+                        <FilterIcon 
+                            width={10} 
+                            height={10} 
+                            style={{ fill: isFilterApplied ? 'var(--color-neutral-0)' : 'var(--color-content-sub)' }} 
+                        />
+                        {isFilterApplied && <div className={styles.filterIndicator} />}
+                    </div>
+                    <span>필터</span>
+                </button>
             )}
         </div>
     );

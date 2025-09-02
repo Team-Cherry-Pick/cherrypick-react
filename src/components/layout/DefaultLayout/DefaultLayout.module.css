@@ -30,3 +30,10 @@
 .innerFullWidth {
   padding-inline: 0;
 }
+
+/* 모바일에서 헤더 고정 */
+@media (max-width: 48rem) {
+  .wrapper {
+    position: relative;
+  }
+}

@@ -68,3 +68,9 @@
   color: var(--color-content-tertiary);
   font-size: var(--font-size-xs);
 }
+
+@media (max-width: 48rem) {
+  .footerWrapper {
+    display: none;
+  }
+}

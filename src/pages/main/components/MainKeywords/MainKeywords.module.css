@@ -1,0 +1,12 @@
+.searchResult {
+  flex: 1;
+  font-size: var(--typography-size-xxl);
+  font-weight: var(--typography-weight-bold);
+  line-height: 2rem;
+}
+
+@media (max-width: 768px) {
+  .searchResult {
+    display: none;
+  }
+}

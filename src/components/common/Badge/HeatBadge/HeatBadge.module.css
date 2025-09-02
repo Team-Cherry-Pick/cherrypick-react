@@ -40,3 +40,11 @@
     font-size: 1rem;
     height: 100%;
 }
+
+@media (max-width: 48rem) {
+    .badge {
+        border: 0.0625rem solid var(--color-neutral-100);
+        background-color: var(--color-background-card);
+        box-shadow: none;
+    }
+}
