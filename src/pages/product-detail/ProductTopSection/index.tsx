@@ -9,6 +9,8 @@ import { AccessTokenService } from '@/services/accessTokenService';
 import { AccessTokenType } from '@/types/Api';
 import { useCarouselImages } from '@/hooks/useCarouselImages';
 import { ImageCarousel } from './components/ImageCarousel';
+import { useAtomValue } from 'jotai';
+import { currentProfileAtom } from '@/store/profile';
 
 interface Props {
     deal: DetailedDeal;
@@ -18,10 +20,13 @@ interface Props {
 const ProductTopSection = ({ deal, onVoteChange }: Props) => {
     const navigate = useNavigate();
     const carouselImages = useCarouselImages(deal.imageUrls);
+    const currentProfile = useAtomValue(currentProfileAtom);
 
     const safeContent = (deal.content ?? '').replace(/<hr\s*\/?>/gi, '<div class="custom-divider"></div>');
     const [enlargedImage, setEnlargedImage] = useState<string | null>(null);
     const [localDeal, setLocalDeal] = useState(deal);
+
+    const isAuthor = AccessTokenService.hasToken(AccessTokenType.USER) && currentProfile.userId === deal.user.userId;
 
     // TODO: Implement image modal when enlargedImage is set
     // console.log('Enlarged image:', enlargedImage);
@@ -79,7 +84,7 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
                             <S.Tag key={idx + 1}>{tag}</S.Tag>
                         ))}
                     </S.TagList>
-                    {AccessTokenService.hasToken(AccessTokenType.USER) && (
+                    {isAuthor && (
                         <S.ActionGroup>
                             <S.ActionButton onClick={handleEndDeal}>종료처리</S.ActionButton>
                             <S.ActionButton onClick={handleEditDeal}>수정</S.ActionButton>
