@@ -32,6 +32,10 @@ function ProductDetailPage() {
         queryFn: () => fetchDetailedDeal(id!),
         enabled: !!id,
         retry: false,
+        refetchOnWindowFocus: false,
+        refetchOnMount: true,
+        refetchOnReconnect: false,
+        staleTime: Infinity,
     });
 
     // 투표 변경 시 딜 데이터 다시 가져오기
