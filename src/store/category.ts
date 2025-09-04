@@ -78,6 +78,33 @@ export const finalSelectedCategoryAtom = atom<{
     path: string[];
 } | null>(null);
 
+// 업로드 페이지 전용 카테고리 atom (메인 페이지와 독립적)
+export const uploadSelectedCategoryAtom = atom<{
+    categoryId: number;
+    path: string[];
+} | null>(null);
+
+// 업로드 페이지 전용 카테고리 경로 atom (모달 내 네비게이션용)
+export const uploadCategoryPathAtom = atom<string[]>([]);
+
+// 업로드 페이지용 현재 카테고리 atom
+export const uploadCurrentCategoriesAtom = atom(async get => {
+    const categories = await get(categoriesAtom);
+    const selectedPath = get(uploadCategoryPathAtom);
+
+    let current: Category[] = categories;
+    for (const step of selectedPath) {
+        const found = current.find(c => c.name === step);
+        if (!found) {
+            // 경로가 잘못된 경우 루트로 돌아감
+            return categories;
+        }
+        current = found.subCategories;
+    }
+
+    return current;
+});
+
 export const currentCategoriesAtom = atom(async get => {
     const categories = await get(categoriesAtom);
     const selectedPath = get(selectedCategoryPathAtom);
@@ -149,6 +176,65 @@ export const categoryNavigationAtom = atom(null, (get, set, action: CategoryNavi
 
 export const useCategoryNavigation = () => {
     const [, navigate] = useAtom(categoryNavigationAtom);
+
+    return {
+        selectCategory: (name: string) => navigate({ type: 'SELECT_CATEGORY', payload: name }),
+        goToParent: () => navigate({ type: 'GO_TO_PARENT' }),
+        goToRoot: () => navigate({ type: 'GO_TO_ROOT' }),
+        goToBreadcrumb: (index: number) => navigate({ type: 'GO_TO_BREADCRUMB', payload: index }),
+        selectFinalCategory: (categoryId: number, categoryName: string) =>
+            navigate({ type: 'SELECT_FINAL_CATEGORY', payload: { categoryId, categoryName } }),
+        reset: () => navigate({ type: 'RESET' }),
+    };
+};
+
+// 업로드 페이지 전용 카테고리 네비게이션
+export const uploadCategoryNavigationAtom = atom(null, (get, set, action: CategoryNavigationAction) => {
+    const currentPath = get(uploadCategoryPathAtom);
+
+    switch (action.type) {
+        case 'SELECT_CATEGORY': {
+            const categoryName = action.payload as string;
+            set(uploadCategoryPathAtom, [...currentPath, categoryName]);
+            break;
+        }
+
+        case 'GO_TO_PARENT':
+            if (currentPath.length > 0) {
+                set(uploadCategoryPathAtom, currentPath.slice(0, -1));
+            }
+            break;
+
+        case 'GO_TO_ROOT':
+            set(uploadCategoryPathAtom, []);
+            break;
+
+        case 'GO_TO_BREADCRUMB': {
+            const targetIndex = action.payload as number;
+            set(uploadCategoryPathAtom, currentPath.slice(0, targetIndex + 1));
+            break;
+        }
+
+        case 'SELECT_FINAL_CATEGORY': {
+            // 업로드 페이지용 최종 카테고리 설정
+            const { categoryId, categoryName: finalCategoryName } = action.payload;
+            const finalPath = [...currentPath, finalCategoryName];
+            set(uploadSelectedCategoryAtom, { categoryId, path: finalPath });
+            break;
+        }
+
+        case 'RESET':
+            // 업로드 페이지 네비게이션 경로만 초기화
+            set(uploadCategoryPathAtom, []);
+            break;
+
+        default:
+            break;
+    }
+});
+
+export const useUploadCategoryNavigation = () => {
+    const [, navigate] = useAtom(uploadCategoryNavigationAtom);
 
     return {
         selectCategory: (name: string) => navigate({ type: 'SELECT_CATEGORY', payload: name }),

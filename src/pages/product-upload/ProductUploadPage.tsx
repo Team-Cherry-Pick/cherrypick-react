@@ -19,7 +19,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import type { DealImage } from '@/types/Deal';
 import { useImageUpload } from '@/hooks/useImageUpload';
 import { selectedDiscountAtom } from '@/store/search';
-import { finalSelectedCategoryAtom } from '@/store/category';
+import { uploadSelectedCategoryAtom } from '@/store/category';
 
 export default function ProductUploadPage() {
     const navigate = useNavigate();
@@ -28,7 +28,7 @@ export default function ProductUploadPage() {
     const [deal, setDeal] = useAtom(newDealAtom);
     const imageUpload = useImageUpload();
     const [_, setSelectedDiscount] = useAtom(selectedDiscountAtom);
-    const [, setFinalSelectedCategory] = useAtom(finalSelectedCategoryAtom);
+    const [, setUploadSelectedCategory] = useAtom(uploadSelectedCategoryAtom);
 
     const [valid, setValid] = useState<
         'Title' | 'Category' | 'Image' | 'OriginalUrl' | 'Store' | 'Shipping' | 'Content' | null
@@ -176,9 +176,9 @@ export default function ProductUploadPage() {
                         }))
                     );
 
-                    // 카테고리 정보를 finalSelectedCategoryAtom에 설정
+                    // 카테고리 정보를 uploadSelectedCategoryAtom에 설정
                     if (d.categoryId && d.categorys && d.categorys.length > 0) {
-                        setFinalSelectedCategory({
+                        setUploadSelectedCategory({
                             categoryId: d.categoryId,
                             path: d.categorys,
                         });
@@ -200,7 +200,7 @@ export default function ProductUploadPage() {
         };
         init();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dealId, setDeal, setSelectedDiscount, setFinalSelectedCategory]);
+    }, [dealId, setDeal, setSelectedDiscount, setUploadSelectedCategory]);
 
     return (
         <>
