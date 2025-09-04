@@ -7,10 +7,9 @@ import type { DealImage } from '@/types/Deal';
 
 interface ImageCarouselProps {
   images: DealImage[];
-  onImageClick?: (imageUrl: string) => void;
 }
 
-export const ImageCarousel: React.FC<ImageCarouselProps> = ({ images, onImageClick }) => {
+export const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const totalImages = images.length;
@@ -49,7 +48,6 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ images, onImageCli
               <S.CarouselImage
                 src={image.url || LogoPic}
                 alt={`Product image ${index + 1}`}
-                onClick={() => onImageClick?.(image.url)}
                 onError={(e) => {
                   e.currentTarget.src = LogoPic;
                 }}

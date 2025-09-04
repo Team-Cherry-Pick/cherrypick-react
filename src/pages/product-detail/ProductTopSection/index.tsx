@@ -23,17 +23,12 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
     const currentProfile = useAtomValue(currentProfileAtom);
 
     const safeContent = (deal.content ?? '').replace(/<hr\s*\/?>/gi, '<div class="custom-divider"></div>');
-    const [enlargedImage, setEnlargedImage] = useState<string | null>(null);
     const [localDeal, setLocalDeal] = useState(deal);
-
     const isAuthor = AccessTokenService.hasToken(AccessTokenType.USER) && currentProfile.userId === deal.user.userId;
-
-    // TODO: Implement image modal when enlargedImage is set
-    // console.log('Enlarged image:', enlargedImage);
 
     const handleEndDeal = async () => {
         const confirmed = window.confirm('해당하는 핫딜이 품절/종료되었습니까?');
-        if (!confirmed) return;
+        if (!confirmed || !isAuthor) return;
         try {
             await endDeal(localDeal.dealId);
             alert('핫딜이 종료되었습니다!');
@@ -45,7 +40,7 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
 
     const handleDeleteDeal = async () => {
         const confirmed = window.confirm('정말 삭제하시겠습니까?');
-        if (!confirmed) return;
+        if (!confirmed || !isAuthor) return;
         try {
             await deleteDeal(localDeal.dealId);
             alert('삭제되었습니다!');
@@ -56,6 +51,7 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
     };
 
     const handleEditDeal = () => {
+        if (!isAuthor) return;
         navigate(`/upload/${localDeal.dealId}`);
     };
 
@@ -70,7 +66,6 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
             <S.ImageSection>
                 <ImageCarousel
                     images={carouselImages}
-                    onImageClick={setEnlargedImage}
                 />
             </S.ImageSection>
 
