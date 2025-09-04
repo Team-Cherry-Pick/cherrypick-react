@@ -1,12 +1,11 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { AccessTokenService } from '@/services/accessTokenService';
-import { AccessTokenType } from '@/types/Api';
 
 export const useRequireLogin = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const isLoggedIn = AccessTokenService.hasToken(AccessTokenType.USER);
+    const isLoggedIn = AccessTokenService.hasToken();
 
     const guard = () => {
         if (!isLoggedIn) {

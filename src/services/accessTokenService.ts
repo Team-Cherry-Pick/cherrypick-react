@@ -1,8 +1,8 @@
-import { AccessTokenType } from '@/types/Api';
 import CryptoJS from 'crypto-js';
 
 export class AccessTokenService {
     private static readonly SECRET_KEY = import.meta.env.VITE_ENCRYPTION_KEY;
+    private static readonly TOKEN_KEY = 'accessToken';
 
     // 환경 변수 검증
     private static checkSecretKey() {
@@ -30,26 +30,26 @@ export class AccessTokenService {
     }
 
     // 저장 (암호화)
-    static save(type: AccessTokenType, token: string) {
+    static save(token: string) {
         const encrypted = this.encryptData(token);
-        localStorage.setItem(type, encrypted);
+        localStorage.setItem(this.TOKEN_KEY, encrypted);
     }
 
     // 가져오기 (복호화)
-    static get(type: AccessTokenType): string | null {
-        const encrypted = localStorage.getItem(type);
+    static get(): string | null {
+        const encrypted = localStorage.getItem(this.TOKEN_KEY);
         if (!encrypted) return null;
         return this.decryptData(encrypted);
     }
 
     // 삭제
-    static clear(type: AccessTokenType) {
-        localStorage.removeItem(type);
+    static clear() {
+        localStorage.removeItem(this.TOKEN_KEY);
     }
 
     // 로그인 여부 확인용 호출 함수
-    static hasToken(type: AccessTokenType): boolean {
-        const token = this.get(type);
+    static hasToken(): boolean {
+        const token = this.get();
         return !!token;
     }
 }

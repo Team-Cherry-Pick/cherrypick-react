@@ -38,10 +38,3 @@ export enum HttpAuth {
     USER = "USER",
     NONE = "NONE",
 }
-
-/**
- * @enum Token Type
- */
-export enum AccessTokenType {
-    USER = "USER_ACCESS_TOKEN",
-}

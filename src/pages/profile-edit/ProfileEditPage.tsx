@@ -1,7 +1,6 @@
 import styles from './ProfileEditPage.module.css';
 import { Gender, GetUserRes, isValidProfile, NicknameEditStatus, User } from '@/types/Profile';
 import { AccessTokenService } from '@/services/accessTokenService';
-import { AccessTokenType } from '@/types/Api';
 import { currentProfileAtom, newProfileAtom } from '@/store/profile';
 import { useAtom } from 'jotai';
 import { useEffect, useRef, useState } from 'react';
@@ -25,7 +24,7 @@ export function ProfileEditPage() {
 
     // registerToken도 안 넘어왔고, accessToken도 없으면 라우팅 접근 불가능하도록 설정
     useEffect(() => {
-        const hasAccessToken = AccessTokenService.hasToken(AccessTokenType.USER);
+        const hasAccessToken = AccessTokenService.hasToken();
         const hasRegisterToken = location.state?.registerTokenState;
 
         // 둘 다 없으면 접근 차단
@@ -51,13 +50,13 @@ export function ProfileEditPage() {
     const email: string = emailState;
 
     // 비회원, 회원에 따라 처리
-    const isSignUpPage = !AccessTokenService.hasToken(AccessTokenType.USER) && registerToken && redirectPath && email;
+    const isSignUpPage = !AccessTokenService.hasToken() && registerToken && redirectPath && email;
     const [nicknameEditStatus, setNicknameEditStatus] = useState<NicknameEditStatus>(isSignUpPage ? NicknameEditStatus.NONE : NicknameEditStatus.VALID);
 
     // (기회원) API 호출하여 기존 프로필 정보 세팅 (비회원) email을 profile에 세팅
     useEffect(() => {
         const initProfile = async () => {
-            const isProfileEditPage = AccessTokenService.hasToken(AccessTokenType.USER);
+            const isProfileEditPage = AccessTokenService.hasToken();
             if (isProfileEditPage) {
                 const currentUser: GetUserRes = await getUser();
                 setNewProfile(currentUser);
@@ -87,7 +86,7 @@ export function ProfileEditPage() {
         }
 
         // 회원정보 수정(회원)일 시, 프로필 데이터 유효성만 검증 
-        if (AccessTokenService.hasToken(AccessTokenType.USER)) {
+        if (AccessTokenService.hasToken()) {
             return true;
         }
 
@@ -141,7 +140,7 @@ export function ProfileEditPage() {
 
     // '회원탈퇴' 버튼 클릭 시 API 요청 후 프로필 삭제
     const onClickWithdraw = async () => {
-        if (!AccessTokenService.hasToken(AccessTokenType.USER)) {
+        if (!AccessTokenService.hasToken()) {
             return;
         }
 
@@ -155,7 +154,7 @@ export function ProfileEditPage() {
 
         const deleteUserRes: DeleteUserRes = await deleteUser("");
         if (deleteUserRes.id > -1) {
-            AccessTokenService.clear(AccessTokenType.USER);
+            AccessTokenService.clear();
             navigate('/');
             refreshProfile();
         }
@@ -205,7 +204,7 @@ export function ProfileEditPage() {
 
         if (accessToken) {
             refreshProfile();
-            AccessTokenService.save(AccessTokenType.USER, accessToken);
+            AccessTokenService.save(accessToken);
             setNewProfile({ userId: -1, nickname: "", email: "", birthday: "", gender: Gender.MALE, imageURL: "", imageId: -1 });
             navigate(redirectPath);
         }

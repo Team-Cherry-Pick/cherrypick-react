@@ -6,7 +6,6 @@ import HeatFeedback from '@/components/detail/HeatFeedback';
 import * as S from './ProductTopSection.style';
 import { endDeal, deleteDeal } from '@/services/apiDeal';
 import { AccessTokenService } from '@/services/accessTokenService';
-import { AccessTokenType } from '@/types/Api';
 import { useCarouselImages } from '@/hooks/useCarouselImages';
 import { ImageCarousel } from './components/ImageCarousel';
 import { useAtomValue } from 'jotai';
@@ -24,7 +23,7 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
 
     const safeContent = (deal.content ?? '').replace(/<hr\s*\/?>/gi, '<div class="custom-divider"></div>');
     const [localDeal, setLocalDeal] = useState(deal);
-    const isAuthor = AccessTokenService.hasToken(AccessTokenType.USER) && currentProfile.userId === deal.user.userId;
+    const isAuthor = AccessTokenService.hasToken() && currentProfile.userId === deal.user.userId;
 
     const handleEndDeal = async () => {
         const confirmed = window.confirm('해당하는 핫딜이 품절/종료되었습니까?');

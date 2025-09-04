@@ -1,6 +1,5 @@
 // pages/login/LoginSuccessPage.tsx
 import { AccessTokenService } from '@/services/accessTokenService';
-import { AccessTokenType } from '@/types/Api';
 import { useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 
@@ -32,7 +31,7 @@ const LoginRedirectPage = () => {
 
             // 기존 유저인 경우 기존 페이지로 이동
             if (!isNewUser) {
-                AccessTokenService.save(AccessTokenType.USER, token);
+                AccessTokenService.save(token);
                 navigate(redirectPath);
                 return;
             }

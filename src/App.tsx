@@ -18,7 +18,6 @@ import { useRefreshProfile } from './hooks/useRefreshProfile';
 import { generateDeviceID } from './types/Auth';
 import { OverlayProvider } from './context/overlay';
 import { AccessTokenService } from './services/accessTokenService';
-import { AccessTokenType } from './types/Api';
 
 const App = () => {
     const [theme] = useAtom(themeAtom);
@@ -31,8 +30,8 @@ const App = () => {
             localStorage.setItem('deviceID', newDeviceID);
             
             // 만약 회원이었던 경우 비정상적인 접근으로 간주하여 로그아웃 처리
-            if (AccessTokenService.get(AccessTokenType.USER)) {
-                AccessTokenService.clear(AccessTokenType.USER);
+            if (AccessTokenService.get()) {
+                AccessTokenService.clear();
                 window.location.href = '/login';
                 alert('로그인이 만료되었습니다. 다시 로그인해주세요.');
             }

@@ -1,5 +1,4 @@
 import { AccessTokenService } from "@/services/accessTokenService";
-import { AccessTokenType } from "./Api";
 
 export enum NicknameEditStatus {
     NONE = "NONE",
@@ -15,7 +14,7 @@ export enum Gender {
 
 export const isValidProfile = (newUser: User, currentUser: User, nicknameEditStatus: NicknameEditStatus) => {
     const isNotChangedProfile = JSON.stringify(newUser) === JSON.stringify(currentUser);
-    if(AccessTokenService.hasToken(AccessTokenType.USER) && isNotChangedProfile) {
+    if(AccessTokenService.hasToken() && isNotChangedProfile) {
         return false;
     }
 

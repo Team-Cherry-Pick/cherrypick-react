@@ -5,7 +5,6 @@ import { useAtom, useAtomValue } from 'jotai';
 import { GetNicknameValidationRes, NicknameEditStatus } from '@/types/Profile';
 import { getNicknameValidation } from '@/services/apiProfile';
 import { AccessTokenService } from '@/services/accessTokenService';
-import { AccessTokenType } from '@/types/Api';
 
 interface NicknameEditorProps {
     editStatus: NicknameEditStatus,
@@ -27,7 +26,7 @@ const NicknameEditor = ({ editStatus, setEditStatus }: NicknameEditorProps) => {
         if (newNickname.length > 10) return;
 
         // 회원 && 기존 닉네임과 동일한 경우
-        if (AccessTokenService.hasToken(AccessTokenType.USER) && newNickname === currentProfile.nickname) {
+        if (AccessTokenService.hasToken() && newNickname === currentProfile.nickname) {
             setEditStatus(NicknameEditStatus.VALID);
             setNewProfile({ ...newProfile, nickname: newNickname });
             return;

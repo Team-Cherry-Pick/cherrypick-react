@@ -26,7 +26,6 @@ import type { Comment } from '@/types/Comment';
 import { LoadingSpinner } from '@/components/common/Loading/LoadingSpinner';
 import { getRelativeTime } from '@/utils/time';
 import { AccessTokenService } from '@/services/accessTokenService';
-import { AccessTokenType } from '@/types/Api';
 import { jwtDecode } from 'jwt-decode';
 import LikeIcon from '@/assets/icons/like.svg?react';
 import TalkBubbleIcon from '@/assets/icons/talkbubble.svg?react';
@@ -39,7 +38,7 @@ type ProductCommentsProps = {
 };
 
 function getUserIdFromToken() {
-    const token = AccessTokenService.get(AccessTokenType.USER);
+    const token = AccessTokenService.get();
     if (!token) return null;
     try {
         const decoded = jwtDecode<{ userId: number }>(token);
@@ -101,7 +100,7 @@ const ProductComments = ({ dealId, refreshKey: externalRefreshKey, onLikeToggle 
     };
 
     const handleLikeToggle = async (commentId: number) => {
-        const token = AccessTokenService.get(AccessTokenType.USER);
+        const token = AccessTokenService.get();
         if (!token) {
             alert('로그인 후 이용해주세요');
             return;
@@ -194,7 +193,7 @@ const ProductComments = ({ dealId, refreshKey: externalRefreshKey, onLikeToggle 
     };
 
     const handleDelete = async (commentId: number) => {
-        const token = AccessTokenService.get(AccessTokenType.USER);
+        const token = AccessTokenService.get();
         if (!token) {
             alert('로그인 후 이용해주세요');
             return;
