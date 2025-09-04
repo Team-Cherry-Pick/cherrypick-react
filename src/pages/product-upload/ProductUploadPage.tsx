@@ -13,10 +13,10 @@ import {
 } from './components';
 import { useAtom } from 'jotai';
 import { newDealAtom } from '@/store';
-import { fetchDetailedDeal, uploadDeal } from '@/services/apiDeal';
+import { fetchDetailedDeal, uploadDeal, updateDeal } from '@/services/apiDeal';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import type { DealImage } from '@/types/Deal';
+import type { DealImage, UpdateDeal } from '@/types/Deal';
 import { useImageUpload } from '@/hooks/useImageUpload';
 import { selectedDiscountAtom } from '@/store/search';
 import { uploadSelectedCategoryAtom } from '@/store/category';
@@ -105,9 +105,23 @@ export default function ProductUploadPage() {
             discountNames: deal.discountNames,
         };
 
-        uploadDeal(uploadDealData).then(() => {
-            navigate('/');
-        });
+        // 수정 모드인지 확인하고 적절한 API 호출
+        if (dealId) {
+            // 수정 모드: updateDeal 사용
+            const updateDealData: UpdateDeal = {
+                ...uploadDealData,
+                dealId: Number(dealId),
+            };
+            updateDeal(updateDealData).then(() => {
+                navigate(`/product/${dealId}`);
+                window.location.reload();
+            });
+        } else {
+            // 새 게시글 모드: uploadDeal 사용
+            uploadDeal(uploadDealData).then(() => {
+                navigate('/');
+            });
+        }
     };
 
     // 유효성 검사

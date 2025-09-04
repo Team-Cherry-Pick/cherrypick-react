@@ -114,6 +114,10 @@ export interface UploadDeal {
     discountNames: string[];
 }
 
+export interface UpdateDeal extends UploadDeal {
+    dealId: number;
+}
+
 export interface UploadDealResponse {
     dealId: number;
     message: string;
