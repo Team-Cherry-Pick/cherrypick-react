@@ -70,6 +70,9 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
 
             {/* 아래: 딜 상세 */}
             <S.DetailSection>
+                {deal.categorys && deal.categorys.length > 0 && (
+                    <S.CategoryText>{deal.categorys.join(' > ')}</S.CategoryText>
+                )}
                 <S.Title>{deal.title}</S.Title>
                 <S.StoreTagContainer>
                     <S.StoreBadge>{deal?.store?.storeName ?? '알 수 없음'}</S.StoreBadge>

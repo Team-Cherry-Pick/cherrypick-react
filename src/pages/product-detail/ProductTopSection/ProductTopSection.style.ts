@@ -96,10 +96,17 @@ export const Divider = styled.div`
   margin: ${({ theme }) => theme.spacing[1]} 0;
 `;
 
+export const CategoryText = styled.div`
+  color: ${({ theme }) => theme.colors.content.sub};
+  font-size: 0.875rem;
+  font-weight: ${({ theme }) => theme.typography.weight.regular};
+`;
+
 export const Title = styled.div`
   color: ${({ theme }) => theme.colors.content.main};
   font-size: 1.25rem;
   font-weight: ${({ theme }) => theme.typography.weight.semibold};
+  margin-top: 0.25rem;
 `;
 
 export const StoreTagContainer = styled.div`
