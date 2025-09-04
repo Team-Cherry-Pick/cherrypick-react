@@ -226,11 +226,18 @@ const ProductComments = ({ dealId, refreshKey: externalRefreshKey, onLikeToggle 
 
     const activeComments = sortOption === '인기순' ? popularComments : comments;
     const rootComments = activeComments.filter(c => c.parentId === null);
+    
+    const sortedRootComments = sortOption === '최신순' 
+        ? [...rootComments].sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
+        : rootComments;
 
     const repliesMap = new Map<number, Comment[]>();
-    rootComments.forEach(comment => {
+    sortedRootComments.forEach(comment => {
         if (comment.replies && comment.replies.length > 0) {
-            repliesMap.set(comment.commentId, comment.replies);
+            const sortedReplies = sortOption === '최신순'
+                ? [...comment.replies].sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
+                : comment.replies;
+            repliesMap.set(comment.commentId, sortedReplies);
         }
     });
 
@@ -239,15 +246,15 @@ const ProductComments = ({ dealId, refreshKey: externalRefreshKey, onLikeToggle 
             <CommentHeader
                 sortOption={sortOption}
                 onChange={setSortOption}
-                count={rootComments.length}
+                count={sortedRootComments.length}
             />
             {loading ? (
                 <LoadingSpinner />
-            ) : rootComments.length === 0 ? (
+            ) : sortedRootComments.length === 0 ? (
                 <NoComment>아직 댓글이 없어요. 첫 댓글의 주인공이 되어 보세요!</NoComment>
             ) : (
                 <CommentList>
-                    {rootComments.map((item, idx) => (
+                    {sortedRootComments.map((item, idx) => (
                         <div key={item.commentId}>
                             {/* 메인 댓글 */}
                             <CommentItem>
@@ -368,12 +375,12 @@ const ProductComments = ({ dealId, refreshKey: externalRefreshKey, onLikeToggle 
                             ))}
 
                             {/* 댓글 사이 구분선 (긴 선) */}
-                            {idx !== rootComments.length - 1 && <Divider />}
+                            {idx !== sortedRootComments.length - 1 && <Divider />}
                         </div>
                     ))}
                 </CommentList>
             )}
-            {rootComments.length > 0 && <Divider />}
+            {sortedRootComments.length > 0 && <Divider />}
             <CommentInput onSuccess={handleCommentSuccess} />
         </Wrapper>
     );
