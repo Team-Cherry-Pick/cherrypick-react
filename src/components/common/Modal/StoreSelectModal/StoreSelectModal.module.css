@@ -40,11 +40,11 @@
 .closeButton {
   display: flex;
   align-items: center;
+  color: var(--color-content-sub);
 
   svg {
     width: 1rem;
     height: 1rem;
-    fill: var(--color-content-sub);
   }
 }
 

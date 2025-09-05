@@ -106,6 +106,7 @@ export const NicknameEditorWrapper = styled.div`
 
 export const TextInput = styled.input`
   flex: 1;
+  min-width: 0;
   height: 100%;
   padding: 0 1rem;
   border-radius: 0.5rem;
@@ -118,6 +119,7 @@ export const NicknameCheckButton = styled.button<{ editStatus: NicknameEditStatu
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
   min-width: 7.5rem;
   width: auto;
   height: 100%;
