@@ -77,7 +77,7 @@ const authApiClient = axios.create({
  */
 publicApiClient.interceptors.request.use(
     async (config: InternalAxiosRequestConfig) => {
-        config.headers['Deviceid'] = localStorage.getItem('deviceID');
+        config.headers['Device-Id'] = localStorage.getItem('deviceID');
         return config;
     },
     error => {
@@ -92,7 +92,7 @@ publicApiClient.interceptors.request.use(
 authApiClient.interceptors.request.use(
     async (config: InternalAxiosRequestConfig) => {
 
-        config.headers['Deviceid'] = localStorage.getItem('deviceID');
+        config.headers['Device-Id'] = localStorage.getItem('deviceID');
         const accessToken: string | null = AccessTokenService.get();
 
         if (accessToken) {
