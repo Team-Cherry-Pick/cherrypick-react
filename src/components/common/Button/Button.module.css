@@ -9,6 +9,7 @@
   font-size: var(--typography-size-base);
   font-weight: var(--typography-weight-semibold);
   line-height: var(--typography-line-height-base);
+  white-space: nowrap;
   transition: background-color 0.2s ease;
   cursor: pointer;
 }

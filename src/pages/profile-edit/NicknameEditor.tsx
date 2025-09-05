@@ -118,10 +118,13 @@ export const NicknameCheckButton = styled.button<{ editStatus: NicknameEditStatu
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 6.75rem;
+  min-width: 7.5rem;
+  width: auto;
   height: 100%;
+  padding: 0 0.75rem;
   border-radius: 0.5rem;
   font-size: 1rem;
+  white-space: nowrap;
 
   color: ${({ theme, editStatus }) =>
         editStatus === NicknameEditStatus.EDITING
