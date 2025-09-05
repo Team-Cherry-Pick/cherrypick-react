@@ -13,12 +13,13 @@ import {
 } from './components';
 import { useAtom } from 'jotai';
 import { newDealAtom } from '@/store';
-import { fetchDetailedDeal, uploadDeal } from '@/services/apiDeal';
+import { fetchDetailedDeal, uploadDeal, updateDeal } from '@/services/apiDeal';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import type { DealImage } from '@/types/Deal';
+import type { DealImage, UpdateDeal } from '@/types/Deal';
 import { useImageUpload } from '@/hooks/useImageUpload';
 import { selectedDiscountAtom } from '@/store/search';
+import { uploadSelectedCategoryAtom } from '@/store/category';
 
 export default function ProductUploadPage() {
     const navigate = useNavigate();
@@ -27,6 +28,7 @@ export default function ProductUploadPage() {
     const [deal, setDeal] = useAtom(newDealAtom);
     const imageUpload = useImageUpload();
     const [_, setSelectedDiscount] = useAtom(selectedDiscountAtom);
+    const [, setUploadSelectedCategory] = useAtom(uploadSelectedCategoryAtom);
 
     const [valid, setValid] = useState<
         'Title' | 'Category' | 'Image' | 'OriginalUrl' | 'Store' | 'Shipping' | 'Content' | null
@@ -103,9 +105,23 @@ export default function ProductUploadPage() {
             discountNames: deal.discountNames,
         };
 
-        uploadDeal(uploadDealData).then(() => {
-            navigate('/');
-        });
+        // 수정 모드인지 확인하고 적절한 API 호출
+        if (dealId) {
+            // 수정 모드: updateDeal 사용
+            const updateDealData: UpdateDeal = {
+                ...uploadDealData,
+                dealId: Number(dealId),
+            };
+            updateDeal(updateDealData).then(() => {
+                navigate(`/product/${dealId}`);
+                window.location.reload();
+            });
+        } else {
+            // 새 게시글 모드: uploadDeal 사용
+            uploadDeal(uploadDealData).then(() => {
+                navigate('/');
+            });
+        }
     };
 
     // 유효성 검사
@@ -145,7 +161,7 @@ export default function ProductUploadPage() {
                     const d = await fetchDetailedDeal(dealId);
                     setDeal({
                         title: d.title,
-                        categoryId: d.categorys && d.categorys.length > 0 ? Number(d.categorys[0]) : undefined, // categorys[0]을 categoryId로 사용(실제 값에 맞게 변환 필요)
+                        categoryId: d.categoryId,
                         imageIds: d.imageUrls ? d.imageUrls.map((img: DealImage) => img.imageId) : [],
                         originalUrl: d.originalUrl,
                         storeId: d.storeId ? d.storeId : undefined,
@@ -162,7 +178,7 @@ export default function ProductUploadPage() {
                         },
                         content: d.content || '',
                         discountIds: d.discountIds || [],
-                        discountNames: d.discountName.split(',').map(name => name.trim()),
+                        discountNames: d.discountName ? d.discountName.split(',').map(name => name.trim()) : [],
                     });
                     // discountIds/discountName을 selectedDiscountAtom에도 반영
                     setSelectedDiscount(
@@ -173,6 +189,14 @@ export default function ProductUploadPage() {
                                 : '',
                         }))
                     );
+
+                    // 카테고리 정보를 uploadSelectedCategoryAtom에 설정
+                    if (d.categoryId && d.categorys && d.categorys.length > 0) {
+                        setUploadSelectedCategory({
+                            categoryId: d.categoryId,
+                            path: d.categorys,
+                        });
+                    }
 
                     if (d.imageUrls && d.imageUrls.length > 0) {
                         imageUpload.setImages(
@@ -189,7 +213,8 @@ export default function ProductUploadPage() {
             } 
         };
         init();
-    }, [dealId, setDeal, setSelectedDiscount]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [dealId, setDeal, setSelectedDiscount, setUploadSelectedCategory]);
 
     return (
         <>

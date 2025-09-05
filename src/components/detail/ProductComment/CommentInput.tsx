@@ -13,7 +13,6 @@ import {
 import { useRequireLogin } from '@/hooks/useRequireLogin';
 import { useParams } from 'react-router-dom';
 import { AccessTokenService } from '@/services/accessTokenService';
-import { AccessTokenType } from '@/types/Api';
 import { authRequest } from '@/services/apiClient';
 import { HttpMethod } from '@/types/Api';
 import DefaultProfileIcon from '@/assets/icons/profile-Icon.svg?react';
@@ -36,7 +35,7 @@ const CommentInput = ({ userImageUrl, isReply = false, parentId = null, onCancel
     };
 
     const handleSubmit = async () => {
-        const token = AccessTokenService.get(AccessTokenType.USER);
+        const token = AccessTokenService.get();
         if (!token) {
             alert('로그인 후 이용해주세요');
             return;
@@ -61,7 +60,7 @@ const CommentInput = ({ userImageUrl, isReply = false, parentId = null, onCancel
         }
     };
 
-    const token = AccessTokenService.get(AccessTokenType.USER);
+    const token = AccessTokenService.get();
     const isLoggedIn = !!token;
 
     return (

@@ -1,5 +1,5 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
-import { AccessTokenType, APIException, HttpMethod, ResponseData } from '@/types/Api';
+import { APIException, HttpMethod, ResponseData } from '@/types/Api';
 import { AccessTokenService } from './accessTokenService';
 import { getAuthRefresh } from './apiAuth';
 import { ENV } from '@/utils/environment';
@@ -77,7 +77,7 @@ const authApiClient = axios.create({
  */
 publicApiClient.interceptors.request.use(
     async (config: InternalAxiosRequestConfig) => {
-        config.headers.DeviceId = localStorage.getItem('deviceID');
+        config.headers['Device-Id'] = localStorage.getItem('deviceID');
         return config;
     },
     error => {
@@ -92,8 +92,8 @@ publicApiClient.interceptors.request.use(
 authApiClient.interceptors.request.use(
     async (config: InternalAxiosRequestConfig) => {
 
-        config.headers.DeviceId = localStorage.getItem('deviceID');
-        const accessToken: string | null = AccessTokenService.get(AccessTokenType.USER);
+        config.headers['Device-Id'] = localStorage.getItem('deviceID');
+        const accessToken: string | null = AccessTokenService.get();
 
         if (accessToken) {
             config.headers.Authorization = `Bearer ${accessToken}`;
@@ -131,7 +131,7 @@ authApiClient.interceptors.response.use(
                 // 정상적으로 토큰이 갱신된 경우 헤더 설정하여 API 호출 시퀀스 재개
                 const newAccessToken = await getAuthRefresh(deviceID);
                 if (newAccessToken && originalRequest.headers) {
-                    AccessTokenService.save(AccessTokenType.USER, newAccessToken);
+                    AccessTokenService.save(newAccessToken);
                     originalRequest.headers.set('Authorization', `Bearer ${newAccessToken}`);
                 }
 
@@ -139,10 +139,10 @@ authApiClient.interceptors.response.use(
             } catch (refreshError) {
                 console.error('Fail to refresh token', refreshError);
                 localStorage.removeItem("deviceID");
-                AccessTokenService.clear(AccessTokenType.USER);
+                AccessTokenService.clear();
                 window.location.href = '/login';
                 alert('로그인이 만료되었습니다. 다시 로그인해주세요.');
-                return Promise.reject(refreshError);
+                return new Promise(() => {});
             }
         }
 

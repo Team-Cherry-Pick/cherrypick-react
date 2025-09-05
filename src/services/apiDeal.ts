@@ -3,6 +3,7 @@ import type {
     FetchedDeal,
     DetailedDeal,
     UploadDeal,
+    UpdateDeal,
     UploadDealResponse,
     Store,
 } from '@/types/Deal';
@@ -86,6 +87,6 @@ export async function deleteDeal(dealId: number) {
     return authRequest(HttpMethod.DELETE, `/deal/${dealId}`);
 }
 
-export async function updateDeal(deal: UploadDeal) {
+export async function updateDeal(deal: UpdateDeal) {
     return authRequest(HttpMethod.PATCH, '/deal', deal);
 }

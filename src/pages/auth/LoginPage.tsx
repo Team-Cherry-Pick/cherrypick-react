@@ -4,7 +4,6 @@ import RepikLogo from '@/assets/icons/logo-Icon.svg?react';
 import KakaoLogo from '@/assets/icons/kakao-Icon.svg?react';
 import { getAuthKakao } from '@/services/apiAuth';
 import { AccessTokenService } from '@/services/accessTokenService';
-import { AccessTokenType } from '@/types/Api';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useIsMobileViewport from '@/hooks/useIsMobileViewport';
@@ -15,13 +14,13 @@ const LoginPage = () => {
 
     // 로그인된 사용자는 메인 페이지로 리다이렉트
     useEffect(() => {
-        if (AccessTokenService.hasToken(AccessTokenType.USER)) {
+        if (AccessTokenService.hasToken()) {
             navigate('/', { replace: true });
         }
     }, [navigate]);
 
     // 로그인된 사용자는 페이지를 렌더링하지 않음
-    if (AccessTokenService.hasToken(AccessTokenType.USER)) {
+    if (AccessTokenService.hasToken()) {
         return null;
     }
 

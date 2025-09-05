@@ -4,19 +4,11 @@ import { DiscountSelectModal } from '@/components/common/Modal';
 import { overlay } from '@/context/overlay';
 import { newDealAtom } from '@/store';
 import { useAtom } from 'jotai';
-import useIsMobileViewport from '@/hooks/useIsMobileViewport';
 
 export function DiscountInfo() {
-    const [deal, setDeal] = useAtom(newDealAtom);
-    const isMobile = useIsMobileViewport();
+    const [deal] = useAtom(newDealAtom);
 
-    // TODO: 수정 후 제거 필요
     const handleDiscountSelect = () => {
-        if (isMobile) {
-            alert('준비 중입니다');
-            return;
-        }
-        
         overlay.open(DiscountSelectModal);
     };
 

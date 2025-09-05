@@ -146,4 +146,5 @@
   flex: 1;
   margin-right: var(--spacing-2);
   color: var(--color-content-sub);
+  white-space: nowrap;
 }

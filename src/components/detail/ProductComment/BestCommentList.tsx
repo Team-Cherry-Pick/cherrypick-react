@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { BestComment } from '@/types/Comment';
 import { toggleCommentLike } from '@/services/apiComment';
 import { AccessTokenService } from '@/services/accessTokenService';
-import { AccessTokenType } from '@/types/Api';
 import { fetchBestCommentsByDealId } from '@/services/apiComment';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
@@ -47,7 +46,7 @@ const BestCommentList = ({ bestComments, onLikeToggle }: Props) => {
     }, [bestComments]);
 
     const handleLikeToggle = async (commentId: number) => {
-        const token = AccessTokenService.get(AccessTokenType.USER);
+        const token = AccessTokenService.get();
         if (!token) {
             alert('로그인 후 이용해주세요');
             return;

@@ -1,27 +1,19 @@
 import styles from './ProductInfo.module.css';
 import { useAtom, useAtomValue } from 'jotai';
-import { finalSelectedCategoryAtom } from '@/store/category';
+import { uploadSelectedCategoryAtom } from '@/store/category';
 import { SelectTrigger, TextInput } from '@/components/common/Input';
 import { newDealAtom } from '@/store';
 import { overlay } from '@/context/overlay';
-import { CategorySelectModal } from '@/components/common/Modal';
-import useIsMobileViewport from '@/hooks/useIsMobileViewport';
+import { UploadCategorySelectModal } from '@/components/common/Modal';
 
 export function ProductInfo() {
     const [deal, setDeal] = useAtom(newDealAtom);
-    const finalSelectedCategory = useAtomValue(finalSelectedCategoryAtom);
-    const isMobile = useIsMobileViewport();
+    const uploadSelectedCategory = useAtomValue(uploadSelectedCategoryAtom);
 
-    const categoryLabel = finalSelectedCategory ? finalSelectedCategory.path.join(' > ') : '카테고리 선택';
+    const categoryLabel = uploadSelectedCategory ? uploadSelectedCategory.path.join(' > ') : '카테고리 선택';
 
-    // TODO: 수정 후 제거 필요
     const handleCategorySelect = () => {
-        if (isMobile) {
-            alert('준비 중입니다');
-            return;
-        }
-        
-        overlay.open(CategorySelectModal);
+        overlay.open(UploadCategorySelectModal);
     };
 
     return (

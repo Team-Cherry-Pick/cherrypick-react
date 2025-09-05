@@ -61,9 +61,10 @@ const MainSearchBar = ({ onClose }: MainSearchBarProps) => {
         }
 
         setKeyword(trimmed);
-        setTimeout(() => {
-            setQuery('');
-        }, 0);
+        
+        if (keyword) {
+            setQuery(keyword);
+        }
 
         // 검색 완료 후 오버레이 닫기
         if (onClose) {

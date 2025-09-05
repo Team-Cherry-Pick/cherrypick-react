@@ -6,9 +6,10 @@ import HeatFeedback from '@/components/detail/HeatFeedback';
 import * as S from './ProductTopSection.style';
 import { endDeal, deleteDeal } from '@/services/apiDeal';
 import { AccessTokenService } from '@/services/accessTokenService';
-import { AccessTokenType } from '@/types/Api';
 import { useCarouselImages } from '@/hooks/useCarouselImages';
 import { ImageCarousel } from './components/ImageCarousel';
+import { useAtomValue } from 'jotai';
+import { currentProfileAtom } from '@/store/profile';
 
 interface Props {
     deal: DetailedDeal;
@@ -18,17 +19,15 @@ interface Props {
 const ProductTopSection = ({ deal, onVoteChange }: Props) => {
     const navigate = useNavigate();
     const carouselImages = useCarouselImages(deal.imageUrls);
+    const currentProfile = useAtomValue(currentProfileAtom);
 
     const safeContent = (deal.content ?? '').replace(/<hr\s*\/?>/gi, '<div class="custom-divider"></div>');
-    const [enlargedImage, setEnlargedImage] = useState<string | null>(null);
     const [localDeal, setLocalDeal] = useState(deal);
-
-    // TODO: Implement image modal when enlargedImage is set
-    // console.log('Enlarged image:', enlargedImage);
+    const isAuthor = AccessTokenService.hasToken() && currentProfile.userId === deal.user.userId;
 
     const handleEndDeal = async () => {
         const confirmed = window.confirm('해당하는 핫딜이 품절/종료되었습니까?');
-        if (!confirmed) return;
+        if (!confirmed || !isAuthor) return;
         try {
             await endDeal(localDeal.dealId);
             alert('핫딜이 종료되었습니다!');
@@ -40,7 +39,7 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
 
     const handleDeleteDeal = async () => {
         const confirmed = window.confirm('정말 삭제하시겠습니까?');
-        if (!confirmed) return;
+        if (!confirmed || !isAuthor) return;
         try {
             await deleteDeal(localDeal.dealId);
             alert('삭제되었습니다!');
@@ -51,6 +50,7 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
     };
 
     const handleEditDeal = () => {
+        if (!isAuthor) return;
         navigate(`/upload/${localDeal.dealId}`);
     };
 
@@ -65,12 +65,14 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
             <S.ImageSection>
                 <ImageCarousel
                     images={carouselImages}
-                    onImageClick={setEnlargedImage}
                 />
             </S.ImageSection>
 
             {/* 아래: 딜 상세 */}
             <S.DetailSection>
+                {deal.categorys && deal.categorys.length > 0 && (
+                    <S.CategoryText>{deal.categorys.join(' > ')}</S.CategoryText>
+                )}
                 <S.Title>{deal.title}</S.Title>
                 <S.StoreTagContainer>
                     <S.StoreBadge>{deal?.store?.storeName ?? '알 수 없음'}</S.StoreBadge>
@@ -79,7 +81,7 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
                             <S.Tag key={idx + 1}>{tag}</S.Tag>
                         ))}
                     </S.TagList>
-                    {AccessTokenService.hasToken(AccessTokenType.USER) && (
+                    {isAuthor && (
                         <S.ActionGroup>
                             <S.ActionButton onClick={handleEndDeal}>종료처리</S.ActionButton>
                             <S.ActionButton onClick={handleEditDeal}>수정</S.ActionButton>

@@ -1,7 +1,6 @@
 import { AccessTokenService } from "@/services/accessTokenService";
 import { getUser } from "@/services/apiProfile";
 import { currentProfileAtom } from "@/store/profile";
-import { AccessTokenType } from "@/types/Api";
 import { Gender, GetUserRes } from "@/types/Profile";
 import { useSetAtom } from "jotai";
 
@@ -12,7 +11,7 @@ export function useRefreshProfile() {
     const refreshProfile = async () => {
         
         // 비회원인 경우 기본값 세팅
-        if(!AccessTokenService.hasToken(AccessTokenType.USER)) {
+        if(!AccessTokenService.hasToken()) {
             setCurrentUser(({ userId: -1, nickname: "", email: "", birthday: "", gender: Gender.MALE, imageURL: "", imageId: -1}));
             return;
         }

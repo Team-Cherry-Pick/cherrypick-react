@@ -6,12 +6,10 @@ import { useAtom, useSetAtom } from 'jotai';
 import { selectedDiscountAtom, triggerFetchAtom } from '@/store/search';
 import CloseIcon from '@/assets/icons/close-Icon.svg?react';
 import { useEffect } from 'react';
-import useIsMobileViewport from '@/hooks/useIsMobileViewport';
 
 export function DiscountFilter() {
     const [selectedDiscount, setSelectedDiscount] = useAtom(selectedDiscountAtom);
     const triggerFetch = useSetAtom(triggerFetchAtom);
-    const isMobile = useIsMobileViewport();
 
     const handleResetDiscount = () => {
         setSelectedDiscount([]);
@@ -21,13 +19,7 @@ export function DiscountFilter() {
         setSelectedDiscount(prev => prev.filter(discount => discount.discountId !== discountId));
     };
 
-    // TODO: 수정 후 제거 필요
     const handleDiscountAdd = () => {
-        if (isMobile) {
-            alert('준비 중입니다');
-            return;
-        }
-        
         overlay.open(props => {
             return <DiscountSelectModal {...props} />;
         });
