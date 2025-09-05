@@ -9,7 +9,8 @@
 .inputContainer {
   display: flex;
   align-items: center;
-  flex-shrink: 0;
+  flex: 1;
+  min-width: 0;
   padding: var(--spacing-3) var(--spacing-4);
   background-color: var(--color-neutral-50);
   border-radius: var(--radius-2);
@@ -17,6 +18,7 @@
 
 .styledInput {
   flex: 1;
+  min-width: 0;
   border: none;
   outline: none;
   color: var(--color-content-main);
@@ -31,6 +33,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-shrink: 0;
   margin-left: var(--spacing-3);
 
   svg {
@@ -41,12 +44,13 @@
 }
 
 .directInputButton {
-  flex: 1;
+  flex-shrink: 0;
   padding: var(--spacing-3) var(--spacing-4);
   border-radius: var(--radius-2);
   background-color: var(--color-neutral-300);
   font-size: var(--font-size-sm);
   color: white;
+  white-space: nowrap;
 }
 
 .active {
