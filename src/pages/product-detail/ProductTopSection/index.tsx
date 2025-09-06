@@ -91,14 +91,7 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
                 </S.StoreTagContainer>
                 <S.PriceContainer>
                     <S.PriceBox>
-                        {(() => {
-                            const percent = Math.round(
-                                ((deal.price.regularPrice - deal.price.discountedPrice) /
-                                    deal.price.regularPrice) *
-                                100
-                            );
-                            return isNaN(percent) ? null : <S.DiscountPercent>{percent}%</S.DiscountPercent>;
-                        })()}
+                        <S.DiscountPercent>최종 구매가격</S.DiscountPercent>
                         <S.OriginalPrice>
                             {deal.price.regularPrice.toLocaleString()}원
                         </S.OriginalPrice>

@@ -163,8 +163,8 @@
   position: static;
   margin: var(--spacing-3) 0 var(--spacing-1) 0;
   justify-content: flex-end;
-  align-items: flex-end;
-  gap: var(--spacing-2);
+  align-items: center;
+  gap: var(--spacing-1);
 }
 
 .variousPrice {
@@ -176,9 +176,8 @@
 }
 
 .percent {
-  display: inline-block;
+  display: inline-flex;
   position: static;
-  color: var(--color-primary);
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-semibold);
 }

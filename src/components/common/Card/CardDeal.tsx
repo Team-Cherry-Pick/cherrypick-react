@@ -5,6 +5,7 @@ import { HeatBadge } from '../Badge';
 import { getRelativeTime } from '@/utils/time';
 import { formatNumber } from '@/utils/number';
 import blackLogoIcon from '@/assets/icons/black-logo-Icon.svg';
+import timerIcon from '@/assets/icons/timer.svg';
 import useIsMobileViewport from '@/hooks/useIsMobileViewport';
 import styles from './CardDeal.module.css';
 
@@ -19,11 +20,6 @@ export const CardDeal = ({ deal }: Props) => {
     if (!deal) {
         return null;
     }
-
-    const discountPercent =
-        deal.price && deal.price.regularPrice > 0
-            ? Math.round((1 - deal.price.discountedPrice / deal.price.regularPrice) * 100)
-            : 0;
 
     return (
         <div
@@ -57,7 +53,9 @@ export const CardDeal = ({ deal }: Props) => {
                             <span className={styles.variousPrice}>다양한 가격</span>
                         ) : (
                             <>
-                                <span className={styles.percent}>{discountPercent}%</span>
+                                <span className={styles.percent}>
+                                    <img src={timerIcon} alt="timer" width={18} height={18} />
+                                </span>
                                 <span className={styles.price}>
                                     {deal.price.priceType === 'KRW'
                                         ? `${formatNumber(deal.price.discountedPrice)}원`
@@ -93,7 +91,9 @@ export const CardDeal = ({ deal }: Props) => {
                             <span className={styles.variousPrice}>다양한 가격</span>
                         ) : (
                             <>
-                                <span className={styles.percent}>{discountPercent}%</span>
+                                <span className={styles.percent}>
+                                    <img src={timerIcon} alt="timer" width={18} height={18} />
+                                </span>
                                 <span className={styles.price}>
                                     {deal.price.priceType === 'KRW'
                                         ? `${formatNumber(deal.price.discountedPrice)}원`

@@ -198,7 +198,16 @@ export const FinalPrice = styled.div`
 `;
 
 export const DiscountPercent = styled.span`
-  color: ${({ theme }) => theme.colors.primary};
+  background: ${({ theme }) => css`
+    linear-gradient(
+      90deg,
+      #FF8067 0%,
+      ${theme.colors.primary} 100%
+    )
+  `};
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   font-size: 1.125rem;
   font-weight: ${({ theme }) => theme.typography.weight.semibold};
 `;
