@@ -79,6 +79,11 @@ export async function fetchDiscounts(): Promise<{ discountId: number; name: stri
     }
 }
 
+export async function getPurchaseLog(dealID: number): Promise<void> {
+    await publicRequest<any>(HttpMethod.GET, `/deal/purchase-log?dealId=${dealID}`);
+    return;
+}
+
 export async function endDeal(dealId: number) {
     return authRequest(HttpMethod.PATCH, '/deal', { dealId, isSoldOut: true });
 }

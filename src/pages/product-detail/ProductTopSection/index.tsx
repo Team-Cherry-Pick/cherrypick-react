@@ -4,7 +4,7 @@ import { useState } from 'react';
 import type { DetailedDeal } from '@/types/Deal';
 import HeatFeedback from '@/components/detail/HeatFeedback';
 import * as S from './ProductTopSection.style';
-import { endDeal, deleteDeal } from '@/services/apiDeal';
+import { endDeal, deleteDeal, getPurchaseLog } from '@/services/apiDeal';
 import { AccessTokenService } from '@/services/accessTokenService';
 import { useCarouselImages } from '@/hooks/useCarouselImages';
 import { ImageCarousel } from './components/ImageCarousel';
@@ -135,6 +135,7 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
                             onClick={() => {
                                 if (deal.originalUrl) {
                                     window.open(deal.originalUrl, '_blank');
+                                    getPurchaseLog(deal.dealId).catch(() => {});
                                 }
                             }}
                         >
