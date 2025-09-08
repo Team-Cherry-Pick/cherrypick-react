@@ -71,7 +71,8 @@ const MainDealList = () => {
 
     useEffect(() => {
         const observer = new IntersectionObserver(handleObserver, {
-            threshold: 1.0,
+            threshold: 0.1,
+            rootMargin: '200px 0px',
         });
 
         const currentTarget = observerRef.current;
