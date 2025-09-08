@@ -99,7 +99,20 @@ export function ProfileEditPage() {
     // '날짜 선택' 영역 클릭 시 호출되는 Ref
     const dateInputRef = useRef<HTMLInputElement>(null);
     const onClickDateInputDiv = () => {
-        void (dateInputRef.current?.showPicker?.() || dateInputRef.current?.focus());
+        if (dateInputRef.current) {
+            // 사파리 호환성을 위해 showPicker() 대신 focus() 사용
+            dateInputRef.current.focus();
+            
+            // showPicker()가 지원되는 브라우저에서만 호출
+            if (typeof dateInputRef.current.showPicker === 'function') {
+                try {
+                    dateInputRef.current.showPicker();
+                } catch (error) {
+                    // showPicker() 실패 시 focus()만 유지
+                    console.log('showPicker not supported or failed:', error);
+                }
+            }
+        }
     };
 
     // '프로필 사진' 영역 클릭 시 호출되는 Ref

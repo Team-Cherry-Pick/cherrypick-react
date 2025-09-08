@@ -241,5 +241,46 @@ input[type='date']::-webkit-calendar-picker-indicator {
   color: var(--color-content-tertiary);
   text-decoration: underline;
   text-underline-offset: 0.2em;
+  white-space: nowrap;
   cursor: pointer;
+}
+
+/* 생년월일 입력 스타일 */
+.dateInputWrapper {
+  position: relative;
+  width: 100%;
+  margin-top: 1rem;
+  cursor: pointer;
+}
+
+.dateInput {
+  width: 100%;
+  height: 2.5rem;
+  padding: 0 1rem;
+  border: 0.0625rem solid var(--color-border-card);
+  border-radius: 0.5rem;
+  background-color: var(--color-neutral-0);
+  font-size: 1rem;
+  color: var(--color-content-main);
+  cursor: pointer;
+  
+  /* 사파리 특화 스타일 */
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.dateInput:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+/* 사파리에서 date input placeholder 스타일 */
+.dateInput::-webkit-datetime-edit-text {
+  color: var(--color-content-sub);
+}
+
+.dateInput::-webkit-datetime-edit-month-field,
+.dateInput::-webkit-datetime-edit-day-field,
+.dateInput::-webkit-datetime-edit-year-field {
+  color: var(--color-content-main);
 }
