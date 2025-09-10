@@ -16,6 +16,7 @@ import { AccessTokenService } from '@/services/accessTokenService';
 import { authRequest } from '@/services/apiClient';
 import { HttpMethod } from '@/types/Api';
 import DefaultProfileIcon from '@/assets/icons/profile-Icon.svg?react';
+import { GA4Events } from '@/utils/ga4';
 
 type CommentInputProps = {
     userImageUrl?: string | null;
@@ -51,6 +52,7 @@ const CommentInput = ({ userImageUrl, isReply = false, parentId = null, onCancel
                     ...(isReply && parentId !== null && { parentId }),
                 }
             );
+            GA4Events.addComment(Number(id));
             alert(isReply ? '답글이 작성되었습니다.' : '댓글이 작성되었습니다.');
             setComment('');
             onSuccess?.();

@@ -11,6 +11,7 @@ import { Button } from '../../Button';
 import { selectedStoresAtom } from '@/store/search';
 import { useStoresQuery } from '@/store/store';
 import { LoadingSpinner } from '@/components/common/Loading/LoadingSpinner';
+import { GA4Events } from '@/utils/ga4';
 
 interface StoreSelectModalProps {
     isOpen: boolean;
@@ -55,7 +56,10 @@ function StoreList({
                         <li
                             className={`${styles.storeItem} ${isSelected && styles.storeItem_selected}`}
                             key={store.storeId}
-                            onClick={() => onSelectStore(store.storeId, store.name)}
+                            onClick={() => {
+                                GA4Events.selectStore(store.storeId, store.name);
+                                onSelectStore(store.storeId, store.name);
+                            }}
                         >
                             {store.name}
                             {context === 'main' && <FaCheck />}

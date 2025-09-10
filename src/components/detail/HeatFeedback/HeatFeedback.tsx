@@ -4,6 +4,7 @@ import { Container, ThumbWrapper, LikeBtn, DislikeBtn, HeatWrapper, Heat, Dislik
 import LikeIcon from '@/assets/icons/like.svg?react';
 import DislikeIcon from '@/assets/icons/dislike.svg?react';
 import { voteDeal, VoteType, DislikeReason } from '@/services/apiVote';
+import { GA4Events } from '@/utils/ga4';
 
 interface HeatFeedbackProps {
     heat: number;
@@ -59,8 +60,9 @@ function HeatFeedback({ heat, dealId, initialVoteType, onVoteChange }: HeatFeedb
             await voteDeal({ dealId, voteType: 'TRUE' });
             setVoteType('TRUE');
             setShowModal(false);
+            GA4Events.likeDeal(dealId);
             alert('투표가 완료되었습니다!');
-            onVoteChange?.(); // 부모 컴포넌트에서 데이터 다시 가져오기
+            onVoteChange?.();
         } catch {
             alert('투표에 실패했습니다.');
         }
@@ -87,8 +89,9 @@ function HeatFeedback({ heat, dealId, initialVoteType, onVoteChange }: HeatFeedb
             await voteDeal({ dealId, voteType: 'FALSE', dislikeReason: reason });
             setVoteType('FALSE');
             setShowModal(false);
+            GA4Events.unlikeDeal(dealId);
             alert('투표가 완료되었습니다!');
-            onVoteChange?.(); // 부모 컴포넌트에서 데이터 다시 가져오기
+            onVoteChange?.();
         } catch {
             alert('투표에 실패했습니다.');
         }

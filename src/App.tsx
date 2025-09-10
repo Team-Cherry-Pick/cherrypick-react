@@ -18,26 +18,29 @@ import { useRefreshProfile } from './hooks/useRefreshProfile';
 import { generateDeviceID } from './types/Auth';
 import { OverlayProvider } from './context/overlay';
 import { AccessTokenService } from './services/accessTokenService';
+import { initializeGA4WithDeviceId } from './utils/ga4';
+import PageTracker from './components/common/PageTracker';
 
 const App = () => {
     const [theme] = useAtom(themeAtom);
     const { refreshProfile } = useRefreshProfile();
 
     useEffect(() => {
-        // 디바이스 ID 없다면 생성 후 저장
-        if (!localStorage.getItem('deviceID')) {
+        const deviceId = localStorage.getItem('deviceID');
+        if (!deviceId) {
             const newDeviceID = generateDeviceID();
             localStorage.setItem('deviceID', newDeviceID);
+            initializeGA4WithDeviceId(newDeviceID);
             
-            // 만약 회원이었던 경우 비정상적인 접근으로 간주하여 로그아웃 처리
             if (AccessTokenService.get()) {
                 AccessTokenService.clear();
                 window.location.href = '/login';
                 alert('로그인이 만료되었습니다. 다시 로그인해주세요.');
             }
+        } else {
+            initializeGA4WithDeviceId(deviceId);
         }
 
-        // 유저 프로필 데이터 갱신
         refreshProfile();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -46,6 +49,7 @@ const App = () => {
         <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
             <OverlayProvider>
                 <Router>
+                    <PageTracker />
                     <Routes>
                         <Route path="/" element={<MainPage />} />
                         <Route path="/login" element={<LoginPage />} />

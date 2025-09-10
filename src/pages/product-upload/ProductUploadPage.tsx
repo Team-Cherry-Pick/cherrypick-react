@@ -14,6 +14,7 @@ import {
 import { useAtom } from 'jotai';
 import { newDealAtom } from '@/store';
 import { fetchDetailedDeal, uploadDeal, updateDeal } from '@/services/apiDeal';
+import { GA4Events } from '@/utils/ga4';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import type { DealImage, UpdateDeal } from '@/types/Deal';
@@ -119,6 +120,7 @@ export default function ProductUploadPage() {
         } else {
             // 새 게시글 모드: uploadDeal 사용
             uploadDeal(uploadDealData).then(() => {
+                GA4Events.uploadDeal(deal.categoryId, deal.storeId);
                 navigate('/');
             });
         }

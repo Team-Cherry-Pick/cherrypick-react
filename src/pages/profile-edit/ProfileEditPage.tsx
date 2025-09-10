@@ -16,6 +16,7 @@ import { DeleteUserRes, PostAuthRegisterCompletionReq } from '@/types/Auth';
 import { useRefreshProfile } from '@/hooks/useRefreshProfile';
 import { FaRegSquare, FaCheckSquare } from "react-icons/fa";
 import useIsMobileViewport from '@/hooks/useIsMobileViewport';
+import { GA4Events } from '@/utils/ga4';
 
 export function ProfileEditPage() {
     const navigate = useNavigate();
@@ -198,6 +199,7 @@ export function ProfileEditPage() {
         if (currentProfile) {
             setCurrentProfile(currentProfile);
             setNewProfile(currentProfile);
+            GA4Events.updateProfile();
         }
     };
 

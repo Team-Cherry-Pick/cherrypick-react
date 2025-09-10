@@ -2,6 +2,7 @@
 import { AccessTokenService } from '@/services/accessTokenService';
 import { useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
+import { GA4Events } from '@/utils/ga4';
 
 const LoginRedirectPage = () => {
     const [searchParams] = useSearchParams();
@@ -32,11 +33,12 @@ const LoginRedirectPage = () => {
             // 기존 유저인 경우 기존 페이지로 이동
             if (!isNewUser) {
                 AccessTokenService.save(token);
+                GA4Events.login('kakao');
                 navigate(redirectPath);
                 return;
             }
 
-            // 신규 유저인 경우 token, redirect, email 정보를 동반하여 회원가입 진행 시퀀스 진행 (회원정보수정 페이지로 이동)
+            GA4Events.signUp('kakao');
             const registerTokenState: string = token;
             const redirectPathState: string = redirectPath;
             const emailState: string = email;

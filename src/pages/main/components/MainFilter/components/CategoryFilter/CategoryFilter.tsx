@@ -11,6 +11,7 @@ import { Suspense, useEffect } from 'react';
 import { categoryIdAtom, triggerFetchAtom } from '@/store/search';
 import { Category } from '@/types/Category';
 import { LoadingSpinner } from '@/components/common/Loading/LoadingSpinner';
+import { GA4Events } from '@/utils/ga4';
 
 function findCategoryIdByPath(categories: Category[], path: string[]): number | undefined {
     let current: Category[] = categories;
@@ -42,6 +43,7 @@ function CategoryFilterList() {
                         className={`${styles.categoryItem} ${isSelected ? styles.primary : ''}`}
                         style={isSelected ? { fontWeight: 'bold', color: 'var(--color-primary)' } : {}}
                         onClick={() => {
+                            GA4Events.selectCategory(category.categoryId, category.name);
                             if (isLeaf) {
                                 selectFinalCategory(category.categoryId, category.name);
                                 setCategoryId(category.categoryId);

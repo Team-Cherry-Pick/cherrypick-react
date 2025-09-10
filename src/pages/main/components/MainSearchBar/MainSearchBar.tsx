@@ -4,6 +4,7 @@ import SearchIcon from '@/assets/icons/search-Icon.svg?react';
 import { useSetAtom } from 'jotai';
 import { keywordAtom } from '@/store/search';
 import useIsMobileViewport from '@/hooks/useIsMobileViewport';
+import { GA4Events } from '@/utils/ga4';
 
 interface MainSearchBarProps {
     onClose?: () => void;
@@ -61,6 +62,10 @@ const MainSearchBar = ({ onClose }: MainSearchBarProps) => {
         }
 
         setKeyword(trimmed);
+        
+        if (trimmed) {
+            GA4Events.search(trimmed, 'deal');
+        }
         
         if (keyword) {
             setQuery(keyword);

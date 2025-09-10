@@ -1,6 +1,5 @@
-// product-detail/ProductTopSection.tsx
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { DetailedDeal } from '@/types/Deal';
 import HeatFeedback from '@/components/detail/HeatFeedback';
 import * as S from './ProductTopSection.style';
@@ -10,10 +9,10 @@ import { useCarouselImages } from '@/hooks/useCarouselImages';
 import { ImageCarousel } from './components/ImageCarousel';
 import { useAtomValue } from 'jotai';
 import { currentProfileAtom } from '@/store/profile';
-
+import { GA4Events } from '@/utils/ga4';
 interface Props {
     deal: DetailedDeal;
-    onVoteChange?: () => void; // 투표 변경 시 부모 컴포넌트에서 데이터를 다시 가져오기 위한 콜백
+    onVoteChange?: () => void;
 }
 
 const ProductTopSection = ({ deal, onVoteChange }: Props) => {
@@ -24,6 +23,10 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
     const safeContent = (deal.content ?? '').replace(/<hr\s*\/?>/gi, '<div class="custom-divider"></div>');
     const [localDeal, setLocalDeal] = useState(deal);
     const isAuthor = AccessTokenService.hasToken() && currentProfile.userId === deal.user.userId;
+
+    useEffect(() => {
+        GA4Events.viewDeal(deal.dealId, deal.categorys?.[0]);
+    }, [deal.dealId, deal.categorys]);
 
     const handleEndDeal = async () => {
         const confirmed = window.confirm('해당하는 핫딜이 품절/종료되었습니까?');
@@ -125,6 +128,7 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
                             onVoteChange={onVoteChange} />
                         <S.ShareButton
                             onClick={() => {
+                                GA4Events.shareDeal(deal.dealId, 'copy_link');
                                 navigator.clipboard.writeText(window.location.href);
                                 alert('게시글 주소가 복사되었습니다.');
                             }}
@@ -134,8 +138,9 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
                         <S.BuyButton
                             onClick={() => {
                                 if (deal.originalUrl) {
-                                    window.open(deal.originalUrl, '_blank');
+                                    GA4Events.clickPurchase(deal.dealId, deal.originalUrl);
                                     getPurchaseLog(deal.dealId).catch(() => {});
+                                    window.open(deal.originalUrl, '_blank');
                                 }
                             }}
                         >

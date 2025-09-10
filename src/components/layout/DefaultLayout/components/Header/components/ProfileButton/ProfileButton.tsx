@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { currentProfileAtom } from '@/store/profile';
 import { useAtomValue } from 'jotai';
 import { useRefreshProfile } from '@/hooks/useRefreshProfile';
+import { GA4Events } from '@/utils/ga4';
 
 const ProfileButton = () => {
     const [open, setOpen] = useState(false);
@@ -45,6 +46,7 @@ const ProfileButton = () => {
     // '로그아웃' 버튼 클릭 시 호출
     const onClickLogout = () => {
         if (!isLoggedIn()) return;
+        GA4Events.logout();
         AccessTokenService.clear();
         navigate('/');
         setOpen(false);
