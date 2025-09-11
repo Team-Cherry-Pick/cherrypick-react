@@ -38,12 +38,9 @@ const ProfileButton = () => {
 
     // '회원정보 수정' 버튼 클릭 시 호출
     const onClickBtnProfileEdit = () => {
-        if (!isLoggedIn()) return;
-        navigate('/profile-edit');
         setOpen(false);
-    };
-
-    // '로그아웃' 버튼 클릭 시 호출
+        navigate('/profile-edit');
+    };    // '로그아웃' 버튼 클릭 시 호출
     const onClickLogout = () => {
         if (!isLoggedIn()) return;
         GA4Events.logout();

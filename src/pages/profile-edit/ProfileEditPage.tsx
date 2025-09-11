@@ -16,7 +16,7 @@ import { DeleteUserRes, PostAuthRegisterCompletionReq } from '@/types/Auth';
 import { useRefreshProfile } from '@/hooks/useRefreshProfile';
 import { FaRegSquare, FaCheckSquare } from "react-icons/fa";
 import useIsMobileViewport from '@/hooks/useIsMobileViewport';
-import { GA4Events } from '@/utils/ga4';
+import { GA4Events, trackCustomEvent } from '@/utils/ga4';
 
 export function ProfileEditPage() {
     const navigate = useNavigate();
@@ -168,6 +168,10 @@ export function ProfileEditPage() {
 
         const deleteUserRes: DeleteUserRes = await deleteUser("");
         if (deleteUserRes.id > -1) {
+            GA4Events.logout();
+            trackCustomEvent('withdraw_user', {
+                event_category: 'user_management',
+            });
             AccessTokenService.clear();
             navigate('/');
             refreshProfile();

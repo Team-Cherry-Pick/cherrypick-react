@@ -14,6 +14,7 @@ import RightArrowIcon from '@/assets/icons/right-arrow-Icon.svg?react';
 import ModalLayout from '../components/ModalLayout';
 import { useDealUpload } from '@/hooks/useDealUpload';
 import { LoadingSpinner } from '@/components/common/Loading/LoadingSpinner';
+import { GA4Events } from '@/utils/ga4';
 
 interface UploadCategorySelectModalProps {
     isOpen: boolean;
@@ -27,6 +28,7 @@ function CategoryList({ close }: { close: () => void }) {
     const { selectCategory, selectFinalCategory } = useUploadCategoryNavigation();
 
     const handleClick = (item: Category, isFinal: boolean) => {
+        GA4Events.selectCategory(item.categoryId, item.name);
         if (isFinal) {
             setCategory(item.categoryId);
             selectFinalCategory(item.categoryId, item.name);

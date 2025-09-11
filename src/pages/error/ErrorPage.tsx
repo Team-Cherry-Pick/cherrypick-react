@@ -1,5 +1,7 @@
 // pages/ErrorPage.tsx
 import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import { GA4Events } from '@/utils/ga4';
 
 const getMessageByCode = (code: string) => {
     const codeNum = Number(code);
@@ -17,6 +19,10 @@ const ErrorPage = () => {
     const location = useLocation();
     const params = new URLSearchParams(location.search);
     const code = params.get('code') ?? '';
+
+    useEffect(() => {
+        GA4Events.exception(code, getMessageByCode(code));
+    }, [code]);
 
     return (
         <div style={{ padding: '2rem' }}>

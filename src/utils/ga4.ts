@@ -97,10 +97,34 @@ export const GA4Events = {
     });
   },
 
-  search: (searchTerm: string, searchType: 'deal' | 'category' | 'store' = 'deal') => {
+  updateDeal: (dealId: number, categoryId?: number, storeId?: number) => {
+    window.gtag?.('event', 'update_deal', {
+      item_id: dealId.toString(),
+      item_category_id: categoryId?.toString(),
+      store_id: storeId?.toString(),
+      event_category: 'content_creation',
+    });
+  },
+
+  endDeal: (dealId: number) => {
+    window.gtag?.('event', 'end_deal', {
+      item_id: dealId.toString(),
+      event_category: 'content_management',
+    });
+  },
+
+  deleteDeal: (dealId: number) => {
+    window.gtag?.('event', 'delete_deal', {
+      item_id: dealId.toString(),
+      event_category: 'content_management',
+    });
+  },
+
+  search: (searchTerm: string, searchType: 'deal' | 'category' | 'store' = 'deal', resultsCount?: number) => {
     window.gtag?.('event', 'search', {
       search_term: searchTerm,
-      search_type: searchType,
+      content_type: searchType,
+      search_results_count: resultsCount,
       event_category: 'search',
     });
   },
@@ -114,19 +138,17 @@ export const GA4Events = {
   },
 
   selectCategory: (categoryId: number, categoryName: string) => {
-    window.gtag?.('event', 'select_content', {
-      content_type: 'category',
-      item_id: categoryId.toString(),
-      item_name: categoryName,
+    window.gtag?.('event', 'select_category', {
+      item_category_id: categoryId.toString(),
+      item_category: categoryName,
       event_category: 'navigation',
     });
   },
 
   selectStore: (storeId: number, storeName: string) => {
-    window.gtag?.('event', 'select_content', {
-      content_type: 'store',
-      item_id: storeId.toString(),
-      item_name: storeName,
+    window.gtag?.('event', 'select_store', {
+      store_id: storeId.toString(),
+      store_name: storeName,
       event_category: 'navigation',
     });
   },
@@ -141,6 +163,15 @@ export const GA4Events = {
   updateProfile: () => {
     window.gtag?.('event', 'update_profile', {
       event_category: 'user_action',
+    });
+  },
+
+  exception: (errorCode: string, description: string) => {
+    window.gtag?.('event', 'exception', {
+      description: `${errorCode}: ${description}`,
+      fatal: false,
+      error_code: errorCode,
+      event_category: 'error',
     });
   },
 };

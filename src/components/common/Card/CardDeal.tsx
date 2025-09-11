@@ -24,7 +24,9 @@ export const CardDeal = ({ deal }: Props) => {
     return (
         <div
             className={`${styles.cardWrapper} ${deal.soldout ? 'ended' : ''}`}
-            onClick={() => navigate(`/product/${deal.dealId}`)}
+            onClick={() => {
+                navigate(`/product/${deal.dealId}`);
+            }}
         >
             {deal.soldout && <div className={styles.overlay}>종료된 핫딜입니다</div>}
             <div className={styles.imageBox}>

@@ -28,7 +28,7 @@ export default function ProductUploadPage() {
 
     const [deal, setDeal] = useAtom(newDealAtom);
     const imageUpload = useImageUpload();
-    const [_, setSelectedDiscount] = useAtom(selectedDiscountAtom);
+    const [, setSelectedDiscount] = useAtom(selectedDiscountAtom);
     const [, setUploadSelectedCategory] = useAtom(uploadSelectedCategoryAtom);
 
     const [valid, setValid] = useState<
@@ -114,6 +114,7 @@ export default function ProductUploadPage() {
                 dealId: Number(dealId),
             };
             updateDeal(updateDealData).then(() => {
+                GA4Events.updateDeal(Number(dealId), deal.categoryId, deal.storeId);
                 navigate(`/product/${dealId}`);
                 window.location.reload();
             });

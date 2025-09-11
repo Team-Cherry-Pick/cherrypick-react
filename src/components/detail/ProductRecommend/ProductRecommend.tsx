@@ -32,7 +32,9 @@ export const ProductRecommend = () => {
             <S.RecommendList>
                 {deals.map((deal, index) => (
                     <div key={deal.dealId}>
-                        <S.RecommendItem onClick={() => navigate(`/product/${deal.dealId}`)}>
+                        <S.RecommendItem onClick={() => {
+                            navigate(`/product/${deal.dealId}`);
+                        }}>
                             <S.Thumbnail>
                                 <S.StyledImageWrapper>
                                     <S.StyledImage src={deal.imageUrl.url} />

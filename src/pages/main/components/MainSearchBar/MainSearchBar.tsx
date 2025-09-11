@@ -112,7 +112,10 @@ const MainSearchBar = ({ onClose }: MainSearchBarProps) => {
                             <div key={idx} className={styles.keywordItem}>
                                 <span
                                     className={styles.keywordText}
-                                    onClick={() => handleSearch(keyword)}
+                                    onClick={() => {
+                                        GA4Events.search(keyword, 'deal');
+                                        handleSearch(keyword);
+                                    }}
                                 >
                                     {keyword}
                                 </span>

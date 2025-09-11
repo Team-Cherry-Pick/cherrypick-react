@@ -11,6 +11,7 @@ interface HeatFeedbackProps {
     dealId: number;
     initialVoteType: 'TRUE' | 'FALSE' | 'NONE';
     onVoteChange?: () => void; // 투표 변경 시 부모 컴포넌트에서 데이터를 다시 가져오기 위한 콜백
+    category?: string; // 카테고리 정보 추가
 }
 
 const DISLIKE_REASONS: { label: string; value: DislikeReason }[] = [
@@ -22,7 +23,7 @@ const DISLIKE_REASONS: { label: string; value: DislikeReason }[] = [
     { label: '기타', value: 'OTHER' },
 ];
 
-function HeatFeedback({ heat, dealId, initialVoteType, onVoteChange }: HeatFeedbackProps) {
+function HeatFeedback({ heat, dealId, initialVoteType, onVoteChange, category }: HeatFeedbackProps) {
     const [voteType, setVoteType] = useState<VoteType>(initialVoteType);
     const [showModal, setShowModal] = useState(false);
     const modalRef = useRef<HTMLUListElement>(null);
@@ -60,7 +61,7 @@ function HeatFeedback({ heat, dealId, initialVoteType, onVoteChange }: HeatFeedb
             await voteDeal({ dealId, voteType: 'TRUE' });
             setVoteType('TRUE');
             setShowModal(false);
-            GA4Events.likeDeal(dealId);
+            GA4Events.likeDeal(dealId, category);
             alert('투표가 완료되었습니다!');
             onVoteChange?.();
         } catch {
@@ -89,7 +90,7 @@ function HeatFeedback({ heat, dealId, initialVoteType, onVoteChange }: HeatFeedb
             await voteDeal({ dealId, voteType: 'FALSE', dislikeReason: reason });
             setVoteType('FALSE');
             setShowModal(false);
-            GA4Events.unlikeDeal(dealId);
+            GA4Events.unlikeDeal(dealId, category);
             alert('투표가 완료되었습니다!');
             onVoteChange?.();
         } catch {

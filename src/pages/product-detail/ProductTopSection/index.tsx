@@ -33,6 +33,7 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
         if (!confirmed || !isAuthor) return;
         try {
             await endDeal(localDeal.dealId);
+            GA4Events.endDeal(localDeal.dealId);
             alert('핫딜이 종료되었습니다!');
             setLocalDeal({ ...localDeal, isSoldOut: true });
         } catch {
@@ -45,6 +46,7 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
         if (!confirmed || !isAuthor) return;
         try {
             await deleteDeal(localDeal.dealId);
+            GA4Events.deleteDeal(localDeal.dealId);
             alert('삭제되었습니다!');
             navigate('/');
         } catch {
@@ -125,6 +127,7 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
                             heat={deal.heat}
                             dealId={deal.dealId}
                             initialVoteType={deal.voteType}
+                            category={deal.categorys?.[0]}
                             onVoteChange={onVoteChange} />
                         <S.ShareButton
                             onClick={() => {
