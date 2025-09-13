@@ -21,10 +21,12 @@ import type { DealImage, UpdateDeal } from '@/types/Deal';
 import { useImageUpload } from '@/hooks/useImageUpload';
 import { selectedDiscountAtom } from '@/store/search';
 import { uploadSelectedCategoryAtom } from '@/store/category';
+import useIsMobileViewport from '@/hooks/useIsMobileViewport';
 
 export default function ProductUploadPage() {
     const navigate = useNavigate();
     const { dealId } = useParams();
+    const isMobile = useIsMobileViewport();
 
     const [deal, setDeal] = useAtom(newDealAtom);
     const imageUpload = useImageUpload();
@@ -240,30 +242,61 @@ export default function ProductUploadPage() {
                         </button>
                     </div>
                     <div className={styles.contentWrapper}>
-                        <div className={styles.sectionWrapper}>
-                            <div className={styles.section}>
-                                <div className={styles.sectionTitle}>이미지</div>
-                                <ProductImageUpload
-                                    images={imageUpload.images}
-                                    inputRef={imageUpload.inputRef}
-                                    containerRef={imageUpload.containerRef}
-                                    handleFileSelect={imageUpload.handleFileSelect}
-                                    handleDropFiles={imageUpload.handleDropFiles}
-                                    handleRemove={imageUpload.handleRemove}
-                                />
-                            </div>
-                        </div>
-                        <div className={styles.sectionDivider} />
-                        <div className={styles.sectionWrapper}>
-                            <div className={styles.section}>
-                                <div className={styles.sectionTitle}>상품 정보</div>
-                                <ProductInfo />
-                            </div>
-                            <div className={styles.section}>
-                                <div className={styles.sectionTitle}>링크 정보</div>
-                                <LinkInfo />
-                            </div>
-                        </div>
+                        {isMobile ? (
+                            <>
+                                <div className={styles.sectionWrapper}>
+                                    <div className={styles.section}>
+                                        <div className={styles.sectionTitle}>링크 정보</div>
+                                        <LinkInfo />
+                                    </div>
+                                </div>
+                                <div className={styles.sectionDivider} />
+                                <div className={styles.sectionWrapper}>
+                                    <div className={styles.section}>
+                                        <div className={styles.sectionTitle}>이미지</div>
+                                        <ProductImageUpload
+                                            images={imageUpload.images}
+                                            inputRef={imageUpload.inputRef}
+                                            containerRef={imageUpload.containerRef}
+                                            handleFileSelect={imageUpload.handleFileSelect}
+                                            handleDropFiles={imageUpload.handleDropFiles}
+                                            handleRemove={imageUpload.handleRemove}
+                                        />
+                                    </div>
+                                    <div className={styles.section}>
+                                        <div className={styles.sectionTitle}>상품 정보</div>
+                                        <ProductInfo />
+                                    </div>
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <div className={styles.sectionWrapper}>
+                                    <div className={styles.section}>
+                                        <div className={styles.sectionTitle}>이미지</div>
+                                        <ProductImageUpload
+                                            images={imageUpload.images}
+                                            inputRef={imageUpload.inputRef}
+                                            containerRef={imageUpload.containerRef}
+                                            handleFileSelect={imageUpload.handleFileSelect}
+                                            handleDropFiles={imageUpload.handleDropFiles}
+                                            handleRemove={imageUpload.handleRemove}
+                                        />
+                                    </div>
+                                </div>
+                                <div className={styles.sectionDivider} />
+                                <div className={styles.sectionWrapper}>
+                                    <div className={styles.section}>
+                                        <div className={styles.sectionTitle}>상품 정보</div>
+                                        <ProductInfo />
+                                    </div>
+                                    <div className={styles.section}>
+                                        <div className={styles.sectionTitle}>링크 정보</div>
+                                        <LinkInfo />
+                                    </div>
+                                </div>
+                            </>
+                        )}
                         <div className={styles.sectionDivider} />
                         <div className={styles.sectionWrapper}>
                             <div className={styles.section}>
