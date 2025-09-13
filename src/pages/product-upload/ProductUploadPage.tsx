@@ -15,13 +15,15 @@ import { useAtom } from 'jotai';
 import { newDealAtom } from '@/store';
 import { fetchDetailedDeal, uploadDeal, updateDeal } from '@/services/apiDeal';
 import { GA4Events } from '@/utils/ga4';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import type { DealImage, UpdateDeal } from '@/types/Deal';
 import { useImageUpload } from '@/hooks/useImageUpload';
 import { selectedDiscountAtom } from '@/store/search';
 import { uploadSelectedCategoryAtom } from '@/store/category';
 import useIsMobileViewport from '@/hooks/useIsMobileViewport';
+import aiIcon from '@/assets/icons/ai-Icon.svg';
+import aiActiveIcon from '@/assets/icons/ai-active-Icon.svg';
 
 export default function ProductUploadPage() {
     const navigate = useNavigate();
@@ -29,6 +31,8 @@ export default function ProductUploadPage() {
     const isMobile = useIsMobileViewport();
 
     const [deal, setDeal] = useAtom(newDealAtom);
+    const [aiActive, setAiActive] = useState(false);
+    const [animationClass, setAnimationClass] = useState('');
     const imageUpload = useImageUpload();
     const [, setSelectedDiscount] = useAtom(selectedDiscountAtom);
     const [, setUploadSelectedCategory] = useAtom(uploadSelectedCategoryAtom);
@@ -49,6 +53,22 @@ export default function ProductUploadPage() {
             deal.shipping.shippingPrice === 0
         );
     const isContentValid = deal.content.length > 0;
+
+    const prevAiActive = useRef(aiActive);
+
+    useEffect(() => {
+        if (prevAiActive.current === aiActive) return;
+        if (aiActive) {
+            setAnimationClass(styles.aiToggleContentFadeIn);
+        } else {
+            setAnimationClass(styles.aiToggleContentFadeOut);
+        }
+        prevAiActive.current = aiActive;
+    }, [aiActive]);
+
+    const handleAiToggle = () => {
+        setAiActive(prev => !prev);
+    };
 
     const handleSubmit = async () => {
         if (valid) {
@@ -246,7 +266,22 @@ export default function ProductUploadPage() {
                             <>
                                 <div className={styles.sectionWrapper}>
                                     <div className={styles.section}>
-                                        <div className={styles.sectionTitle}>링크 정보</div>
+                                        <div className={styles.sectionTitleWithToggle}>
+                                            <div className={styles.sectionTitle}>링크 정보</div>
+                                            <div className={styles.aiToggleWrapper}>
+                                                <button
+                                                    className={`${styles.aiToggleButton} ${aiActive && styles.aiToggleButton_active}`}
+                                                    onClick={handleAiToggle}
+                                                >
+                                                    <div className={styles.aiToggleButton__gradient} />
+                                                    <div className={`${styles.aiToggleIconWrapper} ${aiActive && styles.aiToggleIconWrapper_active}`}>
+                                                        <img src={aiIcon} />
+                                                        <img className={styles.aiIcon_active} src={aiActiveIcon} />
+                                                    </div>
+                                                    <div className={`${styles.aiToggleContent} ${animationClass}`}>AI 작성 </div>
+                                                </button>
+                                            </div>
+                                        </div>
                                         <LinkInfo />
                                     </div>
                                 </div>
@@ -291,7 +326,22 @@ export default function ProductUploadPage() {
                                         <ProductInfo />
                                     </div>
                                     <div className={styles.section}>
-                                        <div className={styles.sectionTitle}>링크 정보</div>
+                                        <div className={styles.sectionTitleWithToggle}>
+                                            <div className={styles.sectionTitle}>링크 정보</div>
+                                            <div className={styles.aiToggleWrapper}>
+                                                <button
+                                                    className={`${styles.aiToggleButton} ${aiActive && styles.aiToggleButton_active}`}
+                                                    onClick={handleAiToggle}
+                                                >
+                                                    <div className={styles.aiToggleButton__gradient} />
+                                                    <div className={`${styles.aiToggleIconWrapper} ${aiActive && styles.aiToggleIconWrapper_active}`}>
+                                                        <img src={aiIcon} />
+                                                        <img className={styles.aiIcon_active} src={aiActiveIcon} />
+                                                    </div>
+                                                    <div className={`${styles.aiToggleContent} ${animationClass}`}>AI 작성</div>
+                                                </button>
+                                            </div>
+                                        </div>
                                         <LinkInfo />
                                     </div>
                                 </div>
