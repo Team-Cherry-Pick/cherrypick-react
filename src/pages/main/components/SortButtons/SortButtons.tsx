@@ -5,8 +5,8 @@ import { useEffect, useRef, useState } from 'react';
 import UnderArrowIcon from '@/assets/icons/under-arrow-Icon.svg?react';
 import FilterIcon from '@/assets/icons/filter-Icon.svg?react';
 import Dropdown from '@/components/common/Dropdown';
-import aiIcon from '@/assets/icons/ai-Icon.png';
-import aiActiveIcon from '@/assets/icons/ai-active-Icon.png';
+import aiIcon from '@/assets/icons/ai-Icon.svg';
+import aiActiveIcon from '@/assets/icons/ai-active-Icon.svg';
 import useIsMobileViewport from '@/hooks/useIsMobileViewport';
 import { AccessTokenService } from '@/services/accessTokenService';
 
