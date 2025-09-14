@@ -136,7 +136,11 @@ export interface Store {
 export interface ProductInfo {
     title: string;
     imageUrls: DealImage[];
-    store: string;
+    store: {
+        storeName: string;
+        textColor: string;
+        backgroundColor: string;
+    };
     shipping: DealShipping;
     price: DealPrice;
     deeplink?: string;

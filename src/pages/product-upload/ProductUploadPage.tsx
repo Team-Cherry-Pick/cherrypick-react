@@ -21,6 +21,8 @@ import type { CategorySuggestion, UpdateDeal } from '@/types/Deal';
 import { useImageUpload } from '@/hooks/useImageUpload';
 import { selectedDiscountAtom } from '@/store/search';
 import { uploadSelectedCategoryAtom } from '@/store/category';
+import { overlay } from '@/context/overlay';
+import { ProgressModal } from '@/components/common/ProgressModal/ProgressModal';
 import useIsMobileViewport from '@/hooks/useIsMobileViewport';
 import aiIcon from '@/assets/icons/ai-Icon.svg';
 import aiActiveIcon from '@/assets/icons/ai-active-Icon.svg';
@@ -114,25 +116,43 @@ export default function ProductUploadPage() {
     const handleAiFetchProductInfo = async (url: string) => {
         if (!aiActive || !url.trim()) return;
 
+        // 프로그레스 모달 열기 - 상품 정보 분석 메시지
+        const progressModalId = overlay.open(props =>
+            <ProgressModal {...props} message="상품 정보를 AI로 분석하고 있습니다.." />
+        );
+
         try {
             const productInfo = await getProductInfoForRepik(url);
             // 기존 수정 로직과 동일한 방식으로 처리
             populateFormWithData(productInfo);
-            console.log('AI로 상품 정보를 성공적으로 가져왔습니다:', productInfo);
-            
+
             // 상품 정보에서 title이 있으면 카테고리 추천도 자동 실행
             if (productInfo.title && productInfo.title.trim()) {
-                await handleAiCategorySuggestion(productInfo.title);
+                const suggestion: CategorySuggestion = await getCategorySuggestionForRepik(productInfo.title);
+                if (suggestion.categorys && suggestion.categorys.length > 0) {
+                    setUploadSelectedCategory({
+                        categoryId: suggestion.categoryId,
+                        path: suggestion.categorys,
+                    });
+                }
+            } else {
+                overlay.close(progressModalId);
             }
         } catch (error) {
             console.error('AI 상품 정보 추출 실패:', error);
             alert('상품 정보를 가져오는데 실패했습니다. URL을 다시 확인해주세요.');
+        } finally {
+            overlay.close(progressModalId);
         }
     };
 
     // AI 기능으로 제목에서 카테고리 자동 추천
     const handleAiCategorySuggestion = async (title: string) => {
         if (!aiActive || !title.trim()) return;
+
+        const progressModalId = overlay.open(props =>
+            <ProgressModal {...props} message="상품 정보를 AI로 분석하고 있습니다.." />
+        );
 
         try {
             const suggestion: CategorySuggestion = await getCategorySuggestionForRepik(title);
@@ -145,6 +165,9 @@ export default function ProductUploadPage() {
             }
         } catch (error) {
             console.error('AI 카테고리 추천 실패:', error);
+            alert('상품 정보를 가져오는데 실패했습니다. 상품명을 다시 확인해주세요.');
+        } finally {
+            overlay.close(progressModalId);
         }
     };
 

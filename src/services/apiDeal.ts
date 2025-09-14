@@ -105,17 +105,12 @@ export async function getProductInfoForRepik(url: string): Promise<ProductInfo> 
     );
     
     if (result.success) {
-        return {
-            ...result.data,
-            title: cleanTitle(result.data.title),
-            store: cleanStore(result.data.store),
-        };
+        return result.data;
     } else {
         throw result.error;
     }
 }
 
-// 카테고리 추천 API 함수
 export async function getCategorySuggestionForRepik(title: string): Promise<CategorySuggestion> {
     const result = await publicRequest<CategorySuggestion>(
         HttpMethod.GET,
