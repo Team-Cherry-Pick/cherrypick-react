@@ -3,20 +3,30 @@ import styles from './MainFilter.module.css';
 import { resetFiltersAtom } from '@/store/search';
 import { BasicFilter, CategoryFilter, DiscountFilter, PriceFilter, StoreFilter } from './components';
 import { useEffect } from 'react';
+import { useCategoryNavigation } from '@/store/category';
 import useIsMobileViewport from '@/hooks/useIsMobileViewport';
 import { Moon, ArrowLeft } from 'lucide-react';
 import { useTheme } from '@/styles/global/useTheme';
 import ProfileButton from '@/components/layout/DefaultLayout/components/Header/components/ProfileButton';
 
 interface MainFilterProps {
+    aiActive: boolean;
     isOpen?: boolean;
     onClose?: () => void;
 }
 
-export function MainFilter({ isOpen = false, onClose }: MainFilterProps) {
+export function MainFilter({ aiActive, isOpen = false, onClose }: MainFilterProps) {
     const resetFilters = useSetAtom(resetFiltersAtom);
+    const { reset } = useCategoryNavigation();
     const isMobile = useIsMobileViewport();
     const { toggleTheme } = useTheme();
+
+    useEffect(() => {
+        if (aiActive) {
+            resetFilters();
+            reset();
+        }
+    }, [aiActive, reset, resetFilters]);
 
     // 모바일에서 데스크톱으로 전환될 때 필터 닫기
     useEffect(() => {
@@ -80,14 +90,18 @@ export function MainFilter({ isOpen = false, onClose }: MainFilterProps) {
                         </div>
 
                         <BasicFilter />
-                        <div className={styles.divider} />
-                        <CategoryFilter />
-                        <div className={styles.divider} />
-                        <PriceFilter />
-                        <div className={styles.divider} />
-                        <StoreFilter />
-                        <div className={styles.divider} />
-                        <DiscountFilter />
+                        {!aiActive && (
+                            <>
+                                <div className={styles.divider} />
+                                <CategoryFilter />
+                                <div className={styles.divider} />
+                                <PriceFilter />
+                                <div className={styles.divider} />
+                                <StoreFilter />
+                                <div className={styles.divider} />
+                                <DiscountFilter />
+                            </>
+                        )}
                     </div>
                 </div>
             </div>
@@ -105,14 +119,18 @@ export function MainFilter({ isOpen = false, onClose }: MainFilterProps) {
             </div>
 
             <BasicFilter />
-            <div className={styles.divider} />
-            <CategoryFilter />
-            <div className={styles.divider} />
-            <PriceFilter />
-            <div className={styles.divider} />
-            <StoreFilter />
-            <div className={styles.divider} />
-            <DiscountFilter />
+            {!aiActive && (
+                <>
+                    <div className={styles.divider} />
+                    <CategoryFilter />
+                    <div className={styles.divider} />
+                    <PriceFilter />
+                    <div className={styles.divider} />
+                    <StoreFilter />
+                    <div className={styles.divider} />
+                    <DiscountFilter />
+                </>
+            )}
         </aside>
     );
 }

@@ -1,13 +1,18 @@
 import { useEffect, useRef, useCallback, useState } from 'react';
 import { CardDeal } from '@/components/common/Card';
-import { fetchDeals } from '@/services/apiDeal';
+import { fetchDeals, fetchRecommend } from '@/services/apiDeal';
 import styles from './MainDealList.module.css';
 import type { FetchedDeal } from '@/types/Deal';
 import { LoadingSpinner } from '@/components/common/Loading/LoadingSpinner';
 import { useAtomValue } from 'jotai';
 import { fetchTriggerAtom, searchRequestAtom } from '@/store/search';
+import { AccessTokenService } from '@/services/accessTokenService';
 
-const MainDealList = () => {
+interface MainDealListProps {
+    aiActive: boolean;
+}
+
+const MainDealList = ({ aiActive }: MainDealListProps) => {
     const [isLoading, setIsLoading] = useState(false);
     const [items, setItems] = useState<FetchedDeal[]>([]);
     const pageRef = useRef(0);
@@ -18,7 +23,36 @@ const MainDealList = () => {
     const searchRequest = useAtomValue(searchRequestAtom);
     const fetchTrigger = useAtomValue(fetchTriggerAtom);
 
+    // AI 모드일 때: 추천 딜만 fetch, 필터/observer 무시
     useEffect(() => {
+        if (!aiActive) {
+            prevSearchRequestRef.current = '';
+            return;
+        }
+
+        // 로그인 체크 - 비회원이면 API 호출하지 않음
+        if (!AccessTokenService.hasToken()) {
+            setItems([]);
+            setHasNext(false);
+            return;
+        }
+
+        setIsLoading(true);
+        fetchRecommend()
+            .then(res => {
+                setItems(res.deals);
+                setHasNext(false);
+            })
+            .catch(() => {
+                setItems([]);
+            })
+            .finally(() => {
+                setIsLoading(false);
+            });
+    }, [aiActive]);
+
+    useEffect(() => {
+        if (aiActive) return;
 
         // searchRequest가 실제로 바뀌었을 때만 fetch
         const stringified = JSON.stringify(searchRequest);
@@ -41,11 +75,11 @@ const MainDealList = () => {
         }
 
         fetchFirstPage();
-    }, [fetchTrigger, searchRequest]);
+    }, [fetchTrigger, aiActive, searchRequest]);
 
-    // 무한스크롤 추가 로딩
+    // 무한스크롤 추가 로딩 (aiActive가 아닐 때만)
     const loadMore = useCallback(async () => {
-        if (isLoading || !hasNext) return;
+        if (aiActive || isLoading || !hasNext) return;
         setIsLoading(true);
         try {
             const { deals, hasNext: next } = await fetchDeals(pageRef.current, searchRequest);
@@ -57,19 +91,21 @@ const MainDealList = () => {
         } finally {
             setIsLoading(false);
         }
-    }, [isLoading, hasNext, searchRequest]);
+    }, [aiActive, isLoading, hasNext, searchRequest]);
 
     const handleObserver = useCallback(
         (entries: IntersectionObserverEntry[]) => {
+            if (aiActive) return;
             const [target] = entries;
             if (target.isIntersecting && !isLoading) {
                 loadMore();
             }
         },
-        [loadMore, isLoading],
+        [loadMore, isLoading, aiActive],
     );
 
     useEffect(() => {
+        if (aiActive) return;
         const observer = new IntersectionObserver(handleObserver, {
             threshold: 0.1,
             rootMargin: '200px 0px',
@@ -81,7 +117,7 @@ const MainDealList = () => {
         return () => {
             if (currentTarget) observer.unobserve(currentTarget);
         };
-    }, [handleObserver]);
+    }, [handleObserver, aiActive]);
 
     return (
         <div className={styles.dealGrid}>
@@ -101,7 +137,7 @@ const MainDealList = () => {
             ) : (
                 <div className={styles.noSearchResult}>검색 결과가 없습니다.</div>
             )}
-            <div ref={observerRef} className={styles.observerTarget} />
+            {!aiActive && <div ref={observerRef} className={styles.observerTarget} />}
         </div>
     );
 };

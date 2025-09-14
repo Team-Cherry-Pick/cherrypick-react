@@ -7,12 +7,14 @@ import useIsMobileViewport from '@/hooks/useIsMobileViewport';
 import { GA4Events } from '@/utils/ga4';
 
 interface MainSearchBarProps {
+    aiActive: boolean;
+    setAiActive: React.Dispatch<React.SetStateAction<boolean>>;
     onClose?: () => void;
 }
 
 const RECENT_KEYWORDS_KEY = 'recentKeywords';
 
-const MainSearchBar = ({ onClose }: MainSearchBarProps) => {
+const MainSearchBar = ({ aiActive, setAiActive, onClose }: MainSearchBarProps) => {
     const [query, setQuery] = useState('');
     const [recentKeywords, setRecentKeywords] = useState<string[]>([]);
     const setKeyword = useSetAtom(keywordAtom);
@@ -55,6 +57,10 @@ const MainSearchBar = ({ onClose }: MainSearchBarProps) => {
     const handleSearch = (keyword?: string) => {
         const trimmed = (keyword ?? query).trim();
 
+        if (aiActive) {
+            setAiActive(false);
+        }
+
         const filtered = recentKeywords.filter(item => item !== trimmed);
         if (trimmed) {
             const updated = [trimmed, ...filtered].slice(0, 10); // 최대 10개 저장
@@ -86,7 +92,12 @@ const MainSearchBar = ({ onClose }: MainSearchBarProps) => {
                     placeholder="검색어를 입력해주세요"
                     value={query}
                     className={styles.searchInput}
-                    onChange={e => setQuery(e.target.value)}
+                    onChange={e => {
+                        if (e.target.value.length > 0) {
+                            setAiActive(false);
+                        }
+                        setQuery(e.target.value);
+                    }}
                     onKeyDown={e => e.key === 'Enter' && handleSearch()}
                 />
                 <button
