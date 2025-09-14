@@ -13,11 +13,11 @@ import {
 } from './components';
 import { useAtom } from 'jotai';
 import { newDealAtom } from '@/store';
-import { fetchDetailedDeal, uploadDeal, updateDeal, getProductInfoForRepik } from '@/services/apiDeal';
+import { fetchDetailedDeal, uploadDeal, updateDeal, getProductInfoForRepik, getCategorySuggestionForRepik } from '@/services/apiDeal';
 import { GA4Events } from '@/utils/ga4';
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import type { UpdateDeal } from '@/types/Deal';
+import type { CategorySuggestion, UpdateDeal } from '@/types/Deal';
 import { useImageUpload } from '@/hooks/useImageUpload';
 import { selectedDiscountAtom } from '@/store/search';
 import { uploadSelectedCategoryAtom } from '@/store/category';
@@ -93,8 +93,8 @@ export default function ProductUploadPage() {
             content: data.content || '',
             // 할인정보: 데이터에 있으면 사용, 없으면 기존 값 유지
             discountIds: data.discountIds !== undefined ? data.discountIds : prevDeal.discountIds,
-            discountNames: data.discountName !== undefined ? 
-                data.discountName.split(',').map((name: string) => name.trim()) : 
+            discountNames: data.discountName !== undefined ?
+                data.discountName.split(',').map((name: string) => name.trim()) :
                 prevDeal.discountNames,
         }));
 
@@ -122,6 +122,24 @@ export default function ProductUploadPage() {
         } catch (error) {
             console.error('AI 상품 정보 추출 실패:', error);
             alert('상품 정보를 가져오는데 실패했습니다. URL을 다시 확인해주세요.');
+        }
+    };
+
+    // AI 기능으로 제목에서 카테고리 자동 추천
+    const handleAiCategorySuggestion = async (title: string) => {
+        if (!aiActive || !title.trim()) return;
+
+        try {
+            const suggestion: CategorySuggestion = await getCategorySuggestionForRepik(title);
+
+            if (suggestion.categorys && suggestion.categorys.length > 0) {
+                setUploadSelectedCategory({
+                    categoryId: suggestion.categoryId,
+                    path: suggestion.categorys,
+                });
+            }
+        } catch (error) {
+            console.error('AI 카테고리 추천 실패:', error);
         }
     };
 
@@ -153,7 +171,7 @@ export default function ProductUploadPage() {
         }
 
         const imageIds = imageUpload.images.map(image => image.imageId);
-        
+
         setDeal({
             ...deal,
             imageIds,
@@ -239,10 +257,10 @@ export default function ProductUploadPage() {
             if (dealId) {
                 try {
                     const d = await fetchDetailedDeal(dealId);
-                    
+
                     // 공통 함수로 폼 데이터 설정
                     populateFormWithData(d);
-                    
+
                     // 카테고리 정보를 uploadSelectedCategoryAtom에 설정
                     if (d.categoryId && d.categorys && d.categorys.length > 0) {
                         setUploadSelectedCategory({
@@ -253,10 +271,10 @@ export default function ProductUploadPage() {
                 } catch {
                     alert('핫딜 정보를 불러오지 못했습니다.');
                 }
-            } 
+            }
         };
         init();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dealId, setDeal, setSelectedDiscount, setUploadSelectedCategory]);
 
     return (
@@ -300,7 +318,7 @@ export default function ProductUploadPage() {
                                                 </button>
                                             </div>
                                         </div>
-                                        <LinkInfo 
+                                        <LinkInfo
                                             aiActive={aiActive}
                                             onAiFetchProductInfo={handleAiFetchProductInfo}
                                         />
@@ -321,7 +339,7 @@ export default function ProductUploadPage() {
                                     </div>
                                     <div className={styles.section}>
                                         <div className={styles.sectionTitle}>상품 정보</div>
-                                        <ProductInfo />
+                                        <ProductInfo onAiCategorySuggestion={handleAiCategorySuggestion} />
                                     </div>
                                 </div>
                             </>
@@ -344,7 +362,7 @@ export default function ProductUploadPage() {
                                 <div className={styles.sectionWrapper}>
                                     <div className={styles.section}>
                                         <div className={styles.sectionTitle}>상품 정보</div>
-                                        <ProductInfo />
+                                        <ProductInfo onAiCategorySuggestion={handleAiCategorySuggestion} />
                                     </div>
                                     <div className={styles.section}>
                                         <div className={styles.sectionTitleWithToggle}>
@@ -363,7 +381,7 @@ export default function ProductUploadPage() {
                                                 </button>
                                             </div>
                                         </div>
-                                        <LinkInfo 
+                                        <LinkInfo
                                             aiActive={aiActive}
                                             onAiFetchProductInfo={handleAiFetchProductInfo}
                                         />

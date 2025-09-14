@@ -7,6 +7,7 @@ import type {
     UploadDealResponse,
     Store,
     ProductInfo,
+    CategorySuggestion,
 } from '@/types/Deal';
 import { cleanTitle, cleanStore } from '@/utils/stringCleaner';
 import { HttpMethod } from '@/types/Api';
@@ -109,6 +110,20 @@ export async function getProductInfoForRepik(url: string): Promise<ProductInfo> 
             title: cleanTitle(result.data.title),
             store: cleanStore(result.data.store),
         };
+    } else {
+        throw result.error;
+    }
+}
+
+// 카테고리 추천 API 함수
+export async function getCategorySuggestionForRepik(title: string): Promise<CategorySuggestion> {
+    const result = await publicRequest<CategorySuggestion>(
+        HttpMethod.GET,
+        `/toolbox/category-suggestion-for-repik?title=${encodeURIComponent(title)}`
+    );
+    
+    if (result.success) {
+        return result.data;
     } else {
         throw result.error;
     }

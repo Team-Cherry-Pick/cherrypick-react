@@ -142,3 +142,8 @@ export interface ProductInfo {
     deeplink?: string;
     originalUrl: string;
 }
+
+export interface CategorySuggestion {
+    categoryId: number;
+    categorys: string[];
+}
