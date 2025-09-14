@@ -5,7 +5,12 @@ import { overlay } from '@/context/overlay';
 import { StoreSelectModal } from '@/components/common/Modal';
 import { SelectTrigger, TextInput } from '@/components/common/Input';
 
-export function LinkInfo() {
+interface LinkInfoProps {
+    aiActive?: boolean;
+    onAiFetchProductInfo?: (url: string) => Promise<void>;
+}
+
+export function LinkInfo({ aiActive = false, onAiFetchProductInfo }: LinkInfoProps) {
     const [deal, setDeal] = useAtom(newDealAtom);
 
     const handleStoreSelect = () => {
@@ -20,6 +25,11 @@ export function LinkInfo() {
                 placeholder="상품 URL 입력"
                 value={deal.originalUrl}
                 onChange={e => setDeal({ ...deal, originalUrl: e.target.value })}
+                onBlur={() => {
+                    if (aiActive && onAiFetchProductInfo && deal.originalUrl.trim()) {
+                        onAiFetchProductInfo(deal.originalUrl);
+                    }
+                }}
                 style={{
                     color: /^https?:\/\//.test(deal.originalUrl) ? '#000' : undefined,
                     textDecoration: /^https?:\/\//.test(deal.originalUrl) ? 'underline' : undefined,

@@ -131,3 +131,14 @@ export interface Store {
     textColor: string;
     storeRank: number;
 }
+
+// Toolbox Product Info API 응답 타입
+export interface ProductInfo {
+    title: string;
+    imageUrls: DealImage[];
+    store: string;
+    shipping: DealShipping;
+    price: DealPrice;
+    deeplink?: string;
+    originalUrl: string;
+}

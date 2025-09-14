@@ -6,6 +6,7 @@ import type {
     UpdateDeal,
     UploadDealResponse,
     Store,
+    ProductInfo,
 } from '@/types/Deal';
 import { cleanTitle, cleanStore } from '@/utils/stringCleaner';
 import { HttpMethod } from '@/types/Api';
@@ -80,7 +81,7 @@ export async function fetchDiscounts(): Promise<{ discountId: number; name: stri
 }
 
 export async function getPurchaseLog(dealID: number): Promise<void> {
-    await authRequest<any>(HttpMethod.GET, `/deal/purchase-log?dealId=${dealID}`);
+    await authRequest<unknown>(HttpMethod.GET, `/deal/purchase-log?dealId=${dealID}`);
     return;
 }
 
@@ -94,4 +95,21 @@ export async function deleteDeal(dealId: number) {
 
 export async function updateDeal(deal: UpdateDeal) {
     return authRequest(HttpMethod.PATCH, '/deal', deal);
+}
+
+export async function getProductInfoForRepik(url: string): Promise<ProductInfo> {
+    const result = await publicRequest<ProductInfo>(
+        HttpMethod.GET, 
+        `/toolbox/product-info-for-repik?url=${encodeURIComponent(url)}`
+    );
+    
+    if (result.success) {
+        return {
+            ...result.data,
+            title: cleanTitle(result.data.title),
+            store: cleanStore(result.data.store),
+        };
+    } else {
+        throw result.error;
+    }
 }
