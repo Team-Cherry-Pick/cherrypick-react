@@ -389,10 +389,6 @@ export default function ProductUploadPage() {
                                 <div className={styles.sectionDivider} />
                                 <div className={styles.sectionWrapper}>
                                     <div className={styles.section}>
-                                        <div className={styles.sectionTitle}>상품 정보</div>
-                                        <ProductInfo onAiCategorySuggestion={handleAiCategorySuggestion} />
-                                    </div>
-                                    <div className={styles.section}>
                                         <div className={styles.sectionTitleWithToggle}>
                                             <div className={styles.sectionTitle}>링크 정보</div>
                                             <div className={styles.aiToggleWrapper}>
@@ -413,6 +409,10 @@ export default function ProductUploadPage() {
                                             aiActive={aiActive}
                                             onAiFetchProductInfo={handleAiFetchProductInfo}
                                         />
+                                    </div>
+                                    <div className={styles.section}>
+                                        <div className={styles.sectionTitle}>상품 정보</div>
+                                        <ProductInfo onAiCategorySuggestion={handleAiCategorySuggestion} />
                                     </div>
                                 </div>
                             </>
