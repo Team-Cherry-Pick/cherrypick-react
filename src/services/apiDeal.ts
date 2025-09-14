@@ -101,7 +101,9 @@ export async function updateDeal(deal: UpdateDeal) {
 export async function getProductInfoForRepik(url: string): Promise<ProductInfo> {
     const result = await publicRequest<ProductInfo>(
         HttpMethod.GET, 
-        `/toolbox/product-info-for-repik?url=${encodeURIComponent(url)}`
+        `/toolbox/product-info-for-repik?url=${encodeURIComponent(url)}`,
+        undefined,
+        { timeout: 15000 } // 30초로 타임아웃 증가
     );
     
     if (result.success) {
@@ -114,7 +116,9 @@ export async function getProductInfoForRepik(url: string): Promise<ProductInfo> 
 export async function getCategorySuggestionForRepik(title: string): Promise<CategorySuggestion> {
     const result = await publicRequest<CategorySuggestion>(
         HttpMethod.GET,
-        `/toolbox/category-suggestion-for-repik?title=${encodeURIComponent(title)}`
+        `/toolbox/category-suggestion-for-repik?title=${encodeURIComponent(title)}`,
+        undefined,
+        { timeout: 15000 } // 30초로 타임아웃 증가
     );
     
     if (result.success) {
