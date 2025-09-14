@@ -119,6 +119,11 @@ export default function ProductUploadPage() {
             // 기존 수정 로직과 동일한 방식으로 처리
             populateFormWithData(productInfo);
             console.log('AI로 상품 정보를 성공적으로 가져왔습니다:', productInfo);
+            
+            // 상품 정보에서 title이 있으면 카테고리 추천도 자동 실행
+            if (productInfo.title && productInfo.title.trim()) {
+                await handleAiCategorySuggestion(productInfo.title);
+            }
         } catch (error) {
             console.error('AI 상품 정보 추출 실패:', error);
             alert('상품 정보를 가져오는데 실패했습니다. URL을 다시 확인해주세요.');
