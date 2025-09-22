@@ -51,6 +51,7 @@
   width: 100%;
   display: flex;
   justify-content: center;
+  padding: 0 1.5rem;
 }
 
 .mainImage {
@@ -58,6 +59,36 @@
   max-width: 400px;
   height: auto;
   object-fit: contain;
+}
+
+/* 서비스 소개 텍스트 */
+.serviceIntroBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 3rem 0 1rem 0;
+  padding: 0.25rem 1rem;
+  background-color: var(--color-content-sub);
+  border-radius: 2rem;
+}
+
+/* 베타테스터 모집 텍스트 (검은색 배경) */
+.betaRecruitBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 3rem 0 1rem 0;
+  padding: 0.25rem 1rem;
+  background-color: var(--color-content-main);
+  border-radius: 2rem;
+}
+
+.serviceIntroText {
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  margin: 0;
 }
 
 /* Description 컨테이너 */
@@ -78,6 +109,7 @@
   transform: translateY(50px);
   opacity: 0;
   transition: all 0.8s ease-out;
+  border: 1px solid var(--color-neutral-100);
 }
 
 .descriptionBox.visible {
@@ -86,6 +118,31 @@
 }
 
 .descriptionImage {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Beta Lastly 박스 스타일 */
+.lastlyBox {
+  background: linear-gradient(135deg, #7A2828 0%, #B74040 100%);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  margin: 0 1.5rem 1.5rem 1.5rem;
+  transform: translateY(50px);
+  opacity: 0;
+  transition: all 0.8s ease-out;
+  border: 1px solid var(--color-neutral-100);
+  position: relative;
+}
+
+.lastlyBox.visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* lastlyBox 내부의 descriptionImage는 다른 박스들과 동일하게 */
+.lastlyBox .descriptionImage {
   width: 100%;
   height: auto;
   display: block;
