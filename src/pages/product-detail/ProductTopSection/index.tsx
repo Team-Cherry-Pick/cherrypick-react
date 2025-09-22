@@ -11,6 +11,7 @@ import { useAtomValue } from 'jotai';
 import { currentProfileAtom } from '@/store/profile';
 import { GA4Events } from '@/utils/ga4';
 import { shareUrl } from '@/utils/share';
+import ShareIcon from '@/assets/icons/share-Icon.svg?react';
 interface Props {
     deal: DetailedDeal;
     onVoteChange?: () => void;
@@ -141,7 +142,7 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
                                 });
                             }}
                         >
-                            공유
+                            <ShareIcon />
                         </S.ShareButton>
                         <S.BuyButton
                             onClick={() => {
