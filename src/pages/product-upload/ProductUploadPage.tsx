@@ -72,14 +72,53 @@ export default function ProductUploadPage() {
         setAiActive(prev => !prev);
     };
 
+    // 모든 업로드 관련 상태 초기화 함수
+    const resetAllUploadStates = () => {
+        // newDealAtom 초기화
+        setDeal({
+            title: '',
+            categoryId: undefined,
+            imageIds: [],
+            originalUrl: '',
+            storeId: undefined,
+            storeName: '',
+            price: {
+                priceType: 'KRW',
+                regularPrice: 0,
+                discountedPrice: 0,
+            },
+            shipping: {
+                shippingType: 'FREE',
+                shippingPrice: 0,
+                shippingRule: '',
+            },
+            content: '',
+            discountIds: [],
+            discountNames: [],
+        });
+
+        // 카테고리 선택 초기화
+        setUploadSelectedCategory(null);
+
+        // 할인 정보 초기화
+        setSelectedDiscount([]);
+
+        // 이미지 초기화
+        imageUpload.setImages([]);
+
+        // AI 상태 초기화
+        setAiActive(false);
+        setAnimationClass('');
+    };
+
     // 공통 데이터 처리 함수 (수정 모드와 AI 기능에서 공통 사용)
     const populateFormWithData = (data: any) => {
         setDeal(prevDeal => ({
             ...prevDeal, // 기존 값 유지
-            title: data.title,
+            title: data.title || '',
             categoryId: data.categoryId || undefined,
             imageIds: data.imageUrls ? data.imageUrls.map((img: any) => img.imageId || img.id) : [],
-            originalUrl: data.originalUrl,
+            originalUrl: data.originalUrl || '',
             storeId: data.storeId || data.store?.storeId,
             storeName: data.store?.storeName || data.storeName || '',
             price: {
@@ -95,7 +134,7 @@ export default function ProductUploadPage() {
             content: data.content || '',
             // 할인정보: 데이터에 있으면 사용, 없으면 기존 값 유지
             discountIds: data.discountIds !== undefined ? data.discountIds : prevDeal.discountIds,
-            discountNames: data.discountName !== undefined ?
+            discountNames: data.discountName && data.discountName !== null ?
                 data.discountName.split(',').map((name: string) => name.trim()) :
                 prevDeal.discountNames,
         }));
@@ -130,10 +169,17 @@ export default function ProductUploadPage() {
             if (productInfo.title && productInfo.title.trim()) {
                 const suggestion: CategorySuggestion = await getCategorySuggestionForRepik(productInfo.title);
                 if (suggestion.categorys && suggestion.categorys.length > 0) {
+                    // 텍스트 표시용 상태 업데이트
                     setUploadSelectedCategory({
                         categoryId: suggestion.categoryId,
                         path: suggestion.categorys,
                     });
+                    
+                    // 실제 업로드 데이터의 categoryId도 함께 업데이트
+                    setDeal(prev => ({
+                        ...prev,
+                        categoryId: suggestion.categoryId
+                    }));
                 }
             } else {
                 overlay.close(progressModalId);
@@ -158,10 +204,17 @@ export default function ProductUploadPage() {
             const suggestion: CategorySuggestion = await getCategorySuggestionForRepik(title);
 
             if (suggestion.categorys && suggestion.categorys.length > 0) {
+                // 텍스트 표시용 상태 업데이트
                 setUploadSelectedCategory({
                     categoryId: suggestion.categoryId,
                     path: suggestion.categorys,
                 });
+                
+                // 실제 업로드 데이터의 categoryId도 함께 업데이트
+                setDeal(prev => ({
+                    ...prev,
+                    categoryId: suggestion.categoryId
+                }));
             }
         } catch (error) {
             console.error('AI 카테고리 추천 실패:', error);
@@ -238,6 +291,8 @@ export default function ProductUploadPage() {
             };
             updateDeal(updateDealData).then(() => {
                 GA4Events.updateDeal(Number(dealId), deal.categoryId, deal.storeId);
+                // 수정 완료 후 상태 초기화 (다른 업로드를 위해)
+                resetAllUploadStates();
                 navigate(`/product/${dealId}`);
                 window.location.reload();
             });
@@ -245,6 +300,8 @@ export default function ProductUploadPage() {
             // 새 게시글 모드: uploadDeal 사용
             uploadDeal(uploadDealData).then(() => {
                 GA4Events.uploadDeal(deal.categoryId, deal.storeId);
+                // 업로드 성공 후 모든 상태 초기화
+                resetAllUploadStates();
                 navigate('/');
             });
         }
@@ -281,8 +338,8 @@ export default function ProductUploadPage() {
 
     useEffect(() => {
         const init = async () => {
-            // 수정 모드
             if (dealId) {
+                // 수정 모드: 기존 데이터 로드
                 try {
                     const d = await fetchDetailedDeal(dealId);
 
@@ -296,9 +353,13 @@ export default function ProductUploadPage() {
                             path: d.categorys,
                         });
                     }
-                } catch {
+                } catch (error) {
+                    console.error('핫딜 정보를 불러오는데 실패:', error);
                     alert('핫딜 정보를 불러오지 못했습니다.');
                 }
+            } else {
+                // 새 업로드 모드: 모든 상태 초기화
+                resetAllUploadStates();
             }
         };
         init();
