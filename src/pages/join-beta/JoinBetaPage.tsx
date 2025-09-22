@@ -132,7 +132,6 @@ const JoinBetaPage = () => {
                                     베타테스터 모집<br />
                                 </p>
                             </div>
-
                             {/* Beta Lastly 이미지 */}
                             <div
                                 ref={lastlyRef}
@@ -140,16 +139,29 @@ const JoinBetaPage = () => {
                             >
                                 <img src={BetaLastlyImg} alt="Beta Lastly" className={styles.descriptionImage} />
 
-                                {/* 무한 마키 효과 쇼핑몰 아이콘들 */}
-                                <div className={styles.marqueeContainer}>
-                                    <Marquee
-                                        icons={shoppingmallIcons}
-                                        height={48}
-                                        gap={16}
-                                        durationSec={16}
-                                        direction="ltr"
-                                    />
+                                {/* 액션 버튼 3종 */}
+                                <div className={styles.actionButtons}>
+                                    <button type="button" className={`${styles.actionButton} ${styles.primary}`} aria-label="베타테스터 신청">
+                                        베타테스터 신청
+                                    </button>
+                                    <button type="button" className={`${styles.actionButton} ${styles.secondary}`} aria-label="친구한테 공유하기">
+                                        친구한테 공유하기
+                                    </button>
+                                    <button type="button" className={`${styles.actionButton} ${styles.secondary}`} aria-label="서비스 둘러보기">
+                                        서비스 둘러보기
+                                    </button>
                                 </div>
+                            </div>
+
+                            {/* 무한 마키 효과 쇼핑몰 아이콘들 */}
+                            <div className={styles.marqueeContainer}>
+                                <Marquee
+                                    icons={shoppingmallIcons}
+                                    height={48}
+                                    gap={16}
+                                    durationSec={16}
+                                    direction="ltr"
+                                />
                             </div>
                         </div>
                     </div>
