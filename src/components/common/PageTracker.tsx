@@ -16,6 +16,8 @@ const PageTracker = () => {
         return '로그인';
       case '/profile-edit':
         return '프로필 편집';
+      case '/join-beta':
+        return '베타 참여';
       case '/upload':
         return '핫딜 업로드';
       default:
