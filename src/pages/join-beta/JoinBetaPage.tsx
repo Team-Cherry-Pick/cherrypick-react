@@ -87,7 +87,7 @@ const JoinBetaPage = () => {
     return (
         <ThemeProvider theme={lightTheme}>
             <div className={styles.lightThemeWrapper}>
-                <DefaultLayout background="board">
+                <DefaultLayout background="root">
                     <div className={styles.container}>
                         <div className={styles.contentWrapper}>
                             {/* Main 이미지 */}
