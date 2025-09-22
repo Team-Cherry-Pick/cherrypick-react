@@ -12,7 +12,7 @@ export function useRefreshProfile() {
         
         // 비회원인 경우 기본값 세팅
         if(!AccessTokenService.hasToken()) {
-            setCurrentUser(({ userId: -1, nickname: "", email: "", birthday: "", gender: Gender.MALE, imageURL: "", imageId: -1}));
+            setCurrentUser(({ userId: -1, nickname: "", email: "", birthday: "", gender: Gender.MALE, imageURL: "", imageId: -1, badgeId: 0}));
             return;
         }
 

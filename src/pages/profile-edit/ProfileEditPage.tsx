@@ -224,7 +224,7 @@ export function ProfileEditPage() {
         if (accessToken) {
             refreshProfile();
             AccessTokenService.save(accessToken);
-            setNewProfile({ userId: -1, nickname: "", email: "", birthday: "", gender: Gender.MALE, imageURL: "", imageId: -1 });
+            setNewProfile({ userId: -1, nickname: "", email: "", birthday: "", gender: Gender.MALE, imageURL: "", imageId: -1, badgeId: 0 });
             navigate(redirectPath);
         }
     }
