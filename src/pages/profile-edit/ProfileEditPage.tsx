@@ -8,12 +8,13 @@ import { uploadImage } from '@/services/apiImage';
 import { Images, UploadImageResponse } from '@/types/Image';
 import NicknameEditor from './NicknameEditor';
 import PersonIcon from '@/assets/icons/person-Icon.svg';
-import { getUser, patchUser } from '@/services/apiProfile';
+import { getUser, patchUser, postBetaTesterBadge } from '@/services/apiProfile';
 import DefaultLayout from '@/components/layout/DefaultLayout';
 import { deleteUser, postAuthRegisterCompletion } from '@/services/apiAuth';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { DeleteUserRes, PostAuthRegisterCompletionReq } from '@/types/Auth';
 import { useRefreshProfile } from '@/hooks/useRefreshProfile';
+import { getBetaTesterIntent, setBetaTesterIntent } from '@/store/betaTester';
 import { FaRegSquare, FaCheckSquare } from "react-icons/fa";
 import useIsMobileViewport from '@/hooks/useIsMobileViewport';
 import { GA4Events, trackCustomEvent } from '@/utils/ga4';
@@ -222,9 +223,24 @@ export function ProfileEditPage() {
         const accessToken: string = await postAuthRegisterCompletion(request);
 
         if (accessToken) {
-            refreshProfile();
+            await refreshProfile();
             AccessTokenService.save(accessToken);
-            setNewProfile({ userId: -1, nickname: "", email: "", birthday: "", gender: Gender.MALE, imageURL: "", imageId: -1 });
+            
+            // 베타테스터 신청 의도 확인 (localStorage에서)
+            if (getBetaTesterIntent()) {
+                try {
+                    await postBetaTesterBadge();
+                    GA4Events.signUp('beta_tester');
+                } catch (error) {
+                    console.error('베타테스터 신청 실패:', error);
+                    GA4Events.exception('beta_tester_apply_failed', '회원가입 후 베타테스터 신청 실패');
+                } finally {
+                    // 베타테스터 신청 의도 초기화
+                    setBetaTesterIntent(false);
+                }
+            }
+            
+            setNewProfile({ userId: -1, nickname: "", email: "", birthday: "", gender: Gender.MALE, imageURL: "", imageId: -1, badgeId: 0 });
             navigate(redirectPath);
         }
     }

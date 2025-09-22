@@ -5,6 +5,7 @@ import LikeIcon from '@/assets/icons/like.svg?react';
 import DislikeIcon from '@/assets/icons/dislike.svg?react';
 import { voteDeal, VoteType, DislikeReason } from '@/services/apiVote';
 import { GA4Events } from '@/utils/ga4';
+import { formatHeatScore } from '@/utils/heat';
 
 interface HeatFeedbackProps {
     heat: number;
@@ -101,7 +102,7 @@ function HeatFeedback({ heat, dealId, initialVoteType, onVoteChange, category }:
     return (
         <Container>
             <HeatWrapper>
-                <Heat>{heat}°</Heat>
+                <Heat>{formatHeatScore(heat)}°</Heat>
             </HeatWrapper>
 
             <ThumbWrapper>

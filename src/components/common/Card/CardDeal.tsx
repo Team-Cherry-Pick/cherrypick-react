@@ -5,7 +5,6 @@ import { HeatBadge } from '../Badge';
 import { getRelativeTime } from '@/utils/time';
 import { formatNumber } from '@/utils/number';
 import blackLogoIcon from '@/assets/icons/black-logo-Icon.svg';
-import timerIcon from '@/assets/icons/timer.svg';
 import useIsMobileViewport from '@/hooks/useIsMobileViewport';
 import styles from './CardDeal.module.css';
 
@@ -56,7 +55,7 @@ export const CardDeal = ({ deal }: Props) => {
                         ) : (
                             <>
                                 <span className={styles.percent}>
-                                    <img src={timerIcon} alt="timer" width={18} height={18} />
+                                    실구매가
                                 </span>
                                 <span className={styles.price}>
                                     {deal.price.priceType === 'KRW'
@@ -94,7 +93,7 @@ export const CardDeal = ({ deal }: Props) => {
                         ) : (
                             <>
                                 <span className={styles.percent}>
-                                    <img src={timerIcon} alt="timer" width={18} height={18} />
+                                    실구매가
                                 </span>
                                 <span className={styles.price}>
                                     {deal.price.priceType === 'KRW'

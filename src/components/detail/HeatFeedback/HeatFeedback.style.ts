@@ -12,6 +12,7 @@ export const ThumbWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
 `;
 
 const baseButton = css`
@@ -21,8 +22,9 @@ const baseButton = css`
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
   svg {
-    width: 1em;
+    width: 1rem;
     height: 1rem;
     display: block;
   }
@@ -31,26 +33,29 @@ const baseButton = css`
 export const LikeBtn = styled.button<{ $active?: boolean }>`
   ${baseButton}
   background-color: ${({ $active, theme }) =>
-    $active ? theme.colors.primaryLayer[500] : theme.colors.neutral[50]};
+    $active ? theme.colors.primaryLayer[500] : 'transparent'};
   color: ${({ $active, theme }) =>
     $active ? '#ffffff' : theme.colors.content.sub};
+  border: 1px solid ${({ theme }) => theme.colors.neutral[100]};
+  font-weight: ${({ theme }) => theme.typography.weight.regular};
 `;
 
 export const DislikeBtn = styled.button<{ $active?: boolean }>`
   ${baseButton}
   background-color: ${({ $active, theme }) =>
-    $active ? '#5670BB' : theme.colors.neutral[50]};
+    $active ? '#5670BB' : 'transparent'};
   color: ${({ $active, theme }) =>
     $active ? '#ffffff' : theme.colors.content.sub};
+  border: 1px solid ${({ theme }) => theme.colors.neutral[100]};
+  font-weight: ${({ theme }) => theme.typography.weight.regular};
 `;
 
 export const HeatWrapper = styled.div`
   flex: 1;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  position: relative;
   justify-content: center;
+  position: relative;
 `;
 
 export const Heat = styled.span`

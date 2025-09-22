@@ -86,6 +86,11 @@ export async function getPurchaseLog(dealID: number): Promise<void> {
     return;
 }
 
+export async function getShareLog(dealID: number): Promise<void> {
+    await publicRequest<unknown>(HttpMethod.GET, `/deal/share-log?dealId=${dealID}`);
+    return;
+}
+
 export async function endDeal(dealId: number) {
     return authRequest(HttpMethod.PATCH, '/deal', { dealId, isSoldOut: true });
 }

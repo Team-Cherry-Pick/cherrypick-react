@@ -55,6 +55,11 @@ export interface User {
     gender: Gender;
     imageURL?: string | null;
     imageId?: number | null;
+    badgeId: number;
+}
+
+export interface PostBetaTesterBadgeRes {
+    message: string;
 }
 
 export type GetUserRes = User;

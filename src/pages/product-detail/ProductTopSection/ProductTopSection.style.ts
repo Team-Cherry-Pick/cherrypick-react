@@ -257,6 +257,7 @@ export const BottomActions = styled.div`
   width: calc(100% + 1rem);
   height: 4rem;
   display: flex;
+  align-items: center;
   gap: 0.5rem;
   padding: 0.5rem;
   justify-content: flex-end;
@@ -268,17 +269,28 @@ export const BottomActions = styled.div`
 `;
 
 export const ShareButton = styled.button`
-  width: 25%;
+  width: 3rem;
+  height: 3rem;
   border-radius: 0.5rem;
   color: ${({ theme }) => theme.colors.content.sub};
   font-size: 1rem;
   font-weight: ${({ theme }) => theme.typography.weight.semibold};
   border: 1px solid ${({ theme }) => theme.colors.neutral[100]};
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${({ theme }) => theme.colors.neutral[20]};
+  
+  svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
 `;
 
 export const BuyButton = styled.button`
-  width: 25%;
+  flex: 0 0 25%;
+  height: 3rem;
   border-radius: 0.5rem;
   background: ${({ theme }) => css`
     linear-gradient(

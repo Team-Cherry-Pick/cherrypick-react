@@ -1,0 +1,222 @@
+/* Light 테마 강제 적용 wrapper */
+.lightThemeWrapper {
+  --color-primary: #DB2726;
+  --color-content-main: #333333;
+  --color-content-sub: #767676;
+  --color-content-tertiary: #cccccc;
+  --color-background-root: #ffffff;
+  --color-background-board: #fbfbfb;
+  --color-background-card: #ffffff;
+  --color-border-board: #e6e6e6;
+  --color-border-card: #f2f2f2;
+  --color-neutral-0: #ffffff;
+  --color-neutral-20: #fbfbfb;
+  --color-neutral-50: #f2f2f2;
+  --color-neutral-100: #e6e6e6;
+  --color-neutral-200: #cccccc;
+  --color-neutral-300: #b3b3b3;
+  --color-neutral-400: #999999;
+  --color-neutral-500: #808080;
+  --color-neutral-600: #666666;
+  --color-neutral-700: #4d4d4d;
+  --color-neutral-800: #333333;
+  --color-neutral-900: #1a1a1a;
+}
+
+.container {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 0;
+  background-color: #ffffff;
+}
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  border-left: 1px solid var(--color-border-board);
+  border-right: 1px solid var(--color-border-board);
+  min-height: 100vh;
+  background: linear-gradient(to bottom, var(--color-neutral-0), var(--color-neutral-100));
+}
+
+/* Main 이미지 스타일 */
+.mainImageWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0 1.5rem;
+}
+
+.mainImage {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  object-fit: contain;
+}
+
+/* 서비스 소개 텍스트 */
+.serviceIntroBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 3rem 0 1rem 0;
+  padding: 0.25rem 1rem;
+  background-color: var(--color-content-sub);
+  border-radius: 2rem;
+}
+
+/* 베타테스터 모집 텍스트 (검은색 배경) */
+.betaRecruitBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 3rem 0 1rem 0;
+  padding: 0.25rem 1rem;
+  background-color: var(--color-content-sub);
+  border-radius: 2rem;
+}
+
+.serviceIntroText {
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-align: center;
+  margin: 0;
+}
+
+/* Description 컨테이너 */
+.descriptionContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  padding-top: 0.5rem;
+}
+
+/* Description 박스 스타일 */
+.descriptionBox {
+  background-color: var(--color-background-card);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  margin: 0 1.5rem;
+  transform: translateY(50px);
+  opacity: 0;
+  transition: all 0.8s ease-out;
+  border: 1px solid var(--color-neutral-100);
+}
+
+.descriptionBox.visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.descriptionImage {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Beta Lastly 박스 스타일 */
+.lastlyBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: linear-gradient(0deg, #7A2828 0%, #B74040 100%);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  margin: 0 1.5rem 0 1.5rem;
+  transform: translateY(50px);
+  opacity: 0;
+  transition: all 0.8s ease-out;
+  border: 1px solid var(--color-neutral-100);
+  position: relative;
+  padding: 0.8rem 0.6rem 0.6rem 0.6rem;
+}
+
+.lastlyBox.visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* lastlyBox 내부의 descriptionImage는 다른 박스들과 동일하게 */
+.lastlyBox .descriptionImage {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* 액션 버튼 영역 */
+.actionButtons {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.6rem;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.actionButton {
+  width: 100%;
+  height: 44px;
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-border-board);
+  background-color: var(--color-content-sub);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.primary {
+  background: linear-gradient(135deg, var(--color-neutral-700) 0%, var(--color-neutral-900) 100%);
+  border: 1px solid var(--color-neutral-600);
+  color: white;
+}
+
+.secondary {
+  background: linear-gradient(135deg, var(--color-neutral-0) 0%, var(--color-neutral-100) 100%);
+  border: none;
+  color: var(--color-content-main);
+}
+
+.actionButton:active {
+  transform: translateY(1px);
+}
+
+.actionButton:disabled {
+  background: var(--color-content-tertiary);
+  color: var(--color-content-sub);
+  border: none;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.actionButton:disabled:active {
+  transform: none;
+}
+
+/* Marquee 컨테이너: 박스 크기 변화 없이 하단에 고정, 그라데이션 제거(단색 배경) */
+.marqueeBox {
+  height: 120px;
+  width: 100%;
+  position: relative; /* absolute 자식의 기준 */
+  overflow: hidden; /* 자식이 박스를 넘지 않도록 클리핑 */
+}
+
+.marqueeContainer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0; /* 하단 고정 */
+  height: 48px; /* Marquee height과 동일하게 설정하여 클리핑 보장 */
+  overflow: hidden; /* 내부 트랙이 박스를 벗어나지 않게 클리핑 */
+  width: 100%;
+  box-sizing: border-box;
+  pointer-events: none;
+  margin-bottom: 1rem;
+  opacity: 0.9;
+}

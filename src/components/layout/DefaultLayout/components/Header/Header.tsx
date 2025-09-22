@@ -36,6 +36,7 @@ export default function Header({ background = 'root', onSearchClick }: HeaderPro
         if (pathname.startsWith('/product/')) return '핫딜 상세';
         if (pathname === '/profile-edit') return '회원정보 수정';
         if (pathname === '/login') return '로그인';
+        if (pathname === '/join-beta') return '리픽 베타테스터';
         
         return '페이지';
     };

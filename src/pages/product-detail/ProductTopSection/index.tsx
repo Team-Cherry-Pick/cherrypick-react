@@ -3,13 +3,15 @@ import { useState, useEffect } from 'react';
 import type { DetailedDeal } from '@/types/Deal';
 import HeatFeedback from '@/components/detail/HeatFeedback';
 import * as S from './ProductTopSection.style';
-import { endDeal, deleteDeal, getPurchaseLog } from '@/services/apiDeal';
+import { endDeal, deleteDeal, getPurchaseLog, getShareLog } from '@/services/apiDeal';
 import { AccessTokenService } from '@/services/accessTokenService';
 import { useCarouselImages } from '@/hooks/useCarouselImages';
 import { ImageCarousel } from './components/ImageCarousel';
 import { useAtomValue } from 'jotai';
 import { currentProfileAtom } from '@/store/profile';
 import { GA4Events } from '@/utils/ga4';
+import { shareUrl } from '@/utils/share';
+import ShareIcon from '@/assets/icons/share-Icon.svg?react';
 interface Props {
     deal: DetailedDeal;
     onVoteChange?: () => void;
@@ -131,12 +133,16 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
                             onVoteChange={onVoteChange} />
                         <S.ShareButton
                             onClick={() => {
-                                GA4Events.shareDeal(deal.dealId, 'copy_link');
-                                navigator.clipboard.writeText(window.location.href);
-                                alert('게시글 주소가 복사되었습니다.');
+                                GA4Events.shareDeal(deal.dealId, 'share_button');
+                                getShareLog(deal.dealId).catch(() => {});
+                                shareUrl(window.location.href, {
+                                    title: deal.title,
+                                    text: `${deal.title} - 리픽에서 발견한 특가할인이에요.`,
+                                    showAlerts: true
+                                });
                             }}
                         >
-                            공유하기
+                            <ShareIcon />
                         </S.ShareButton>
                         <S.BuyButton
                             onClick={() => {
@@ -147,7 +153,7 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
                                 }
                             }}
                         >
-                            구매하기
+                            구매
                         </S.BuyButton>
                     </S.BottomActions>
                 </S.BottomContainer>
