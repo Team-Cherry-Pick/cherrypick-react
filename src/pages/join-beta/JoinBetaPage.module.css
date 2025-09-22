@@ -125,7 +125,7 @@
 
 /* Beta Lastly 박스 스타일 */
 .lastlyBox {
-  background: linear-gradient(135deg, #7A2828 0%, #B74040 100%);
+  background: linear-gradient(0deg, #7A2828 0%, #B74040 100%);
   border-radius: 0.75rem;
   overflow: hidden;
   margin: 0 1.5rem 1.5rem 1.5rem;
@@ -146,4 +146,15 @@
   width: 100%;
   height: auto;
   display: block;
+  padding-bottom: 60px;
+}
+
+/* Marquee 컨테이너: 박스 크기 변화 없이 하단에 고정, 그라데이션 제거(단색 배경) */
+.marqueeContainer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding-bottom: 0.25rem;
+  pointer-events: none;
 }

@@ -12,6 +12,15 @@ import BetaDescSecondImg from '@/assets/banner/beta-desc-second.svg';
 import BetaDescThirdImg from '@/assets/banner/beta-desc-third.svg';
 import BetaLastlyImg from '@/assets/banner/beta-lastly.svg';
 
+// 쇼핑몰 아이콘 import
+import ShoppingmallCoupang from '@/assets/banner/shoppingmall-coupang.svg';
+import ShoppingmallLotteon from '@/assets/banner/shoppingmall-lotteon.svg';
+import ShoppingmallEleven from '@/assets/banner/shoppingmall-eleven.svg';
+import ShoppingmallAuction from '@/assets/banner/shoppingmall-auction.svg';
+import ShoppingmallSsg from '@/assets/banner/shoppingmall-ssg.svg';
+import ShoppingmallGmarket from '@/assets/banner/shoppingmall-gmarket.svg';
+import Marquee from '@/components/common/Marquee';
+
 const JoinBetaPage = () => {
     const isMobile = useIsMobileViewport();
     const [visibleItems, setVisibleItems] = useState<boolean[]>([false, false, false, false]);
@@ -20,6 +29,16 @@ const JoinBetaPage = () => {
     const descRef3 = useRef<HTMLDivElement>(null);
     const lastlyRef = useRef<HTMLDivElement>(null);
     const descRefs = [descRef1, descRef2, descRef3, lastlyRef];
+
+    // 쇼핑몰 아이콘 배열 (확장 가능하도록 설계)
+    const shoppingmallIcons = [
+        { src: ShoppingmallCoupang, alt: 'Coupang' },
+        { src: ShoppingmallLotteon, alt: 'Lotte On' },
+        { src: ShoppingmallEleven, alt: '11st' },
+        { src: ShoppingmallAuction, alt: 'Auction' },
+        { src: ShoppingmallSsg, alt: 'SSG' },
+        { src: ShoppingmallGmarket, alt: 'G Market' }
+    ];
 
     // Join-Beta 페이지에서는 항상 light 테마 유지
     useEffect(() => {
@@ -120,6 +139,17 @@ const JoinBetaPage = () => {
                                 className={`${styles.lastlyBox} ${visibleItems[3] ? styles.visible : ''}`}
                             >
                                 <img src={BetaLastlyImg} alt="Beta Lastly" className={styles.descriptionImage} />
+
+                                {/* 무한 마키 효과 쇼핑몰 아이콘들 */}
+                                <div className={styles.marqueeContainer}>
+                                    <Marquee
+                                        icons={shoppingmallIcons}
+                                        height={48}
+                                        gap={16}
+                                        durationSec={16}
+                                        direction="ltr"
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
