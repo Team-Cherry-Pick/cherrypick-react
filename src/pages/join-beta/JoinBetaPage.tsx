@@ -5,6 +5,14 @@ import { ThemeProvider } from 'styled-components';
 import { lightTheme } from '@/styles/theme';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAtomValue } from 'jotai';
+import { currentProfileAtom } from '@/store/profile';
+import { setBetaTesterIntent } from '@/store/betaTester';
+import { AccessTokenService } from '@/services/accessTokenService';
+import { postBetaTesterBadge } from '@/services/apiProfile';
+import { useRefreshProfile } from '@/hooks/useRefreshProfile';
+import { GA4Events } from '@/utils/ga4';
+import { getAuthKakao } from '@/services/apiAuth';
 
 // 이미지 import
 import BetaMainImg from '@/assets/banner/beta-main.svg';
@@ -32,6 +40,12 @@ const JoinBetaPage = () => {
     const descRef3 = useRef<HTMLDivElement>(null);
     const lastlyRef = useRef<HTMLDivElement>(null);
     const descRefs = useMemo(() => [descRef1, descRef2, descRef3, lastlyRef] as const, [descRef1, descRef2, descRef3, lastlyRef]);
+    
+    // 사용자 프로필 및 베타테스터 상태 관리
+    const currentProfile = useAtomValue(currentProfileAtom);
+    const { refreshProfile } = useRefreshProfile();
+    const isLoggedIn = AccessTokenService.hasToken();
+    const isBetaTester = currentProfile.badgeId === 2;
 
     // 쇼핑몰 아이콘 배열 (확장 가능하도록 설계)
     const shoppingmallIcons = [
@@ -55,6 +69,13 @@ const JoinBetaPage = () => {
             }
         };
     }, [descRefs]);
+
+    // 회원인 경우 프로필 새로고침
+    useEffect(() => {
+        if (isLoggedIn) {
+            refreshProfile();
+        }
+    }, [isLoggedIn, refreshProfile]);
 
     // 스크롤 애니메이션을 위한 Intersection Observer
     useEffect(() => {
@@ -85,7 +106,29 @@ const JoinBetaPage = () => {
         return () => {
             observers.forEach(observer => observer.disconnect());
         };
-    }, []);
+    }, [descRefs]);
+
+    // 베타테스터 신청 핸들러
+    const handleBetaTesterApply = async () => {
+        if (!isLoggedIn) {
+            GA4Events.pageView('/join-beta/apply-attempt', '비로그인 베타테스터 신청 시도');
+            setBetaTesterIntent(true);
+            getAuthKakao('/join-beta');
+            return;
+        }
+
+        try {
+            GA4Events.pageView('/join-beta/apply-start', '베타테스터 신청 시작');
+            await postBetaTesterBadge();
+            await refreshProfile(); // 프로필 새로고침으로 badgeId 업데이트
+            GA4Events.signUp('beta_tester');
+            alert('베타테스터 신청이 완료되었습니다!');
+        } catch (error) {
+            console.error('베타테스터 신청 실패:', error);
+            GA4Events.exception('beta_tester_apply_failed', '베타테스터 신청 실패');
+            alert('베타테스터 신청에 실패했습니다. 다시 시도해주세요.');
+        }
+    };
 
     return (
         <ThemeProvider theme={lightTheme}>
@@ -145,20 +188,27 @@ const JoinBetaPage = () => {
 
                                 {/* 액션 버튼 3종 */}
                                 <div className={styles.actionButtons}>
-                                    <button type="button" className={`${styles.actionButton} ${styles.primary}`} aria-label="베타테스터 신청">
-                                        베타테스터 신청
+                                    <button 
+                                        type="button" 
+                                        className={`${styles.actionButton} ${styles.primary}`}
+                                        aria-label="베타테스터 신청"
+                                        disabled={isLoggedIn && isBetaTester}
+                                        onClick={handleBetaTesterApply}
+                                    >
+                                        {isLoggedIn && isBetaTester ? '전환되었습니다.' : '베타테스터 신청'}
                                     </button>
                                     <button
                                         type="button"
                                         className={`${styles.actionButton} ${styles.secondary}`}
                                         aria-label="친구한테 공유하기"
-                                        onClick={() =>
+                                        onClick={() => {
+                                            GA4Events.shareDeal(0, 'beta_page_share'); // dealId 0으로 베타페이지 공유 구분
                                             shareUrl(window.location.href, {
                                                 title: document.title || '체리픽',
                                                 text: '리픽 베타테스터 신청 페이지를 공유합니다',
                                                 showAlerts: true,
-                                            })
-                                        }
+                                            });
+                                        }}
                                     >
                                         친구한테 공유
                                     </button>
@@ -166,7 +216,10 @@ const JoinBetaPage = () => {
                                         type="button"
                                         className={`${styles.actionButton} ${styles.secondary}`}
                                         aria-label="메인페이지 이동"
-                                        onClick={() => navigate('/')}
+                                        onClick={() => {
+                                            GA4Events.pageView('/join-beta/navigate-main', '베타페이지에서 메인으로 이동');
+                                            navigate('/');
+                                        }}
                                     >
                                         메인페이지 이동
                                     </button>
