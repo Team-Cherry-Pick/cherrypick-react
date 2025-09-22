@@ -2,6 +2,7 @@ import styles from './LoginPage.module.css';
 import DefaultLayout from '@/components/layout/DefaultLayout';
 import RepikLogo from '@/assets/icons/logo-Icon.svg?react';
 import KakaoLogo from '@/assets/icons/kakao-Icon.svg?react';
+import RedFireIcon from '@/assets/icons/red-fire.svg?react';
 import { getAuthKakao } from '@/services/apiAuth';
 import { AccessTokenService } from '@/services/accessTokenService';
 import { useEffect } from 'react';
@@ -19,6 +20,11 @@ const LoginPage = () => {
         }
     }, [navigate]);
 
+    // 베타테스터 신청 버튼 핸들러
+    const handleBetaTesterApply = () => {
+        navigate('/join-beta');
+    };
+
     // 로그인된 사용자는 페이지를 렌더링하지 않음
     if (AccessTokenService.hasToken()) {
         return null;
@@ -33,7 +39,7 @@ const LoginPage = () => {
                         <div className={styles.repikLogoText}>Repik</div>
                     </div>
                     <p className={styles.title}>
-                        <span className={styles.highlightBold}>진짜 할인</span>만 다시 고르다.
+                        <span className={styles.highlightBold}>똑똑한 소비자</span>들이 모이는 공간
                     </p>
                     <div className={styles.divider} />
                     <p className={styles.message}>
@@ -44,6 +50,10 @@ const LoginPage = () => {
                     <button className={styles.kakaoLoginButton} onClick={() => getAuthKakao('/')}>
                         <KakaoLogo className={styles.kakaoLoginLogoImage} />
                         <p className={styles.kakaoLoginText}>카카오 로그인/회원가입</p>
+                    </button>
+                    <button className={styles.betaTesterButton} onClick={handleBetaTesterApply}>
+                        <RedFireIcon className={styles.betaTesterIcon} />
+                        <p className={styles.betaTesterText}>베타테스터 신청</p>
                     </button>
                 </div>
             </div>

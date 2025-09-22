@@ -64,9 +64,33 @@
   color: var(--color-content-tertiary)
 }
 
+.loginText {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--color-content-sub);
+  white-space: nowrap;
+}
+
+.profileIcon:has(.loginText) {
+  width: auto;
+  height: 2rem;
+  padding: 0 0.75rem;
+  border-radius: 1rem;
+}
+
 @media (max-width: 48rem) {
   .profileIcon {
     width: 1.75rem;
     height: 1.75rem;
+  }
+  
+  .profileIcon:has(.loginText) {
+    width: auto;
+    height: 1.75rem;
+    padding: 0 0.625rem;
+  }
+  
+  .loginText {
+    font-size: 0.8rem;
   }
 }

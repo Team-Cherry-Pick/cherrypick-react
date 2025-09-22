@@ -47,7 +47,7 @@
 .title {
   margin-top: 0.2rem;
   color: var(--color-content-main);
-  font-size: 1.25rem;
+  font-size: 1.125rem;
 }
 
 .highlightBold {
@@ -66,7 +66,7 @@
   margin-top: 1.5rem;
   text-align: start;
   color: var(--color-content-sub);
-  font-size: 1.125rem;
+  font-size: 1rem;
   line-height: 1.75rem;
 }
 
@@ -93,4 +93,31 @@
   color: #392020;
   font-size: 1.125rem;
   font-weight: var(--font-weight-semibold);
+}
+
+.betaTesterButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  height: 3rem;
+  margin-top: 0.75rem;
+  border-radius: 0.5rem;
+  background: linear-gradient(135deg, var(--color-neutral-700) 0%, var(--color-neutral-900) 100%);
+  border: 1px solid var(--color-neutral-600);
+  cursor: pointer;
+}
+
+.betaTesterIcon {
+  width: 1.4rem;
+  height: 1.4rem;
+  filter: brightness(0) invert(1);
+}
+
+.betaTesterText {
+  color: white;
+  font-size: 1.125rem;
+  font-weight: var(--font-weight-semibold);
+  margin: 0;
 }

@@ -15,6 +15,7 @@ const ProfileButton = () => {
     const isLoggedIn = () => AccessTokenService.hasToken();
     const currentProfile = useAtomValue(currentProfileAtom);
     const { refreshProfile } = useRefreshProfile();
+    const isBetaTester = currentProfile.badgeId === 2;
 
     // 전체 영역 클릭 시 호출
     useEffect(() => {
@@ -40,7 +41,15 @@ const ProfileButton = () => {
     const onClickBtnProfileEdit = () => {
         setOpen(false);
         navigate('/profile-edit');
-    };    // '로그아웃' 버튼 클릭 시 호출
+    };
+
+    // '베타테스터 신청' 버튼 클릭 시 호출
+    const onClickBetaTesterApply = () => {
+        setOpen(false);
+        navigate('/join-beta');
+    };
+
+    // '로그아웃' 버튼 클릭 시 호출
     const onClickLogout = () => {
         if (!isLoggedIn()) return;
         GA4Events.logout();
@@ -61,17 +70,21 @@ const ProfileButton = () => {
                 aria-haspopup="true"
                 aria-expanded={open}
             >
-                <div className={styles.iconWrapper}>
-                    {currentProfile?.imageURL ? (
-                        <img
-                            src={currentProfile.imageURL}
-                            alt="user"
-                            style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
-                        />
-                    ) : (
-                        <PersonIcon className={styles.personIcon} />
-                    )}
-                </div>
+                {isLoggedIn() ? (
+                    <div className={styles.iconWrapper}>
+                        {currentProfile?.imageURL ? (
+                            <img
+                                src={currentProfile.imageURL}
+                                alt="user"
+                                style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
+                            />
+                        ) : (
+                            <PersonIcon className={styles.personIcon} />
+                        )}
+                    </div>
+                ) : (
+                    <span className={styles.loginText}>로그인</span>
+                )}
             </button>
 
             {/* 드롭다운 메뉴 */}
@@ -79,6 +92,9 @@ const ProfileButton = () => {
                 <div className={styles.dropdownMenu} role="menu">
                     <button type="button" className={styles.menuItem} onClick={onClickBtnProfileEdit}>
                         회원정보 수정
+                    </button>
+                    <button type="button" className={styles.menuItem} onClick={onClickBetaTesterApply}>
+                        베타테스터 신청
                     </button>
                     <button type="button" className={styles.menuItem} onClick={onClickLogout}>
                         로그아웃
