@@ -1,9 +1,10 @@
 import styles from './JoinBetaPage.module.css';
 import DefaultLayout from '@/components/layout/DefaultLayout';
-import useIsMobileViewport from '@/hooks/useIsMobileViewport';
+// import useIsMobileViewport from '@/hooks/useIsMobileViewport';
 import { ThemeProvider } from 'styled-components';
 import { lightTheme } from '@/styles/theme';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // 이미지 import
 import BetaMainImg from '@/assets/banner/beta-main.svg';
@@ -20,15 +21,17 @@ import ShoppingmallAuction from '@/assets/banner/shoppingmall-auction.svg';
 import ShoppingmallSsg from '@/assets/banner/shoppingmall-ssg.svg';
 import ShoppingmallGmarket from '@/assets/banner/shoppingmall-gmarket.svg';
 import Marquee from '@/components/common/Marquee';
+import { shareUrl } from '@/utils/share';
 
 const JoinBetaPage = () => {
-    const isMobile = useIsMobileViewport();
+    // const isMobile = useIsMobileViewport();
+    const navigate = useNavigate();
     const [visibleItems, setVisibleItems] = useState<boolean[]>([false, false, false, false]);
     const descRef1 = useRef<HTMLDivElement>(null);
     const descRef2 = useRef<HTMLDivElement>(null);
     const descRef3 = useRef<HTMLDivElement>(null);
     const lastlyRef = useRef<HTMLDivElement>(null);
-    const descRefs = [descRef1, descRef2, descRef3, lastlyRef];
+    const descRefs = useMemo(() => [descRef1, descRef2, descRef3, lastlyRef] as const, [descRef1, descRef2, descRef3, lastlyRef]);
 
     // 쇼핑몰 아이콘 배열 (확장 가능하도록 설계)
     const shoppingmallIcons = [
@@ -51,7 +54,7 @@ const JoinBetaPage = () => {
                 document.documentElement.setAttribute('data-theme', originalTheme);
             }
         };
-    }, []);
+    }, [descRefs]);
 
     // 스크롤 애니메이션을 위한 Intersection Observer
     useEffect(() => {
@@ -145,11 +148,27 @@ const JoinBetaPage = () => {
                                     <button type="button" className={`${styles.actionButton} ${styles.primary}`} aria-label="베타테스터 신청">
                                         베타테스터 신청
                                     </button>
-                                    <button type="button" className={`${styles.actionButton} ${styles.secondary}`} aria-label="친구한테 공유하기">
-                                        친구한테 공유하기
+                                    <button
+                                        type="button"
+                                        className={`${styles.actionButton} ${styles.secondary}`}
+                                        aria-label="친구한테 공유하기"
+                                        onClick={() =>
+                                            shareUrl(window.location.href, {
+                                                title: document.title || '체리픽',
+                                                text: '리픽 베타테스터 신청 페이지를 공유합니다',
+                                                showAlerts: true,
+                                            })
+                                        }
+                                    >
+                                        친구한테 공유
                                     </button>
-                                    <button type="button" className={`${styles.actionButton} ${styles.secondary}`} aria-label="서비스 구경하기">
-                                        서비스 구경하기
+                                    <button
+                                        type="button"
+                                        className={`${styles.actionButton} ${styles.secondary}`}
+                                        aria-label="메인페이지 이동"
+                                        onClick={() => navigate('/')}
+                                    >
+                                        메인페이지 이동
                                     </button>
                                 </div>
                             </div>
