@@ -1,28 +1,92 @@
+/* Light 테마 강제 적용 wrapper */
+.lightThemeWrapper {
+  --color-primary: #DB2726;
+  --color-content-main: #333333;
+  --color-content-sub: #767676;
+  --color-content-tertiary: #cccccc;
+  --color-background-root: #ffffff;
+  --color-background-board: #fbfbfb;
+  --color-background-card: #ffffff;
+  --color-border-board: #e6e6e6;
+  --color-border-card: #f2f2f2;
+  --color-neutral-0: #ffffff;
+  --color-neutral-20: #fbfbfb;
+  --color-neutral-50: #f2f2f2;
+  --color-neutral-100: #e6e6e6;
+  --color-neutral-200: #cccccc;
+  --color-neutral-300: #b3b3b3;
+  --color-neutral-400: #999999;
+  --color-neutral-500: #808080;
+  --color-neutral-600: #666666;
+  --color-neutral-700: #4d4d4d;
+  --color-neutral-800: #333333;
+  --color-neutral-900: #1a1a1a;
+}
+
 .container {
   display: flex;
   flex: 1;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 0;
+  background-color: #ffffff;
 }
 
-.joinBetaBoxWrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 31.25rem;
-  margin-top: 5rem;
-  padding: 3.75rem 2rem 2rem 2rem;
-  border: 0.0625rem solid var(--color-border-card);
-  border-bottom: none;
-  border-radius: 1.25rem 1.25rem 0 0;
-  background-color: var(--color-background-card);
-  box-shadow: var(--card-shadow);
-}
-
-.joinBetaBoxMobile {
+.contentWrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  padding: 3.75rem 2rem 2rem 2rem;
+  max-width: 400px;
+  margin: 0 auto;
+  border-left: 1px solid var(--color-border-board);
+  border-right: 1px solid var(--color-border-board);
+  min-height: 100vh;
+  background: linear-gradient(to bottom, var(--color-neutral-20), var(--color-neutral-100));
+}
+
+/* Main 이미지 스타일 */
+.mainImageWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.mainImage {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Description 컨테이너 */
+.descriptionContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  padding-top: 0.5rem;
+}
+
+/* Description 박스 스타일 */
+.descriptionBox {
+  background-color: var(--color-background-card);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  margin: 0 1.5rem;
+  transform: translateY(50px);
+  opacity: 0;
+  transition: all 0.8s ease-out;
+}
+
+.descriptionBox.visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.descriptionImage {
+  width: 100%;
+  height: auto;
+  display: block;
 }
