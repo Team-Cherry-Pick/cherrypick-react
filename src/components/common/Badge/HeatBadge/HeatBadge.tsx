@@ -1,6 +1,6 @@
 import styles from './HeatBadge.module.css';
 import { createBoundClassNames } from '@/utils/classNameBinder';
-import { getHeatDisplay } from '@/utils/heat';
+import { getHeatDisplay, formatHeatScore } from '@/utils/heat';
 
 const cx = createBoundClassNames(styles);
 
@@ -24,7 +24,7 @@ export function HeatBadge({ heat, size = 'small' }: HeatBadgeProps) {
             <span className={cx('icon')}>
                 <Icon style={{ width: size === 'large' ? 18 : 18, height: size === 'large' ? 18 : 18, verticalAlign: 'middle' }} />
             </span>
-            <span className={cx('heat-value')}>{heat}°</span>
+            <span className={cx('heat-value')}>{formatHeatScore(heat)}°</span>
         </div>
     );
 }
