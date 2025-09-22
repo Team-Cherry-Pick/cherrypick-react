@@ -56,20 +56,6 @@ const JoinBetaPage = () => {
         { src: ShoppingmallSsg, alt: 'SSG' },
         { src: ShoppingmallGmarket, alt: 'G Market' }
     ];
-
-    // Join-Beta 페이지에서는 항상 light 테마 유지
-    useEffect(() => {
-        const originalTheme = document.documentElement.getAttribute('data-theme');
-        document.documentElement.setAttribute('data-theme', 'light');
-
-        return () => {
-            // 페이지를 떠날 때 원래 테마로 복구
-            if (originalTheme) {
-                document.documentElement.setAttribute('data-theme', originalTheme);
-            }
-        };
-    }, [descRefs]);
-
     // 회원인 경우 프로필 새로고침
     useEffect(() => {
         if (isLoggedIn) {

@@ -104,8 +104,8 @@
   height: 3rem;
   margin-top: 0.75rem;
   border-radius: 0.5rem;
-  background: linear-gradient(135deg, var(--color-neutral-700) 0%, var(--color-neutral-900) 100%);
-  border: 1px solid var(--color-neutral-600);
+  background: linear-gradient(135deg, var(--color-achromatic-700) 0%, var(--color-achromatic-900) 100%);
+  border: 1px solid var(--color-neutral-300);
   cursor: pointer;
 }
 

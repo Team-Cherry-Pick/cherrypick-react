@@ -1,28 +1,3 @@
-/* Light 테마 강제 적용 wrapper */
-.lightThemeWrapper {
-  --color-primary: #DB2726;
-  --color-content-main: #333333;
-  --color-content-sub: #767676;
-  --color-content-tertiary: #cccccc;
-  --color-background-root: #ffffff;
-  --color-background-board: #fbfbfb;
-  --color-background-card: #ffffff;
-  --color-border-board: #e6e6e6;
-  --color-border-card: #f2f2f2;
-  --color-neutral-0: #ffffff;
-  --color-neutral-20: #fbfbfb;
-  --color-neutral-50: #f2f2f2;
-  --color-neutral-100: #e6e6e6;
-  --color-neutral-200: #cccccc;
-  --color-neutral-300: #b3b3b3;
-  --color-neutral-400: #999999;
-  --color-neutral-500: #808080;
-  --color-neutral-600: #666666;
-  --color-neutral-700: #4d4d4d;
-  --color-neutral-800: #333333;
-  --color-neutral-900: #1a1a1a;
-}
-
 .container {
   display: flex;
   flex: 1;
@@ -30,7 +5,6 @@
   align-items: flex-start;
   min-height: 100vh;
   padding: 0;
-  background-color: #ffffff;
 }
 
 .contentWrapper {
@@ -43,7 +17,7 @@
   border-left: 1px solid var(--color-border-board);
   border-right: 1px solid var(--color-border-board);
   min-height: 100vh;
-  background: linear-gradient(to bottom, var(--color-neutral-0), var(--color-neutral-100));
+  background: linear-gradient(to bottom, var(--color-achromatic-100), var(--color-achromatic-200));
 }
 
 /* Main 이미지 스타일 */
@@ -51,7 +25,7 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  padding: 0 1.5rem;
+  padding: 2rem 1.5rem 0 1.5rem;
 }
 
 .mainImage {
@@ -68,7 +42,7 @@
   align-items: center;
   margin: 3rem 0 1rem 0;
   padding: 0.25rem 1rem;
-  background-color: var(--color-content-sub);
+  background-color: var(--color-achromatic-600);
   border-radius: 2rem;
 }
 
@@ -79,7 +53,7 @@
   align-items: center;
   margin: 3rem 0 1rem 0;
   padding: 0.25rem 1rem;
-  background-color: var(--color-content-sub);
+  background-color: var(--color-achromatic-800);
   border-radius: 2rem;
 }
 
@@ -102,14 +76,14 @@
 
 /* Description 박스 스타일 */
 .descriptionBox {
-  background-color: var(--color-background-card);
+  background-color: var(--color-achromatic-0);
   border-radius: 0.75rem;
   overflow: hidden;
   margin: 0 1.5rem;
   transform: translateY(50px);
   opacity: 0;
   transition: all 0.8s ease-out;
-  border: 1px solid var(--color-neutral-100);
+  border: 1px solid var(--color-achromatic-100);
 }
 
 .descriptionBox.visible {
@@ -135,7 +109,7 @@
   transform: translateY(50px);
   opacity: 0;
   transition: all 0.8s ease-out;
-  border: 1px solid var(--color-neutral-100);
+  border: 1px solid var(--color-achromatic-100);
   position: relative;
   padding: 0.8rem 0.6rem 0.6rem 0.6rem;
 }
@@ -165,22 +139,20 @@
   width: 100%;
   height: 44px;
   border-radius: 0.5rem;
-  border: 1px solid var(--color-border-board);
-  background-color: var(--color-content-sub);
   font-size: 0.95rem;
   font-weight: 600;
 }
 
 .primary {
-  background: linear-gradient(135deg, var(--color-neutral-700) 0%, var(--color-neutral-900) 100%);
-  border: 1px solid var(--color-neutral-600);
+  background: linear-gradient(135deg, var(--color-achromatic-700) 0%, var(--color-achromatic-900) 100%);
+  border: 1px solid var(--color-achromatic-600);
   color: white;
 }
 
 .secondary {
-  background: linear-gradient(135deg, var(--color-neutral-0) 0%, var(--color-neutral-100) 100%);
+  background: linear-gradient(135deg, var(--color-achromatic-0) 0%, var(--color-achromatic-100) 100%);
   border: none;
-  color: var(--color-content-main);
+  color: var(--color-achromatic-800);
 }
 
 .actionButton:active {
@@ -188,8 +160,8 @@
 }
 
 .actionButton:disabled {
-  background: var(--color-content-tertiary);
-  color: var(--color-content-sub);
+  background: var(--color-achromatic-300);
+  color: var(--color-achromatic-600);
   border: none;
   cursor: not-allowed;
   transform: none;
