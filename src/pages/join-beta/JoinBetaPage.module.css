@@ -43,7 +43,7 @@
   border-left: 1px solid var(--color-border-board);
   border-right: 1px solid var(--color-border-board);
   min-height: 100vh;
-  background: linear-gradient(to bottom, var(--color-neutral-0), var(--color-neutral-100));
+  background: linear-gradient(to bottom, var(--color-neutral-0), var(--color-neutral-50));
 }
 
 /* Main 이미지 스타일 */
@@ -173,12 +173,12 @@
 
 .primary {
   background: linear-gradient(135deg, var(--color-neutral-700) 0%, var(--color-neutral-900) 100%);
-  border: 1px solid var(--color-neutral-800);
+  border: 1px solid var(--color-neutral-600);
   color: white;
 }
 
 .secondary {
-  background-color: var(--color-neutral-50);
+  background: linear-gradient(135deg, var(--color-neutral-0) 0%, var(--color-neutral-100) 100%);
   border: none;
   color: var(--color-content-main);
 }
@@ -188,11 +188,23 @@
 }
 
 /* Marquee 컨테이너: 박스 크기 변화 없이 하단에 고정, 그라데이션 제거(단색 배경) */
+.marqueeBox {
+  height: 120px;
+  width: 100%;
+  position: relative; /* absolute 자식의 기준 */
+  overflow: hidden; /* 자식이 박스를 넘지 않도록 클리핑 */
+}
+
 .marqueeContainer {
   position: absolute;
-  top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: 0; /* 하단 고정 */
+  height: 48px; /* Marquee height과 동일하게 설정하여 클리핑 보장 */
+  overflow: hidden; /* 내부 트랙이 박스를 벗어나지 않게 클리핑 */
+  width: 100%;
+  box-sizing: border-box;
   pointer-events: none;
+  margin-bottom: 1rem;
+  opacity: 0.9;
 }

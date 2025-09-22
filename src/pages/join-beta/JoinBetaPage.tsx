@@ -132,6 +132,7 @@ const JoinBetaPage = () => {
                                     베타테스터 모집<br />
                                 </p>
                             </div>
+
                             {/* Beta Lastly 이미지 */}
                             <div
                                 ref={lastlyRef}
@@ -147,21 +148,25 @@ const JoinBetaPage = () => {
                                     <button type="button" className={`${styles.actionButton} ${styles.secondary}`} aria-label="친구한테 공유하기">
                                         친구한테 공유하기
                                     </button>
-                                    <button type="button" className={`${styles.actionButton} ${styles.secondary}`} aria-label="서비스 둘러보기">
-                                        서비스 둘러보기
+                                    <button type="button" className={`${styles.actionButton} ${styles.secondary}`} aria-label="서비스 구경하기">
+                                        서비스 구경하기
                                     </button>
                                 </div>
                             </div>
 
-                            {/* 무한 마키 효과 쇼핑몰 아이콘들 */}
-                            <div className={styles.marqueeContainer}>
-                                <Marquee
-                                    icons={shoppingmallIcons}
-                                    height={48}
-                                    gap={16}
-                                    durationSec={16}
-                                    direction="ltr"
-                                />
+                            <div
+                                className={`${styles.marqueeBox} ${visibleItems[3] ? styles.visible : ''}`}
+                            >
+                                {/* 무한 마키 효과 쇼핑몰 아이콘들 */}
+                                <div className={styles.marqueeContainer}>
+                                    <Marquee
+                                        icons={shoppingmallIcons}
+                                        height={60}
+                                        gap={16}
+                                        durationSec={16}
+                                        direction="ltr"
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
