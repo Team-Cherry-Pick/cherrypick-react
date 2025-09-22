@@ -1,8 +1,28 @@
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 50vh;
-    padding: 2rem;
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+}
+
+.joinBetaBoxWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 31.25rem;
+  margin-top: 5rem;
+  padding: 3.75rem 2rem 2rem 2rem;
+  border: 0.0625rem solid var(--color-border-card);
+  border-bottom: none;
+  border-radius: 1.25rem 1.25rem 0 0;
+  background-color: var(--color-background-card);
+  box-shadow: var(--card-shadow);
+}
+
+.joinBetaBoxMobile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 3.75rem 2rem 2rem 2rem;
 }
