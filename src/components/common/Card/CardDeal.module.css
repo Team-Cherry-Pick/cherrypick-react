@@ -34,7 +34,7 @@
 .image {
   width: 100%;
   height: 100%;
-  border-radius: 0.5rem;
+  border-radius: 0.5rem 0.5rem 0 0;
   object-fit: cover;
   object-position: center;
 }
@@ -178,16 +178,21 @@
 .percent {
   display: inline-flex;
   position: static;
-  font-size: var(--font-size-lg);
+  color: var(--color-content-sub);
+  font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
 }
 
 .price {
   display: inline-block;
   position: static;
-  color: var(--color-content-main);
+  background: linear-gradient(90deg, #FF8067 0%, #FF4635 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-semibold);
+  margin-left: 0.25rem;
 }
 
 .meta {
@@ -271,6 +276,10 @@
     overflow: visible;
     object-fit: cover;
     flex-shrink: 0;
+  }
+
+  .image {
+    border-radius: 0.5rem;
   }
 
   .infoBox {
