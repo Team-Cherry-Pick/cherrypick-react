@@ -15,10 +15,10 @@ import { GA4Events } from '@/utils/ga4';
 import { getAuthKakao } from '@/services/apiAuth';
 
 // 이미지 import
-import BetaMainImg from '@/assets/banner/beta-main.svg';
-import BetaDescFirstImg from '@/assets/banner/beta-desc-first.svg';
-import BetaDescSecondImg from '@/assets/banner/beta-desc-second.svg';
-import BetaDescThirdImg from '@/assets/banner/beta-desc-third.svg';
+import BetaMainImg from '@/assets/banner/beta-main.png';
+import BetaDescFirstImg from '@/assets/banner/beta-desc-first.jpg';
+import BetaDescSecondImg from '@/assets/banner/beta-desc-second.jpg';
+import BetaDescThirdImg from '@/assets/banner/beta-desc-third.jpg';
 import BetaLastlyImg from '@/assets/banner/beta-lastly.svg';
 
 // 쇼핑몰 아이콘 import
