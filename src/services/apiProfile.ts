@@ -1,5 +1,5 @@
 import { HttpMethod } from "@/types/Api";
-import { GetNicknameValidationRes, GetUserRes, PatchUserReq, PatchUserRes } from "@/types/Profile";
+import { GetNicknameValidationRes, GetUserRes, PatchUserReq, PatchUserRes, PostBetaTesterBadgeRes } from "@/types/Profile";
 import { authRequest, publicRequest } from "./apiClient";
 
 /**
@@ -40,6 +40,20 @@ export async function getUser(): Promise<GetUserRes> {
  */
 export async function patchUser(request: PatchUserReq): Promise<PatchUserRes> {
     const result = await authRequest<PatchUserRes>(HttpMethod.PATCH, `/user`, request);
+    if (result.success) {
+        return result.data;
+    } else {
+        throw result.error;
+    }
+}
+
+/**
+ * 베타테스터 배지 요청 API
+ * 
+ * @returns PostBetaTesterBadgeRes: 처리 결과 메시지
+ */
+export async function postBetaTesterBadge(): Promise<PostBetaTesterBadgeRes> {
+    const result = await authRequest<PostBetaTesterBadgeRes>(HttpMethod.POST, `/user/badge/beta-tester`);
     if (result.success) {
         return result.data;
     } else {

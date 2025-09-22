@@ -58,5 +58,9 @@ export interface User {
     badgeId: number;
 }
 
+export interface PostBetaTesterBadgeRes {
+    message: string;
+}
+
 export type GetUserRes = User;
 export type PatchUserRes = User;
