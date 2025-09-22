@@ -6,6 +6,8 @@ import type {
     UpdateDeal,
     UploadDealResponse,
     Store,
+    ProductInfo,
+    CategorySuggestion,
 } from '@/types/Deal';
 import { cleanTitle, cleanStore } from '@/utils/stringCleaner';
 import { HttpMethod } from '@/types/Api';
@@ -80,7 +82,7 @@ export async function fetchDiscounts(): Promise<{ discountId: number; name: stri
 }
 
 export async function getPurchaseLog(dealID: number): Promise<void> {
-    await authRequest<any>(HttpMethod.GET, `/deal/purchase-log?dealId=${dealID}`);
+    await authRequest<unknown>(HttpMethod.GET, `/deal/purchase-log?dealId=${dealID}`);
     return;
 }
 
@@ -94,4 +96,34 @@ export async function deleteDeal(dealId: number) {
 
 export async function updateDeal(deal: UpdateDeal) {
     return authRequest(HttpMethod.PATCH, '/deal', deal);
+}
+
+export async function getProductInfoForRepik(url: string): Promise<ProductInfo> {
+    const result = await publicRequest<ProductInfo>(
+        HttpMethod.GET, 
+        `/toolbox/product-info-for-repik?url=${encodeURIComponent(url)}`,
+        undefined,
+        { timeout: 15000 } // 30초로 타임아웃 증가
+    );
+    
+    if (result.success) {
+        return result.data;
+    } else {
+        throw result.error;
+    }
+}
+
+export async function getCategorySuggestionForRepik(title: string): Promise<CategorySuggestion> {
+    const result = await publicRequest<CategorySuggestion>(
+        HttpMethod.GET,
+        `/toolbox/category-suggestion-for-repik?title=${encodeURIComponent(title)}`,
+        undefined,
+        { timeout: 15000 } // 30초로 타임아웃 증가
+    );
+    
+    if (result.success) {
+        return result.data;
+    } else {
+        throw result.error;
+    }
 }

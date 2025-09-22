@@ -13,20 +13,28 @@ import {
 } from './components';
 import { useAtom } from 'jotai';
 import { newDealAtom } from '@/store';
-import { fetchDetailedDeal, uploadDeal, updateDeal } from '@/services/apiDeal';
+import { fetchDetailedDeal, uploadDeal, updateDeal, getProductInfoForRepik, getCategorySuggestionForRepik } from '@/services/apiDeal';
 import { GA4Events } from '@/utils/ga4';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import type { DealImage, UpdateDeal } from '@/types/Deal';
+import type { CategorySuggestion, UpdateDeal } from '@/types/Deal';
 import { useImageUpload } from '@/hooks/useImageUpload';
 import { selectedDiscountAtom } from '@/store/search';
 import { uploadSelectedCategoryAtom } from '@/store/category';
+import { overlay } from '@/context/overlay';
+import { ProgressModal } from '@/components/common/ProgressModal/ProgressModal';
+import useIsMobileViewport from '@/hooks/useIsMobileViewport';
+import aiIcon from '@/assets/icons/ai-Icon.svg';
+import aiActiveIcon from '@/assets/icons/ai-active-Icon.svg';
 
 export default function ProductUploadPage() {
     const navigate = useNavigate();
     const { dealId } = useParams();
+    const isMobile = useIsMobileViewport();
 
     const [deal, setDeal] = useAtom(newDealAtom);
+    const [aiActive, setAiActive] = useState(false);
+    const [animationClass, setAnimationClass] = useState('');
     const imageUpload = useImageUpload();
     const [, setSelectedDiscount] = useAtom(selectedDiscountAtom);
     const [, setUploadSelectedCategory] = useAtom(uploadSelectedCategoryAtom);
@@ -47,6 +55,121 @@ export default function ProductUploadPage() {
             deal.shipping.shippingPrice === 0
         );
     const isContentValid = deal.content.length > 0;
+
+    const prevAiActive = useRef(aiActive);
+
+    useEffect(() => {
+        if (prevAiActive.current === aiActive) return;
+        if (aiActive) {
+            setAnimationClass(styles.aiToggleContentFadeIn);
+        } else {
+            setAnimationClass(styles.aiToggleContentFadeOut);
+        }
+        prevAiActive.current = aiActive;
+    }, [aiActive]);
+
+    const handleAiToggle = () => {
+        setAiActive(prev => !prev);
+    };
+
+    // 공통 데이터 처리 함수 (수정 모드와 AI 기능에서 공통 사용)
+    const populateFormWithData = (data: any) => {
+        setDeal(prevDeal => ({
+            ...prevDeal, // 기존 값 유지
+            title: data.title,
+            categoryId: data.categoryId || undefined,
+            imageIds: data.imageUrls ? data.imageUrls.map((img: any) => img.imageId || img.id) : [],
+            originalUrl: data.originalUrl,
+            storeId: data.storeId || data.store?.storeId,
+            storeName: data.store?.storeName || data.storeName || '',
+            price: {
+                priceType: data.price.priceType,
+                regularPrice: data.price.regularPrice,
+                discountedPrice: data.price.discountedPrice,
+            },
+            shipping: {
+                shippingType: data.shipping.shippingType,
+                shippingPrice: data.shipping.shippingPrice || 0,
+                shippingRule: data.shipping.shippingRule || '',
+            },
+            content: data.content || '',
+            // 할인정보: 데이터에 있으면 사용, 없으면 기존 값 유지
+            discountIds: data.discountIds !== undefined ? data.discountIds : prevDeal.discountIds,
+            discountNames: data.discountName !== undefined ?
+                data.discountName.split(',').map((name: string) => name.trim()) :
+                prevDeal.discountNames,
+        }));
+
+        // 이미지 설정 (API 응답 구조에 따라 다르게 처리)
+        if (data.imageUrls && data.imageUrls.length > 0) {
+            imageUpload.setImages(
+                data.imageUrls.map((img: any) => ({
+                    imageId: img.imageId || img.id,
+                    imageUrl: img.url,
+                    indexes: img.indexes || img.index,
+                }))
+            );
+        }
+    };
+
+    // AI 기능으로 URL에서 상품 정보 자동 추출
+    const handleAiFetchProductInfo = async (url: string) => {
+        if (!aiActive || !url.trim()) return;
+
+        // 프로그레스 모달 열기 - 상품 정보 분석 메시지
+        const progressModalId = overlay.open(props =>
+            <ProgressModal {...props} message="상품 정보를 AI로 분석하고 있습니다.." />
+        );
+
+        try {
+            const productInfo = await getProductInfoForRepik(url);
+            // 기존 수정 로직과 동일한 방식으로 처리
+            populateFormWithData(productInfo);
+
+            // 상품 정보에서 title이 있으면 카테고리 추천도 자동 실행
+            if (productInfo.title && productInfo.title.trim()) {
+                const suggestion: CategorySuggestion = await getCategorySuggestionForRepik(productInfo.title);
+                if (suggestion.categorys && suggestion.categorys.length > 0) {
+                    setUploadSelectedCategory({
+                        categoryId: suggestion.categoryId,
+                        path: suggestion.categorys,
+                    });
+                }
+            } else {
+                overlay.close(progressModalId);
+            }
+        } catch (error) {
+            console.error('AI 상품 정보 추출 실패:', error);
+            alert('상품 정보를 가져오는데 실패했습니다. URL을 다시 확인해주세요.');
+        } finally {
+            overlay.close(progressModalId);
+        }
+    };
+
+    // AI 기능으로 제목에서 카테고리 자동 추천
+    const handleAiCategorySuggestion = async (title: string) => {
+        if (!aiActive || !title.trim()) return;
+
+        const progressModalId = overlay.open(props =>
+            <ProgressModal {...props} message="상품 정보를 AI로 분석하고 있습니다.." />
+        );
+
+        try {
+            const suggestion: CategorySuggestion = await getCategorySuggestionForRepik(title);
+
+            if (suggestion.categorys && suggestion.categorys.length > 0) {
+                setUploadSelectedCategory({
+                    categoryId: suggestion.categoryId,
+                    path: suggestion.categorys,
+                });
+            }
+        } catch (error) {
+            console.error('AI 카테고리 추천 실패:', error);
+            alert('상품 정보를 가져오는데 실패했습니다. 상품명을 다시 확인해주세요.');
+        } finally {
+            overlay.close(progressModalId);
+        }
+    };
 
     const handleSubmit = async () => {
         if (valid) {
@@ -76,7 +199,7 @@ export default function ProductUploadPage() {
         }
 
         const imageIds = imageUpload.images.map(image => image.imageId);
-        
+
         setDeal({
             ...deal,
             imageIds,
@@ -162,36 +285,9 @@ export default function ProductUploadPage() {
             if (dealId) {
                 try {
                     const d = await fetchDetailedDeal(dealId);
-                    setDeal({
-                        title: d.title,
-                        categoryId: d.categoryId,
-                        imageIds: d.imageUrls ? d.imageUrls.map((img: DealImage) => img.imageId) : [],
-                        originalUrl: d.originalUrl,
-                        storeId: d.storeId ? d.storeId : undefined,
-                        storeName: d.store?.storeName || '',
-                        price: {
-                            priceType: d.price.priceType,
-                            regularPrice: d.price.regularPrice,
-                            discountedPrice: d.price.discountedPrice,
-                        },
-                        shipping: {
-                            shippingType: d.shipping.shippingType,
-                            shippingPrice: d.shipping.shippingPrice,
-                            shippingRule: d.shipping.shippingRule,
-                        },
-                        content: d.content || '',
-                        discountIds: d.discountIds || [],
-                        discountNames: d.discountName ? d.discountName.split(',').map(name => name.trim()) : [],
-                    });
-                    // discountIds/discountName을 selectedDiscountAtom에도 반영
-                    setSelectedDiscount(
-                        (d.discountIds || []).map((id: number, idx: number) => ({
-                            discountId: id,
-                            name: d.discountName
-                                ? d.discountName.split(',').map((n: string) => n.trim())[idx] || ''
-                                : '',
-                        }))
-                    );
+
+                    // 공통 함수로 폼 데이터 설정
+                    populateFormWithData(d);
 
                     // 카테고리 정보를 uploadSelectedCategoryAtom에 설정
                     if (d.categoryId && d.categorys && d.categorys.length > 0) {
@@ -200,23 +296,13 @@ export default function ProductUploadPage() {
                             path: d.categorys,
                         });
                     }
-
-                    if (d.imageUrls && d.imageUrls.length > 0) {
-                        imageUpload.setImages(
-                            d.imageUrls.map((img: DealImage) => ({
-                                imageId: img.imageId,
-                                imageUrl: img.url,
-                                indexes: img.indexes,
-                            }))
-                        );
-                    }
                 } catch {
                     alert('핫딜 정보를 불러오지 못했습니다.');
                 }
-            } 
+            }
         };
         init();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dealId, setDeal, setSelectedDiscount, setUploadSelectedCategory]);
 
     return (
@@ -240,30 +326,97 @@ export default function ProductUploadPage() {
                         </button>
                     </div>
                     <div className={styles.contentWrapper}>
-                        <div className={styles.sectionWrapper}>
-                            <div className={styles.section}>
-                                <div className={styles.sectionTitle}>이미지</div>
-                                <ProductImageUpload
-                                    images={imageUpload.images}
-                                    inputRef={imageUpload.inputRef}
-                                    containerRef={imageUpload.containerRef}
-                                    handleFileSelect={imageUpload.handleFileSelect}
-                                    handleDropFiles={imageUpload.handleDropFiles}
-                                    handleRemove={imageUpload.handleRemove}
-                                />
-                            </div>
-                        </div>
-                        <div className={styles.sectionDivider} />
-                        <div className={styles.sectionWrapper}>
-                            <div className={styles.section}>
-                                <div className={styles.sectionTitle}>상품 정보</div>
-                                <ProductInfo />
-                            </div>
-                            <div className={styles.section}>
-                                <div className={styles.sectionTitle}>링크 정보</div>
-                                <LinkInfo />
-                            </div>
-                        </div>
+                        {isMobile ? (
+                            <>
+                                <div className={styles.sectionWrapper}>
+                                    <div className={styles.section}>
+                                        <div className={styles.sectionTitleWithToggle}>
+                                            <div className={styles.sectionTitle}>링크 정보</div>
+                                            <div className={styles.aiToggleWrapper}>
+                                                <button
+                                                    className={`${styles.aiToggleButton} ${aiActive && styles.aiToggleButton_active}`}
+                                                    onClick={handleAiToggle}
+                                                >
+                                                    <div className={styles.aiToggleButton__gradient} />
+                                                    <div className={`${styles.aiToggleIconWrapper} ${aiActive && styles.aiToggleIconWrapper_active}`}>
+                                                        <img src={aiIcon} />
+                                                        <img className={styles.aiIcon_active} src={aiActiveIcon} />
+                                                    </div>
+                                                    <div className={`${styles.aiToggleContent} ${animationClass}`}>AI 작성 </div>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <LinkInfo
+                                            aiActive={aiActive}
+                                            onAiFetchProductInfo={handleAiFetchProductInfo}
+                                        />
+                                    </div>
+                                </div>
+                                <div className={styles.sectionDivider} />
+                                <div className={styles.sectionWrapper}>
+                                    <div className={styles.section}>
+                                        <div className={styles.sectionTitle}>이미지</div>
+                                        <ProductImageUpload
+                                            images={imageUpload.images}
+                                            inputRef={imageUpload.inputRef}
+                                            containerRef={imageUpload.containerRef}
+                                            handleFileSelect={imageUpload.handleFileSelect}
+                                            handleDropFiles={imageUpload.handleDropFiles}
+                                            handleRemove={imageUpload.handleRemove}
+                                        />
+                                    </div>
+                                    <div className={styles.section}>
+                                        <div className={styles.sectionTitle}>상품 정보</div>
+                                        <ProductInfo onAiCategorySuggestion={handleAiCategorySuggestion} />
+                                    </div>
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <div className={styles.sectionWrapper}>
+                                    <div className={styles.section}>
+                                        <div className={styles.sectionTitle}>이미지</div>
+                                        <ProductImageUpload
+                                            images={imageUpload.images}
+                                            inputRef={imageUpload.inputRef}
+                                            containerRef={imageUpload.containerRef}
+                                            handleFileSelect={imageUpload.handleFileSelect}
+                                            handleDropFiles={imageUpload.handleDropFiles}
+                                            handleRemove={imageUpload.handleRemove}
+                                        />
+                                    </div>
+                                </div>
+                                <div className={styles.sectionDivider} />
+                                <div className={styles.sectionWrapper}>
+                                    <div className={styles.section}>
+                                        <div className={styles.sectionTitleWithToggle}>
+                                            <div className={styles.sectionTitle}>링크 정보</div>
+                                            <div className={styles.aiToggleWrapper}>
+                                                <button
+                                                    className={`${styles.aiToggleButton} ${aiActive && styles.aiToggleButton_active}`}
+                                                    onClick={handleAiToggle}
+                                                >
+                                                    <div className={styles.aiToggleButton__gradient} />
+                                                    <div className={`${styles.aiToggleIconWrapper} ${aiActive && styles.aiToggleIconWrapper_active}`}>
+                                                        <img src={aiIcon} />
+                                                        <img className={styles.aiIcon_active} src={aiActiveIcon} />
+                                                    </div>
+                                                    <div className={`${styles.aiToggleContent} ${animationClass}`}>AI 작성</div>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <LinkInfo
+                                            aiActive={aiActive}
+                                            onAiFetchProductInfo={handleAiFetchProductInfo}
+                                        />
+                                    </div>
+                                    <div className={styles.section}>
+                                        <div className={styles.sectionTitle}>상품 정보</div>
+                                        <ProductInfo onAiCategorySuggestion={handleAiCategorySuggestion} />
+                                    </div>
+                                </div>
+                            </>
+                        )}
                         <div className={styles.sectionDivider} />
                         <div className={styles.sectionWrapper}>
                             <div className={styles.section}>
