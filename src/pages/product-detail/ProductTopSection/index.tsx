@@ -146,10 +146,12 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
                         </S.ShareButton>
                         <S.BuyButton
                             onClick={() => {
-                                if (deal.originalUrl) {
-                                    GA4Events.clickPurchase(deal.dealId, deal.originalUrl);
+                                // deepLink가 있으면 deepLink 우선, 없으면 originalUrl 사용
+                                const targetUrl = deal.deepLink || deal.originalUrl;
+                                if (targetUrl) {
+                                    GA4Events.clickPurchase(deal.dealId, targetUrl);
                                     getPurchaseLog(deal.dealId).catch(() => {});
-                                    window.open(deal.originalUrl, '_blank');
+                                    window.open(targetUrl, '_blank');
                                 }
                             }}
                         >
