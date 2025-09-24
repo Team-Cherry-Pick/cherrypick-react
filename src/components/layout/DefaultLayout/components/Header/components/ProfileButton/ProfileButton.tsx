@@ -33,7 +33,7 @@ const ProfileButton = () => {
         if (isLoggedIn()) {
             setOpen(prev => !prev);
         } else {
-            navigate('/login');
+            navigate('/join-beta ');
         }
     };
 
@@ -83,7 +83,7 @@ const ProfileButton = () => {
                         )}
                     </div>
                 ) : (
-                    <span className={styles.loginText}>로그인</span>
+                    <span className={styles.loginText}>베타 신청</span>
                 )}
             </button>
 
