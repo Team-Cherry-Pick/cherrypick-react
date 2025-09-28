@@ -1,9 +1,7 @@
-import Footer from './components/Footer';
 import Header from './components/Header';
 import styles from './DefaultLayout.module.css';
 import { useLocation } from 'react-router-dom';
 import { ThemeProvider } from '@/styles/global/ThemeProvider';
-import useIsMobileViewport from '@/hooks/useIsMobileViewport';
 
 interface DefaultLayoutProps {
     children: React.ReactNode;
@@ -14,7 +12,6 @@ interface DefaultLayoutProps {
 export default function DefaultLayout({ children, background = 'root', onSearchClick }: DefaultLayoutProps) {
     const location = useLocation();
     const isFullWidth = location.pathname === '/upload';
-    const isMobile = useIsMobileViewport();
 
     return (
         <ThemeProvider>
@@ -29,7 +26,6 @@ export default function DefaultLayout({ children, background = 'root', onSearchC
                 }}>
                     <div className={`${styles.inner} ${isFullWidth && styles.innerFullWidth}`}>{children}</div>
                 </main>
-                {!isMobile && <Footer background={'board'} />}
             </div>
         </ThemeProvider>
     );

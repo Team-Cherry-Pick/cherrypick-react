@@ -11,6 +11,7 @@ import { useRefreshProfile } from '@/hooks/useRefreshProfile';
 import { GA4Events } from '@/utils/ga4';
 import PersonIcon from '@/assets/icons/person-Icon.svg';
 import RightArrowIcon from '@/assets/icons/right-arrow-Icon.svg?react';
+import Logo from '@/assets/icons/black-logo-Icon.svg?react';
 
 const MyPage = () => {
     const navigate = useNavigate();
@@ -53,6 +54,26 @@ const MyPage = () => {
     const handleSettings = () => {
         GA4Events.pageView('/my-page/settings', '설정 페이지 이동');
         // TODO: 설정 페이지로 이동 로직 추가
+    };
+
+    const handleNotice = () => {
+        GA4Events.pageView('/my-page/notice', '공지사항 페이지 이동');
+        window.open('https://repik-help.notion.site/', '_blank', 'noopener,noreferrer');
+    };
+
+    const handleTerms = () => {
+        GA4Events.pageView('/my-page/terms', '이용약관 페이지 이동');
+        window.open('https://repik-help.notion.site/terms-of-services', '_blank', 'noopener,noreferrer');
+    };
+
+    const handlePrivacy = () => {
+        GA4Events.pageView('/my-page/privacy', '개인정보처리방침 페이지 이동');
+        window.open('https://repik-help.notion.site/privacy-policy', '_blank', 'noopener,noreferrer');
+    };
+
+    const handleCommunication = () => {
+        GA4Events.pageView('/my-page/communication', '리픽 운영진과의 소통 페이지 이동');
+        window.open('http://pf.kakao.com/_TwEUn/chat', '_blank', 'noopener,noreferrer');
     };
 
     // 로그인되지 않은 경우 렌더링하지 않음
@@ -124,25 +145,36 @@ const MyPage = () => {
 
                             {/* 하단 메뉴 카드 */}
                             <div className={styles.bottomMenuCard}>
-                                <button className={styles.bottomMenuItem}>
-                                    <span className={styles.bottomMenuText}>개발자와 소통</span>
+                                <button className={styles.bottomMenuItem} onClick={handleCommunication}>
+                                    <span className={styles.bottomMenuText}>리픽 운영진과의 소통</span>
                                     <RightArrowIcon className={`${styles.bottomMenuArrow} ${styles.tertiary}`} />
                                 </button>
                                 
-                                <button className={styles.bottomMenuItem}>
+                                <button className={styles.bottomMenuItem} onClick={handleNotice}>
                                     <span className={styles.bottomMenuText}>공지사항</span>
                                     <RightArrowIcon className={`${styles.bottomMenuArrow} ${styles.tertiary}`} />
                                 </button>
                                 
-                                <button className={styles.bottomMenuItem}>
+                                <button className={styles.bottomMenuItem} onClick={handleTerms}>
                                     <span className={styles.bottomMenuText}>이용약관</span>
                                     <RightArrowIcon className={`${styles.bottomMenuArrow} ${styles.tertiary}`} />
                                 </button>
                                 
-                                <button className={styles.bottomMenuItem} onClick={handleEditProfile}>
+                                <button className={styles.bottomMenuItem} onClick={handlePrivacy}>
                                     <span className={styles.bottomMenuText}>개인정보 처리방침</span>
                                     <RightArrowIcon className={`${styles.bottomMenuArrow} ${styles.tertiary}`} />
                                 </button>
+                            </div>
+
+                            {/* 푸터 섹션 */}
+                            <div className={styles.footerSection}>
+                                <div className={styles.footerContent}>
+                                    <div className={styles.logoSection}>
+                                        <Logo className={styles.logoImg} />
+                                        <div className={styles.serviceName}>Repik</div>
+                                    </div>
+                                    <div className={styles.copyNotice}>©Copyright 2025. Repik. All Right Reserved</div>
+                                </div>
                             </div>
                         </div>
                     </div>

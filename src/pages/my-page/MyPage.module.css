@@ -3,8 +3,8 @@
   display: flex;
   flex: 1;
   justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
+  align-items: stretch;
+  min-height: calc(100vh - var(--spacing-24));
   padding: 0;
 }
 
@@ -16,9 +16,9 @@
   margin: 0 auto;
   border-left: 0.5px solid var(--color-border-board);
   border-right: 0.5px solid var(--color-border-board);
-  min-height: 100vh;
+  min-height: 100%;
   background-color: var(--color-background-board);
-  padding: 1.25rem;
+  padding: 1.25rem 1.25rem 0 1.25rem;
   gap: 1.25rem;
 }
 
@@ -277,13 +277,57 @@
   color-scheme: light;
 }
 
+/* 푸터 섹션 */
+.footerSection {
+  margin-top: auto;
+  background-color: var(--color-neutral-50);
+  padding: 2rem 1.25rem;
+  margin-left: -1.25rem;
+  margin-right: -1.25rem;
+}
+
+.footerContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+  max-width: 100%;
+  margin: 0;
+}
+
+.logoSection {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.logoImg {
+  width: 1.75rem;
+  height: 2.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.serviceName {
+  padding-left: 0.5rem;
+  font-family: Paperlogy;
+  color: var(--color-content-tertiary);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.copyNotice {
+  color: var(--color-content-tertiary);
+  font-size: 0.75rem;
+  margin: 0;
+}
+
 /* 모바일 최적화 */
 @media (max-width: 48rem) {
   .contentWrapper {
     max-width: 100%;
     border-left: none;
     border-right: none;
-    padding: 1rem;
+    padding: 1rem 1rem 0;
     gap: 1rem;
   }
   
@@ -331,5 +375,25 @@
   
   .bottomMenuText {
     font-size: 1rem;
+  }
+
+  .footerSection {
+    padding: 2rem 1rem;
+    margin-left: -1rem;
+    margin-right: -1rem;
+    margin-bottom: 0;
+  }
+  
+  .logoImg {
+    width: 1.5rem;
+    height: 2rem;
+  }
+  
+  .serviceName {
+    font-size: 1rem;
+  }
+  
+  .copyNotice {
+    font-size: 0.7rem;
   }
 }
