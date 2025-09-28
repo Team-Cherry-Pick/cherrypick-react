@@ -15,7 +15,7 @@ import { useParams } from 'react-router-dom';
 import { AccessTokenService } from '@/services/accessTokenService';
 import { authRequest } from '@/services/apiClient';
 import { HttpMethod } from '@/types/Api';
-import DefaultProfileIcon from '@/assets/icons/profile-Icon.svg?react';
+import PersonIcon from '@/assets/icons/person-Icon.svg?react';
 import { GA4Events } from '@/utils/ga4';
 
 type CommentInputProps = {
@@ -76,7 +76,7 @@ const CommentInput = ({ userImageUrl, isReply = false, parentId = null, onCancel
                             <ProfileImage src={userImageUrl} alt="profile" />
                         ) : (
                             <FallbackIcon>
-                                <DefaultProfileIcon width={32} height={32} />
+                                <PersonIcon width={18} height={18} />
                             </FallbackIcon>
                         )}
                     </>

@@ -14,7 +14,7 @@ import {
     Likes,
 } from './ProductComments.style';
 import LikeIcon from '@/assets/icons/like.svg?react';
-import DefaultProfileIcon from '@/assets/icons/profile-Icon.svg?react';
+import PersonIcon from '@/assets/icons/person-Icon.svg?react';
 
 interface Props {
     bestComments: BestComment[];
@@ -106,7 +106,7 @@ const BestCommentList = ({ bestComments, onLikeToggle }: Props) => {
                         <ProfileImage src={item.user.userImageUrl} />
                     ) : (
                         <FallbackIcon>
-                            <DefaultProfileIcon width={32} height={32} />
+                            <PersonIcon width={18} height={18} />
                         </FallbackIcon>
                     )}
                     <CommentContent>

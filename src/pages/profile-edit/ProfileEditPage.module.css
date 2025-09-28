@@ -57,6 +57,11 @@
   border-radius: 50%;
 }
 
+/* PersonIcon이 기본 이미지로 사용될 때 크기 조정 */
+.profileImage[src*="person-Icon"] {
+  transform: scale(0.8);
+}
+
 .profileImageTitle {
   margin-top: 0.5rem;
   margin-bottom: 1rem;

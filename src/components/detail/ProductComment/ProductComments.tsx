@@ -29,7 +29,7 @@ import { AccessTokenService } from '@/services/accessTokenService';
 import { jwtDecode } from 'jwt-decode';
 import LikeIcon from '@/assets/icons/like.svg?react';
 import TalkBubbleIcon from '@/assets/icons/talkbubble.svg?react';
-import DefaultProfileIcon from '@/assets/icons/profile-Icon.svg?react';
+import PersonIcon from '@/assets/icons/person-Icon.svg?react';
 
 type ProductCommentsProps = {
     dealId: string;
@@ -261,7 +261,7 @@ const ProductComments = ({ dealId, refreshKey: externalRefreshKey, onLikeToggle 
                                     <ProfileImage src={item.user.userImageUrl} />
                                 ) : (
                                     <FallbackIcon>
-                                        <DefaultProfileIcon width={32} height={32} />
+                                        <PersonIcon width={18} height={18} />
                                     </FallbackIcon>
                                 )}
                                 <CommentContent>
@@ -335,7 +335,7 @@ const ProductComments = ({ dealId, refreshKey: externalRefreshKey, onLikeToggle 
                                             <ProfileImage src={reply.user.userImageUrl} />
                                         ) : (
                                             <FallbackIcon>
-                                                <DefaultProfileIcon width={32} height={32} />
+                                                <PersonIcon width={18} height={18} />
                                             </FallbackIcon>
                                         )}
                                         <CommentContent>
