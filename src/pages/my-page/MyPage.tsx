@@ -43,7 +43,7 @@ const MyPage = () => {
 
     const handleViewMyDeals = () => {
         GA4Events.pageView('/my-page/my-deals', '내가 올린 딜 조회');
-        // TODO: 내가 올린 딜 페이지로 이동 로직 추가
+        alert('서비스 준비 중입니다');
     };
 
     const handleViewLikedDeals = () => {
@@ -132,6 +132,11 @@ const MyPage = () => {
                                     <span className={styles.pointText}>리픽 포인트몰</span>
                                     <span className={styles.pointBadge}>0P</span>
                                     <RightArrowIcon className={styles.pointArrow} />
+                                    
+                                    {/* 서비스 준비중 오버레이 */}
+                                    <div className={styles.pointOverlay}>
+                                        <span className={styles.overlayText}>서비스 준비 중</span>
+                                    </div>
                                 </div>
                             </div>
 
@@ -184,8 +189,6 @@ const MyPage = () => {
                                 <button className={styles.accountMenuItem} onClick={handleLogout}>
                                     <span className={styles.accountMenuText}>로그아웃</span>
                                 </button>
-                                
-
                             </div>
 
                             {/* 푸터 섹션 */}

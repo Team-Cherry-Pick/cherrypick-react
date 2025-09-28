@@ -49,16 +49,6 @@
   background-color: var(--color-neutral-200, rgba(0, 0, 0, 0.06));
 }
 
-.profileSection::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 1rem;
-  right: 1rem;
-  height: 1px;
-  background-color: var(--color-border-card);
-}
-
 .profileImageWrapper {
   width: 4.5rem;
   height: 4.5rem;
@@ -124,13 +114,15 @@
   width: 100%;
   height: 3.5rem;
   padding: 0 1rem;
-  cursor: pointer;
+  cursor: not-allowed;
   transition: background-color 0.2s ease;
+  position: relative;
 }
 
-.pointSection:hover {
+/* 포인트몰 호버 효과 비활성화 (서비스 준비중) */
+/* .pointSection:hover {
   background-color: var(--color-neutral-100, rgba(0, 0, 0, 0.03));
-}
+} */
 
 .pointIcon {
   font-size: 1.125rem;
@@ -155,6 +147,27 @@
   height: 0.75rem;
   width: auto;
   color: var(--color-content-sub);
+}
+
+/* 포인트몰 서비스 준비중 오버레이 */
+.pointOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(0.75px);
+}
+
+.overlayText {
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: center;
 }
 
 /* 활동 메뉴 카드 */
@@ -402,6 +415,10 @@
   .pointText {
     font-size: 1rem;
   }
+
+  .overlayText {
+    font-size: 0.8rem;
+  }
   
   .menuItem {
     height: 3rem;
@@ -420,7 +437,7 @@
   }
   
   .bottomMenuText {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 
   .accountMenuItem {

@@ -44,7 +44,7 @@ const ProfileButton = () => {
                         )}
                     </div>
                 ) : (
-                    <span className={styles.loginText}>베타 신청</span>
+                    <span className={styles.loginText}>베타 로그인</span>
                 )}
             </button>
         </div>
