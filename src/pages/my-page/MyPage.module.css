@@ -1,0 +1,464 @@
+/* 베타테스터 페이지와 동일한 기본 레이아웃 구조 */
+.container {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: stretch;
+  min-height: calc(100vh - var(--spacing-24));
+  padding: 0;
+}
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  border-left: 0.5px solid var(--color-border-board);
+  border-right: 0.5px solid var(--color-border-board);
+  min-height: 100%;
+  background-color: var(--color-background-board);
+  padding: 1.25rem 1.25rem 0 1.25rem;
+  gap: 1.25rem;
+}
+
+/* 프로필 & 포인트몰 카드 */
+.profileCard {
+  background-color: var(--color-background-card);
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+/* 프로필 섹션 */
+.profileSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  padding: 1.25rem 1rem;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.profileSection:hover {
+  background-color: var(--color-neutral-100, rgba(0, 0, 0, 0.03));
+}
+
+.profileSection:active {
+  background-color: var(--color-neutral-200, rgba(0, 0, 0, 0.06));
+}
+
+.profileImageWrapper {
+  width: 4.5rem;
+  height: 4.5rem;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: var(--color-neutral-200);
+  flex-shrink: 0;
+}
+
+.profileImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.defaultProfileImage {
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-neutral-200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.personIcon {
+  width: 48%;
+  height: 48%;
+  color: var(--color-content-tertiary);
+}
+
+.profileInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.nickname {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-content-main);
+  margin: 0;
+}
+
+.email {
+  font-size: 0.875rem;
+  color: var(--color-content-sub);
+  margin: 0;
+}
+
+.profileArrow {
+  height: 0.75rem;
+  width: auto;
+  color: var(--color-content-sub);
+}
+
+/* 리픽 포인트몰 섹션 */
+.pointSection {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  height: 3.5rem;
+  padding: 0 1rem;
+  cursor: not-allowed;
+  transition: background-color 0.2s ease;
+  position: relative;
+}
+
+/* 포인트몰 호버 효과 비활성화 (서비스 준비중) */
+/* .pointSection:hover {
+  background-color: var(--color-neutral-100, rgba(0, 0, 0, 0.03));
+} */
+
+.pointIcon {
+  font-size: 1.125rem;
+  flex-shrink: 0;
+  font-family: 'TossFace', sans-serif;
+}
+
+.pointText {
+  flex: 1;
+  font-size: 1.125rem;
+  color: var(--color-content-main);
+  font-weight: 400;
+}
+
+.pointBadge {
+  color: var(--color-content-main);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.pointArrow {
+  height: 0.75rem;
+  width: auto;
+  color: var(--color-content-sub);
+}
+
+/* 포인트몰 서비스 준비중 오버레이 */
+.pointOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(0.75px);
+  pointer-events: none;
+}
+
+.pointOverlay .overlayContent {
+  pointer-events: auto;
+}
+
+.overlayContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.overlayText {
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.betaApplyButton {
+  padding: 0.5rem 1.25rem;
+  background: linear-gradient(135deg, var(--color-primary) 0%, #ff4d6d 100%);
+  border: none;
+  border-radius: 1rem;
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+}
+
+.betaApplyButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: shimmer 4s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  25% {
+    left: 100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+.betaApplyButton:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(255, 77, 109, 0.2);
+}
+
+.betaApplyButton:active {
+  transform: translateY(-1px) scale(1.02);
+  transition: all 0.1s ease;
+}
+
+/* 모바일에서 베타테스터 버튼 크기 조정 */
+@media (max-width: 768px) {
+  .betaApplyButton {
+    padding: 0.375rem 1rem;
+    font-size: 0.75rem;
+  }
+}
+
+/* 활동 메뉴 카드 */
+.menuCard {
+  background-color: var(--color-background-card);
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  height: 3.5rem;
+  padding: 0 1rem;
+  background: none;
+  border: none;
+  color: var(--color-content-main);
+  font-size: 1.125rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  text-align: left;
+  position: relative;
+}
+
+.menuItem:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 1rem;
+  right: 1rem;
+  height: 1px;
+  background-color: var(--color-border-card);
+}
+
+.menuItem:hover {
+  background-color: var(--color-neutral-100, rgba(0, 0, 0, 0.03));
+}
+
+.menuItem:active {
+  background-color: var(--color-neutral-200, rgba(0, 0, 0, 0.06));
+}
+
+.menuIcon {
+  font-size: 1.125rem;
+  flex-shrink: 0;
+  font-family: 'TossFace', sans-serif;
+}
+
+.menuText {
+  flex: 1;
+  font-weight: 400;
+}
+
+.menuArrow {
+  height: 0.75rem;
+  width: auto;
+  color: var(--color-content-sub);
+}
+
+/* 하단 메뉴 카드 */
+.bottomMenuCard {
+  background-color: var(--color-background-card);
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.bottomMenuItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 3.5rem;
+  padding: 0 1rem;
+  background: none;
+  border: none;
+  color: var(--color-content-sub);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  text-align: left;
+  position: relative;
+}
+
+.bottomMenuItem:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 1rem;
+  right: 1rem;
+  height: 1px;
+  background-color: var(--color-border-card);
+}
+
+.bottomMenuItem:hover {
+  background-color: var(--color-neutral-100, rgba(0, 0, 0, 0.03));
+}
+
+.bottomMenuItem:active {
+  background-color: var(--color-neutral-200, rgba(0, 0, 0, 0.06));
+}
+
+.bottomMenuText {
+  font-weight: 400;
+}
+
+.bottomMenuText.main {
+  color: var(--color-content-main);
+}
+
+.bottomMenuArrow {
+  height: 0.75rem;
+  width: auto;
+  color: var(--color-content-sub);
+}
+
+.bottomMenuArrow.tertiary {
+  color: var(--color-content-tertiary);
+}
+
+/* 계정 메뉴 카드 */
+.accountMenuCard {
+  background-color: var(--color-background-card);
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.accountMenuItem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 3.5rem;
+  padding: 0 1rem;
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  text-align: center;
+  position: relative;
+}
+
+.accountMenuItem:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 1rem;
+  right: 1rem;
+  height: 1px;
+  background-color: var(--color-border-card);
+}
+
+.accountMenuItem:hover {
+  background-color: rgba(219, 39, 38, 0.05);
+}
+
+.accountMenuItem:active {
+  background-color: rgba(219, 39, 38, 0.1);
+}
+
+.accountMenuText {
+  font-weight: 400;
+}
+
+/* Light Theme Wrapper */
+.lightThemeWrapper * {
+  color-scheme: light;
+}
+
+/* 푸터 섹션 */
+.footerSection {
+  margin-top: auto;
+  background-color: var(--color-neutral-20);
+  padding: 2rem 1.25rem;
+  margin-left: -1.25rem;
+  margin-right: -1.25rem;
+}
+
+.footerContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  max-width: 100%;
+  margin: 0;
+}
+
+.logoSection {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.logoImg {
+  width: 1.75rem;
+  height: 2.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.serviceName {
+  padding-left: 0.5rem;
+  font-family: Paperlogy;
+  color: var(--color-content-tertiary);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.copyNotice {
+  color: var(--color-content-tertiary);
+  font-size: 0.75rem;
+  margin: 0;
+}
+
+/* 모바일 최적화 */
+@media (max-width: 48rem) {
+  .contentWrapper {
+    max-width: 100%;
+    border-left: none;
+    border-right: none;
+    padding: 1rem 1rem 0;
+    gap: 1rem;
+  }
+}

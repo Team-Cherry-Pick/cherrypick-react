@@ -37,6 +37,7 @@ export default function Header({ background = 'root', onSearchClick }: HeaderPro
         if (pathname === '/profile-edit') return '회원정보 수정';
         if (pathname === '/login') return '로그인';
         if (pathname === '/join-beta') return '리픽 베타테스터';
+        if (pathname === '/my-page') return '마이페이지';
         
         return '페이지';
     };

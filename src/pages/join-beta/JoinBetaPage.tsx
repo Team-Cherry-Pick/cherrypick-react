@@ -181,7 +181,7 @@ const JoinBetaPage = () => {
                                         disabled={isLoggedIn && isBetaTester}
                                         onClick={handleBetaTesterApply}
                                     >
-                                        {isLoggedIn && isBetaTester ? '전환되었습니다.' : '테스터 신청 (간편 로그인)'}
+                                        {isLoggedIn && isBetaTester ? '이미 베타테스터입니다.' : '테스터 신청 (로그인)'}
                                     </button>
                                     <button
                                         type="button"

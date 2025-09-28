@@ -161,11 +161,11 @@ export const FallbackIcon = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     background-color: ${({ theme }) => theme.colors.neutral[100]};
-    color: ${({ theme }) => theme.colors.content.sub};
+    color: ${({ theme }) => theme.colors.content.tertiary};
     margin-right: ${({ theme }) => theme.spacing[3]};
 `;
 
