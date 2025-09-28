@@ -253,7 +253,13 @@ export function ProfileEditPage() {
                 <div className={`${isMobile ? styles.profileEditBoxMobile : styles.profileEditBoxWrapper}`}>
                     {/* 이미지 선택 */}
                     <div className={styles.profileImageButton} onClick={onClickBtnProfileImage}>
-                        <img className={styles.profileImage} src={newProfile.imageURL?.trim() ? newProfile.imageURL : PersonIcon} alt="user" />
+                        {newProfile.imageURL?.trim() ? (
+                            <img className={styles.profileImage} src={newProfile.imageURL} alt="user" />
+                        ) : (
+                            <div className={styles.defaultProfileImage}>
+                                <img src={PersonIcon} alt="기본 프로필" className={styles.personIcon} />
+                            </div>
+                        )}
                     </div>
                     <p className={`${styles.profileImageTitle} ${newProfile.imageURL?.trim() && newProfile.imageId !== -1 ? styles.profileImageDelete : ""}`}
                         onClick={newProfile.imageURL?.trim() ? onClickBtnDeleteImage : undefined} >
