@@ -55,6 +55,7 @@ export interface FetchedDeal {
     infoTags: string[];
     price: DealPrice;
     nickname: string;
+    badgeId: number;
     createdAt: string;
     totalLikes: number;
     totalComments: number;
@@ -87,6 +88,7 @@ export interface DealUploadUser {
     userId: number;
     userName: string;
     userImageUrl: string;
+    badgeId?: number;
 }
 
 export interface FetchDealsResponse {
