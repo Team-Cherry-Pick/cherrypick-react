@@ -76,6 +76,11 @@ const MyPage = () => {
         window.open('http://pf.kakao.com/_TwEUn/chat', '_blank', 'noopener,noreferrer');
     };
 
+    const handleServiceInfo = () => {
+        GA4Events.pageView('/my-page/service-info', '서비스 소개 & 베타테스터 신청 페이지 이동');
+        navigate('/join-beta');
+    };
+
     const handleLogout = () => {
         if (!isLoggedIn) return;
         
@@ -135,7 +140,9 @@ const MyPage = () => {
                                     
                                     {/* 서비스 준비중 오버레이 */}
                                     <div className={styles.pointOverlay}>
-                                        <span className={styles.overlayText}>서비스 준비 중</span>
+                                        <div className={styles.overlayContent}>
+                                            <button className={styles.betaApplyButton} onClick={handleServiceInfo}>베타테스터 신청하기</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
