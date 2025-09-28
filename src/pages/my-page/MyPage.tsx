@@ -76,6 +76,19 @@ const MyPage = () => {
         window.open('http://pf.kakao.com/_TwEUn/chat', '_blank', 'noopener,noreferrer');
     };
 
+    const handleLogout = () => {
+        if (!isLoggedIn) return;
+        
+        const confirmed = window.confirm('정말 로그아웃하시겠어요?');
+        if (!confirmed) return;
+
+        GA4Events.logout();
+        AccessTokenService.clear();
+        navigate('/');
+        refreshProfile();
+        alert('정상적으로 로그아웃되었습니다.');
+    };
+
     // 로그인되지 않은 경우 렌더링하지 않음
     if (!isLoggedIn) {
         return null;
@@ -164,6 +177,15 @@ const MyPage = () => {
                                     <span className={styles.bottomMenuText}>개인정보 처리방침</span>
                                     <RightArrowIcon className={`${styles.bottomMenuArrow} ${styles.tertiary}`} />
                                 </button>
+                            </div>
+
+                            {/* 계정 카드 */}
+                            <div className={styles.accountMenuCard}>
+                                <button className={styles.accountMenuItem} onClick={handleLogout}>
+                                    <span className={styles.accountMenuText}>로그아웃</span>
+                                </button>
+                                
+
                             </div>
 
                             {/* 푸터 섹션 */}
