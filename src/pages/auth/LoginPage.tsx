@@ -8,10 +8,14 @@ import { AccessTokenService } from '@/services/accessTokenService';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useIsMobileViewport from '@/hooks/useIsMobileViewport';
+import { useRedirectOnBackWhenLoggedIn } from '@/hooks/useBackButtonHandler';
 
 const LoginPage = () => {
     const navigate = useNavigate();
     const isMobile = useIsMobileViewport();
+    
+    // 로그인된 상태에서 뒤로가기 시 메인으로 리다이렉트
+    useRedirectOnBackWhenLoggedIn();
 
     // 로그인된 사용자는 메인 페이지로 리다이렉트
     useEffect(() => {
