@@ -127,15 +127,11 @@ export const CardDeal = ({ deal }: Props) => {
 
                 <div className={styles.meta}>
                     <span className={styles.author} title={deal.nickname}>
-                        {!isMobile && "by"} {deal.nickname}
+                        {deal.nickname}
                     </span>
                     <span className={styles.divider}>|</span>
                     <span>
-                        <Clock /> {getRelativeTime(deal.createdAt)}
-                    </span>
-                    <span className={styles.divider}>|</span>
-                    <span>
-                        <MessageSquare /> {deal.totalComments}
+                        {getRelativeTime(deal.createdAt)}
                     </span>
                 </div>
             </div>
