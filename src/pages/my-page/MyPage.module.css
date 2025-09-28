@@ -1,0 +1,335 @@
+/* 베타테스터 페이지와 동일한 기본 레이아웃 구조 */
+.container {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 0;
+}
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  border-left: 0.5px solid var(--color-border-board);
+  border-right: 0.5px solid var(--color-border-board);
+  min-height: 100vh;
+  background-color: var(--color-background-board);
+  padding: 1.25rem;
+  gap: 1.25rem;
+}
+
+/* 프로필 & 포인트몰 카드 */
+.profileCard {
+  background-color: var(--color-background-card);
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+/* 프로필 섹션 */
+.profileSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  padding: 1.25rem 1rem;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.profileSection:hover {
+  background-color: var(--color-neutral-100, rgba(0, 0, 0, 0.03));
+}
+
+.profileSection:active {
+  background-color: var(--color-neutral-200, rgba(0, 0, 0, 0.06));
+}
+
+.profileSection::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 1rem;
+  right: 1rem;
+  height: 1px;
+  background-color: var(--color-border-card);
+}
+
+.profileImageWrapper {
+  width: 4.5rem;
+  height: 4.5rem;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: var(--color-neutral-200);
+  flex-shrink: 0;
+}
+
+.profileImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.defaultProfileImage {
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-neutral-200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.personIcon {
+  width: 60%;
+  height: 60%;
+  color: var(--color-content-tertiary);
+}
+
+.profileInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.nickname {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-content-main);
+  margin: 0;
+}
+
+.email {
+  font-size: 0.875rem;
+  color: var(--color-content-sub);
+  margin: 0;
+}
+
+.profileArrow {
+  height: 0.75rem;
+  width: auto;
+  color: var(--color-content-sub);
+}
+
+/* 리픽 포인트몰 섹션 */
+.pointSection {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  height: 3.5rem;
+  padding: 0 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.pointSection:hover {
+  background-color: var(--color-neutral-100, rgba(0, 0, 0, 0.03));
+}
+
+.pointIcon {
+  font-size: 1.125rem;
+  flex-shrink: 0;
+  font-family: 'TossFace', sans-serif;
+}
+
+.pointText {
+  flex: 1;
+  font-size: 1.125rem;
+  color: var(--color-content-main);
+  font-weight: 400;
+}
+
+.pointBadge {
+  color: var(--color-content-main);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.pointArrow {
+  height: 0.75rem;
+  width: auto;
+  color: var(--color-content-sub);
+}
+
+/* 활동 메뉴 카드 */
+.menuCard {
+  background-color: var(--color-background-card);
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  height: 3.5rem;
+  padding: 0 1rem;
+  background: none;
+  border: none;
+  color: var(--color-content-main);
+  font-size: 1.125rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  text-align: left;
+  position: relative;
+}
+
+.menuItem:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 1rem;
+  right: 1rem;
+  height: 1px;
+  background-color: var(--color-border-card);
+}
+
+.menuItem:hover {
+  background-color: var(--color-neutral-100, rgba(0, 0, 0, 0.03));
+}
+
+.menuItem:active {
+  background-color: var(--color-neutral-200, rgba(0, 0, 0, 0.06));
+}
+
+.menuIcon {
+  font-size: 1.125rem;
+  flex-shrink: 0;
+  font-family: 'TossFace', sans-serif;
+}
+
+.menuText {
+  flex: 1;
+  font-weight: 400;
+}
+
+.menuArrow {
+  height: 0.75rem;
+  width: auto;
+  color: var(--color-content-sub);
+}
+
+/* 하단 메뉴 카드 */
+.bottomMenuCard {
+  background-color: var(--color-background-card);
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.bottomMenuItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 3.5rem;
+  padding: 0 1rem;
+  background: none;
+  border: none;
+  color: var(--color-content-sub);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  text-align: left;
+  position: relative;
+}
+
+.bottomMenuItem:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 1rem;
+  right: 1rem;
+  height: 1px;
+  background-color: var(--color-border-card);
+}
+
+.bottomMenuItem:hover {
+  background-color: var(--color-neutral-100, rgba(0, 0, 0, 0.03));
+}
+
+.bottomMenuItem:active {
+  background-color: var(--color-neutral-200, rgba(0, 0, 0, 0.06));
+}
+
+.bottomMenuText {
+  font-weight: 400;
+}
+
+.bottomMenuArrow {
+  height: 0.75rem;
+  width: auto;
+  color: var(--color-content-sub);
+}
+
+.bottomMenuArrow.tertiary {
+  color: var(--color-content-tertiary);
+}
+
+/* Light Theme Wrapper */
+.lightThemeWrapper * {
+  color-scheme: light;
+}
+
+/* 모바일 최적화 */
+@media (max-width: 48rem) {
+  .contentWrapper {
+    max-width: 100%;
+    border-left: none;
+    border-right: none;
+    padding: 1rem;
+    gap: 1rem;
+  }
+  
+  .profileSection {
+    padding: 1.25rem 1rem;
+  }
+  
+  .profileImageWrapper {
+    width: 3rem;
+    height: 3rem;
+  }
+  
+  .nickname {
+    font-size: 1rem;
+  }
+  
+  .email {
+    font-size: 0.8rem;
+  }
+  
+  .pointSection {
+    height: 3rem;
+    padding: 0 1rem;
+  }
+  
+  .pointText {
+    font-size: 1rem;
+  }
+  
+  .menuItem {
+    height: 3rem;
+    padding: 0 1rem;
+    font-size: 1rem;
+  }
+  
+  .menuText {
+    font-size: 1rem;
+  }
+  
+  .bottomMenuItem {
+    height: 3rem;
+    padding: 0 1rem;
+    font-size: 1rem;
+  }
+  
+  .bottomMenuText {
+    font-size: 1rem;
+  }
+}

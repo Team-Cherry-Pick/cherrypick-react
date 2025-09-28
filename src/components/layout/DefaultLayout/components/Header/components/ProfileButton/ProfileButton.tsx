@@ -37,6 +37,12 @@ const ProfileButton = () => {
         }
     };
 
+    // '마이페이지' 버튼 클릭 시 호출
+    const onClickMyPage = () => {
+        setOpen(false);
+        navigate('/my-page');
+    };
+
     // '회원정보 수정' 버튼 클릭 시 호출
     const onClickBtnProfileEdit = () => {
         setOpen(false);
@@ -90,12 +96,17 @@ const ProfileButton = () => {
             {/* 드롭다운 메뉴 */}
             {open && (
                 <div className={styles.dropdownMenu} role="menu">
+                    <button type="button" className={styles.menuItem} onClick={onClickMyPage}>
+                        마이페이지
+                    </button>
                     <button type="button" className={styles.menuItem} onClick={onClickBtnProfileEdit}>
                         회원정보 수정
                     </button>
-                    <button type="button" className={styles.menuItem} onClick={onClickBetaTesterApply}>
-                        베타테스터 신청
-                    </button>
+                    {!isBetaTester && (
+                        <button type="button" className={styles.menuItem} onClick={onClickBetaTesterApply}>
+                            베타테스터 신청
+                        </button>
+                    )}
                     <button type="button" className={styles.menuItem} onClick={onClickLogout}>
                         로그아웃
                     </button>
