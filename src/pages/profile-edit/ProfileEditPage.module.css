@@ -148,28 +148,45 @@
   background-color: var(--color-neutral-100);
 }
 
-.dateInputWrapper {
+.birthdayInputWrapper {
   width: 100%;
+  margin-top: 1rem;
 }
 
-.dateInput {
+.birthdayInput {
   width: 100%;
   height: 2.5rem;
-  margin-top: 1rem;
   padding: 0 1rem;
   border: 0.0625rem solid var(--color-neutral-200);
   border-radius: 0.5rem;
   font-size: 1rem;
   color: var(--color-content-main);
+  background-color: var(--color-background-card);
+  transition: border-color 0.2s ease;
 }
 
-.dateInput:focus {
+.birthdayInput:focus {
   outline: none;
   border: 0.125rem solid var(--color-neutral-500);
 }
 
-input[type='date']::-webkit-calendar-picker-indicator {
-  display: none;
+.birthdayInput::placeholder {
+  color: var(--color-content-tertiary);
+}
+
+.birthdayInputError {
+  border-color: var(--color-primary);
+}
+
+.birthdayInputError:focus {
+  border-color: var(--color-primary);
+}
+
+.birthdayErrorMessage {
+  margin: 0.5rem 0 0 0.5rem;
+  font-size: 0.875rem;
+  color: var(--color-primary);
+  line-height: 1rem;
 }
 
 .agreementMessage {
