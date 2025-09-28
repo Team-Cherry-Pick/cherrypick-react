@@ -48,12 +48,12 @@ const MyPage = () => {
 
     const handleViewLikedDeals = () => {
         GA4Events.pageView('/my-page/liked-deals', '좋아요한 딜 조회');
-        // TODO: 좋아요한 딜 페이지로 이동 로직 추가
+        alert('서비스 준비 중입니다');
     };
 
     const handleSettings = () => {
         GA4Events.pageView('/my-page/settings', '설정 페이지 이동');
-        // TODO: 설정 페이지로 이동 로직 추가
+        alert('서비스 준비 중입니다');
     };
 
     const handleNotice = () => {
@@ -141,7 +141,7 @@ const MyPage = () => {
                                     {/* 서비스 준비중 오버레이 */}
                                     <div className={styles.pointOverlay}>
                                         <div className={styles.overlayContent}>
-                                            <button className={styles.betaApplyButton} onClick={handleServiceInfo}>베타테스터 신청하기</button>
+                                            <button className={styles.betaApplyButton} onClick={handleServiceInfo}>베타테스터 신청</button>
                                         </div>
                                     </div>
                                 </div>
