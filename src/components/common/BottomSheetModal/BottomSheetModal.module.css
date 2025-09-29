@@ -24,7 +24,7 @@
 /* 기본 모달 스타일 */
 .modal {
   position: relative;
-  background: var(--color-background-card);
+  background: var(--color-background-root);
   border-radius: 1rem;
   max-width: 90%;
   max-height: 90%;
@@ -34,7 +34,7 @@
 
 /* PC 버전 - 팝업 */
 .desktop .modal {
-  width: 400px;
+  width: 360px;
   transform: scale(0.9);
   animation: popupIn 0.2s ease-out forwards;
 }
@@ -100,7 +100,7 @@
 
 /* 컨텐츠 영역 */
 .content {
-  padding: 1.5rem;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -108,33 +108,27 @@
   gap: 1rem;
 }
 
-/* 이미지 */
-.image {
-  width: 80px;
-  height: 80px;
-  object-fit: contain;
-  flex-shrink: 0;
-}
-
-.imageWrapper {
+/* 이모지 */
+.emojiWrapper {
+  margin-top: 1rem;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   flex-shrink: 0;
-}
-
-.imageWrapper > * {
-  width: 80px;
-  height: 80px;
+  font-family: 'TossFace', 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
+  font-size: 4rem;
+  line-height: 1;
 }
 
 /* 제목 */
 .title {
-  font-size: 1.25rem;
-  font-weight: 700;
+  width: 80%;
+  font-size: 1.5rem;
+  font-weight: 600;
   color: var(--color-content-main);
   margin: 0;
-  line-height: 1.4;
+  line-height: 1.5;
+  white-space: pre-line;
 }
 
 /* 설명 */
@@ -162,7 +156,7 @@
 .button {
   width: 100%;
   height: 48px;
-  border-radius: 0.75rem;
+  border-radius: 0.5rem;
   font-size: 1rem;
   font-weight: 600;
   border: none;
@@ -177,29 +171,36 @@
   transform: translateY(1px);
 }
 
-/* Positive 버튼 (메인 색상) */
+/* Positive 버튼 (카카오 스타일) */
 .positive {
-  background: var(--color-primary);
-  color: white;
+  background: #fee502;
+  color: #392020;
+  font-weight: 600;
+  gap: 0.5rem;
 }
 
 .positive:hover {
-  opacity: 0.9;
+  background: #fdd835;
 }
 
 .positive:active {
-  opacity: 0.8;
+  background: #fbc02d;
+}
+
+.kakaoIcon {
+  width: 1.2rem;
+  height: 1.2rem;
 }
 
 /* Negative 버튼 (회색) */
 .negative {
-  background: var(--color-neutral-100);
+  background: var(--color-neutral-50);
   color: var(--color-content-sub);
-  border: 1px solid var(--color-neutral-200);
+  font-weight: 400;
 }
 
 .negative:hover {
-  background: var(--color-neutral-200);
+  background: var(--color-neutral-100);
 }
 
 .negative:active {
@@ -209,11 +210,11 @@
 /* 반응형 조정 */
 @media (max-width: 400px) {
   .content {
-    padding: 1.25rem;
+    padding: 1rem;
   }
   
   .title {
-    font-size: 1.125rem;
+    font-size: 1.5rem;
   }
   
   .description {

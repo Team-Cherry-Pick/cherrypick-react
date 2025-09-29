@@ -19,6 +19,7 @@ import { FaRegSquare, FaCheckSquare } from "react-icons/fa";
 import useIsMobileViewport from '@/hooks/useIsMobileViewport';
 import { GA4Events, trackCustomEvent } from '@/utils/ga4';
 import { validateBirthday, formatBirthdayInput, convertDateToInput } from '@/utils/birthday';
+import { openBottomSheet } from '@/components/common/BottomSheetModal';
 
 export function ProfileEditPage() {
     const navigate = useNavigate();
@@ -250,9 +251,26 @@ export function ProfileEditPage() {
                     setBetaTesterIntent(false);
                 }
             }
+
+            navigate('/');
+            
+            // 회원가입 완료 바텀시트 모달 표시
+            openBottomSheet({
+                emoji: "🎊",
+                title: "리워드 서비스 출시 소식.\n가장 먼저 받아보세요!",
+                content: `${newProfile.nickname}님 환영해요. 리픽의 카카오톡 채널 추가 시, 포인트 리워드 서비스 출시 알림을 카톡으로 빠르게 받아보실 수 있어요!`,
+                positiveButtonText: "리픽 채널 추가하기",
+                negativeButtonText: "나중에 직접 확인할게요",
+                onPositiveClick: () => {
+                    GA4Events.pageView('/signup/add-channel', '리픽 카카오톡 채널 추가');
+                    window.open('http://pf.kakao.com/_TwEUn', '_blank', 'noopener,noreferrer');
+                },
+                onNegativeClick: () => {
+                    GA4Events.pageView('/signup/skip-channel', '채널 추가 건너뛰기');
+                }
+            });
             
             setNewProfile({ userId: -1, nickname: "", email: "", birthday: "", gender: Gender.MALE, imageURL: "", imageId: -1, badgeId: 0 });
-            navigate(redirectPath);
         }
     }
 

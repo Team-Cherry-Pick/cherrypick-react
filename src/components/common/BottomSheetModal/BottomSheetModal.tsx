@@ -2,11 +2,12 @@ import { ReactNode, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import styles from './BottomSheetModal.module.css';
 import useIsMobileViewport from '@/hooks/useIsMobileViewport';
+import KakaoIcon from '@/assets/icons/kakao-Icon.svg?react';
 
 interface BottomSheetModalProps {
   isOpen: boolean;
   onClose: () => void;
-  image?: ReactNode | string;
+  emoji?: string;
   title: string;
   content: string | ReactNode;
   positiveButtonText: string;
@@ -18,7 +19,7 @@ interface BottomSheetModalProps {
 const BottomSheetModal = ({
   isOpen,
   onClose,
-  image,
+  emoji,
   title,
   content,
   positiveButtonText,
@@ -50,14 +51,10 @@ const BottomSheetModal = ({
 
   if (!isOpen) return null;
 
-  const renderImage = () => {
-    if (!image) return null;
+  const renderEmoji = () => {
+    if (!emoji) return null;
     
-    if (typeof image === 'string') {
-      return <img src={image} alt={title} className={styles.image} />;
-    }
-    
-    return <div className={styles.imageWrapper}>{image}</div>;
+    return <div className={styles.emojiWrapper}>{emoji}</div>;
   };
 
   const modalContent = (
@@ -72,8 +69,8 @@ const BottomSheetModal = ({
         {isMobile && <div className={styles.handle} />}
         
         <div className={styles.content}>
-          {/* 이미지 */}
-          {renderImage()}
+          {/* 이모지 */}
+          {renderEmoji()}
           
           {/* 제목 */}
           <h2 className={styles.title}>{title}</h2>
@@ -94,6 +91,7 @@ const BottomSheetModal = ({
               className={`${styles.button} ${styles.positive}`}
               onClick={onPositiveClick}
             >
+              <KakaoIcon className={styles.kakaoIcon} />
               {positiveButtonText}
             </button>
             

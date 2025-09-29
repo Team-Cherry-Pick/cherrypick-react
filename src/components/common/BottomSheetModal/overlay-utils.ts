@@ -4,7 +4,7 @@ import BottomSheetModal from './BottomSheetModal';
 import { OverlayControllerComponent } from '@/context/overlay';
 
 interface BottomSheetOptions {
-  image?: ReactNode | string;
+  emoji?: string;
   title: string;
   content: string | ReactNode;
   positiveButtonText: string;
@@ -29,7 +29,7 @@ export const openBottomSheet = (options: BottomSheetOptions) => {
     return React.createElement(BottomSheetModal, {
       isOpen: props.isOpen,
       onClose: props.close,
-      image: options.image,
+      emoji: options.emoji,
       title: options.title,
       content: options.content,
       positiveButtonText: options.positiveButtonText,
