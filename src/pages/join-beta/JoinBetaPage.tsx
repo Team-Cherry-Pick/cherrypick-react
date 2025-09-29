@@ -13,7 +13,6 @@ import { postBetaTesterBadge } from '@/services/apiProfile';
 import { useRefreshProfile } from '@/hooks/useRefreshProfile';
 import { GA4Events } from '@/utils/ga4';
 import { getAuthKakao } from '@/services/apiAuth';
-import { useRedirectOnBackWhenLoggedIn } from '@/hooks/useBackButtonHandler';
 
 // 이미지 import
 import BetaMainImg from '@/assets/banner/beta-main.png';
@@ -47,9 +46,6 @@ const JoinBetaPage = () => {
     const { refreshProfile } = useRefreshProfile();
     const isLoggedIn = AccessTokenService.hasToken();
     const isBetaTester = currentProfile.badgeId === 2;
-    
-    // 로그인된 상태에서 뒤로가기 시 메인으로 리다이렉트
-    useRedirectOnBackWhenLoggedIn();
 
     // 쇼핑몰 아이콘 배열 (확장 가능하도록 설계)
     const shoppingmallIcons = [
