@@ -332,9 +332,9 @@ export function ProfileEditPage() {
                     </div>
 
                     {/** 서비스 이용동의 - 회원가입 시퀀스에서만 노출 */}
-                    {!isSignUpPage && (<p className={styles.textLabel}>서비스 이용동의</p>)}
-                    {!isSignUpPage && (<p className={styles.agreementMessage}>리픽은 관련 법령과 개인정보 처리방침에 따라,{'\n'}서비스 제공 범위를 넘어선 목적으로 개인정보를 사용하지 않습니다.</p>)}
-                    {!isSignUpPage && (<div className={styles.agreementsWrapper}>
+                    {isSignUpPage && (<p className={styles.textLabel}>서비스 이용동의</p>)}
+                    {isSignUpPage && (<p className={styles.agreementMessage}>리픽은 관련 법령과 개인정보 처리방침에 따라,{'\n'}서비스 제공 범위를 넘어선 목적으로 개인정보를 사용하지 않습니다.</p>)}
+                    {isSignUpPage && (<div className={styles.agreementsWrapper}>
                         {/** 서비스 이용약관 */}
                         <div className={styles.agreementCheckbox}>
                             {agreements.isAgreedTerm ? (
