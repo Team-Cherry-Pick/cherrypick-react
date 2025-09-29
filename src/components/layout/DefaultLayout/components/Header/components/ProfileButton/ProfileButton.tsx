@@ -13,12 +13,8 @@ const ProfileButton = () => {
 
     // 프로필 버튼 클릭 시 호출
     const onClickBtnProfile = () => {
-        if (isLoggedIn()) {
-            GA4Events.pageView('/my-page', '헤더 프로필 버튼에서 마이페이지 이동');
-            navigate('/my-page');
-        } else {
-            navigate('/join-beta');
-        }
+        GA4Events.pageView('/my-page', '헤더 프로필 버튼에서 마이페이지 이동');
+        navigate('/my-page');
     };
 
 

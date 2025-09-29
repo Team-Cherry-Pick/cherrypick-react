@@ -19,17 +19,12 @@ const MyPage = () => {
     const { refreshProfile } = useRefreshProfile();
     const isLoggedIn = AccessTokenService.hasToken();
 
-    // 로그인 체크
+    // 로그인된 경우에만 프로필 정보 새로고침
     useEffect(() => {
-        if (!isLoggedIn) {
-            alert('로그인이 필요한 페이지입니다.');
-            navigate('/');
-            return;
+        if (isLoggedIn) {
+            refreshProfile();
         }
-        
-        // 프로필 정보 새로고침
-        refreshProfile();
-    }, [isLoggedIn, navigate, refreshProfile]);
+    }, [isLoggedIn, refreshProfile]);
 
     // GA4 페이지뷰 트래킹
     useEffect(() => {
@@ -37,6 +32,13 @@ const MyPage = () => {
     }, []);
 
     const handleEditProfile = () => {
+        if (!isLoggedIn) {
+            // 비회원인 경우 베타테스터 신청 페이지로 이동
+            GA4Events.pageView('/my-page/join-beta-from-profile', '비회원 프로필 클릭 -> 베타테스터 신청');
+            navigate('/join-beta');
+            return;
+        }
+        
         GA4Events.pageView('/my-page/edit-profile', '프로필 편집 페이지 이동');
         navigate('/profile-edit');
     };
@@ -94,10 +96,7 @@ const MyPage = () => {
         alert('정상적으로 로그아웃되었습니다.');
     };
 
-    // 로그인되지 않은 경우 렌더링하지 않음
-    if (!isLoggedIn) {
-        return null;
-    }
+    // 렌더링 조건 제거 - 비회원도 접근 가능
 
     return (
         <ThemeProvider theme={lightTheme}>
@@ -124,8 +123,12 @@ const MyPage = () => {
                                     </div>
                                     
                                     <div className={styles.profileInfo}>
-                                        <h2 className={styles.nickname}>{currentProfile.nickname || '닉네임 없음'}</h2>
-                                        <p className={styles.email}>{currentProfile.email || '이메일 없음'}</p>
+                                        <h2 className={styles.nickname}>
+                                            {isLoggedIn ? (currentProfile.nickname || '닉네임 없음') : '로그인이 필요해요'}
+                                        </h2>
+                                        <p className={styles.email}>
+                                            {isLoggedIn ? (currentProfile.email || '이메일 없음') : '베타테스터 신청으로, 리픽의 포인트 보상 혜택을 가장 빠르게 만나보세요.'}
+                                        </p>
                                     </div>
                                     
                                     <RightArrowIcon className={styles.profileArrow} />
@@ -134,7 +137,7 @@ const MyPage = () => {
                                 {/* 리픽 포인트몰 */}
                                 <div className={styles.pointSection}>
                                     <div className={styles.pointIcon}>🎁</div>
-                                    <span className={styles.pointText}>리픽 포인트몰</span>
+                                    <span className={styles.pointText}>포인트몰</span>
                                     <span className={styles.pointBadge}>0P</span>
                                     <RightArrowIcon className={styles.pointArrow} />
                                     
@@ -147,26 +150,28 @@ const MyPage = () => {
                                 </div>
                             </div>
 
-                            {/* 활동 메뉴 카드 */}
-                            <div className={styles.menuCard}>
-                                <button className={styles.menuItem} onClick={handleViewMyDeals}>
-                                    <div className={styles.menuIcon}>🔥</div>
-                                    <span className={styles.menuText}>내가 찾은 할인</span>
-                                    <RightArrowIcon className={styles.menuArrow} />
-                                </button>
-                                
-                                <button className={styles.menuItem} onClick={handleViewLikedDeals}>
-                                    <div className={styles.menuIcon}>❤️</div>
-                                    <span className={styles.menuText}>추천한 할인</span>
-                                    <RightArrowIcon className={styles.menuArrow} />
-                                </button>
-                                
-                                <button className={styles.menuItem} onClick={handleSettings}>
-                                    <div className={styles.menuIcon}>💬</div>
-                                    <span className={styles.menuText}>댓글 단 할인</span>
-                                    <RightArrowIcon className={styles.menuArrow} />
-                                </button>
-                            </div>
+                            {/* 활동 메뉴 카드 - 로그인된 사용자만 표시 */}
+                            {isLoggedIn && (
+                                <div className={styles.menuCard}>
+                                    <button className={styles.menuItem} onClick={handleViewMyDeals}>
+                                        <div className={styles.menuIcon}>🔥</div>
+                                        <span className={styles.menuText}>내가 찾은 할인</span>
+                                        <RightArrowIcon className={styles.menuArrow} />
+                                    </button>
+                                    
+                                    <button className={styles.menuItem} onClick={handleViewLikedDeals}>
+                                        <div className={styles.menuIcon}>❤️</div>
+                                        <span className={styles.menuText}>추천한 할인</span>
+                                        <RightArrowIcon className={styles.menuArrow} />
+                                    </button>
+                                    
+                                    <button className={styles.menuItem} onClick={handleSettings}>
+                                        <div className={styles.menuIcon}>💬</div>
+                                        <span className={styles.menuText}>댓글 단 할인</span>
+                                        <RightArrowIcon className={styles.menuArrow} />
+                                    </button>
+                                </div>
+                            )}
 
                             {/* 하단 메뉴 카드 */}
                             <div className={styles.bottomMenuCard}>
@@ -191,12 +196,14 @@ const MyPage = () => {
                                 </button>
                             </div>
 
-                            {/* 계정 카드 */}
-                            <div className={styles.accountMenuCard}>
-                                <button className={styles.accountMenuItem} onClick={handleLogout}>
-                                    <span className={styles.accountMenuText}>로그아웃</span>
-                                </button>
-                            </div>
+                            {/* 계정 카드 - 로그인된 사용자만 표시 */}
+                            {isLoggedIn && (
+                                <div className={styles.accountMenuCard}>
+                                    <button className={styles.accountMenuItem} onClick={handleLogout}>
+                                        <span className={styles.accountMenuText}>로그아웃</span>
+                                    </button>
+                                </div>
+                            )}
 
                             {/* 푸터 섹션 */}
                             <div className={styles.footerSection}>

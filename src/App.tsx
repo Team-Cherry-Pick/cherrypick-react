@@ -58,14 +58,7 @@ const App = () => {
                         <Route path="/login-success" element={<LoginRedirectPage />} />
                         <Route path="/profile-edit" element={<ProfileEditPage />} />
                         <Route path="/join-beta" element={<JoinBetaPage />} />
-                        <Route 
-                            path="/my-page" 
-                            element={
-                                <PrivateRoute>
-                                    <MyPage />
-                                </PrivateRoute>
-                            } 
-                        />
+                        <Route path="/my-page" element={<MyPage />} />
                         <Route path="/product/:id" element={<ProductDetailPage />} />
                         <Route
                             path="/upload"
