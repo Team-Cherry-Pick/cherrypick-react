@@ -158,6 +158,15 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
                             구매
                         </S.BuyButton>
                     </S.BottomActions>
+
+                    {/* deepLink가 있는 경우 제휴링크 안내 표시 */}
+                    {deal.deepLink && (
+                        <S.AffiliateNotice>
+                            <p>
+                                제휴 수수료가 발생하는 포스트입니다. 해당 수수료를 공유자에게 돌려드리는 서비스가 출시될 예정이니, 기대해주세요!
+                            </p>
+                        </S.AffiliateNotice>
+                    )}
                 </S.BottomContainer>
             </S.DetailSection>
         </S.Wrapper>

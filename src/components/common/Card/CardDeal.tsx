@@ -77,8 +77,8 @@ export const CardDeal = ({ deal }: Props) => {
                     )}
                     {deal.infoTags.length > 1 && (
                         <span className={`${styles.tagBox} ${styles.infoTag} ${styles.remainingTags}`}>
-                            {deal.infoTags.length === 2 
-                                ? deal.infoTags[1] 
+                            {deal.infoTags.length === 2
+                                ? deal.infoTags[1]
                                 : `${deal.infoTags[1]} 외 ${deal.infoTags.length - 2}`
                             }
                         </span>
@@ -116,8 +116,8 @@ export const CardDeal = ({ deal }: Props) => {
                         )}
                         {deal.infoTags.length > 1 && (
                             <span className={`${styles.tagBox} ${styles.infoTag} ${styles.remainingTags}`}>
-                                {deal.infoTags.length === 2 
-                                    ? deal.infoTags[1] 
+                                {deal.infoTags.length === 2
+                                    ? deal.infoTags[1]
                                     : `${deal.infoTags[1]} 외 ${deal.infoTags.length - 2}`
                                 }
                             </span>
@@ -126,16 +126,15 @@ export const CardDeal = ({ deal }: Props) => {
                 )}
 
                 <div className={styles.meta}>
+                    {deal.badgeId === 2 && (
+                        <span className={styles.betaBadge}>BETA</span>
+                    )}
                     <span className={styles.author} title={deal.nickname}>
-                        {!isMobile && "by"} {deal.nickname}
+                        {deal.nickname}
                     </span>
                     <span className={styles.divider}>|</span>
                     <span>
-                        <Clock /> {getRelativeTime(deal.createdAt)}
-                    </span>
-                    <span className={styles.divider}>|</span>
-                    <span>
-                        <MessageSquare /> {deal.totalComments}
+                        {getRelativeTime(deal.createdAt)}
                     </span>
                 </div>
             </div>

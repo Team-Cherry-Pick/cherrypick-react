@@ -58,6 +58,24 @@ export default function ProductUploadPage() {
 
     const prevAiActive = useRef(aiActive);
 
+    // localStorage에서 AI 사용 선호도 관리
+    const getAiUploadPreference = (): boolean => {
+        try {
+            const stored = localStorage.getItem('isAiUploadEnabled');
+            return stored !== null ? JSON.parse(stored) : true; // 기본값 true
+        } catch {
+            return true;
+        }
+    };
+
+    const setAiUploadPreference = (enabled: boolean) => {
+        try {
+            localStorage.setItem('isAiUploadEnabled', JSON.stringify(enabled));
+        } catch {
+            // localStorage 사용 불가시 무시
+        }
+    };
+
     useEffect(() => {
         if (prevAiActive.current === aiActive) return;
         if (aiActive) {
@@ -68,8 +86,26 @@ export default function ProductUploadPage() {
         prevAiActive.current = aiActive;
     }, [aiActive]);
 
+    // 페이지 마운트 후 AI 기능 자동 활성화 (localStorage 설정에 따라)
+    useEffect(() => {
+        const shouldAutoEnable = getAiUploadPreference();
+        
+        if (shouldAutoEnable) {
+            const timer = setTimeout(() => {
+                setAiActive(true);
+            }, 300); // 페이지 로드 후 0.3초 뒤에 자연스럽게 AI 기능 활성화
+
+            return () => clearTimeout(timer);
+        }
+    }, []);
+
     const handleAiToggle = () => {
-        setAiActive(prev => !prev);
+        setAiActive(prev => {
+            const newValue = !prev;
+            // 사용자가 직접 토글할 때 선호도 저장
+            setAiUploadPreference(newValue);
+            return newValue;
+        });
     };
 
     // 모든 업로드 관련 상태 초기화 함수

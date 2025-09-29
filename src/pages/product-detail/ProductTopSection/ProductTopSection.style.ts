@@ -314,6 +314,25 @@ export const BottomContainer = styled.div`
   flex-direction: column;
 `;
 
+export const AffiliateNotice = styled.div`
+  width: calc(100% + 1rem);
+  padding: 0.5rem 0.75rem;
+  margin-top: 0.5rem;
+  margin-left: -0.5rem;
+  margin-right: -0.5rem;
+  background-color: ${({ theme }) => theme.colors.neutral[50]};
+  border-radius: 0.5rem;
+  border: 1px solid ${({ theme }) => theme.colors.neutral[100]};
+  
+  p {
+    margin: 0;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    color: ${({ theme }) => theme.colors.content.sub};
+    text-align: left;
+  }
+`;
+
 export const VariousPriceText = styled.div`
   color: ${({ theme }) => theme.colors.content.sub};
   font-size: 18px;

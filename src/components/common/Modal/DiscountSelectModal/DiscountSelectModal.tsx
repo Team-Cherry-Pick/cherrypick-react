@@ -106,9 +106,8 @@ export function DiscountSelectModal({ isOpen, close, unmount }: DiscountSelectMo
 
     const handleClickConfirm = () => {
         if (selected.length > 0) {
-            const ids = selected.map(d => d.id);
-            const names = selected.map(d => d.name);
-            setDiscounts(ids, names);
+            // 선택된 항목들을 그대로 전달 (useDealUpload에서 구분해서 처리)
+            setDiscounts(selected);
             setSelectedDiscount(selected.map(discount => ({ discountId: discount.id, name: discount.name })));
             close();
         }

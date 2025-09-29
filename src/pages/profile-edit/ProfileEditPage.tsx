@@ -18,6 +18,8 @@ import { getBetaTesterIntent, setBetaTesterIntent } from '@/store/betaTester';
 import { FaRegSquare, FaCheckSquare } from "react-icons/fa";
 import useIsMobileViewport from '@/hooks/useIsMobileViewport';
 import { GA4Events, trackCustomEvent } from '@/utils/ga4';
+import { validateBirthday, formatBirthdayInput, convertDateToInput } from '@/utils/birthday';
+import { openBottomSheet } from '@/components/common/BottomSheetModal';
 
 export function ProfileEditPage() {
     const navigate = useNavigate();
@@ -79,6 +81,33 @@ export function ProfileEditPage() {
         isAgreedAgeVerified: false,
     });
 
+    // 생년월일 입력 관련 상태
+    const [birthdayInput, setBirthdayInput] = useState('');
+    const [birthdayError, setBirthdayError] = useState('');
+
+    // 생년월일 입력 핸들러
+    const handleBirthdayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        const formatted = formatBirthdayInput(value);
+        setBirthdayInput(formatted);
+
+        const validation = validateBirthday(formatted);
+        setBirthdayError(validation.errorMessage);
+
+        if (validation.isValid) {
+            setNewProfile({ ...newProfile, birthday: validation.formattedDate });
+        } else if (!formatted.trim()) {
+            setNewProfile({ ...newProfile, birthday: '' });
+        }
+    };
+
+    // 프로필 로드 시 생년월일 입력 필드 초기화
+    useEffect(() => {
+        if (newProfile.birthday) {
+            setBirthdayInput(convertDateToInput(newProfile.birthday));
+        }
+    }, [newProfile.birthday]);
+
     // 신규 프로필 데이터 유효성, 닉네임 유효성, 이용약관 전원 동의 여부 체크 메서드
     const isValidProfileWithAgreements = () => {
 
@@ -98,24 +127,7 @@ export function ProfileEditPage() {
 
     //************************************************ View Event **************************************************//
 
-    // '날짜 선택' 영역 클릭 시 호출되는 Ref
-    const dateInputRef = useRef<HTMLInputElement>(null);
-    const onClickDateInputDiv = () => {
-        if (dateInputRef.current) {
-            // 사파리 호환성을 위해 showPicker() 대신 focus() 사용
-            dateInputRef.current.focus();
-            
-            // showPicker()가 지원되는 브라우저에서만 호출
-            if (typeof dateInputRef.current.showPicker === 'function') {
-                try {
-                    dateInputRef.current.showPicker();
-                } catch (error) {
-                    // showPicker() 실패 시 focus()만 유지
-                    console.log('showPicker not supported or failed:', error);
-                }
-            }
-        }
-    };
+
 
     // '프로필 사진' 영역 클릭 시 호출되는 Ref
     const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -239,9 +251,26 @@ export function ProfileEditPage() {
                     setBetaTesterIntent(false);
                 }
             }
+
+            navigate('/');
+            
+            // 회원가입 완료 바텀시트 모달 표시
+            openBottomSheet({
+                emoji: "🎊",
+                title: "리워드 서비스 출시 소식.\n가장 먼저 받아보세요!",
+                content: `${newProfile.nickname}님 환영해요. 리픽의 카카오톡 채널 추가 시, 포인트 리워드 서비스 출시 알림을 카톡으로 빠르게 받아보실 수 있어요!`,
+                positiveButtonText: "리픽 채널 추가하기",
+                negativeButtonText: "나중에 직접 확인할게요",
+                onPositiveClick: () => {
+                    GA4Events.pageView('/signup/add-channel', '리픽 카카오톡 채널 추가');
+                    window.open('http://pf.kakao.com/_TwEUn', '_blank', 'noopener,noreferrer');
+                },
+                onNegativeClick: () => {
+                    GA4Events.pageView('/signup/skip-channel', '채널 추가 건너뛰기');
+                }
+            });
             
             setNewProfile({ userId: -1, nickname: "", email: "", birthday: "", gender: Gender.MALE, imageURL: "", imageId: -1, badgeId: 0 });
-            navigate(redirectPath);
         }
     }
 
@@ -253,7 +282,13 @@ export function ProfileEditPage() {
                 <div className={`${isMobile ? styles.profileEditBoxMobile : styles.profileEditBoxWrapper}`}>
                     {/* 이미지 선택 */}
                     <div className={styles.profileImageButton} onClick={onClickBtnProfileImage}>
-                        <img className={styles.profileImage} src={newProfile.imageURL?.trim() ? newProfile.imageURL : PersonIcon} alt="user" />
+                        {newProfile.imageURL?.trim() ? (
+                            <img className={styles.profileImage} src={newProfile.imageURL} alt="user" />
+                        ) : (
+                            <div className={styles.defaultProfileImage}>
+                                <img src={PersonIcon} alt="기본 프로필" className={styles.personIcon} />
+                            </div>
+                        )}
                     </div>
                     <p className={`${styles.profileImageTitle} ${newProfile.imageURL?.trim() && newProfile.imageId !== -1 ? styles.profileImageDelete : ""}`}
                         onClick={newProfile.imageURL?.trim() ? onClickBtnDeleteImage : undefined} >
@@ -300,21 +335,18 @@ export function ProfileEditPage() {
 
                     {/* 생년월일 */}
                     <p className={styles.textLabel}>생년월일</p>
-                    <div
-                        className={styles.dateInputWrapper}
-                        onClick={onClickDateInputDiv}
-                        style={{ display: 'inline-block' }}
-                    >
+                    <div className={styles.birthdayInputWrapper}>
                         <input
-                            ref={dateInputRef}
-                            className={styles.dateInput}
-                            type="date"
-                            value={newProfile.birthday ?? ''}
-                            onChange={(e) => setNewProfile({ ...newProfile, birthday: e.target.value })}
-                            min="1900-01-01"
-                            max={new Date().toISOString().split('T')[0]}
-
+                            className={`${styles.birthdayInput} ${birthdayError ? styles.birthdayInputError : ''}`}
+                            type="text"
+                            value={birthdayInput}
+                            onChange={handleBirthdayChange}
+                            placeholder="YYYY-MM-DD (예: 1990-01-01)"
+                            maxLength={10}
                         />
+                        {birthdayError && (
+                            <p className={styles.birthdayErrorMessage}>{birthdayError}</p>
+                        )}
                     </div>
 
                     {/** 서비스 이용동의 - 회원가입 시퀀스에서만 노출 */}
