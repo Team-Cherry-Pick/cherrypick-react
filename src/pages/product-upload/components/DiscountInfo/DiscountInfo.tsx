@@ -2,11 +2,11 @@ import { SelectTrigger } from '@/components/common/Input';
 import styles from './DiscountInfo.module.css';
 import { DiscountSelectModal } from '@/components/common/Modal';
 import { overlay } from '@/context/overlay';
-import { newDealAtom } from '@/store';
-import { useAtom } from 'jotai';
+import { selectedDiscountAtom } from '@/store/search';
+import { useAtomValue } from 'jotai';
 
 export function DiscountInfo() {
-    const [deal] = useAtom(newDealAtom);
+    const selectedDiscount = useAtomValue(selectedDiscountAtom);
 
     const handleDiscountSelect = () => {
         overlay.open(DiscountSelectModal);
@@ -16,8 +16,8 @@ export function DiscountInfo() {
         <div className={styles.inputContainer}>
             <SelectTrigger
                 label={
-                    deal.discountNames.length > 0
-                        ? deal.discountNames.map(discountName => `#${discountName}`).join(' ')
+                    selectedDiscount.length > 0
+                        ? selectedDiscount.map(discount => `#${discount.name}`).join(' ')
                         : '할인방식 선택'
                 }
                 onClick={handleDiscountSelect}
