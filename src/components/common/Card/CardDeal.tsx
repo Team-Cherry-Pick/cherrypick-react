@@ -1,4 +1,3 @@
-import { Clock, MessageSquare } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import type { FetchedDeal } from '@/types/Deal';
 import { HeatBadge } from '../Badge';
@@ -10,11 +9,13 @@ import styles from './CardDeal.module.css';
 
 interface Props {
     deal: FetchedDeal;
+    forceMobile?: boolean;
 }
 
-export const CardDeal = ({ deal }: Props) => {
+export const CardDeal = ({ deal, forceMobile = false }: Props) => {
     const navigate = useNavigate();
-    const isMobile = useIsMobileViewport();
+    const deviceIsMobile = useIsMobileViewport();
+    const isMobile = forceMobile || deviceIsMobile;
 
     if (!deal) {
         return null;
@@ -22,7 +23,7 @@ export const CardDeal = ({ deal }: Props) => {
 
     return (
         <div
-            className={`${styles.cardWrapper} ${deal.soldout ? 'ended' : ''}`}
+            className={`${styles.cardWrapper} ${deal.soldout ? 'ended' : ''} ${forceMobile ? styles.forceMobile : ''}`}
             onClick={() => {
                 navigate(`/product/${deal.dealId}`);
             }}
