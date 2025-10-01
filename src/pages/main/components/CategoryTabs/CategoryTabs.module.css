@@ -1,0 +1,95 @@
+.container {
+    width: 100%;
+    padding: 0 16px;
+    background-color: var(--color-surface-main);
+    border-bottom: 1px solid var(--color-line-sub);
+}
+
+/* 모바일에서 sticky 포지션 적용 */
+@media (max-width: 48rem) {
+    .container {
+        position: sticky;
+        top: 3.75rem; /* 모바일 헤더 높이만큼 아래에 고정 */
+        background-color: var(--color-background-root);
+        z-index: 799; /* SortButtons(800)보다 낮게 설정 */
+        border-bottom: 1px solid var(--color-line-sub);
+    }
+}
+
+.scrollContainer {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    padding: 0;
+    scroll-behavior: smooth;
+}
+
+.scrollContainer::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+}
+
+.categoryTab {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 8px;
+    border: 1px solid var(--color-line-sub);
+    border-radius: 20px;
+    background-color: var(--color-surface-main);
+    color: var(--color-content-sub);
+    font-size: 1rem;
+    font-weight: 400;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-height: 36px;
+}
+
+.categoryTab:hover {
+    border-color: var(--color-primary-main);
+    color: var(--color-primary-main);
+}
+
+.categoryTab.active {
+    border-color: var(--color-primary-main);
+    background-color: var(--color-primary-main);
+    color: var(--color-content-main);
+    font-weight: 600;
+}
+
+.categoryTab.active:hover {
+    background-color: var(--color-primary-strong);
+    border-color: var(--color-primary-strong);
+}
+
+/* 스켈레톤 로딩 */
+.skeletonTab {
+    flex-shrink: 0;
+    width: 80px;
+    height: 36px;
+    background-color: var(--color-neutral-100);
+    border-radius: 20px;
+    animation: skeleton-loading 1.5s ease-in-out infinite;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.6;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* 모바일에서만 보이도록 */
+@media (min-width: 769px) {
+    .container {
+        display: none;
+    }
+}
