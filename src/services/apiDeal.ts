@@ -132,3 +132,57 @@ export async function getCategorySuggestionForRepik(title: string): Promise<Cate
         throw result.error;
     }
 }
+
+// 사용자가 작성한 딜 조회
+export async function fetchUserWrittenDeals(page: number = 0, size: number = 40): Promise<FetchDealsResponse> {
+    const result = await authRequest<FetchDealsResponse>(HttpMethod.GET, `/user/deal/written?page=${page}&size=${size}`);
+    if (result.success) {
+        const cleanedDeals: FetchedDeal[] = result.data.deals.map((deal: FetchedDeal) => ({
+            ...deal,
+            title: cleanTitle(deal.title),
+            store: cleanStore(deal.store),
+        }));
+        return {
+            deals: cleanedDeals,
+            hasNext: result.data.hasNext,
+        };
+    } else {
+        return { deals: [], hasNext: false };
+    }
+}
+
+// 사용자가 댓글을 작성한 딜 조회
+export async function fetchUserCommentedDeals(page: number = 0, size: number = 40): Promise<FetchDealsResponse> {
+    const result = await authRequest<FetchDealsResponse>(HttpMethod.GET, `/user/deal/commented?page=${page}&size=${size}`);
+    if (result.success) {
+        const cleanedDeals: FetchedDeal[] = result.data.deals.map((deal: FetchedDeal) => ({
+            ...deal,
+            title: cleanTitle(deal.title),
+            store: cleanStore(deal.store),
+        }));
+        return {
+            deals: cleanedDeals,
+            hasNext: result.data.hasNext,
+        };
+    } else {
+        return { deals: [], hasNext: false };
+    }
+}
+
+// 사용자가 좋아요한 딜 조회
+export async function fetchUserLikedDeals(page: number = 0, size: number = 40): Promise<FetchDealsResponse> {
+    const result = await authRequest<FetchDealsResponse>(HttpMethod.GET, `/user/deal/liked?page=${page}&size=${size}`);
+    if (result.success) {
+        const cleanedDeals: FetchedDeal[] = result.data.deals.map((deal: FetchedDeal) => ({
+            ...deal,
+            title: cleanTitle(deal.title),
+            store: cleanStore(deal.store),
+        }));
+        return {
+            deals: cleanedDeals,
+            hasNext: result.data.hasNext,
+        };
+    } else {
+        return { deals: [], hasNext: false };
+    }
+}
