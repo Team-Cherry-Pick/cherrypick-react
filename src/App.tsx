@@ -15,6 +15,7 @@ import LoginRedirectPage from './pages/auth/LoginRedirectPage';
 import ProfileEditPage from './pages/profile-edit/ProfileEditPage';
 import JoinBetaPage from '@/pages/join-beta/JoinBetaPage';
 import MyPage from '@/pages/my-page';
+import { UserDealsPage } from '@/pages/user-deals';
 import { useEffect } from 'react';
 import { useRefreshProfile } from './hooks/useRefreshProfile';
 import { generateDeviceID } from './types/Auth';
@@ -59,6 +60,14 @@ const App = () => {
                         <Route path="/profile-edit" element={<ProfileEditPage />} />
                         <Route path="/join-beta" element={<JoinBetaPage />} />
                         <Route path="/my-page" element={<MyPage />} />
+                        <Route 
+                            path="/user-deals/:type" 
+                            element={
+                                <PrivateRoute>
+                                    <UserDealsPage />
+                                </PrivateRoute>
+                            } 
+                        />
                         <Route path="/product/:id" element={<ProductDetailPage />} />
                         <Route
                             path="/upload"

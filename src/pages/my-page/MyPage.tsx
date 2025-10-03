@@ -45,12 +45,17 @@ const MyPage = () => {
 
     const handleViewMyDeals = () => {
         GA4Events.pageView('/my-page/my-deals', '내가 올린 딜 조회');
-        alert('서비스 준비 중입니다');
+        navigate('/user-deals/written');
     };
 
     const handleViewLikedDeals = () => {
         GA4Events.pageView('/my-page/liked-deals', '좋아요한 딜 조회');
-        alert('서비스 준비 중입니다');
+        navigate('/user-deals/liked');
+    };
+
+    const handleViewCommentedDeals = () => {
+        GA4Events.pageView('/my-page/commented-deals', '댓글 단 딜 조회');
+        navigate('/user-deals/commented');
     };
 
     const handleSettings = () => {
@@ -165,7 +170,7 @@ const MyPage = () => {
                                         <RightArrowIcon className={styles.menuArrow} />
                                     </button>
                                     
-                                    <button className={styles.menuItem} onClick={handleSettings}>
+                                    <button className={styles.menuItem} onClick={handleViewCommentedDeals}>
                                         <div className={styles.menuIcon}>💬</div>
                                         <span className={styles.menuText}>댓글 단 할인</span>
                                         <RightArrowIcon className={styles.menuArrow} />
