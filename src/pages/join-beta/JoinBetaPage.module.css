@@ -65,6 +65,41 @@
   margin: 0;
 }
 
+/* 베타테스터 신청자 수 표시 */
+.countSection {
+  margin: 0 1.5rem;
+  text-align: center;
+  padding: 1.5rem 1rem;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.countText {
+  font-size: 1rem;
+  color: #333;
+  margin: 0;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.countNumber {
+  font-size: 1.4rem;
+  font-weight: 700;
+  background: linear-gradient(0deg, #ce2020 0%, #830000 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 1px 2px rgba(59, 130, 246, 0.2);
+  transition: transform 0.1s ease;
+}
+
+.countNumber:hover {
+  transform: scale(1.05);
+}
+
 /* Description 컨테이너 */
 .descriptionContainer {
   display: flex;

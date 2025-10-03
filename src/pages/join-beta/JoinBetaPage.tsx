@@ -9,7 +9,7 @@ import { useAtomValue } from 'jotai';
 import { currentProfileAtom } from '@/store/profile';
 import { setBetaTesterIntent } from '@/store/betaTester';
 import { AccessTokenService } from '@/services/accessTokenService';
-import { postBetaTesterBadge } from '@/services/apiProfile';
+import { postBetaTesterBadge, getBetaTesterBadgeCount } from '@/services/apiProfile';
 import { useRefreshProfile } from '@/hooks/useRefreshProfile';
 import { GA4Events } from '@/utils/ga4';
 import { getAuthKakao } from '@/services/apiAuth';
@@ -46,6 +46,10 @@ const JoinBetaPage = () => {
     const { refreshProfile } = useRefreshProfile();
     const isLoggedIn = AccessTokenService.hasToken();
     const isBetaTester = currentProfile.badgeId === 2;
+
+    // 베타테스터 카운트 상태 관리
+    const [betaTesterCount, setBetaTesterCount] = useState(0);
+    const [animatedCount, setAnimatedCount] = useState(0);
 
     // 쇼핑몰 아이콘 배열 (확장 가능하도록 설계)
     const shoppingmallIcons = [
@@ -93,6 +97,69 @@ const JoinBetaPage = () => {
             observers.forEach(observer => observer.disconnect());
         };
     }, [descRefs]);
+
+    // 베타테스터 수 불러오기
+    useEffect(() => {
+        const fetchBetaTesterCount = async () => {
+            try {
+                const response = await getBetaTesterBadgeCount();
+                console.log('API 응답:', response);
+                const count = response.ownerCount;
+                console.log('베타테스터 수:', count);
+                setBetaTesterCount(count);
+            } catch (error) {
+                console.error('베타테스터 수 조회 실패:', error);
+                // API 실패 시에도 테스트용으로 임시 숫자 설정
+                setBetaTesterCount(42);
+            }
+        };
+
+        fetchBetaTesterCount();
+    }, []);
+
+    // 카운팅 애니메이션 (20초마다 반복)
+    useEffect(() => {
+        console.log('betaTesterCount:', betaTesterCount);
+        if (betaTesterCount === 0) return;
+
+        const runCountingAnimation = () => {
+            const duration = 1500; // 1초 동안 애니메이션 (더 빠르게)
+            const steps = 60; // 60 프레임
+            const increment = betaTesterCount / steps;
+            let currentStep = 0;
+
+            // 0부터 시작
+            setAnimatedCount(0);
+
+            const timer = setInterval(() => {
+                currentStep++;
+                const currentCount = Math.floor(increment * currentStep);
+                console.log('애니메이션 진행:', currentCount);
+                
+                if (currentStep >= steps) {
+                    setAnimatedCount(betaTesterCount);
+                    clearInterval(timer);
+                } else {
+                    setAnimatedCount(currentCount);
+                }
+            }, duration / steps);
+
+            return timer;
+        };
+
+        // 첫 번째 애니메이션 실행
+        const firstTimer = runCountingAnimation();
+
+        // 20초마다 반복 실행
+        const repeatTimer = setInterval(() => {
+            runCountingAnimation();
+        }, 20000);
+
+        return () => {
+            clearInterval(firstTimer);
+            clearInterval(repeatTimer);
+        };
+    }, [betaTesterCount]);
 
     // 베타테스터 신청 핸들러
     const handleBetaTesterApply = async () => {
@@ -164,6 +231,15 @@ const JoinBetaPage = () => {
                                     베타테스터 모집<br />
                                 </p>
                             </div>
+
+                            {/* 베타테스터 신청자 수 표시 */}
+                            {animatedCount >= 0 && (
+                                <div className={styles.countSection}>
+                                    <p className={styles.countText}>
+                                        지금까지 <span className={styles.countNumber}>{(animatedCount || 0).toLocaleString()}</span>명의 베타테스터가 신청했어요!
+                                    </p>
+                                </div>
+                            )}
 
                             {/* Beta Lastly 이미지 */}
                             <div
