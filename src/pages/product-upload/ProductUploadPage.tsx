@@ -1,4 +1,4 @@
-import { MdArrowForwardIos } from 'react-icons/md';
+import { MdArrowForwardIos, MdInfoOutline } from 'react-icons/md';
 import styles from './ProductUploadPage.module.css';
 import DefaultLayout from '@/components/layout/DefaultLayout';
 import { UploadButton } from '@/components/common/Button';
@@ -100,15 +100,18 @@ export default function ProductUploadPage() {
     }, []);
 
     const handleAiToggle = () => {
-        setAiActive(prev => {
-            const newValue = !prev;
-            // 사용자가 직접 토글할 때 선호도 저장
-            setAiUploadPreference(newValue);
-            return newValue;
-        });
+        setAiActive(!aiActive);
+        if (!aiActive) {
+            setAnimationClass(styles.slideIn);
+        } else {
+            setAnimationClass(styles.slideOut);
+        }
     };
 
-    // 모든 업로드 관련 상태 초기화 함수
+    // 지원되는 쇼핑몰 정보 알림
+    const handleSupportedMallsInfo = () => {
+        alert('지마켓, 11번가, 롯데온의 경우 상품 링크 URL만 붙여넣기하면 상세정보 외의 정보가 자동으로 작성됩니다');
+    };    // 모든 업로드 관련 상태 초기화 함수
     const resetAllUploadStates = () => {
         // newDealAtom 초기화
         setDeal({
@@ -427,20 +430,22 @@ export default function ProductUploadPage() {
                             <>
                                 <div className={styles.sectionWrapper}>
                                     <div className={styles.section}>
-                                        <div className={styles.sectionTitleWithToggle}>
-                                            <div className={styles.sectionTitle}>링크 정보</div>
-                                            <div className={styles.aiToggleWrapper}>
-                                                <button
-                                                    className={`${styles.aiToggleButton} ${aiActive && styles.aiToggleButton_active}`}
-                                                    onClick={handleAiToggle}
-                                                >
-                                                    <div className={styles.aiToggleButton__gradient} />
-                                                    <div className={`${styles.aiToggleIconWrapper} ${aiActive && styles.aiToggleIconWrapper_active}`}>
-                                                        <img src={aiIcon} />
-                                                        <img className={styles.aiIcon_active} src={aiActiveIcon} />
-                                                    </div>
-                                                    <div className={`${styles.aiToggleContent} ${animationClass}`}>AI 작성 </div>
-                                                </button>
+                                        <div className={styles.sectionTitle}>링크 정보</div>
+                                        <div className={styles.aiToggleWrapper}>
+                                            <button
+                                                className={`${styles.aiToggleButton} ${aiActive && styles.aiToggleButton_active}`}
+                                                onClick={handleAiToggle}
+                                            >
+                                                <div className={styles.aiToggleButton__gradient} />
+                                                <div className={`${styles.aiToggleIconWrapper} ${aiActive && styles.aiToggleIconWrapper_active}`}>
+                                                    <img src={aiIcon} />
+                                                    <img className={styles.aiIcon_active} src={aiActiveIcon} />
+                                                </div>
+                                                <div className={`${styles.aiToggleContent} ${animationClass}`}>AI 작성 </div>
+                                            </button>
+                                            <div className={styles.infoButton} onClick={handleSupportedMallsInfo}>
+                                                <MdInfoOutline className={styles.infoIcon} />
+                                                <span className={styles.infoText}>지원되는 쇼핑몰 확인</span>
                                             </div>
                                         </div>
                                         <LinkInfo
@@ -500,6 +505,10 @@ export default function ProductUploadPage() {
                                                     </div>
                                                     <div className={`${styles.aiToggleContent} ${animationClass}`}>AI 작성</div>
                                                 </button>
+                                                <div className={styles.infoButton} onClick={handleSupportedMallsInfo}>
+                                                    <MdInfoOutline className={styles.infoIcon} />
+                                                    <span className={styles.infoText}>지원되는 쇼핑몰 확인</span>
+                                                </div>
                                             </div>
                                         </div>
                                         <LinkInfo

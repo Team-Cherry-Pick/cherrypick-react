@@ -102,9 +102,55 @@
   margin-right: 1rem;
 }
 
-.aiToggleWrapper {
+.sectionTitleWithInfo {
   display: flex;
   align-items: center;
+  gap: var(--spacing-3);
+}
+
+.infoButton {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  cursor: pointer;
+  color: var(--color-content-sub);
+  font-size: var(--font-size-sm);
+  transition: color 0.2s ease;
+}
+
+.infoButton:hover {
+  color: var(--color-content-primary);
+}
+
+.infoIcon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.infoText {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+}
+
+.aiToggleWrapper {
+  display: none;
+  align-items: center;
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-4);
+}
+
+/* PC 버전에서는 타이틀과 같은 행에 표시 */
+@media (min-width: 48.0625rem) {
+  .aiToggleWrapper {
+    display: flex;
+    margin-bottom: 0;
+  }
+  
+  .sectionTitleWithToggle {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--spacing-4);
+  }
 }
 
 .aiToggleButton {
@@ -255,5 +301,9 @@
     inset: 0;
     width: 100%;
     padding: var(--spacing-10) 1.25rem;
+  }
+
+  .aiToggleWrapper {
+    display: flex;
   }
 }
