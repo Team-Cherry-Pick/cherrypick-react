@@ -403,6 +403,11 @@
   font-weight: 400;
 }
 
+.homeButton {
+  color: var(--color-content-main) !important;
+  font-weight: 500;
+}
+
 /* Light Theme Wrapper */
 .lightThemeWrapper * {
   color-scheme: light;
