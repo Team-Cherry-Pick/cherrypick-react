@@ -20,7 +20,6 @@ const sortOptions = [
     { label: '리픽 랭킹순', value: 'POPULARITY' },
     { label: '최신순', value: 'LATEST' },
     { label: '조회순', value: 'VIEWS' },
-    { label: '할인율순', value: 'DISCOUNT_RATE' },
     { label: '저가순', value: 'PRICE_LOW' },
     { label: '고가순', value: 'PRICE_HIGH' },
 ];

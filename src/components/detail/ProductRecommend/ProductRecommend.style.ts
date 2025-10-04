@@ -16,6 +16,7 @@ export const Title = styled.h2`
 export const RecommendList = styled.div`
   display: flex;
   flex-direction: column;
+  margin: 0 -1.125rem; /* Wrapper의 양옆 패딩을 상쇄 */
 `;
 
 export const RecommendItem = styled.div`
@@ -24,7 +25,6 @@ export const RecommendItem = styled.div`
   width: 100%;
   height: 100%;
   margin: 0;
-  gap: ${({ theme }) => theme.spacing[4]};
   cursor: pointer;
 `;
 
@@ -195,4 +195,18 @@ export const VariousPriceText = styled.div`
   word-wrap: break-word;
   margin: 0;
   padding: 0;
+`;
+
+export const CardContainer = styled.div`
+  /* CardDeal 컴포넌트가 모바일 버전으로 렌더링되도록 강제하는 컨테이너 */
+  width: 100%;
+  
+  /* CardDeal 내부의 useIsMobileViewport가 항상 true를 반환하도록 CSS 변수 설정 */
+  --force-mobile: true;
+  
+  /* 추천 목록에서 CardDeal이 적절한 크기로 표시되도록 조정 */
+  .cardWrapper {
+    max-width: 100%;
+    margin-bottom: 0;
+  }
 `;

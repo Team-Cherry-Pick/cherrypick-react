@@ -45,12 +45,17 @@ const MyPage = () => {
 
     const handleViewMyDeals = () => {
         GA4Events.pageView('/my-page/my-deals', '내가 올린 딜 조회');
-        alert('서비스 준비 중입니다');
+        navigate('/user-deals/written');
     };
 
     const handleViewLikedDeals = () => {
         GA4Events.pageView('/my-page/liked-deals', '좋아요한 딜 조회');
-        alert('서비스 준비 중입니다');
+        navigate('/user-deals/liked');
+    };
+
+    const handleViewCommentedDeals = () => {
+        GA4Events.pageView('/my-page/commented-deals', '댓글 단 딜 조회');
+        navigate('/user-deals/commented');
     };
 
     const handleSettings = () => {
@@ -94,6 +99,11 @@ const MyPage = () => {
         navigate('/');
         refreshProfile();
         alert('정상적으로 로그아웃되었습니다.');
+    };
+
+    const handleGoHome = () => {
+        GA4Events.pageView('/my-page/go-home', '마이페이지에서 홈으로 이동');
+        navigate('/');
     };
 
     // 렌더링 조건 제거 - 비회원도 접근 가능
@@ -165,7 +175,7 @@ const MyPage = () => {
                                         <RightArrowIcon className={styles.menuArrow} />
                                     </button>
                                     
-                                    <button className={styles.menuItem} onClick={handleSettings}>
+                                    <button className={styles.menuItem} onClick={handleViewCommentedDeals}>
                                         <div className={styles.menuIcon}>💬</div>
                                         <span className={styles.menuText}>댓글 단 할인</span>
                                         <RightArrowIcon className={styles.menuArrow} />
@@ -196,14 +206,17 @@ const MyPage = () => {
                                 </button>
                             </div>
 
-                            {/* 계정 카드 - 로그인된 사용자만 표시 */}
-                            {isLoggedIn && (
-                                <div className={styles.accountMenuCard}>
+                            {/* 계정 카드 - 모든 사용자에게 표시 */}
+                            <div className={styles.accountMenuCard}>
+                                <button className={styles.accountMenuItem} onClick={handleGoHome}>
+                                    <span className={`${styles.accountMenuText} ${styles.homeButton}`}>메인페이지 이동</span>
+                                </button>
+                                {isLoggedIn && (
                                     <button className={styles.accountMenuItem} onClick={handleLogout}>
                                         <span className={styles.accountMenuText}>로그아웃</span>
                                     </button>
-                                </div>
-                            )}
+                                )}
+                            </div>
 
                             {/* 푸터 섹션 */}
                             <div className={styles.footerSection}>

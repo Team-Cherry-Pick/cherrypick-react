@@ -1,5 +1,5 @@
 import { HttpMethod } from "@/types/Api";
-import { GetNicknameValidationRes, GetUserRes, PatchUserReq, PatchUserRes, PostBetaTesterBadgeRes } from "@/types/Profile";
+import { GetNicknameValidationRes, GetUserRes, PatchUserReq, PatchUserRes, PostBetaTesterBadgeRes, GetBetaTesterBadgeCountRes } from "@/types/Profile";
 import { authRequest, publicRequest } from "./apiClient";
 
 /**
@@ -54,6 +54,20 @@ export async function patchUser(request: PatchUserReq): Promise<PatchUserRes> {
  */
 export async function postBetaTesterBadge(): Promise<PostBetaTesterBadgeRes> {
     const result = await authRequest<PostBetaTesterBadgeRes>(HttpMethod.POST, `/user/badge/beta-tester`);
+    if (result.success) {
+        return result.data;
+    } else {
+        throw result.error;
+    }
+}
+
+/**
+ * 베타테스터 뱃지 등록 수 조회 API
+ * 
+ * @returns GetBetaTesterBadgeCountRes: 베타테스터 뱃지 등록 수
+ */
+export async function getBetaTesterBadgeCount(): Promise<GetBetaTesterBadgeCountRes> {
+    const result = await publicRequest<GetBetaTesterBadgeCountRes>(HttpMethod.GET, `/user/badge/beta-tester/count`);
     if (result.success) {
         return result.data;
     } else {

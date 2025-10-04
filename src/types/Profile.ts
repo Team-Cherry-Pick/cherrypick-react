@@ -62,5 +62,9 @@ export interface PostBetaTesterBadgeRes {
     message: string;
 }
 
+export interface GetBetaTesterBadgeCountRes {
+    ownerCount: number;
+}
+
 export type GetUserRes = User;
 export type PatchUserRes = User;

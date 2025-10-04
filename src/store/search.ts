@@ -4,7 +4,7 @@ import { finalSelectedCategoryAtom, selectedCategoryPathAtom } from './category'
 // 타입
 export type TimeRange = 'LAST3HOURS' | 'LAST6HOURS' | 'LAST12HOURS' | 'LAST24HOURS' | 'LAST3DAYS' | 'LAST7DAYS';
 
-export type SortType = 'POPULARITY' | 'VIEWS' | 'LATEST' | 'PRICE_HIGH' | 'PRICE_LOW' | 'DISCOUNT_RATE';
+export type SortType = 'POPULARITY' | 'VIEWS' | 'LATEST' | 'PRICE_HIGH' | 'PRICE_LOW';
 
 export type PriceType = 'KRW' | 'USD';
 
