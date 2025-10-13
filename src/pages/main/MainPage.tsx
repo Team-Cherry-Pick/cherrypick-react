@@ -51,6 +51,27 @@ const MainPage = () => {
         }
     }, [isMobile, isSearchOverlayOpen]);
 
+    // PC 슬라이드 필터가 열렸을 때 body 스크롤 막기
+    useEffect(() => {
+        if (!isMobile && isFilterOpen) {
+            // 현재 스크롤 위치 저장
+            const scrollY = window.scrollY;
+            document.body.style.position = 'fixed';
+            document.body.style.top = `-${scrollY}px`;
+            document.body.style.width = '100%';
+            document.body.style.overflow = 'hidden';
+
+            return () => {
+                // 슬라이드 필터가 닫힐 때 원래 상태로 복원
+                document.body.style.position = '';
+                document.body.style.top = '';
+                document.body.style.width = '';
+                document.body.style.overflow = '';
+                window.scrollTo(0, scrollY);
+            };
+        }
+    }, [isMobile, isFilterOpen]);
+
     const handleSearchClick = () => {
         setIsSearchOverlayOpen(true);
     };
@@ -72,29 +93,44 @@ const MainPage = () => {
         <>
             <DefaultLayout onSearchClick={handleSearchClick}>
                 <div className={styles.container}>
-                    <MainFilter 
-                      isOpen={isFilterOpen}
-                      onClose={() => setIsFilterOpen(false)}
-                    />
-                    <div style={{ width: '100%' }}>
-                        <div className={getSearchBarWrapperClass()} onClick={isMobile ? handleSearchOverlayClose : undefined}>
-                            <div className={styles.searchOverlayContent} onClick={(e) => e.stopPropagation()}>
-                                <MainSearchBar 
-                                    onClose={handleSearchOverlayClose}
-                                />
-                                {isMobile && isSearchOverlayOpen && (
-                                    <CloseIcon className={styles.closeButton} onClick={handleSearchOverlayClose}/>
-                                )}
+                    {/* 모바일에서만 전체화면 필터 표시 */}
+                    {isMobile && (
+                        <MainFilter 
+                          isOpen={isFilterOpen}
+                          onClose={() => setIsFilterOpen(false)}
+                        />
+                    )}
+                    <div className={styles.contentWrapper}>
+                        <div className={`${styles.mainContent} ${!isMobile && isFilterOpen ? styles.mainContentWithFilter : ''}`}>
+                            <div className={getSearchBarWrapperClass()} onClick={isMobile ? handleSearchOverlayClose : undefined}>
+                                <div className={styles.searchOverlayContent} onClick={(e) => e.stopPropagation()}>
+                                    <MainSearchBar 
+                                        onClose={handleSearchOverlayClose}
+                                    />
+                                    {isMobile && isSearchOverlayOpen && (
+                                        <CloseIcon className={styles.closeButton} onClick={handleSearchOverlayClose}/>
+                                    )}
+                                </div>
                             </div>
+                            <CategoryTabs />
+                            <div className={styles.sortRow}>
+                                <MainKeywords keyword={keyword} />
+                                <SortButtons 
+                                  onFilterClick={() => setIsFilterOpen(!isFilterOpen)}
+                                />
+                            </div>
+                            <MainDealList />
                         </div>
-                        <CategoryTabs />
-                        <div className={styles.sortRow}>
-                            <MainKeywords keyword={keyword} />
-                            <SortButtons 
-                              onFilterClick={() => setIsFilterOpen(true)}
-                            />
-                        </div>
-                        <MainDealList />
+                        
+                        {/* PC에서만 슬라이드 필터 표시 */}
+                        {!isMobile && (
+                            <div className={`${styles.slideFilter} ${isFilterOpen ? styles.slideFilterOpen : ''}`}>
+                                <MainFilter 
+                                  isOpen={true}
+                                  onClose={() => setIsFilterOpen(false)}
+                                />
+                            </div>
+                        )}
                     </div>
                 </div>
 

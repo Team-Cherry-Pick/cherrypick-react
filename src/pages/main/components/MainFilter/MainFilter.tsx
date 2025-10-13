@@ -18,12 +18,7 @@ export function MainFilter({ isOpen = false, onClose }: MainFilterProps) {
     const isMobile = useIsMobileViewport();
     const { toggleTheme } = useTheme();
 
-    // 모바일에서 데스크톱으로 전환될 때 필터 닫기
-    useEffect(() => {
-        if (!isMobile && isOpen && onClose) {
-            onClose();
-        }
-    }, [isMobile, isOpen, onClose]);
+    // 모바일에서 데스크톱으로 전환될 때는 필터 상태를 유지
 
     // 모바일 필터가 열렸을 때 body 스크롤 막기
     useEffect(() => {
@@ -99,20 +94,24 @@ export function MainFilter({ isOpen = false, onClose }: MainFilterProps) {
         <aside className={styles.container}>
             <div className={styles.flexBox}>
                 <div className={styles.title}>필터</div>
-                <button className={styles.resetButton} onClick={resetFilters}>
-                    전체 초기화
-                </button>
+                <div className={styles.headerButtons}>
+                    <button className={styles.resetButton} onClick={resetFilters}>
+                        전체 초기화
+                    </button>
+                </div>
             </div>
 
-            <BasicFilter />
-            <div className={styles.divider} />
-            <CategoryFilter />
-            <div className={styles.divider} />
-            <PriceFilter />
-            <div className={styles.divider} />
-            <StoreFilter />
-            <div className={styles.divider} />
-            <DiscountFilter />
+            <div className={styles.filterContent}>
+                <BasicFilter />
+                <div className={styles.divider} />
+                <CategoryFilter />
+                <div className={styles.divider} />
+                <PriceFilter />
+                <div className={styles.divider} />
+                <StoreFilter />
+                <div className={styles.divider} />
+                <DiscountFilter />
+            </div>
         </aside>
     );
 }
