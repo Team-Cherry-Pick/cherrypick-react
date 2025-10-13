@@ -1,7 +1,7 @@
 import styles from './MainPage.module.css';
 import { useEffect, useState } from 'react';
 import DefaultLayout from '@/components/layout/DefaultLayout';
-import { MainFilter, SortButtons, CategoryTabs } from './components';
+import { MainFilter, SortButtons, CategoryTabs, PCCategoryTabs } from './components';
 import UploadBtn from '@/components/common/Floating/UploadBtn';
 import ScrollTopBtn from '@/components/common/Floating/ScrollTopBtn';
 import CloseIcon from '@/assets/icons/close-Icon.svg?react';
@@ -91,7 +91,7 @@ const MainPage = () => {
 
     return (
         <>
-            <DefaultLayout onSearchClick={handleSearchClick}>
+            <DefaultLayout onSearchClick={handleSearchClick} background='root'>
                 <div className={styles.container}>
                     {/* 모바일에서만 전체화면 필터 표시 */}
                     {isMobile && (
@@ -115,7 +115,13 @@ const MainPage = () => {
                                     </div>
                                 </div>
                             )}
-                            <CategoryTabs />
+                            
+                            {/* PC 버전 카테고리 탭 */}
+                            {!isMobile && <PCCategoryTabs />}
+                            
+                            {/* 모바일 버전 카테고리 탭 */}
+                            {isMobile && <CategoryTabs />}
+                            
                             <div className={styles.sortRow}>
                                 <MainKeywords keyword={keyword} />
                                 <SortButtons 
