@@ -4,7 +4,7 @@
   position: relative;
   width: 100%;
   border: 0.0625rem solid var(--color-border-card);
-  border-radius: var(--radius-3);
+  border-radius: var(--radius-2);
   background-color: var(--color-background-card);
   overflow: hidden;
   cursor: pointer;
@@ -34,7 +34,8 @@
 .image {
   width: 100%;
   height: 100%;
-  border-radius: 0.5rem 0.5rem 0 0;
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
   object-fit: cover;
   object-position: center;
 }
@@ -67,10 +68,8 @@
 .title {
   display: -webkit-box;
   position: static;
-  margin-bottom: var(--spacing-2);
   color: var(--color-content-main);
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-semibold);
+  font-size: 1rem;
   line-height: var(--line-height-base);
   -webkit-line-clamp: 1; /* PC버전에서는 1줄로 고정 */
   line-clamp: 1;
@@ -90,9 +89,11 @@
   display: flex;
   position: static;
   align-items: center;
+  justify-content: flex-start;
   gap: 0.25rem;
   flex-wrap: nowrap;
   overflow: hidden;
+  margin-top: 1rem;
 }
 
 /* 모바일 태그 행 */
@@ -161,8 +162,7 @@
 .priceRow {
   display: flex;
   position: static;
-  margin: var(--spacing-3) 0 var(--spacing-1) 0;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
   gap: var(--spacing-1);
 }
@@ -178,21 +178,21 @@
 .percent {
   display: inline-flex;
   position: static;
-  color: var(--color-content-sub);
-  font-size: var(--font-size-sm);
+  background: linear-gradient(90deg, #FF8067 0%, #FF4635 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1rem;
   font-weight: var(--font-weight-semibold);
+  margin-left: 0.25rem;
 }
 
 .price {
   display: inline-block;
   position: static;
-  background: linear-gradient(90deg, #FF8067 0%, #FF4635 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-size: var(--font-size-lg);
+  color: var(--color-content-main);
+  font-size: 1.25rem;
   font-weight: var(--font-weight-semibold);
-  margin-left: 0.25rem;
 }
 
 .meta {
