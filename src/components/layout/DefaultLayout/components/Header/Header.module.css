@@ -37,9 +37,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 91.25rem;
+  width: 100%; /* 전체 너비 사용 */
   height: var(--spacing-24);
-  margin: 0 auto;
   padding: 0 var(--spacing-5);
   position: relative;
 }
@@ -179,5 +178,12 @@
 
   .searchIcon {
     display: inline-flex;
+  }
+}
+
+/* PC 버전에서 메인 레이아웃과 동일한 패딩 적용 */
+@media (min-width: 64rem) {
+  .headerContainer {
+    padding: 0 max(var(--spacing-5), calc((100vw - var(--max-width)) / 2));
   }
 }
