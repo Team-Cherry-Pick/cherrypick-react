@@ -98,7 +98,8 @@ const MainSearchBar = ({ onClose, isHeaderVariant = false }: MainSearchBarProps)
                 </button>
             </div>
 
-            {recentKeywords.length > 0 && (
+            {/* 최근 검색어 컴포넌트 - 당분간 사용하지 않음 */}
+            {/* {recentKeywords.length > 0 && (
                 <div className={styles.recentSearchWrapper}>
                     <div className={styles.recentHeader}>
                         <span>최근 검색어</span>
@@ -130,7 +131,7 @@ const MainSearchBar = ({ onClose, isHeaderVariant = false }: MainSearchBarProps)
                         ))}
                     </div>
                 </div>
-            )}
+            )} */}
         </div>
     );
 };
