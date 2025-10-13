@@ -4,6 +4,14 @@
   width: 100%;
 }
 
+/* PC 버전에서 헤더 하단 그림자 */
+@media (min-width: 49rem) {
+  .headerWrapper {
+    box-shadow: var(--card-shadow);
+    border-bottom: 0.5px solid var(--color-border-board);
+  }
+}
+
 .rootBackground {
   background-color: var(--color-background-root);
 }
