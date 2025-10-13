@@ -9,6 +9,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import useIsMobileViewport from '@/hooks/useIsMobileViewport';
 import { useAtomValue } from 'jotai';
 import { keywordAtom } from '@/store/search';
+import MainSearchBar from '@/pages/main/components/MainSearchBar';
 
 interface HeaderProps {
     background?: 'root' | 'board';
@@ -60,25 +61,36 @@ export default function Header({ background = 'root', onSearchClick }: HeaderPro
             className={`${styles.headerWrapper} ${background === 'root' ? styles.rootBackground : styles.boardBackground}`}
         >
             <header className={styles.headerContainer}>
-                {(isMainPage || !isMobile) ? (
-                    // 메인 페이지 또는 데스크톱: 로고 표시
-                    <div className={styles.logoWrapper} onClick={() => (window.location.href = '/')}>
-                        <Logo className={styles.logoImg} />
-                        <div className={styles.logoText}>Repik</div>
-                    </div>
-                ) : (
-                    // 모바일 서브 페이지: 뒤로가기 버튼 + 페이지 제목
-                    <div className={styles.navigationWrapper}>
-                        <LeftArrowIcon 
-                            className={styles.backButton} 
-                            onClick={handleBack}
-                        />
-                        <div className={styles.pageTitle}>
-                            {getPageTitle()}
+                {/* 왼쪽 영역: 로고 또는 네비게이션 */}
+                <div className={styles.leftSection}>
+                    {(isMainPage || !isMobile) ? (
+                        // 메인 페이지 또는 데스크톱: 로고 표시
+                        <div className={styles.logoWrapper} onClick={() => (window.location.href = '/')}>
+                            <Logo className={styles.logoImg} />
+                            <div className={styles.logoText}>Repik</div>
                         </div>
+                    ) : (
+                        // 모바일 서브 페이지: 뒤로가기 버튼 + 페이지 제목
+                        <div className={styles.navigationWrapper}>
+                            <LeftArrowIcon 
+                                className={styles.backButton} 
+                                onClick={handleBack}
+                            />
+                            <div className={styles.pageTitle}>
+                                {getPageTitle()}
+                            </div>
+                        </div>
+                    )}
+                </div>
+
+                {/* 중앙 영역: PC 버전 메인 페이지에서만 검색창 표시 */}
+                {isMainPage && !isMobile && (
+                    <div className={styles.centerSection}>
+                        <MainSearchBar isHeaderVariant={true} />
                     </div>
                 )}
                 
+                {/* 오른쪽 영역: 개인화 컨테이너 */}
                 <div className={styles.personalContainer}>
                     {isMainPage && (
                         <div 

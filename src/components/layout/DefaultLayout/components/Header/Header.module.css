@@ -41,6 +41,23 @@
   height: var(--spacing-24);
   margin: 0 auto;
   padding: 0 var(--spacing-5);
+  position: relative;
+}
+
+.leftSection {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.centerSection {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 40%;
+  max-width: 32rem;
+  min-width: 20rem;
 }
 
 .logoWrapper {
@@ -84,8 +101,10 @@
 }
 
 .personalContainer {
+  flex: 1;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: var(--spacing-4);
 }
 

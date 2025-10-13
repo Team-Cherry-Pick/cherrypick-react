@@ -102,16 +102,19 @@ const MainPage = () => {
                     )}
                     <div className={styles.contentWrapper}>
                         <div className={`${styles.mainContent} ${!isMobile && isFilterOpen ? styles.mainContentWithFilter : ''}`}>
-                            <div className={getSearchBarWrapperClass()} onClick={isMobile ? handleSearchOverlayClose : undefined}>
-                                <div className={styles.searchOverlayContent} onClick={(e) => e.stopPropagation()}>
-                                    <MainSearchBar 
-                                        onClose={handleSearchOverlayClose}
-                                    />
-                                    {isMobile && isSearchOverlayOpen && (
-                                        <CloseIcon className={styles.closeButton} onClick={handleSearchOverlayClose}/>
-                                    )}
+                            {/* 모바일에서만 검색창 표시 */}
+                            {isMobile && (
+                                <div className={getSearchBarWrapperClass()} onClick={isMobile ? handleSearchOverlayClose : undefined}>
+                                    <div className={styles.searchOverlayContent} onClick={(e) => e.stopPropagation()}>
+                                        <MainSearchBar 
+                                            onClose={handleSearchOverlayClose}
+                                        />
+                                        {isMobile && isSearchOverlayOpen && (
+                                            <CloseIcon className={styles.closeButton} onClick={handleSearchOverlayClose}/>
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
+                            )}
                             <CategoryTabs />
                             <div className={styles.sortRow}>
                                 <MainKeywords keyword={keyword} />
