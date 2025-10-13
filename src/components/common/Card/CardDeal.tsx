@@ -3,7 +3,9 @@ import type { FetchedDeal } from '@/types/Deal';
 import { HeatBadge } from '../Badge';
 import { getRelativeTime } from '@/utils/time';
 import { formatNumber } from '@/utils/number';
+import { getHeatDisplay, formatHeatScore } from '@/utils/heat';
 import blackLogoIcon from '@/assets/icons/black-logo-Icon.svg';
+import PersonIcon from '@/assets/icons/person-Icon.svg?react';
 import useIsMobileViewport from '@/hooks/useIsMobileViewport';
 import styles from './CardDeal.module.css';
 
@@ -29,22 +31,71 @@ export const CardDeal = ({ deal, forceMobile = false }: Props) => {
             }}
         >
             {deal.soldout && <div className={styles.overlay}>종료된 핫딜입니다</div>}
-            <div className={styles.imageBox}>
-                <img
-                    className={styles.image}
-                    src={`${deal.imageUrl?.url}`}
-                    alt=""
-                    onError={e => {
-                        const img = e.currentTarget as HTMLImageElement;
-                        img.src = blackLogoIcon;
-                        img.style.height = '5rem';
-                        img.style.width = '5rem';
-                    }}
-                />
-                <div className={styles.heatBadgeWrapper}>
-                    <HeatBadge heat={deal.heat} size={isMobile ? "small" : "large"} />
+            
+            <div className={styles.cardContent}>
+                <div className={styles.imageBox}>
+                    {/* PC 버전: 이미지 상단 오버레이 정보 */}
+                    {!isMobile && (
+                        <div className={styles.imageTopOverlay}>
+                            <div className={styles.heatInfo}>
+                                {(() => {
+                                    const { icon: HeatIcon } = getHeatDisplay(deal.heat);
+                                    
+                                    // CSS 클래스로 색상 결정
+                                    const getIconClass = (heat: number) => {
+                                        if (heat >= 200) return 'hot';
+                                        if (heat > 0) return 'warm';
+                                        return 'cold';
+                                    };
+                                    
+                                    const getTextClass = (heat: number) => {
+                                        return heat > 0 ? 'positive' : 'negative';
+                                    };
+                                    
+                                    return (
+                                        <>
+                                            <HeatIcon 
+                                                className={`${styles.fireIcon} ${styles[getIconClass(deal.heat)]}`}
+                                            />
+                                            <span 
+                                                className={`${styles.heatText} ${styles[getTextClass(deal.heat)]}`}
+                                            >
+                                                {formatHeatScore(deal.heat)}°
+                                            </span>
+                                        </>
+                                    );
+                                })()}
+                            </div>
+                            <div className={styles.uploadInfo}>
+                                <div className={styles.profileImageWrapper}>
+                                    <PersonIcon className={styles.profileIcon} />
+                                </div>
+                                <span className={styles.authorName}>{deal.nickname}</span>
+                                <span className={styles.uploadDivider}>·</span>
+                                <span className={styles.timeAgo}>{getRelativeTime(deal.createdAt)}</span>
+                            </div>
+                        </div>
+                    )}
+                    
+                    <img
+                        className={styles.image}
+                        src={`${deal.imageUrl?.url}`}
+                        alt=""
+                        onError={e => {
+                            const img = e.currentTarget as HTMLImageElement;
+                            img.src = blackLogoIcon;
+                            img.style.height = '5rem';
+                            img.style.width = '5rem';
+                        }}
+                    />
+                    
+                    {/* 모바일 버전: 기존 HeatBadge 컴포넌트 사용 */}
+                    {isMobile && (
+                        <div className={styles.heatBadgeWrapper}>
+                            <HeatBadge heat={deal.heat} size="small" />
+                        </div>
+                    )}
                 </div>
-            </div>
             <div className={styles.infoBox}>
                 <div className={styles.title}>{deal.title}</div>
 
@@ -110,14 +161,20 @@ export const CardDeal = ({ deal, forceMobile = false }: Props) => {
                     {deal.badgeId === 2 && (
                         <span className={styles.betaBadge}>BETA</span>
                     )}
-                    <span className={styles.author} title={deal.nickname}>
-                        {deal.nickname}
-                    </span>
-                    <span className={styles.divider}>|</span>
-                    <span>
-                        {getRelativeTime(deal.createdAt)}
-                    </span>
+                    {/* 모바일에서만 닉네임과 작성시점 표시 */}
+                    {isMobile && (
+                        <>
+                            <span className={styles.author} title={deal.nickname}>
+                                {deal.nickname}
+                            </span>
+                            <span className={styles.divider}>|</span>
+                            <span>
+                                {getRelativeTime(deal.createdAt)}
+                            </span>
+                        </>
+                    )}
                 </div>
+            </div>
             </div>
         </div>
     );

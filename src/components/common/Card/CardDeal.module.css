@@ -10,6 +10,125 @@
   cursor: pointer;
 }
 
+.uploadInfo {
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 0.25rem 0.8rem 0.25rem 0.25rem;
+  border-radius: 1rem;
+  min-width: 0;
+}
+
+.imageTopOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 0.5rem 1rem;
+  backdrop-filter: blur(2px);
+}
+
+.heatInfo {
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 0 0.6rem 0 0.4rem;
+  border-radius: 1rem;
+}
+
+.fireIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* 아이콘 색상 클래스 */
+.fireIcon.hot {
+  color: #ff4444; /* 200도 이상 */
+}
+
+.fireIcon.warm {
+  color: #ff6666; /* 1-199도 */
+}
+
+.fireIcon.cold {
+  color: #888888; /* 0도 이하 */
+}
+
+.heatText {
+  font-size: 1rem;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* 텍스트 색상 클래스 */
+.heatText.positive {
+  color: white; /* 0 초과 */
+}
+
+.heatText.negative {
+  color: #cccccc; /* 0 이하 */
+}
+
+.profileImageWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.9);
+  overflow: hidden;
+}
+
+.profileIcon {
+  width: 1rem;
+  height: 1rem;
+  color: var(--color-content-sub);
+}
+
+.authorName {
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-medium);
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  flex: 1;
+  margin-left: 0.4rem;
+}
+
+.uploadDivider {
+  font-size: 0.75rem;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  flex-shrink: 0;
+  margin: 0 0.25rem;
+}
+
+.timeAgo {
+  font-size: 0.75rem;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
 .overlay {
   display: flex;
   position: absolute;
@@ -350,6 +469,12 @@
   gap: 0.5rem !important;
 }
 
+.forceMobile .cardContent {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 0.75rem !important;
+}
+
 @media (max-width: 48rem) {
   .cardWrapper {
     flex-direction: row;
@@ -362,6 +487,13 @@
     border-bottom: 0.05rem solid var(--color-border-card);
     border-radius: 0;
     background-color: transparent;
+  }
+
+  .cardContent {
+    display: flex;
+    flex-direction: row;
+    gap: 0.75rem;
+    width: 100%;
   }
 
   .imageBox {
