@@ -32,7 +32,7 @@ export interface DetailedDeal {
     discountName: string;
     title: string;
     infoTags: string[];
-    shipping: DealShipping;
+    shippingType: ShippingType;
     price: DealPrice;
     content: string;
     totalViews: number;
@@ -77,12 +77,6 @@ export interface DealPrice {
     discountedPrice: number;
 }
 
-export interface DealShipping {
-    shippingType: ShippingType;
-    shippingPrice?: number;
-    shippingRule: string;
-}
-
 export interface DealUploadUser {
     userId: number;
     userName: string;
@@ -109,7 +103,7 @@ export interface UploadDeal {
     storeId?: number;
     storeName: string;
     price: DealPrice;
-    shipping: DealShipping;
+    shippingType: ShippingType;
     content: string;
     discountIds: number[];
     discountNames: string[];
@@ -142,7 +136,7 @@ export interface ProductInfo {
         textColor: string;
         backgroundColor: string;
     };
-    shipping: DealShipping;
+    shippingType: ShippingType;
     price: DealPrice;
     deeplink?: string;
     originalUrl: string;

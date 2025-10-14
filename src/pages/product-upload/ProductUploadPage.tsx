@@ -48,12 +48,7 @@ export default function ProductUploadPage() {
     const isImageValid = imageUpload.images.length > 0;
     const isOriginalUrlValid = deal.originalUrl.length > 0;
     const isStoreValid = deal.storeId !== undefined || deal.storeName.length > 0;
-    const isShippingValid =
-        !(deal.shipping.shippingType === 'CONDITIONAL' && deal.shipping.shippingRule.length === 0) &&
-        !(
-            (deal.shipping.shippingType === 'KRW' || deal.shipping.shippingType === 'USD') &&
-            deal.shipping.shippingPrice === 0
-        );
+    const isShippingValid = true; // Since we only have shippingType, it's always valid
     const isContentValid = deal.content.length > 0;
 
     const prevAiActive = useRef(aiActive);
@@ -65,14 +60,6 @@ export default function ProductUploadPage() {
             return stored !== null ? JSON.parse(stored) : true; // 기본값 true
         } catch {
             return true;
-        }
-    };
-
-    const setAiUploadPreference = (enabled: boolean) => {
-        try {
-            localStorage.setItem('isAiUploadEnabled', JSON.stringify(enabled));
-        } catch {
-            // localStorage 사용 불가시 무시
         }
     };
 
@@ -125,11 +112,7 @@ export default function ProductUploadPage() {
                 priceType: 'KRW',
                 discountedPrice: 0,
             },
-            shipping: {
-                shippingType: 'FREE',
-                shippingPrice: 0,
-                shippingRule: '',
-            },
+            shippingType: 'FREE',
             content: '',
             discountIds: [],
             discountNames: [],
@@ -163,11 +146,7 @@ export default function ProductUploadPage() {
                 priceType: data.price.priceType,
                 discountedPrice: data.price.discountedPrice,
             },
-            shipping: {
-                shippingType: data.shipping.shippingType,
-                shippingPrice: data.shipping.shippingPrice || 0,
-                shippingRule: data.shipping.shippingRule || '',
-            },
+            shippingType: data.shippingType || 'FREE',
             content: data.content || '',
             // 할인정보: 데이터에 있으면 사용, 없으면 기존 값 유지
             discountIds: data.discountIds !== undefined ? data.discountIds : prevDeal.discountIds,
@@ -308,11 +287,7 @@ export default function ProductUploadPage() {
                 priceType: deal.price.priceType,
                 discountedPrice: deal.price.discountedPrice,
             },
-            shipping: {
-                shippingType: deal.shipping.shippingType,
-                shippingPrice: deal.shipping.shippingPrice,
-                shippingRule: deal.shipping.shippingRule,
-            },
+            shippingType: deal.shippingType,
             content: deal.content,
             discountIds: deal.discountIds,
             discountNames: deal.discountNames,
