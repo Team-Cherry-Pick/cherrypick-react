@@ -8,6 +8,13 @@ import { formatNumber } from '@/utils/number';
 
 const PRICE_BADGES = ['다양한 가격', '$'];
 
+const SHIPPING_OPTIONS = [
+    { label: '무료배송', value: 'FREE' },
+    { label: '조건 무료배송', value: 'CONDITIONAL' },
+    { label: '유료 배송', value: 'KRW' },
+    { label: '$', value: 'USD' },
+];
+
 export function PriceInfo() {
     const [deal, setDeal] = useAtom(newDealAtom);
     const [selectedType, setSelectedType] = useState<'다양한 가격' | '$' | null>(null);
@@ -33,6 +40,13 @@ export function PriceInfo() {
                 },
             });
         }
+    };
+
+    const handleShippingSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setDeal({
+            ...deal,
+            shippingType: e.target.value as 'FREE' | 'CONDITIONAL' | 'KRW' | 'USD',
+        });
     };
 
     return (
@@ -73,6 +87,18 @@ export function PriceInfo() {
                             <span className={styles.unitInside}>$</span>
                         ) : null)}
                 </div>
+                <select
+                    className={styles.shippingSelect}
+                    value={deal.shippingType || ''}
+                    onChange={handleShippingSelect}
+                >
+                    <option value="" disabled>배송방법 선택</option>
+                    {SHIPPING_OPTIONS.map(option => (
+                        <option key={option.value} value={option.value}>
+                            {option.label}
+                        </option>
+                    ))}
+                </select>
             </div>
         </div>
     );

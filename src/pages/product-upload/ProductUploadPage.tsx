@@ -9,7 +9,6 @@ import {
     ProductDetail,
     ProductImageUpload,
     ProductInfo,
-    ShippingInfo,
 } from './components';
 import { useAtom } from 'jotai';
 import { newDealAtom } from '@/store';
@@ -500,21 +499,11 @@ export default function ProductUploadPage() {
                             <div className={styles.section}>
                                 <div className={styles.sectionTitle}>가격 정보</div>
                                 <PriceInfo />
+                                <DiscountInfo />
                             </div>
-                            <div className={styles.section}>
-                                <div className={styles.sectionTitle}>배송 정보</div>
-                                <ShippingInfo />
-                            </div>
-                        </div>
-                        <div className={styles.sectionDivider} />
-                        <div className={styles.sectionWrapper}>
                             <div className={styles.section}>
                                 <div className={styles.sectionTitle}>상세 정보</div>
                                 <ProductDetail />
-                            </div>
-                            <div className={styles.section}>
-                                <div className={styles.sectionTitle}>할인 정보(선택)</div>
-                                <DiscountInfo />
                             </div>
                         </div>
                         <div className={styles.uploadButtonWrapper}>

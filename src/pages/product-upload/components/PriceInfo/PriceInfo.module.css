@@ -11,12 +11,14 @@
 
 .textInputContainer {
   display: flex;
+  gap: var(--spacing-3);
 }
 
 .textInputWithUnit {
   display: flex;
   align-items: center;
   position: relative;
+  flex: 1;
 }
 
 .unitInside {
@@ -27,4 +29,26 @@
   color: var(--color-neutral-500);
   font-size: 1em;
   pointer-events: none;
+}
+
+.shippingSelect {
+  flex: 1;
+  padding: var(--spacing-3) var(--spacing-4);
+  background: var(--color-neutral-0);
+  border: 0.0625rem solid var(--color-neutral-100);
+  border-radius: var(--radius-2);
+  font-size: 1em;
+  color: var(--color-content-sub);
+  cursor: pointer;
+  min-width: 140px;
+  outline: none;
+}
+
+.shippingSelect:hover {
+  border-color: var(--color-neutral-200);
+}
+
+.shippingSelect:focus {
+  outline: none;
+  border-color: var(--color-primary);
 }
