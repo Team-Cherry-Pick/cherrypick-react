@@ -7,6 +7,7 @@ import useIsMobileViewport from '@/hooks/useIsMobileViewport';
 import { Moon, ArrowLeft } from 'lucide-react';
 import { useTheme } from '@/styles/global/useTheme';
 import ProfileButton from '@/components/layout/DefaultLayout/components/Header/components/ProfileButton';
+import RightArrowIcon from '@/assets/icons/right-arrow-Icon.svg?react';
 
 interface MainFilterProps {
     isOpen?: boolean;
@@ -93,7 +94,15 @@ export function MainFilter({ isOpen = false, onClose }: MainFilterProps) {
     return (
         <aside className={styles.container}>
             <div className={styles.flexBox}>
-                <div className={styles.title}>필터</div>
+                <div className={styles.titleSection}>
+                    <button 
+                        className={styles.closeButtonWrapper}
+                        onClick={onClose}
+                    >
+                        <RightArrowIcon className={styles.closeButton} />
+                    </button>
+                    <div className={styles.title}>필터</div>
+                </div>
                 <div className={styles.headerButtons}>
                     <button className={styles.resetButton} onClick={resetFilters}>
                         전체 초기화
