@@ -18,7 +18,7 @@ export function DiscountInfo() {
                 label={
                     selectedDiscount.length > 0
                         ? selectedDiscount.map(discount => `#${discount.name}`).join(' ')
-                        : '할인방식 선택'
+                        : '할인방식 (선택)'
                 }
                 onClick={handleDiscountSelect}
             />

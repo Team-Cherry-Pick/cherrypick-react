@@ -8,11 +8,12 @@ import { GA4Events } from '@/utils/ga4';
 
 interface MainSearchBarProps {
     onClose?: () => void;
+    isHeaderVariant?: boolean; // 헤더에서 사용될 때 true
 }
 
 const RECENT_KEYWORDS_KEY = 'recentKeywords';
 
-const MainSearchBar = ({ onClose }: MainSearchBarProps) => {
+const MainSearchBar = ({ onClose, isHeaderVariant = false }: MainSearchBarProps) => {
     const [query, setQuery] = useState('');
     const [recentKeywords, setRecentKeywords] = useState<string[]>([]);
     const setKeyword = useSetAtom(keywordAtom);
@@ -79,25 +80,26 @@ const MainSearchBar = ({ onClose }: MainSearchBarProps) => {
 
     return (
         <div className={styles.searchContainer}>
-            <div className={styles.searchBarWrapper}>
+            <div className={isHeaderVariant ? styles.headerSearchBar : styles.searchBarWrapper}>
                 <input
                     ref={inputRef}
                     type="text"
-                    placeholder="검색어를 입력해주세요"
+                    placeholder={isHeaderVariant ? "찾고 싶은 상품이나 브랜드를 검색해보세요!" : "검색어를 입력해주세요"}
                     value={query}
-                    className={styles.searchInput}
+                    className={isHeaderVariant ? styles.headerSearchInput : styles.searchInput}
                     onChange={e => setQuery(e.target.value)}
                     onKeyDown={e => e.key === 'Enter' && handleSearch()}
                 />
                 <button
-                    className={`${styles.searchButton} ${query.length > 0 ? styles.active : ''}`}
+                    className={isHeaderVariant ? styles.headerSearchButton : `${styles.searchButton} ${query.length > 0 ? styles.active : ''}`}
                     onClick={() => handleSearch()}
                 >
                     <SearchIcon />
                 </button>
             </div>
 
-            {recentKeywords.length > 0 && (
+            {/* 최근 검색어 컴포넌트 - 당분간 사용하지 않음 */}
+            {/* {recentKeywords.length > 0 && (
                 <div className={styles.recentSearchWrapper}>
                     <div className={styles.recentHeader}>
                         <span>최근 검색어</span>
@@ -129,7 +131,7 @@ const MainSearchBar = ({ onClose }: MainSearchBarProps) => {
                         ))}
                     </div>
                 </div>
-            )}
+            )} */}
         </div>
     );
 };

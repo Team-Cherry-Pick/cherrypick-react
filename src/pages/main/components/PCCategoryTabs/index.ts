@@ -1,0 +1,1 @@
+export { PCCategoryTabs } from './PCCategoryTabs';

@@ -1,13 +1,27 @@
 .container {
-  width: 16.875rem;
+  width: 100%;
   min-width: 16.875rem;
-  margin: 7.5rem 0;
+  padding: 1.5rem;
+  height: 100%;
 }
 
 .flexBox {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.titleSection {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.headerButtons {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .title {
@@ -25,13 +39,56 @@
   text-decoration: underline;
 }
 
+.closeButtonWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  border-radius: 25%;
+  color: var(--color-content-sub);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.closeButtonWrapper:hover {
+  background-color: var(--color-neutral-100);
+  color: var(--color-content-main);
+}
+
+.closeButton {
+  width: 1rem;
+  height: 1rem;
+}
+
+.filterContent {
+  padding-bottom: 4rem; /* 필터 내용 하단에 충분한 여백 */
+}
+
 .divider {
   height: 0.0625rem;
   margin: var(--spacing-8) 0;
   background-color: var(--color-border-board);
 }
 
+/* PC에서 슬라이드 필터로 사용될 때 스타일 조정 */
+@media (min-width: 48.0625rem) {
+  .container {
+    margin: 0;
+  }
+}
+
 @media (max-width: 48rem) {
+  .container {
+    width: 16.875rem;
+    min-width: 16.875rem;
+    margin: 7.5rem 0;
+    padding: 0; /* 모바일에서는 기본 패딩 제거 */
+    padding-bottom: 0; /* 모바일에서는 하단 여백도 제거 */
+    height: auto;
+  }
+  
   .mobileOverlay {
     position: fixed;
     top: 0;

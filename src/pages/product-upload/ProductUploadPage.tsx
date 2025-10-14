@@ -9,7 +9,6 @@ import {
     ProductDetail,
     ProductImageUpload,
     ProductInfo,
-    ShippingInfo,
 } from './components';
 import { useAtom } from 'jotai';
 import { newDealAtom } from '@/store';
@@ -48,12 +47,7 @@ export default function ProductUploadPage() {
     const isImageValid = imageUpload.images.length > 0;
     const isOriginalUrlValid = deal.originalUrl.length > 0;
     const isStoreValid = deal.storeId !== undefined || deal.storeName.length > 0;
-    const isShippingValid =
-        !(deal.shipping.shippingType === 'CONDITIONAL' && deal.shipping.shippingRule.length === 0) &&
-        !(
-            (deal.shipping.shippingType === 'KRW' || deal.shipping.shippingType === 'USD') &&
-            deal.shipping.shippingPrice === 0
-        );
+    const isShippingValid = true; // Since we only have shippingType, it's always valid
     const isContentValid = deal.content.length > 0;
 
     const prevAiActive = useRef(aiActive);
@@ -65,14 +59,6 @@ export default function ProductUploadPage() {
             return stored !== null ? JSON.parse(stored) : true; // 기본값 true
         } catch {
             return true;
-        }
-    };
-
-    const setAiUploadPreference = (enabled: boolean) => {
-        try {
-            localStorage.setItem('isAiUploadEnabled', JSON.stringify(enabled));
-        } catch {
-            // localStorage 사용 불가시 무시
         }
     };
 
@@ -123,14 +109,9 @@ export default function ProductUploadPage() {
             storeName: '',
             price: {
                 priceType: 'KRW',
-                regularPrice: 0,
                 discountedPrice: 0,
             },
-            shipping: {
-                shippingType: 'FREE',
-                shippingPrice: 0,
-                shippingRule: '',
-            },
+            shippingType: 'FREE',
             content: '',
             discountIds: [],
             discountNames: [],
@@ -162,14 +143,9 @@ export default function ProductUploadPage() {
             storeName: data.store?.storeName || data.storeName || '',
             price: {
                 priceType: data.price.priceType,
-                regularPrice: data.price.regularPrice,
                 discountedPrice: data.price.discountedPrice,
             },
-            shipping: {
-                shippingType: data.shipping.shippingType,
-                shippingPrice: data.shipping.shippingPrice || 0,
-                shippingRule: data.shipping.shippingRule || '',
-            },
+            shippingType: data.shippingType || 'FREE',
             content: data.content || '',
             // 할인정보: 데이터에 있으면 사용, 없으면 기존 값 유지
             discountIds: data.discountIds !== undefined ? data.discountIds : prevDeal.discountIds,
@@ -308,14 +284,9 @@ export default function ProductUploadPage() {
             storeName: deal.storeName,
             price: {
                 priceType: deal.price.priceType,
-                regularPrice: deal.price.regularPrice,
                 discountedPrice: deal.price.discountedPrice,
             },
-            shipping: {
-                shippingType: deal.shipping.shippingType,
-                shippingPrice: deal.shipping.shippingPrice,
-                shippingRule: deal.shipping.shippingRule,
-            },
+            shippingType: deal.shippingType,
             content: deal.content,
             discountIds: deal.discountIds,
             discountNames: deal.discountNames,
@@ -528,21 +499,11 @@ export default function ProductUploadPage() {
                             <div className={styles.section}>
                                 <div className={styles.sectionTitle}>가격 정보</div>
                                 <PriceInfo />
+                                <DiscountInfo />
                             </div>
-                            <div className={styles.section}>
-                                <div className={styles.sectionTitle}>배송 정보</div>
-                                <ShippingInfo />
-                            </div>
-                        </div>
-                        <div className={styles.sectionDivider} />
-                        <div className={styles.sectionWrapper}>
                             <div className={styles.section}>
                                 <div className={styles.sectionTitle}>상세 정보</div>
                                 <ProductDetail />
-                            </div>
-                            <div className={styles.section}>
-                                <div className={styles.sectionTitle}>할인 정보(선택)</div>
-                                <DiscountInfo />
                             </div>
                         </div>
                         <div className={styles.uploadButtonWrapper}>

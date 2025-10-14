@@ -14,14 +14,9 @@ export const newDealAtom = atom<UploadDeal>({
     storeName: '',
     price: {
         priceType: 'KRW',
-        regularPrice: 0,
         discountedPrice: 0,
     },
-    shipping: {
-        shippingType: 'FREE',
-        shippingPrice: 0,
-        shippingRule: '',
-    },
+    shippingType: 'FREE',
     content: '',
     discountIds: [],
     discountNames: [],

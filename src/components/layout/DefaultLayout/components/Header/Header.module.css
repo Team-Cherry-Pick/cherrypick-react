@@ -4,6 +4,14 @@
   width: 100%;
 }
 
+/* PC 버전에서 헤더 하단 그림자 */
+@media (min-width: 49rem) {
+  .headerWrapper {
+    box-shadow: var(--card-shadow);
+    border-bottom: 0.5px solid var(--color-border-board);
+  }
+}
+
 .rootBackground {
   background-color: var(--color-background-root);
 }
@@ -37,10 +45,26 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 91.25rem;
+  width: 100%; /* 전체 너비 사용 */
   height: var(--spacing-24);
-  margin: 0 auto;
   padding: 0 var(--spacing-5);
+  position: relative;
+}
+
+.leftSection {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.centerSection {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 40%;
+  max-width: 32rem;
+  min-width: 20rem;
 }
 
 .logoWrapper {
@@ -84,8 +108,10 @@
 }
 
 .personalContainer {
+  flex: 1;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: var(--spacing-4);
 }
 
@@ -160,5 +186,12 @@
 
   .searchIcon {
     display: inline-flex;
+  }
+}
+
+/* PC 버전에서 메인 레이아웃과 동일한 패딩 적용 */
+@media (min-width: 64rem) {
+  .headerContainer {
+    padding: 0 max(var(--spacing-5), calc((100vw - var(--max-width)) / 2));
   }
 }
