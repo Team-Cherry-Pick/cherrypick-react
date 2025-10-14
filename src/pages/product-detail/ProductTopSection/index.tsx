@@ -99,9 +99,6 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
                 <S.PriceContainer>
                     <S.PriceBox>
                         <S.DiscountPercent>최종 구매가격</S.DiscountPercent>
-                        <S.OriginalPrice>
-                            {deal.price.regularPrice.toLocaleString()}원
-                        </S.OriginalPrice>
                     </S.PriceBox>
 
                     {deal.price.priceType === 'VARIOUS' ? (

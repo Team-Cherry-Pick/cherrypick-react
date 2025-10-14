@@ -11,7 +11,6 @@
 
 .textInputContainer {
   display: flex;
-  gap: var(--spacing-4);
 }
 
 .textInputWithUnit {

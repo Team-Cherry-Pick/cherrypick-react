@@ -123,7 +123,6 @@ export default function ProductUploadPage() {
             storeName: '',
             price: {
                 priceType: 'KRW',
-                regularPrice: 0,
                 discountedPrice: 0,
             },
             shipping: {
@@ -162,7 +161,6 @@ export default function ProductUploadPage() {
             storeName: data.store?.storeName || data.storeName || '',
             price: {
                 priceType: data.price.priceType,
-                regularPrice: data.price.regularPrice,
                 discountedPrice: data.price.discountedPrice,
             },
             shipping: {
@@ -308,7 +306,6 @@ export default function ProductUploadPage() {
             storeName: deal.storeName,
             price: {
                 priceType: deal.price.priceType,
-                regularPrice: deal.price.regularPrice,
                 discountedPrice: deal.price.discountedPrice,
             },
             shipping: {

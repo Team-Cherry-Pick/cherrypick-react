@@ -74,7 +74,6 @@ export interface DealImage {
 
 export interface DealPrice {
     priceType: PriceType;
-    regularPrice: number;
     discountedPrice: number;
 }
 
