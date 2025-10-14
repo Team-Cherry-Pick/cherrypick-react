@@ -41,9 +41,26 @@
   margin-right: 20rem;
 }
 
+/* PC 메인 배너 */
+.mainBanner {
+  width: 100%;
+  margin-bottom: var(--spacing-6);
+}
+
+.mainBannerImage {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1140 / 220;
+  object-fit: cover;
+}
+
 @media (max-width: 48rem) {
   .container {
     flex-direction: column;
+  }
+  
+  .mainBanner {
+    display: none;
   }
 }
 

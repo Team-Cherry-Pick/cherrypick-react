@@ -11,6 +11,7 @@ import useIsMobileViewport from '@/hooks/useIsMobileViewport';
 import MainSearchBar from './components/MainSearchBar';
 import MainKeywords from './components/MainKeywords';
 import MainDealList from './components/MainDealList';
+import mainBannerImg from '@/assets/banner/main-banner.jpg';
 
 const MainPage = () => {
     const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -113,6 +114,17 @@ const MainPage = () => {
                                             <CloseIcon className={styles.closeButton} onClick={handleSearchOverlayClose}/>
                                         )}
                                     </div>
+                                </div>
+                            )}
+                            
+                            {/* PC 버전 배너 */}
+                            {!isMobile && (
+                                <div className={styles.mainBanner}>
+                                    <img 
+                                        src={mainBannerImg} 
+                                        alt="메인 배너" 
+                                        className={styles.mainBannerImage}
+                                    />
                                 </div>
                             )}
                             
