@@ -73,6 +73,17 @@
   margin-bottom: var(--spacing-4);
 }
 
+.rightControls {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.uploadButtonWrapper {
+  display: flex;
+  align-items: center;
+}
+
 .floatingWrapper {
   display: flex;
   flex-direction: row;

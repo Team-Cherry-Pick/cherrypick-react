@@ -15,10 +15,10 @@ const UploadBtn = () => {
     };
 
     return (
-        <Wrapper onClick={handleClick}>
+        <Wrapper onClick={handleClick} $isMobile={isMobile}>
             <SparkleText>
                 <RocketEmoji>🚀</RocketEmoji>
-                {isMobile ? ' 특가할인, AI로 지금 바로 업로드' : ' 특가할인, AI로 지금 바로 업로드'}
+                {isMobile ? ' 특가할인, AI로 빠른 업로드' : ' 특가할인, AI로 빠른 업로드'}
             </SparkleText>
         </Wrapper>
     );
@@ -46,10 +46,10 @@ const RocketEmoji = styled.span`
   font-size: 1.1em;
 `;
 
-const Wrapper = styled.button`
+const Wrapper = styled.button<{ $isMobile: boolean }>`
   display: flex;
   width: auto;
-  height: 40px;
+  height: ${({ $isMobile }) => $isMobile ? '40px' : '2rem'};
   align-items: center;
   gap: ${({ theme }) => theme.spacing[2]};
   padding: 0 12px;
@@ -68,6 +68,7 @@ const Wrapper = styled.button`
   border: none;
   position: relative;
   overflow: hidden;
+  white-space: nowrap;
   
   &::after {
     content: '';

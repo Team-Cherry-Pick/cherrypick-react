@@ -136,9 +136,16 @@ const MainPage = () => {
                             
                             <div className={styles.sortRow}>
                                 <MainKeywords keyword={keyword} />
-                                <SortButtons 
-                                  onFilterClick={() => setIsFilterOpen(!isFilterOpen)}
-                                />
+                                <div className={styles.rightControls}>
+                                    {!isMobile && (
+                                        <div className={styles.uploadButtonWrapper}>
+                                            <UploadBtn />
+                                        </div>
+                                    )}
+                                    <SortButtons 
+                                      onFilterClick={() => setIsFilterOpen(!isFilterOpen)}
+                                    />
+                                </div>
                             </div>
                             <MainDealList />
                         </div>
@@ -156,7 +163,7 @@ const MainPage = () => {
                 </div>
 
                 <div className={styles.floatingWrapper}>
-                    <UploadBtn />
+                    {isMobile && <UploadBtn />}
                     <ScrollTopBtn />
                 </div>
             </DefaultLayout>
