@@ -4,6 +4,12 @@
   position: relative;
 }
 
+@media (max-width: 767px) {
+  .section {
+    padding-bottom: 0;
+  }
+}
+
 @media (min-width: 768px) {
   .section {
     padding: 8rem 0;
@@ -25,6 +31,12 @@
   align-items: center;
   max-width: 72rem;
   margin: 0 auto;
+}
+
+@media (max-width: 767px) {
+  .grid {
+    gap: 0;
+  }
 }
 
 @media (min-width: 768px) {
@@ -64,6 +76,13 @@
   margin: 0 auto;
   filter: drop-shadow(0 20px 60px rgba(0, 0, 0, 0.15));
   transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (max-width: 767px) {
+  .image {
+    display: block;
+    margin-bottom: 0;
+  }
 }
 
 .imageWrapper:hover .image {

@@ -4,6 +4,12 @@
   position: relative;
 }
 
+@media (max-width: 767px) {
+  .section {
+    padding-bottom: 0;
+  }
+}
+
 @media (min-width: 768px) {
   .section {
     padding: 8rem 0;
@@ -105,6 +111,12 @@
   grid-template-columns: 1fr;
   gap: 2rem;
   align-items: center;
+}
+
+@media (max-width: 767px) {
+  .grid {
+    gap: 0;
+  }
 }
 
 @media (min-width: 768px) {

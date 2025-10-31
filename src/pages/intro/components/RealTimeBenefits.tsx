@@ -1,12 +1,15 @@
 import styles from './RealTimeBenefits.module.css';
 import { createBoundClassNames } from '@/utils/classNameBinder';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
-import ThirdImg from '@/assets/intro/3.png';
+import ThirdImgPc from '@/assets/intro/list-pc.png';
+import ThirdImgMobile from '@/assets/intro/list-mobile.png';
+import useIsMobileViewport from '@/hooks/useIsMobileViewport';
 
 const cx = createBoundClassNames(styles);
 
 export function RealTimeBenefits() {
   const { ref, isVisible } = useScrollAnimation();
+  const isMobile = useIsMobileViewport();
 
   return (
     <section 
@@ -67,7 +70,7 @@ export function RealTimeBenefits() {
           
           <div className={cx('imageWrapper', 'imageRight')} style={{ opacity: isVisible ? 1 : 0, transform: isVisible ? 'translateX(0)' : 'translateX(-2rem)', transition: 'all 0.7s 150ms' }}>
             <img
-              src={ThirdImg}
+              src={isMobile ? ThirdImgMobile : ThirdImgPc}
               alt="리픽 랭킹"
               className={cx('image')}
               data-testid="img-alerts"

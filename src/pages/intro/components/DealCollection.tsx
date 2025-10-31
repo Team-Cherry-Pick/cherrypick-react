@@ -1,13 +1,16 @@
 import styles from './DealCollection.module.css';
 import { createBoundClassNames } from '@/utils/classNameBinder';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
-import FirstImg from '@/assets/intro/1.png';
-import SecondImg from '@/assets/intro/1-1.png';
+import FirstImgPc from '@/assets/intro/upload-pc.png';
+import FirstImgMobile from '@/assets/intro/upload-mobile.png';
+import SecondImg from '@/assets/intro/deals-pc.png';
+import useIsMobileViewport from '@/hooks/useIsMobileViewport';
 
 const cx = createBoundClassNames(styles);
 
 export function DealCollection() {
   const { ref, isVisible } = useScrollAnimation();
+  const isMobile = useIsMobileViewport();
 
   return (
     <section 
@@ -33,7 +36,7 @@ export function DealCollection() {
         <div className={cx('content')} style={{ opacity: isVisible ? 1 : 0, transform: isVisible ? 'scale(1)' : 'scale(0.95)', transition: 'all 0.7s 300ms' }}>
           <div className={cx('grid')}>
             <img
-                src={FirstImg}
+                src={isMobile ? FirstImgMobile : FirstImgPc}
                 alt="링크 입력 자동 생성"
                 className={cx('mobileImage')}
                 data-testid="img-mobile-mockup"

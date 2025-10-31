@@ -1,12 +1,15 @@
 import styles from './SmartComparison.module.css';
 import { createBoundClassNames } from '@/utils/classNameBinder';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
-import SecondImg from '@/assets/intro/2.png';
+import SecondImgPc from '@/assets/intro/point-pc.png';
+import SecondImgMobile from '@/assets/intro/point-mobile.png';
+import useIsMobileViewport from '@/hooks/useIsMobileViewport';
 
 const cx = createBoundClassNames(styles);
 
 export function SmartComparison() {
   const { ref, isVisible } = useScrollAnimation();
+  const isMobile = useIsMobileViewport();
 
   return (
     <section 
@@ -18,7 +21,7 @@ export function SmartComparison() {
         <div className={cx('grid')}>
           <div className={cx('imageWrapper')} style={{ opacity: isVisible ? 1 : 0, transform: isVisible ? 'translateX(0)' : 'translateX(-2rem)', transition: 'all 0.7s' }}>
             <img
-              src={SecondImg}
+              src={isMobile ? SecondImgMobile : SecondImgPc}
               alt="제휴 리워드"
               className={cx('image')}
               data-testid="img-comparison"
