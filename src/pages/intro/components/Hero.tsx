@@ -1,10 +1,12 @@
 import styles from './Hero.module.css';
 import { createBoundClassNames } from '@/utils/classNameBinder';
 import heroBackground from '../generated_images/agreement-2548138_1920.jpg';
+import { useStartNowAction } from '../hooks/useStartNowAction';
 
 const cx = createBoundClassNames(styles);
 
 export function Hero() {
+  const handleStartNow = useStartNowAction('hero');
 
   return (
     <section 
@@ -40,9 +42,14 @@ export function Hero() {
               리픽에선, 어느쪽이든 돈이 되니까요!
             </p>
 
-            <a href="#" className={cx('storeButton')} data-testid="button-download-ios">
-                <span>지금 시작하기</span>
-              </a>
+            <button
+              type="button"
+              className={cx('storeButton')}
+              onClick={handleStartNow}
+              data-testid="button-start-now-hero"
+            >
+              지금 시작하기
+            </button>
           </div>
         </div>
       </div>
