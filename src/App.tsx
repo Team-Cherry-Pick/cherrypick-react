@@ -16,6 +16,7 @@ import ProfileEditPage from './pages/profile-edit/ProfileEditPage';
 import JoinBetaPage from '@/pages/join-beta/JoinBetaPage';
 import MyPage from '@/pages/my-page';
 import { UserDealsPage } from '@/pages/user-deals';
+import IntroPage from '@/pages/intro/IntroPage';
 import { useEffect } from 'react';
 import { useRefreshProfile } from './hooks/useRefreshProfile';
 import { generateDeviceID } from './types/Auth';
@@ -60,6 +61,7 @@ const App = () => {
                         <Route path="/profile-edit" element={<ProfileEditPage />} />
                         <Route path="/join-beta" element={<JoinBetaPage />} />
                         <Route path="/my-page" element={<MyPage />} />
+                        <Route path="/intro" element={<IntroPage />} />
                         <Route 
                             path="/user-deals/:type" 
                             element={
