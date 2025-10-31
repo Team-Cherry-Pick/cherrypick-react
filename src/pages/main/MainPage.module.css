@@ -42,9 +42,24 @@
 }
 
 /* PC 메인 배너 */
-.mainBanner {
+.mainBannerButton {
   width: 100%;
   margin-bottom: var(--spacing-6);
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: block;
+  text-align: left;
+}
+
+.mainBannerButton:hover {
+  filter: brightness(0.98);
+}
+
+.mainBannerButton:focus-visible {
+  outline: 2px solid var(--color-primary, #DB2726);
+  outline-offset: 4px;
 }
 
 .mainBannerImage {

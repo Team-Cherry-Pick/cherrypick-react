@@ -12,8 +12,10 @@ import MainSearchBar from './components/MainSearchBar';
 import MainKeywords from './components/MainKeywords';
 import MainDealList from './components/MainDealList';
 import mainBannerImg from '@/assets/banner/main-banner.jpg';
+import { useNavigate } from 'react-router-dom';
 
 const MainPage = () => {
+    const navigate = useNavigate();
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [isSearchOverlayOpen, setIsSearchOverlayOpen] = useState(false);
     const keyword = useAtomValue(keywordAtom);
@@ -119,13 +121,18 @@ const MainPage = () => {
                             
                             {/* PC 버전 배너 */}
                             {!isMobile && (
-                                <div className={styles.mainBanner}>
+                                <button
+                                    type="button"
+                                    className={styles.mainBannerButton}
+                                    onClick={() => navigate('/intro')}
+                                    aria-label="인트로 페이지로 이동"
+                                >
                                     <img 
                                         src={mainBannerImg} 
                                         alt="메인 배너" 
                                         className={styles.mainBannerImage}
                                     />
-                                </div>
+                                </button>
                             )}
                             
                             {/* PC 버전 카테고리 탭 */}
