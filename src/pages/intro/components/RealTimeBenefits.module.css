@@ -62,8 +62,7 @@
   width: 100%;
   max-width: 20rem;
   margin: 0 auto;
-  border-radius: 1.5rem;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  filter: drop-shadow(0 20px 60px rgba(0, 0, 0, 0.15));
   transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
