@@ -1,6 +1,5 @@
 import styles from './Hero.module.css';
 import { createBoundClassNames } from '@/utils/classNameBinder';
-import { PiPercent } from "react-icons/pi";
 import heroBackground from '../generated_images/agreement-2548138_1920.jpg';
 
 const cx = createBoundClassNames(styles);
@@ -23,8 +22,11 @@ export function Hero() {
               <span className={cx('headlineLead')}>
                 매일 쏟아지는 할인 속
               </span>
-              <span className={('headlineEmphasis')}>
-                놓치면 아쉬운 특가할인만
+              <span 
+                className={cx('headlineEmphasis', 'headlineSparkle')}
+                data-text="놓치면 아쉬운 특가할인"
+              >
+                놓치면 아쉬운 특가할인
               </span>
             </h1>
             <p 

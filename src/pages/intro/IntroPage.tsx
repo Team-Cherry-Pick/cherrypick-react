@@ -4,8 +4,6 @@ import { DealCollection } from './components/DealCollection';
 import { SmartComparison } from './components/SmartComparison';
 import { RealTimeBenefits } from './components/RealTimeBenefits';
 import { PersonalizedRecommendations } from './components/PersonalizedRecommendations';
-import { Community } from './components/Community';
-import { BenefitsGrid } from './components/BenefitsGrid';
 import { Footer } from './components/Footer';
 import { lightTheme } from '@/styles/theme';
 
@@ -18,8 +16,6 @@ export default function IntroPage() {
         <SmartComparison />
         <RealTimeBenefits />
         <PersonalizedRecommendations />
-        <Community />
-        <BenefitsGrid />
         <Footer />
       </main>
     </ThemeProvider>

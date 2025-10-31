@@ -41,7 +41,7 @@
 }
 
 .title {
-  font-size: 2rem;
+  font-size: 1.75rem;
   font-weight: 700;
   margin-bottom: 1.25rem;
   line-height: 1.3;
@@ -55,10 +55,7 @@
 }
 
 .titleGradient {
-  background: linear-gradient(to right, #DB2726, #FF4635);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #111827;
 }
 
 .description {
@@ -119,28 +116,51 @@
 .imageWrapper {
   text-align: center;
   position: relative;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  display: inline-flex;
+  margin: 0 auto;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
 }
 
 .mobileImage {
+  display: block;
   width: 100%;
-  max-width: 28rem;
+  max-width: 20rem;
   margin: 0 auto;
-  border-radius: 1.5rem;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
   transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .desktopImage {
+  display: none;
   width: 100%;
-  border-radius: 1.5rem;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  min-width: 40rem;
   border: none;
   transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.imageWrapper:hover .mobileImage,
-.imageWrapper:hover .desktopImage {
+@media (min-width: 768px) {
+  .desktopImage {
+    display: block;
+  }
+}
+
+.imageWrapper:hover {
   transform: scale(1.02);
+}
+
+@keyframes desktopImageSlide {
+  0% {
+    transform: translateX(-16px);
+  }
+  50% {
+    transform: translateX(16px);
+  }
+  100% {
+    transform: translateX(-16px);
+  }
 }
 
 .viewAllButton {

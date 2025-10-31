@@ -1,7 +1,7 @@
 import styles from './RealTimeBenefits.module.css';
 import { createBoundClassNames } from '@/utils/classNameBinder';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
-import alertsImg from '@/pages/intro/generated_images/Real-time_price_alerts_notification_screen_678d2f3f.png';
+import ThirdImg from '@/assets/intro/3.png';
 
 const cx = createBoundClassNames(styles);
 
@@ -18,17 +18,15 @@ export function RealTimeBenefits() {
         <div className={cx('grid')}>
           <div className={cx('content', 'contentLeft')} style={{ opacity: isVisible ? 1 : 0, transform: isVisible ? 'translateX(0)' : 'translateX(2rem)', transition: 'all 0.7s' }}>
             <div className={cx('badge')}>
-              랭킹 알고리즘
+              실시간 할인 랭킹
             </div>
             <h2 className={cx('title')} data-testid="text-benefits-title">
-              조회수와 전환율을 반영한
+              실시간 데이터를 반영한
               <br />
-              <span className={cx('titleHighlight')}>리픽만의 랭킹</span>
+              <span className={cx('titleHighlight')}>리픽만의 할인 랭킹</span>
             </h2>
             <p className={cx('description')}>
-              단순히 인기 많은 핫딜이 아닌, 실제 구매로 이어지는 알짜배기 핫딜을 우선 노출합니다.
-              <br />
-              조회수와 전환율을 함께 반영하여 더욱 똑똑한 추천을 제공해요.
+              단순히 인기가 많은 핫딜이 아닌, 실제 구매로 이어지는 알짜배기 핫딜을 상위에 노출합니다. 좋은 할인을 공유하면, 큰 수익을 벌 수 있어요!
             </p>
             <ul className={cx('featureList')}>
               <li className={cx('featureItem')}>
@@ -38,7 +36,7 @@ export function RealTimeBenefits() {
                   </svg>
                 </div>
                 <div className={cx('featureContent')}>
-                  <div className={cx('featureTitle')}>조회수 + 전환율 반영</div>
+                  <div className={cx('featureTitle')}>구매전환율 반영</div>
                   <div className={cx('featureDescription')}>많이 봤을 뿐 아니라 실제 구매로 이어진 핫딜 우선 노출</div>
                 </div>
               </li>
@@ -61,7 +59,7 @@ export function RealTimeBenefits() {
                 </div>
                 <div className={cx('featureContent')}>
                   <div className={cx('featureTitle')}>실시간 랭킹 업데이트</div>
-                  <div className={cx('featureDescription')}>최신 트렌드를 반영한 실시간 핫딜 순위 제공</div>
+                  <div className={cx('featureDescription')}>최신 데이터를 반영한 실시간 핫딜 순위 제공</div>
                 </div>
               </li>
             </ul>
@@ -69,7 +67,7 @@ export function RealTimeBenefits() {
           
           <div className={cx('imageWrapper', 'imageRight')} style={{ opacity: isVisible ? 1 : 0, transform: isVisible ? 'translateX(0)' : 'translateX(-2rem)', transition: 'all 0.7s 150ms' }}>
             <img
-              src={alertsImg}
+              src={ThirdImg}
               alt="리픽 랭킹"
               className={cx('image')}
               data-testid="img-alerts"
