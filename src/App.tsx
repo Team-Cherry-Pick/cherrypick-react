@@ -79,9 +79,8 @@ const App = () => {
                         <Route path="/login" element={<LoginPage />} />
                         <Route path="/login-success" element={<LoginRedirectPage />} />
                         <Route path="/profile-edit" element={<ProfileEditPage />} />
-                        <Route path="/join-beta" element={<JoinBetaPage />} />
                         <Route path="/my-page" element={<MyPage />} />
-                        <Route path="/intro" element={<IntroPage />} />
+                        <Route path="/join-beta" element={<IntroPage />} />
                         <Route 
                             path="/user-deals/:type" 
                             element={

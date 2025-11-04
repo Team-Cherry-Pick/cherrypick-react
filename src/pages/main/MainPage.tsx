@@ -124,7 +124,7 @@ const MainPage = () => {
                                 <button
                                     type="button"
                                     className={styles.mainBannerButton}
-                                    onClick={() => navigate('/intro')}
+                                    onClick={() => navigate('/join-beta')}
                                     aria-label="인트로 페이지로 이동"
                                 >
                                     <img 
