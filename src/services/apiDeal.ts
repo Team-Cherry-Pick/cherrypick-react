@@ -81,16 +81,6 @@ export async function fetchDiscounts(): Promise<{ discountId: number; name: stri
     }
 }
 
-export async function getPurchaseLog(dealID: number): Promise<void> {
-    await authRequest<unknown>(HttpMethod.GET, `/deal/purchase-log?dealId=${dealID}`);
-    return;
-}
-
-export async function getShareLog(dealID: number): Promise<void> {
-    await publicRequest<unknown>(HttpMethod.GET, `/deal/share-log?dealId=${dealID}`);
-    return;
-}
-
 export async function endDeal(dealId: number) {
     return authRequest(HttpMethod.PATCH, '/deal', { dealId, isSoldOut: true });
 }

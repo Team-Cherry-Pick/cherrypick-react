@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 import type { DetailedDeal } from '@/types/Deal';
 import HeatFeedback from '@/components/detail/HeatFeedback';
 import * as S from './ProductTopSection.style';
-import { endDeal, deleteDeal, getPurchaseLog, getShareLog } from '@/services/apiDeal';
+import { endDeal, deleteDeal } from '@/services/apiDeal';
+import { sendLog } from '@/services/apiLog';
 import { AccessTokenService } from '@/services/accessTokenService';
 import { useCarouselImages } from '@/hooks/useCarouselImages';
 import { ImageCarousel } from './components/ImageCarousel';
@@ -131,7 +132,15 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
                         <S.ShareButton
                             onClick={() => {
                                 GA4Events.shareDeal(deal.dealId, 'share_button');
-                                getShareLog(deal.dealId).catch(() => {});
+                                sendLog({
+                                    logType: 'SHARE_CLICK_LOG',
+                                    logMap: {
+                                        dealId: deal.dealId,
+                                        dealTitle: deal.title,
+                                        categoryId: deal.categoryId,
+                                        categoryName: deal.categorys?.[0],
+                                    },
+                                }).catch(() => {});
                                 shareUrl(window.location.href, {
                                     title: deal.title,
                                     text: `${deal.title} - 리픽에서 발견한 특가할인이에요.`,
@@ -147,7 +156,15 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
                                 const targetUrl = deal.deepLink || deal.originalUrl;
                                 if (targetUrl) {
                                     GA4Events.clickPurchase(deal.dealId, targetUrl);
-                                    getPurchaseLog(deal.dealId).catch(() => {});
+                                    sendLog({
+                                        logType: 'PURCHASE_CLICK_LOG',
+                                        logMap: {
+                                            dealId: deal.dealId,
+                                            dealTitle: deal.title,
+                                            categoryId: deal.categoryId,
+                                            categoryName: deal.categorys?.[0],
+                                        },
+                                    }).catch(() => {});
                                     window.open(targetUrl, '_blank');
                                 }
                             }}
