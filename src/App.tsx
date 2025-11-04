@@ -24,6 +24,8 @@ import { OverlayProvider } from './context/overlay';
 import { AccessTokenService } from './services/accessTokenService';
 import { initializeGA4WithDeviceId } from './utils/ga4';
 import PageTracker from './components/common/PageTracker';
+import { sendLog } from './services/apiLog';
+import { getBrowserInfo, getInflowSource, sanitizeLandingPage } from './types/Log';
 
 const App = () => {
     const [theme] = useAtom(themeAtom);
@@ -36,6 +38,24 @@ const App = () => {
             localStorage.setItem('deviceID', newDeviceID);
             initializeGA4WithDeviceId(newDeviceID);
             
+            // 신규 디바이스 로그 전송
+            const landingPage = sanitizeLandingPage(window.location.href);
+            const inflowSource = getInflowSource();
+            const { browser, version, os, userAgent } = getBrowserInfo();
+
+            sendLog({
+                logType: 'NEW_DEVICE_LOG',
+                logMap: {
+                    deviceId: newDeviceID,
+                    landingPage,
+                    inflowSource,
+                    os,
+                    browser,
+                    version,
+                    userAgent,
+                },
+            }).catch(() => {});
+
             if (AccessTokenService.get()) {
                 AccessTokenService.clear();
                 window.location.href = '/login';
