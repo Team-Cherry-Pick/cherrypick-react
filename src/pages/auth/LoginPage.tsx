@@ -57,7 +57,7 @@ const LoginPage = () => {
                     </button>
                     <button className={styles.betaTesterButton} onClick={handleBetaTesterApply}>
                         <RedFireIcon className={styles.betaTesterIcon} />
-                        <p className={styles.betaTesterText}>베타테스터 신청</p>
+                        <p className={styles.betaTesterText}>서비스 소개</p>
                     </button>
                 </div>
             </div>
