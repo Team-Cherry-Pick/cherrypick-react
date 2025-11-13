@@ -5,21 +5,22 @@ import { useNavigate } from 'react-router-dom';
 import { currentProfileAtom } from '@/store/profile';
 import { useAtomValue } from 'jotai';
 import { GA4Events } from '@/utils/ga4';
-import useIsMobileViewport from '@/hooks/useIsMobileViewport';
 
 const ProfileButton = () => {
     const navigate = useNavigate();
     const isLoggedIn = () => AccessTokenService.hasToken();
     const currentProfile = useAtomValue(currentProfileAtom);
-    const isMobile = useIsMobileViewport();
 
     // 프로필 버튼 클릭 시 호출
     const onClickBtnProfile = () => {
-        if (!isLoggedIn() && !isMobile) {
-            GA4Events.pageView('/login', '헤더 베타 로그인 버튼 클릭 (PC)');
+        if (!isLoggedIn()) {
+            GA4Events.pageView('/login', '헤더 로그인 버튼 클릭 (PC)');
             navigate('/login');
             return;
         }
+
+        GA4Events.pageView('/my-page', '헤더 프로필 버튼에서 마이페이지 이동');
+        navigate('/my-page');
     };
 
 
@@ -45,7 +46,7 @@ const ProfileButton = () => {
                         )}
                     </div>
                 ) : (
-                    <span className={styles.loginText}>베타 로그인</span>
+                    <span className={styles.loginText}>로그인</span>
                 )}
             </button>
         </div>
