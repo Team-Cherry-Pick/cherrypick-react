@@ -17,8 +17,9 @@ import JoinBetaPage from '@/pages/join-beta/JoinBetaPage';
 import MyPage from '@/pages/my-page';
 import { UserDealsPage } from '@/pages/user-deals';
 import IntroPage from '@/pages/intro/IntroPage';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRefreshProfile } from './hooks/useRefreshProfile';
+import { InterviewBannerPopup } from './components/common/InterviewBannerPopup';
 import { generateDeviceID } from './types/Auth';
 import { OverlayProvider } from './context/overlay';
 import { AccessTokenService } from './services/accessTokenService';
@@ -30,6 +31,7 @@ import { getBrowserInfo, getInflowSource, sanitizeLandingPage } from './types/Lo
 const App = () => {
     const [theme] = useAtom(themeAtom);
     const { refreshProfile } = useRefreshProfile();
+    const [showBannerPopup, setShowBannerPopup] = useState(false);
 
     useEffect(() => {
         const deviceId = localStorage.getItem('deviceID');
@@ -66,8 +68,19 @@ const App = () => {
         }
 
         refreshProfile();
+        
+        // 사이트 최초 접속 시 interview-banner 팝업 표시
+        const hasSeenBanner = localStorage.getItem('hasSeenInterviewBanner');
+        if (!hasSeenBanner) {
+            setShowBannerPopup(true);
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    const handleCloseBanner = () => {
+        setShowBannerPopup(false);
+        localStorage.setItem('hasSeenInterviewBanner', 'true');
+    };
 
     return (
         <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
@@ -110,6 +123,7 @@ const App = () => {
                         <Route path="*" element={<Navigate to="/error?code=404" replace />} />
                     </Routes>
                 </Router>
+                {showBannerPopup && <InterviewBannerPopup onClose={handleCloseBanner} />}
             </OverlayProvider>
         </ThemeProvider>
     );
