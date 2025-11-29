@@ -39,7 +39,7 @@ const App = () => {
             const newDeviceID = generateDeviceID();
             localStorage.setItem('deviceID', newDeviceID);
             initializeGA4WithDeviceId(newDeviceID);
-            
+
             // 신규 디바이스 로그 전송
             const landingPage = sanitizeLandingPage(window.location.href);
             const inflowSource = getInflowSource();
@@ -56,7 +56,7 @@ const App = () => {
                     version,
                     userAgent,
                 },
-            }).catch(() => {});
+            }).catch(() => { });
 
             if (AccessTokenService.get()) {
                 AccessTokenService.clear();
@@ -68,7 +68,7 @@ const App = () => {
         }
 
         refreshProfile();
-        
+
         // 사이트 최초 접속 시 interview-banner 팝업 표시
         const hasSeenBanner = localStorage.getItem('hasSeenInterviewBanner');
         if (!hasSeenBanner) {
@@ -79,6 +79,12 @@ const App = () => {
                 negativeButtonText: '다시보지 않기',
                 onPositiveClick: () => {
                     window.open('https://forms.gle/JKd6oGTpNh6qiurZ9', '_blank', 'noopener,noreferrer');
+                    sendLog({
+                        logType: 'INTERVIEW_CLICK_LOG',
+                        logMap: {
+                            isPopup: 'true'
+                        },
+                    }).catch(() => { });
                 },
                 onNegativeClick: () => {
                     localStorage.setItem('hasSeenInterviewBanner', 'true');
@@ -100,13 +106,13 @@ const App = () => {
                         <Route path="/profile-edit" element={<ProfileEditPage />} />
                         <Route path="/my-page" element={<MyPage />} />
                         <Route path="/join-beta" element={<IntroPage />} />
-                        <Route 
-                            path="/user-deals/:type" 
+                        <Route
+                            path="/user-deals/:type"
                             element={
                                 <PrivateRoute>
                                     <UserDealsPage />
                                 </PrivateRoute>
-                            } 
+                            }
                         />
                         <Route path="/product/:id" element={<ProductDetailPage />} />
                         <Route

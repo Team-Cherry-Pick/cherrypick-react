@@ -5,6 +5,7 @@ import mainBannerImg from '@/assets/banner/main-banner.jpg';
 import interviewBannerImg from '@/assets/banner/interview-banner-pc.jpg';
 import LeftArrowIcon from '@/assets/icons/left-arrow-Icon.svg?react';
 import RightArrowIcon from '@/assets/icons/right-arrow-Icon.svg?react';
+import { sendLog } from '@/services/apiLog';
 
 const banners = [
     {
@@ -39,6 +40,16 @@ export default function BannerCarousel() {
     };
 
     const handleBannerClick = (banner: typeof banners[0]) => {
+        // 인터뷰 배너 클릭 로그
+        if (banner.id === 2) {
+            sendLog({
+                logType: 'INTERVIEW_CLICK_LOG',
+                logMap: {
+                    isPopup: 'false'
+                },
+            }).catch(() => { });
+        }
+
         if (banner.external) {
             window.open(banner.link, '_blank', 'noopener,noreferrer');
         } else {

@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import styles from './InterviewBannerPopup.module.css';
 import interviewBanner from '@/assets/banner/interview-banner.png';
+import { sendLog } from '@/services/apiLog';
 
 interface InterviewBannerPopupProps {
     onClose: () => void;
@@ -31,6 +32,12 @@ export default function InterviewBannerPopup({ onClose }: InterviewBannerPopupPr
 
     const handleImageClick = () => {
         window.open('https://forms.gle/xdC749S98uU3uQBA8', '_blank', 'noopener,noreferrer');
+        sendLog({
+            logType: 'INTERVIEW_CLICK_LOG',
+            logMap: {
+                isPopup: 'true'
+            },
+        }).catch(() => { });
     };
 
     const handleOverlayClick = (e: React.MouseEvent) => {
