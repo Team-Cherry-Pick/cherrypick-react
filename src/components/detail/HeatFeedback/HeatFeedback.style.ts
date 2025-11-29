@@ -91,3 +91,35 @@ export const DislikeModal = styled.ul`
     border-top: 1px solid ${({ theme }) => theme.colors.border.card};
   }
 `;
+
+export const VoteTooltip = styled.div`
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #ff4e50ff;
+  color: white;
+  padding: 0.625rem 1rem;
+  border-radius: 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(255, 77, 79, 0.3);
+  
+  /* 말풍선 꼬리 */
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-bottom-color: #FF4D4F;
+  }
+  
+  &:hover {
+    background-color: #FF6B6D;
+  }
+`;

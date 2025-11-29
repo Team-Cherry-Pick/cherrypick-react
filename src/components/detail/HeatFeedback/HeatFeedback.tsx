@@ -1,6 +1,6 @@
 // components/detail/HeatFeedback/HeatFeedback.tsx
 import { useState, useRef, useEffect } from 'react';
-import { Container, ThumbWrapper, LikeBtn, DislikeBtn, HeatWrapper, Heat, DislikeModal } from './HeatFeedback.style';
+import { Container, ThumbWrapper, LikeBtn, DislikeBtn, HeatWrapper, Heat, DislikeModal, VoteTooltip } from './HeatFeedback.style';
 import LikeIcon from '@/assets/icons/like.svg?react';
 import DislikeIcon from '@/assets/icons/dislike.svg?react';
 import { voteDeal, VoteType, DislikeReason } from '@/services/apiVote';
@@ -27,6 +27,7 @@ const DISLIKE_REASONS: { label: string; value: DislikeReason }[] = [
 function HeatFeedback({ heat, dealId, initialVoteType, onVoteChange, category }: HeatFeedbackProps) {
     const [voteType, setVoteType] = useState<VoteType>(initialVoteType);
     const [showModal, setShowModal] = useState(false);
+    const [showTooltip, setShowTooltip] = useState(true);
     const modalRef = useRef<HTMLUListElement>(null);
 
     // initialVoteType이 변경되면 상태 업데이트
@@ -109,6 +110,11 @@ function HeatFeedback({ heat, dealId, initialVoteType, onVoteChange, category }:
                 <LikeBtn $active={voteType === 'TRUE'} onClick={handleLike}>
                     <LikeIcon />
                 </LikeBtn>
+                {showTooltip && voteType === 'NONE' && (
+                    <VoteTooltip onClick={() => setShowTooltip(false)}>
+                        신뢰가 간다면 투표해주세요!
+                    </VoteTooltip>
+                )}
             </ThumbWrapper>
 
             <ThumbWrapper>
