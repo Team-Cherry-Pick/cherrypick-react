@@ -4,6 +4,7 @@ import { Container, ThumbWrapper, LikeBtn, DislikeBtn, HeatWrapper, Heat, Dislik
 import LikeIcon from '@/assets/icons/like.svg?react';
 import DislikeIcon from '@/assets/icons/dislike.svg?react';
 import { voteDeal, VoteType, DislikeReason } from '@/services/apiVote';
+import { sendLog } from '@/services/apiLog';
 import { GA4Events } from '@/utils/ga4';
 import { formatHeatScore } from '@/utils/heat';
 
@@ -13,6 +14,8 @@ interface HeatFeedbackProps {
     initialVoteType: 'TRUE' | 'FALSE' | 'NONE';
     onVoteChange?: () => void; // 투표 변경 시 부모 컴포넌트에서 데이터를 다시 가져오기 위한 콜백
     category?: string; // 카테고리 정보 추가
+    dealTitle?: string; // 딜 제목
+    categoryId?: number; // 카테고리 ID
 }
 
 const DISLIKE_REASONS: { label: string; value: DislikeReason }[] = [
@@ -24,7 +27,7 @@ const DISLIKE_REASONS: { label: string; value: DislikeReason }[] = [
     { label: '기타', value: 'OTHER' },
 ];
 
-function HeatFeedback({ heat, dealId, initialVoteType, onVoteChange, category }: HeatFeedbackProps) {
+function HeatFeedback({ heat, dealId, initialVoteType, onVoteChange, category, dealTitle, categoryId }: HeatFeedbackProps) {
     const [voteType, setVoteType] = useState<VoteType>(initialVoteType);
     const [showModal, setShowModal] = useState(false);
     const [showTooltip, setShowTooltip] = useState(true);
@@ -64,6 +67,19 @@ function HeatFeedback({ heat, dealId, initialVoteType, onVoteChange, category }:
             setVoteType('TRUE');
             setShowModal(false);
             GA4Events.likeDeal(dealId, category);
+            
+            // 투표 클릭 로그 전송
+            sendLog({
+                logType: 'VOTE_CLICK_LOG',
+                logMap: {
+                    voteType: 'TRUE',
+                    dealId: dealId.toString(),
+                    dealTitle: dealTitle || '',
+                    categoryId: categoryId?.toString() || '',
+                    categoryName: category || ''
+                }
+            }).catch(() => {});
+            
             alert('투표가 완료되었습니다!');
             onVoteChange?.();
         } catch {
@@ -93,6 +109,19 @@ function HeatFeedback({ heat, dealId, initialVoteType, onVoteChange, category }:
             setVoteType('FALSE');
             setShowModal(false);
             GA4Events.unlikeDeal(dealId, category);
+            
+            // 투표 클릭 로그 전송
+            sendLog({
+                logType: 'VOTE_CLICK_LOG',
+                logMap: {
+                    voteType: 'FALSE',
+                    dealId: dealId.toString(),
+                    dealTitle: dealTitle || '',
+                    categoryId: categoryId?.toString() || '',
+                    categoryName: category || ''
+                }
+            }).catch(() => {});
+            
             alert('투표가 완료되었습니다!');
             onVoteChange?.();
         } catch {

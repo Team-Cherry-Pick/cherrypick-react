@@ -128,6 +128,8 @@ const ProductTopSection = ({ deal, onVoteChange }: Props) => {
                             dealId={deal.dealId}
                             initialVoteType={deal.voteType}
                             category={deal.categorys?.[0]}
+                            dealTitle={deal.title}
+                            categoryId={deal.categoryId}
                             onVoteChange={onVoteChange} />
                         <S.ShareButton
                             onClick={() => {
