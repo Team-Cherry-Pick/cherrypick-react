@@ -1,0 +1,123 @@
+.carouselContainer {
+    position: relative;
+    width: 100%;
+    margin-bottom: var(--spacing-6);
+    overflow: hidden;
+    aspect-ratio: 1140 / 220;
+}
+
+.carouselWrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.bannerSlide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.bannerSlide.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.bannerButton {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    display: block;
+}
+
+.bannerButton:hover {
+    filter: brightness(0.98);
+}
+
+.bannerButton:focus-visible {
+    outline: 2px solid var(--color-primary, #DB2726);
+    outline-offset: 4px;
+}
+
+.bannerImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.navButton {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background-color: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: background-color 0.2s;
+}
+
+.navButton:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.navButton:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.arrowIcon {
+    width: 16px;
+    height: 16px;
+    color: white;
+}
+
+.prevButton {
+    left: 16px;
+}
+
+.nextButton {
+    right: 16px;
+}
+
+.indicators {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.4rem;
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 0.25rem 0.5rem;
+    border-radius: 1rem;
+}
+
+.indicator {
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.4);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.indicator.active {
+    background-color: rgba(255, 255, 255, 1);
+}

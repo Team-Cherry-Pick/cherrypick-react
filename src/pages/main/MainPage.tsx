@@ -1,7 +1,7 @@
 import styles from './MainPage.module.css';
 import { useEffect, useState } from 'react';
 import DefaultLayout from '@/components/layout/DefaultLayout';
-import { MainFilter, SortButtons, CategoryTabs, PCCategoryTabs } from './components';
+import { MainFilter, SortButtons, CategoryTabs, PCCategoryTabs, BannerCarousel } from './components';
 import UploadBtn from '@/components/common/Floating/UploadBtn';
 import ScrollTopBtn from '@/components/common/Floating/ScrollTopBtn';
 import CloseIcon from '@/assets/icons/close-Icon.svg?react';
@@ -11,11 +11,8 @@ import useIsMobileViewport from '@/hooks/useIsMobileViewport';
 import MainSearchBar from './components/MainSearchBar';
 import MainKeywords from './components/MainKeywords';
 import MainDealList from './components/MainDealList';
-import mainBannerImg from '@/assets/banner/main-banner.jpg';
-import { useNavigate } from 'react-router-dom';
 
 const MainPage = () => {
-    const navigate = useNavigate();
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [isSearchOverlayOpen, setIsSearchOverlayOpen] = useState(false);
     const keyword = useAtomValue(keywordAtom);
@@ -119,21 +116,8 @@ const MainPage = () => {
                                 </div>
                             )}
                             
-                            {/* PC 버전 배너 */}
-                            {!isMobile && (
-                                <button
-                                    type="button"
-                                    className={styles.mainBannerButton}
-                                    onClick={() => navigate('/join-beta')}
-                                    aria-label="인트로 페이지로 이동"
-                                >
-                                    <img 
-                                        src={mainBannerImg} 
-                                        alt="메인 배너" 
-                                        className={styles.mainBannerImage}
-                                    />
-                                </button>
-                            )}
+                            {/* PC 버전 배너 카루셀 */}
+                            {!isMobile && <BannerCarousel />}
                             
                             {/* PC 버전 카테고리 탭 */}
                             {!isMobile && <PCCategoryTabs />}
