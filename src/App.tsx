@@ -17,11 +17,12 @@ import JoinBetaPage from '@/pages/join-beta/JoinBetaPage';
 import MyPage from '@/pages/my-page';
 import { UserDealsPage } from '@/pages/user-deals';
 import IntroPage from '@/pages/intro/IntroPage';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useRefreshProfile } from './hooks/useRefreshProfile';
-import { InterviewBannerPopup } from './components/common/InterviewBannerPopup';
 import { generateDeviceID } from './types/Auth';
 import { OverlayProvider } from './context/overlay';
+import { openImageBottomSheet } from './components/common/BottomSheetModal';
+import interviewBanner from '@/assets/banner/interview-banner.png';
 import { AccessTokenService } from './services/accessTokenService';
 import { initializeGA4WithDeviceId } from './utils/ga4';
 import PageTracker from './components/common/PageTracker';
@@ -31,7 +32,6 @@ import { getBrowserInfo, getInflowSource, sanitizeLandingPage } from './types/Lo
 const App = () => {
     const [theme] = useAtom(themeAtom);
     const { refreshProfile } = useRefreshProfile();
-    const [showBannerPopup, setShowBannerPopup] = useState(false);
 
     useEffect(() => {
         const deviceId = localStorage.getItem('deviceID');
@@ -72,15 +72,21 @@ const App = () => {
         // 사이트 최초 접속 시 interview-banner 팝업 표시
         const hasSeenBanner = localStorage.getItem('hasSeenInterviewBanner');
         if (!hasSeenBanner) {
-            setShowBannerPopup(true);
+            openImageBottomSheet({
+                imageUrl: interviewBanner,
+                alt: '인터뷰 배너',
+                positiveButtonText: '간단 인터뷰 신청하러 가기',
+                negativeButtonText: '다시보지 않기',
+                onPositiveClick: () => {
+                    window.open('https://forms.gle/JKd6oGTpNh6qiurZ9', '_blank', 'noopener,noreferrer');
+                },
+                onNegativeClick: () => {
+                    localStorage.setItem('hasSeenInterviewBanner', 'true');
+                },
+            });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-    const handleCloseBanner = () => {
-        setShowBannerPopup(false);
-        localStorage.setItem('hasSeenInterviewBanner', 'true');
-    };
 
     return (
         <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
@@ -123,7 +129,6 @@ const App = () => {
                         <Route path="*" element={<Navigate to="/error?code=404" replace />} />
                     </Routes>
                 </Router>
-                {showBannerPopup && <InterviewBannerPopup onClose={handleCloseBanner} />}
             </OverlayProvider>
         </ThemeProvider>
     );

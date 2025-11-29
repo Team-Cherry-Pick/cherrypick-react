@@ -1,0 +1,167 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal {
+    position: relative;
+    z-index: 10000;
+    background: var(--color-background-root);
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+/* 모바일: 하단에서 올라오는 바텀시트 */
+.mobile .modal.bottomSheet {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    max-height: 85vh;
+    animation: slideUp 0.3s ease-out;
+}
+
+/* PC: 중앙 팝업 */
+.desktop .modal.popup {
+    border-radius: 1rem;
+    max-width: 24rem;
+    max-height: 90vh;
+    animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* 모바일 핸들 - 이미지 팝업에서는 숨김 */
+.handle {
+    display: none;
+}
+
+.content {
+    position: relative;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.closeButton {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: background-color 0.2s;
+}
+
+.closeButton:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.image {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 0;
+    margin-bottom: 0;
+}
+
+.buttonGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 1rem;
+}
+
+.button {
+    width: 100%;
+    height: 48px;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button:active {
+    transform: translateY(1px);
+}
+
+.button.positive {
+    background: #007744;
+    color: white;
+    font-weight: 600;
+    gap: 0.5rem;
+}
+
+.button.positive:hover {
+    background: #009a57;
+}
+
+.button.positive:active {
+    background: #005832;
+}
+
+.button.negative {
+    background: var(--color-neutral-50);
+    color: var(--color-content-sub);
+    font-weight: 400;
+}
+
+.button.negative:hover {
+    background: var(--color-neutral-100);
+}
+
+.button.negative:active {
+    background: var(--color-neutral-300);
+}

@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import { overlay } from '@/context/overlay';
 import BottomSheetModal from './BottomSheetModal';
+import ImageBottomSheet from './ImageBottomSheet';
 import { OverlayControllerComponent } from '@/context/overlay';
 
 interface BottomSheetOptions {
@@ -74,4 +75,53 @@ export const bottomSheetUtils = {
 
   // 커스텀 다이얼로그
   custom: openBottomSheet,
+};
+
+// 이미지 전용 바텀시트
+interface ImageBottomSheetOptions {
+  imageUrl: string;
+  alt?: string;
+  onClick?: () => void;
+  positiveButtonText?: string;
+  negativeButtonText?: string;
+  onPositiveClick?: () => void;
+  onNegativeClick?: () => void;
+}
+
+export const openImageBottomSheet = (options: ImageBottomSheetOptions) => {
+  const ImageBottomSheetController: OverlayControllerComponent = (props) => {
+    const handleImageClick = () => {
+      if (options.onClick) {
+        options.onClick();
+      }
+    };
+
+    const handlePositiveClick = () => {
+      if (options.onPositiveClick) {
+        options.onPositiveClick();
+      }
+      props.close();
+    };
+
+    const handleNegativeClick = () => {
+      if (options.onNegativeClick) {
+        options.onNegativeClick();
+      }
+      props.close();
+    };
+
+    return React.createElement(ImageBottomSheet, {
+      isOpen: props.isOpen,
+      onClose: props.close,
+      imageUrl: options.imageUrl,
+      alt: options.alt,
+      onClick: handleImageClick,
+      positiveButtonText: options.positiveButtonText,
+      negativeButtonText: options.negativeButtonText,
+      onPositiveClick: options.onPositiveClick ? handlePositiveClick : undefined,
+      onNegativeClick: options.onNegativeClick ? handleNegativeClick : undefined,
+    });
+  };
+
+  return overlay.open(ImageBottomSheetController);
 };
